@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ApplicationENI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Application pédagogique ENI" xmlns:my="clr-namespace:ApplicationENI" MinWidth="900" MinHeight="600" 
+        Title="Boubou" xmlns:my="clr-namespace:ApplicationENI" MinWidth="900" MinHeight="600" 
         WindowStartupLocation="CenterScreen">
     <Grid>
         <DockPanel Name="dockPanel1">
