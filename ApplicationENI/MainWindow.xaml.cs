@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Media.Effects;
-using ApplicationENI.Modele;
+﻿
 
+using System.Windows;
+using ApplicationENI.Modele;
+using System.Collections.Generic;
+using System.Windows.Media.Effects;
+using System;
+using System.DirectoryServices;
 namespace ApplicationENI
 {
     /// <summary>
@@ -25,29 +17,27 @@ namespace ApplicationENI
         {
             InitializeComponent();
 
-            //initialisation des paramètres
-            Parametres.Instance.login = "jgabillaud";
-            Parametres.Instance.password = "";
-            Contact tuteur = new Contact("Jones", "Indiana", "0202020202", "0602020202", "0202020202", "indianajones@gmail.com", "il est sympa", "", "Mr");
+            Contact tuteur = new Contact("Jones", "Indiana", "0202020202", "0602020202", "0202020202", "indianajones@gmail.com", "il est sympa", "", "Melle");
             Parametres.Instance.stagiaire = new Stagiaire("Mr.", "Denis", "Choniphroa", "36 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/1.jpg", true, "", tuteur);
             Parametres.Instance.listAlertes = new List<ItemAlerte>();
             Parametres.Instance.listAlertes.Add(new ItemAlerte(0, "Alerte", "Examen le 23 juin."));
             Parametres.Instance.listAlertes.Add(new ItemAlerte(3, "Examen", "ECF n° 3 non corrigé."));
 
 
-            BlurEffect myBlurEffect = new BlurEffect(); 
+            BlurEffect myBlurEffect = new BlurEffect();
             myBlurEffect.Radius = 8;
             this.Effect = myBlurEffect;
 
             this.MainGrid.Children.Add(new Vue.AccueilGeneral());
             this.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.Show();
-            
+
             Vue.Login login = new Vue.Login();
             login.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             login.ShowDialog();
 
             this.Effect = null;
+            
         }
 
         private void expandStagiaire_Collapsed(object sender, RoutedEventArgs e)

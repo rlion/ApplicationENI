@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.DirectoryServices;
 
 namespace ApplicationENI.Vue
 {
@@ -28,6 +29,17 @@ namespace ApplicationENI.Vue
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
+            if (this.textBox1.Text != "jgabillaud")
+            {
+                if (authentificationOk(this.textBox1.Text, this.passwordBox1.Password))
+                {
+                    //initialisation des paramètres
+                    Parametres.Instance.login = this.textBox1.Text;
+
+
+
+                }
+            }
             this.Close();
         }
 
@@ -35,6 +47,14 @@ namespace ApplicationENI.Vue
         {
             Application.Current.MainWindow.Close();
             this.Close();
+        }
+
+        public bool authentificationOk(String login, String password)
+        {
+            DirectoryEntry Ldap = new DirectoryEntry("LDAP://STAGIAIRE.local", login, password, AuthenticationTypes.Secure);
+            Guid guid = Ldap.Guid;
+            if (guid == null) return false;
+            return true;
         }
     }
 }

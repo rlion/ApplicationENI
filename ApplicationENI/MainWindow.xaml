@@ -30,8 +30,8 @@
                     <TreeView Margin="0,99,0,0" Name="treeView1" BorderThickness="0">
                         <TreeViewItem Header="Paramètres globaux" Name="tvGlobalParam" IsExpanded="True">
                             <TreeViewItem Header="ECF" IsExpanded="True">
-                                <TreeViewItem Header="Gestion des ECF" Name="tviGestionECF" Selected="tviGestionECF_Selected" Foreground="Blue" />
-                                <TreeViewItem Header="Saisie des résultats" Name="tviSaisieResultat" Selected="tviSaisieResultat_Selected" Foreground="Blue" />
+                                <TreeViewItem Header="Gestion des ECF" Name="tviGestionECF" Selected="tviGestionECF_Selected" />
+                                <TreeViewItem Header="Saisie des résultats" Name="tviSaisieResultat" Selected="tviSaisieResultat_Selected" />
                             </TreeViewItem>
                             <TreeViewItem Header="Sessions Examens" IsExpanded="True">
                                 <TreeViewItem Header="Gestion des passages" Name="tviGestionPassages" Selected="tviGestionPassages_Selected" />
@@ -40,10 +40,10 @@
                         </TreeViewItem>
                         <TreeViewItem Header="Paramètres individuels" Name="tvPersonParam" IsExpanded="True">
                             <TreeViewItem Header="Profil &amp; alertes" Name="tviProfil" Selected="tviProfil_Selected" />
-                            <TreeViewItem Header="Planning" Name="tviPlanning" Selected="tviPlanning_Selected" Foreground="Blue" />
+                            <TreeViewItem Header="Planning" Name="tviPlanning" Selected="tviPlanning_Selected" />
                             <TreeViewItem Header="ECF" IsExpanded="True">
-                                <TreeViewItem Header="Gestion résultats" Name="tviGestionResultat" Selected="tviGestionResultat_Selected" Foreground="Blue" />
-                                <TreeViewItem Header="Modification dates (CP)" Name="tviModifDate" Selected="tviModifDate_Selected" Foreground="Blue" />
+                                <TreeViewItem Header="Gestion résultats" Name="tviGestionResultat" Selected="tviGestionResultat_Selected" />
+                                <TreeViewItem Header="Modification dates (CP)" Name="tviModifDate" Selected="tviModifDate_Selected" />
                             </TreeViewItem>
                             <TreeViewItem Header="Suivi pédagogique" IsExpanded="True">
                                 <TreeViewItem Header="Observations" Name="tviRemarques" Selected="tviRemarques_Selected" />
