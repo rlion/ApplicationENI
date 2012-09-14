@@ -23,6 +23,7 @@ namespace ApplicationENI.Vue
     {
         private CtrlGestionPassageTitre Controleur;
         private Titre titre;
+        private EpreuveTitre epreuveTitre;
 
         public GestionPassageTitre()
         {
@@ -39,6 +40,7 @@ namespace ApplicationENI.Vue
             InitData();
         }
 
+        //Initialise la partie "Informations titre"
         private void InitData()
         {
             this.groupBoxTitre.DataContext = null;
@@ -50,6 +52,28 @@ namespace ApplicationENI.Vue
             this.cbChoixTitre.SelectedIndex = 0;
             titre = Controleur.GetTitre((string)cbChoixTitre.SelectedValue);
             this.groupBoxTitre.DataContext = titre;
+        }
+
+        //Initialise la partie "Date passage titre"
+        private void InitPassages() 
+        {
+            //Affiche la liste des épreuves pour un titre
+            this.dgDatesPassage.ItemsSource = titre.ListeEpreuves;
+        }
+
+        private void InitDetailPassage() 
+        {
+            if(dgDatesPassage.SelectedIndex == -1)
+            {
+                this.gbGestPassage.IsEnabled = false;
+            }
+            else
+            {
+                this.gbGestPassage.IsEnabled = true;
+            }
+
+            epreuveTitre = (EpreuveTitre)this.dgDatesPassage.SelectedItem;
+            this.dpPassage.SelectedDate = epreuveTitre.DateEpreuve;
         }
 
         private void btCreerTitre_Click(object sender, RoutedEventArgs e)
@@ -98,12 +122,19 @@ namespace ApplicationENI.Vue
 
         private void cbChoixTitre_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(this.cbChoixTitre.SelectedIndex != -1)
+            if(this.cbChoixTitre.SelectedIndex != -1) 
+            {
                 titre = Controleur.GetTitre((string)cbChoixTitre.SelectedValue);
-            else
-                titre = new Titre();
+                InitPassages();
+            }
+            else titre = new Titre();
 
             this.groupBoxTitre.DataContext = titre;
+        }
+
+        private void dgDatesPassage_SelectionChanged(object sender, SelectionChangedEventArgs e) 
+        {
+            InitDetailPassage();
         }
     }
 }
