@@ -63,8 +63,8 @@ namespace ApplicationENI.Vue
             txtHeureFin.Text = "";
             txtMinuteFin.Text = "";
             checkBoxValide.IsChecked = false;
-            radioButtonAbsence.IsChecked = false;
-            radioButtonRetard.IsChecked = true;
+            radioButtonAbsence.IsChecked = true;
+            radioButtonRetard.IsChecked = false;
             textBoxRaison.Text = "";
             textBoxCommentaire.Text = "";
             datePickerDateDebut.Text = "";
@@ -146,6 +146,13 @@ namespace ApplicationENI.Vue
                 }
             }
             return retour;
+        }
+
+        private void radioButtonRetard_Checked(object sender, RoutedEventArgs e)
+        {
+            datePickerDateFin.IsEnabled = false;
+            txtHeureDeb.IsEnabled = false;
+            txtHeureFin.IsEnabled = false;
         }
     }
 }

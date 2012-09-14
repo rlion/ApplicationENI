@@ -29,6 +29,7 @@ namespace ApplicationENI.Vue
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
+            Parametres.Instance.login = "jgabillaud";
             if (this.textBox1.Text != "jgabillaud")
             {
                 if (authentificationOk(this.textBox1.Text, this.passwordBox1.Password))
