@@ -28,14 +28,14 @@ namespace ApplicationENI.Vue
 
             //TODO: à virer - ces éléments sont renseignés temporairement pour éviter de tout avoir à saisir pour les milliers de tests.
             txtHeureDeb.Text = "09";
-            txtMinuteDeb.Text = "09";
+            txtMinuteDeb.Text = "00";
             txtHeureFin.Text = "10";
             txtMinuteFin.Text = "09";
             datePickerDateDebut.Text = DateTime.Now.ToString();
             datePickerDateFin.Text = DateTime.Now.ToString();
-            checkBoxValide.IsChecked = true;
-            radioButtonAbsence.IsChecked = false;
-            radioButtonRetard.IsChecked = true;
+            checkBoxValide.IsChecked = false;
+            radioButtonAbsence.IsChecked = true;
+            radioButtonRetard.IsChecked = false;
             textBoxRaison.Text = "Panne de réveil";
             textBoxCommentaire.Text = "Panne de motivation plutôt...";
 
@@ -152,7 +152,14 @@ namespace ApplicationENI.Vue
         {
             datePickerDateFin.IsEnabled = false;
             txtHeureDeb.IsEnabled = false;
-            txtHeureFin.IsEnabled = false;
+            txtMinuteDeb.IsEnabled = false;
+        }
+
+        private void radioButtonAbsence_Checked(object sender, RoutedEventArgs e)
+        {
+            datePickerDateFin.IsEnabled = true;
+            txtHeureDeb.IsEnabled = true;
+            txtMinuteDeb.IsEnabled = true;
         }
     }
 }
