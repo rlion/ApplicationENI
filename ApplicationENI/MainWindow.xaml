@@ -64,7 +64,7 @@
             </Expander>
             <Expander Header="Stagiaire" Height="100" DockPanel.Dock="Top" Name="expandStagiaire" Collapsed="expandStagiaire_Collapsed" Expanded="expandStagiaire_Expanded" IsExpanded="True">
                 <Grid>
-                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="21,12,0,0" Name="cbNomPrenom" VerticalAlignment="Top" Width="173" Text="Prénom &amp; Nom du stagiaire" IsEditable="True" IsReadOnly="True" />
+                    <ComboBox Height="29" HorizontalAlignment="Left" Margin="21,12,0,0" Name="cbNomPrenom" VerticalAlignment="Top" Width="173" Text="Prénom &amp; Nom du stagiaire" IsEditable="True" IsReadOnly="True" />
                     <ComboBox Height="23" HorizontalAlignment="Left" IsEditable="True" IsReadOnly="True" Margin="212,12,0,0" Name="comboBox1" Text="Intitulé titre" VerticalAlignment="Top" Width="93" />
                     <GroupBox Header="Statut" Height="66" HorizontalAlignment="Left" Margin="315,3,0,0" Name="groupBox1" VerticalAlignment="Top" Width="76">
                         <Grid>
