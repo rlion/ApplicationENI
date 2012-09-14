@@ -1,0 +1,142 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using ApplicationENI.Modele;
+
+namespace ApplicationENI.DAL
+{
+    static class JeuDonnees
+    {
+        public static List<Titre> GetTitres()
+        {
+            List<Titre> listTitres = new List<Titre>();
+
+            Titre t1 = new Titre("AL", "Archi. Log.", "Architecte Logiciel", "1", "ALROM", "ALNSF",
+                new DateTime(2011, 03, 01), new DateTime(2011, 03, 01), true, true);
+
+            listTitres.Add(new Titre("DL", "Dev. Log.", "Développeur Logiciel", "3", "DLROM", "DLNSF",
+                new DateTime(2001, 01, 01), new DateTime(2007, 03, 15), true, false));
+            listTitres.Add(new Titre("CDI", "Concept. Dev. Log.", "Concepteur Développeur Informatique", "2", "CDIROM", "CDINSF",
+                new DateTime(2001, 12, 01), new DateTime(2006, 03, 31), true, false));
+            listTitres.Add(new Titre("ASR", "Archi. Spé. Réseau", "Architecte Spécialiste Réseau", "2", "ASRROM", "ASRNSF",
+                new DateTime(2002, 06, 11), new DateTime(2004, 03, 01), true, false));
+            listTitres.Add(new Titre("EISI", "EISI", "EISI", "1", "EISIROM", "EISINSF",
+                new DateTime(2011, 05, 01), new DateTime(2011, 06, 15), true, false));
+
+            listTitres.Add(t1);
+
+            List<Jury> lj1 = new List<Jury>();
+            List<Jury> lj2 = new List<Jury>();
+
+            lj1.Add(GetJurys().ElementAt(0));
+            lj1.Add(GetJurys().ElementAt(1));
+            lj2.Add(GetJurys().ElementAt(2));
+            lj2.Add(GetJurys().ElementAt(3));
+
+            t1.ListeEpreuves = GetEpreuveTitres();
+
+            return listTitres;
+        }
+
+        public static List<Salle> GetSalles()
+        {
+            Salle s1 = new Salle("S101", "salle 101");
+            Salle s2 = new Salle("S102", "salle 102");
+            Salle s3 = new Salle("S103", "salle 103");
+            Salle s4 = new Salle("S104", "salle 104");
+
+            List<Salle> ls = new List<Salle>();
+            ls.Add(s1);
+            ls.Add(s2);
+            ls.Add(s3);
+            ls.Add(s4);
+
+            return ls;
+        }
+
+        public static List<Jury> GetJurys()
+        {
+            Jury j1 = new Jury(1, "Mr", "Bond", "James");
+            Jury j2 = new Jury(2, "Mme", "Spears", "Britney");
+            Jury j3 = new Jury(3, "Mlle", "Gomez", "Selena");
+            Jury j4 = new Jury(4, "Mr", "Dujardin", "Jean");
+
+            List<Jury> lj = new List<Jury>();
+            lj.Add(j1);
+            lj.Add(j2);
+            lj.Add(j3);
+            lj.Add(j4);
+
+            return lj;
+        }
+
+        public static List<EpreuveTitre> GetEpreuveTitres()
+        {
+            List<Jury> lj1 = new List<Jury>();
+            List<Jury> lj2 = new List<Jury>();
+
+            lj1.Add(GetJurys().ElementAt(0));
+            lj1.Add(GetJurys().ElementAt(1));
+            lj2.Add(GetJurys().ElementAt(2));
+            lj2.Add(GetJurys().ElementAt(3));
+
+            EpreuveTitre et1 = new EpreuveTitre(new DateTime(2012, 12, 12), GetSalles().ElementAt(0), lj1);
+            EpreuveTitre et2 = new EpreuveTitre(new DateTime(2012, 12, 19), GetSalles().ElementAt(1), lj2);
+
+            List<EpreuveTitre> let1 = new List<EpreuveTitre>();
+            let1.Add(et1);
+            let1.Add(et2);
+
+            return let1;
+        }
+
+        public static List<Absence> GetListeAbsence() {
+            Absence a = new Absence("réveil qu'a pas sonné", "Le stagiaire semble sincère", "mperet", DateTime.Now, DateTime.Now, new TimeSpan(1000), false, Parametres.Instance.stagiaire);
+            Absence a2 = new Absence("panne d'oreiller", "il est 15h00", "mperet", DateTime.Now, DateTime.Now, new TimeSpan(1000), false, Parametres.Instance.stagiaire);
+            List<Absence> listeAbs = new List<Absence>();
+            listeAbs.Add(a);
+            listeAbs.Add(a2);
+            return listeAbs;
+        }
+
+        public static List<Stagiaire> GetListeStagiaire() {
+            Contact tuteur = new Contact("Jones", "Indiana", "0202020202", "0602020202", "0202020202", "indianajones@gmail.com", "il est sympa", "", "Melle");
+
+            Stagiaire stg1 = new Stagiaire("Mr.", "Denis", "Choniphroa", "36 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/1.jpg", true, "", tuteur);
+            Stagiaire stg2 = new Stagiaire("Mme.", "Denise", "Hipec", "35 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/2.jpg", true, "", tuteur);
+            Stagiaire stg3 = new Stagiaire("Mme.", "Sylvie", "Tanmieux", "34 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/3.jpg", true, "", tuteur);
+            Stagiaire stg4 = new Stagiaire("Mme.", "Denise", "Toto", "33 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/4.jpg", true, "", tuteur);
+            Stagiaire stg5 = new Stagiaire("Mr.", "Jean", "Haymard", "32 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/5.jpg", true, "", tuteur);
+            Stagiaire stg6 = new Stagiaire("Mr.", "Titi", "Test", "31 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/6.jpg", true, "", tuteur);
+            Stagiaire stg7 = new Stagiaire("Mr.", "Denis", "Denat", "30 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/7.jpg", true, "", tuteur);
+
+            List<Stagiaire> listeStagiaires = new List<Stagiaire>();
+            listeStagiaires.Add(stg1);
+            listeStagiaires.Add(stg2);
+            listeStagiaires.Add(stg3);
+            listeStagiaires.Add(stg4);
+            listeStagiaires.Add(stg5);
+            listeStagiaires.Add(stg6);
+            listeStagiaires.Add(stg7);
+            return listeStagiaires;
+        }
+
+        public static List<Observation> GetListeObservation() {
+            Contact con = new Contact("Contact1", "tst", "test", "test", "test", "test", "test", "test", "test");
+            Observation obs1 = new Observation("jgabillaud", "Pédagogique", "Ne bosse pas bien", "Bosse vraiment mal", Parametres.Instance.stagiaire);
+            Observation obs2 = new Observation("jgabillaud", "Entreprise", "N'a pas le niveau", "Mérite l'exclusion.", Parametres.Instance.stagiaire);
+            List<Observation> listeObservation = new List<Observation>();
+            listeObservation.Add(obs1);
+            listeObservation.Add(obs2);
+            return listeObservation;
+            }
+
+        public static Contact GetContact() {
+            Contact c = new Contact("contact", "Jean", "0202020202", "0602020202", "0202020202", "jean@jean.fr", "semble correct", "", "M.");
+            return c;
+        }
+
+
+        }
+}

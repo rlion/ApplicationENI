@@ -1,0 +1,84 @@
+﻿<Window x:Class="ApplicationENI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" xmlns:my="clr-namespace:ApplicationENI" MinWidth="900" MinHeight="600" 
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <DockPanel Name="dockPanel1">
+            <Expander DockPanel.Dock="Left"  Name="expandMenu" Width="240" ExpandDirection="Right" IsExpanded="True" Expanded="expandMenu_Expanded" Collapsed="expandMenu_Collapsed" BorderBrush="Black">
+                <Expander.Header>
+                    <TextBlock Text="Menu général" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,0" Width="Auto">
+                        <TextBlock.LayoutTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                <SkewTransform AngleX="0" AngleY="0"/>
+                                <RotateTransform Angle="270"/>
+                                <TranslateTransform X="0" Y="0"/>
+                            </TransformGroup>
+                        </TextBlock.LayoutTransform>
+                        <TextBlock.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                <SkewTransform AngleX="0" AngleY="0"/>
+                                <RotateTransform Angle="0"/>
+                                <TranslateTransform X="0" Y="0"/>
+                            </TransformGroup>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                </Expander.Header>
+                <Grid>
+                    <TreeView Margin="0,99,0,0" Name="treeView1" BorderThickness="0">
+                        <TreeViewItem Header="Paramètres globaux" Name="tvGlobalParam" IsExpanded="True">
+                            <TreeViewItem Header="ECF" IsExpanded="True">
+                                <TreeViewItem Header="Gestion des ECF" Name="tviGestionECF" Selected="tviGestionECF_Selected" />
+                                <TreeViewItem Header="Saisie des résultats" Name="tviSaisieResultat" Selected="tviSaisieResultat_Selected" />
+                            </TreeViewItem>
+                            <TreeViewItem Header="Sessions Examens" IsExpanded="True">
+                                <TreeViewItem Header="Gestion des passages" Name="tviGestionPassages" Selected="tviGestionPassages_Selected" />
+                            </TreeViewItem>
+                            <TreeViewItem Header="Trombinoscopes" Name="tviTrombinoscope" Selected="tviTrombinoscope_Selected" />
+                        </TreeViewItem>
+                        <TreeViewItem Header="Paramètres individuels" Name="tvPersonParam" IsExpanded="True">
+                            <TreeViewItem Header="Profil &amp; alertes" Name="tviProfil" Selected="tviProfil_Selected" />
+                            <TreeViewItem Header="Planning" Name="tviPlanning" Selected="tviPlanning_Selected" />
+                            <TreeViewItem Header="ECF" IsExpanded="True">
+                                <TreeViewItem Header="Gestion résultats" Name="tviGestionResultat" Selected="tviGestionResultat_Selected" />
+                                <TreeViewItem Header="Modification dates (CP)" Name="tviModifDate" Selected="tviModifDate_Selected" />
+                            </TreeViewItem>
+                            <TreeViewItem Header="Suivi pédagogique" IsExpanded="True">
+                                <TreeViewItem Header="Observations" Name="tviRemarques" Selected="tviRemarques_Selected" />
+                                <TreeViewItem Header="Suivi des acquis" Name="tviSuiviAcquis" Selected="tviSuiviAcquis_Selected" />
+                            </TreeViewItem>
+                            <TreeViewItem Header="Retards &amp; absences" IsExpanded="True">
+                                <TreeViewItem Header="Nouveau retard/absence" Name="tviNouvAbsence" Selected="tviNouvAbsence_Selected" />
+                                <TreeViewItem Header="Historique" Name="tviHistorique" Selected="tviHistorique_Selected" />
+                            </TreeViewItem>
+                            <TreeViewItem Header="Gestion du titre" Name="tviGestionTitre" IsExpanded="True" Selected="tviGestionTitre_Selected" />
+                            <TreeViewItem Header="Exporter..." Name="tviExporter" Selected="tviExporter_Selected" />
+                        </TreeViewItem>
+                    </TreeView>
+                    <Button Height="70" HorizontalAlignment="Left" Margin="53,14,0,0" Name="btAccueil" VerticalAlignment="Top" Width="75" Click="btAccueil_Click">
+                        <Image Name="image1" Stretch="UniformToFill" Source="/ApplicationENI;component/Images/home.png" />
+                    </Button>
+                </Grid>
+            </Expander>
+            <Expander Header="Stagiaire" Height="100" DockPanel.Dock="Top" Name="expandStagiaire" Collapsed="expandStagiaire_Collapsed" Expanded="expandStagiaire_Expanded" IsExpanded="True">
+                <Grid>
+                    <ComboBox Height="23" HorizontalAlignment="Left" Margin="21,12,0,0" Name="cbNomPrenom" VerticalAlignment="Top" Width="173" Text="Prénom &amp; Nom du stagiaire" IsEditable="True" IsReadOnly="True" />
+                    <ComboBox Height="23" HorizontalAlignment="Left" IsEditable="True" IsReadOnly="True" Margin="212,12,0,0" Name="comboBox1" Text="Intitulé titre" VerticalAlignment="Top" Width="93" />
+                    <GroupBox Header="Statut" Height="66" HorizontalAlignment="Left" Margin="315,3,0,0" Name="groupBox1" VerticalAlignment="Top" Width="76">
+                        <Grid>
+                            <RadioButton Content="FC" Height="16" HorizontalAlignment="Left" Margin="5,3,0,0" Name="radioButton1" VerticalAlignment="Top" Width="36" />
+                            <RadioButton Content="CP" Height="16" HorizontalAlignment="Left" Margin="5,22,0,0" Name="radioButton2" VerticalAlignment="Top" Width="36" />
+                        </Grid>
+                    </GroupBox>
+                    <Button Content="Rechercher" Height="23" HorizontalAlignment="Left" Margin="443,12,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
+                    <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="443,46,0,0" Name="button2" VerticalAlignment="Top" Width="75" />
+                </Grid>
+            </Expander>
+            <Grid Background="AliceBlue" Name="MainGrid">
+                <!--<my:AccueilGeneral  x:Name="accueilGeneral1" />-->
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

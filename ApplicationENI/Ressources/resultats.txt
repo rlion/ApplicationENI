@@ -1,0 +1,15 @@
+ECF A - Competence 1 : A
+ECF A - Competence 2 : NA
+ECF A - Competence 3 : EA
+ECF A - Competence 4 : A
+ECF B - Competence 1 : A
+ECF B - Competence 2 : EA
+ECF C - Competence 1 : EA
+ECF C - Competence 2 : EA
+ECF C - Competence 3 : A
+ECF C - Competence 4 : ?
+ECF C - Competence 5 : ?
+ECF D - Competence 1 : ?
+ECF E - Competence 1 : ?
+ECF E - Competence 2 : ?
+ECF E - Competence 3 : ?

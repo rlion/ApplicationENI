@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="ApplicationENI.Vue.ExportDocuments"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="460" d:DesignWidth="630">
+    <Grid>
+        <GroupBox Header="Documents à exporter" Height="215" HorizontalAlignment="Left" Margin="80,41,0,0" Name="groupBox1" VerticalAlignment="Top" Width="445">
+            <Grid>
+                <CheckBox Content="Fiche de synthèse" Height="16" HorizontalAlignment="Left" Margin="142,20,0,0" Name="checkBox1" VerticalAlignment="Top" />
+                <CheckBox Content="Fiche de suivi pédagogique" Height="16" HorizontalAlignment="Left" Margin="142,55,0,0" Name="checkBox2" VerticalAlignment="Top" />
+                <CheckBox Content="Planning de formation" Height="16" HorizontalAlignment="Left" Margin="142,90,0,0" Name="checkBox3" VerticalAlignment="Top" />
+                <CheckBox Content="Planning des passages d'ECF" Height="16" HorizontalAlignment="Left" Margin="142,125,0,0" Name="checkBox4" VerticalAlignment="Top" />
+                <CheckBox Content="Trombinoscope" Height="16" HorizontalAlignment="Left" Margin="142,160,0,0" Name="checkBox5" VerticalAlignment="Top" />
+            </Grid>
+        </GroupBox>
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="228,284,0,0" Name="comboBox1" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem Content="Excel" />
+            <ComboBoxItem Content="PDF" IsSelected="True" />
+            <ComboBoxItem Content="Word" />
+        </ComboBox>
+        <Label Content="Format d'export :" Height="25" HorizontalAlignment="Left" Margin="121,283,0,0" Name="label1" VerticalAlignment="Top" Width="107" HorizontalContentAlignment="Right" />
+        <Button Content="Exporter" Height="23" HorizontalAlignment="Left" Margin="80,359,0,0" Name="button1" VerticalAlignment="Top" Width="110" />
+        <Button Content="Imprimer..." Height="23" HorizontalAlignment="Left" Margin="248,359,0,0" Name="button2" VerticalAlignment="Top" Width="110" />
+        <Button Content="Envoyer par e-mail" Height="23" HorizontalAlignment="Left" Margin="415,359,0,0" Name="button3" VerticalAlignment="Top" Width="110" />
+    </Grid>
+</UserControl>

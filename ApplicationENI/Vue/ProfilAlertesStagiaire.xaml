@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="ApplicationENI.Vue.ProfilAlertesStagiaire"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" Height="Auto">
+    
+    <UserControl.Resources>
+        <DataTemplate x:Key="listAlertes">
+            <StackPanel Height="20" Orientation="Horizontal">
+                <Grid Width="20" Height="20">
+                    <Image Source="{Binding ICONE}" />
+                </Grid>
+                <TextBlock Text="{Binding THEME}" FontSize="11" Margin="10,0,0,0" HorizontalAlignment="Left" 
+                           VerticalAlignment="Center" Width="110" />
+                <TextBlock Text="{Binding DESCRIPTION}" FontSize="11" VerticalAlignment="Center" 
+                           Margin="0,0,0,1" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <GroupBox Header="Profil du stagiaire" Height="184" HorizontalAlignment="Left" Name="gbProfil" VerticalAlignment="Top" Width="586" IsEnabled="False" Margin="6,0,0,0">
+            <Grid>
+                <Label Content="Nom : " HorizontalAlignment="Left" Margin="293,10,0,121" Name="label2" Width="46" />
+                <Label Content="Prénom : " Height="28" HorizontalAlignment="Right" Margin="0,0,235,101" Name="label3" VerticalAlignment="Bottom" />
+                <Label Content="Adresse : " Height="28" HorizontalAlignment="Right" Margin="0,85,235,0" Name="label4" VerticalAlignment="Top" />
+                <Label Content="Téléphon fixe : " HorizontalAlignment="Right" Margin="0,136,461,1" Name="label5" />
+                <Label Content="Téléphone portable : " Height="28" HorizontalAlignment="Right" Margin="0,111,461,0" Name="label6" VerticalAlignment="Top" Width="113" />
+                <TextBox Height="19" HorizontalAlignment="Right" Margin="0,12,115,0" Name="txtNom" VerticalAlignment="Top" Width="120" FontSize="11" />
+                <TextBox Height="19" HorizontalAlignment="Left" Margin="339,37,0,0" Name="txtPrenom" VerticalAlignment="Top" Width="120" FontSize="11" />
+                <TextBox Height="19" HorizontalAlignment="Left" Margin="116,140,0,0" Name="txtFixe" VerticalAlignment="Top" Width="120" FontSize="11" />
+                <TextBox Height="19" HorizontalAlignment="Left" Margin="116,113,0,0" Name="txtPortable" VerticalAlignment="Top" Width="120" FontSize="11" />
+                <TextBox Height="19" HorizontalAlignment="Left" Margin="339,87,0,0" Name="txtAddr" VerticalAlignment="Top" Width="120" FontSize="11" />
+                <Label Content="Email : " Height="28" HorizontalAlignment="Right" Margin="0,136,235,0" Name="label7" VerticalAlignment="Top" />
+                <TextBox Height="19" Margin="339,140,0,0" Name="txtMail" VerticalAlignment="Top" HorizontalAlignment="Left" Width="120" FontSize="11" />
+                <Label Content="Date naiss : " Height="28" HorizontalAlignment="Right" Margin="0,60,235,0" Name="label8" VerticalAlignment="Top" />
+                <TextBox Height="19" HorizontalAlignment="Left" Margin="339,62,0,0" Name="txtDateNaiss" VerticalAlignment="Top" Width="120" FontSize="11" />
+                <Label Content="Répertoire : " Height="28" HorizontalAlignment="Right" Margin="0,111,235,0" Name="label9" VerticalAlignment="Top" />
+                <TextBox Height="19" HorizontalAlignment="Left" Margin="339,113,0,0" Name="txtRep" VerticalAlignment="Top" Width="120" FontSize="11" />
+                <Image DataContext="{Binding}" Height="79" HorizontalAlignment="Left" Margin="116,12,0,0" Name="imageStagiaire" Source="/ApplicationENI;component/Images/J-ai-le-visage-ovale_diapo_full_gallery.jpg" Stretch="Fill" VerticalAlignment="Top" Width="89" ImageFailed="imageStagiaire_ImageFailed" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Informations tuteur" HorizontalAlignment="Left" Name="gbInfosTuteur" VerticalAlignment="Top" Width="586" Margin="6,184,0,0" Height="92">
+            <Grid>
+            <Label Content="Nom : " Height="28" HorizontalAlignment="Right" Margin="0,6,461,0" Name="label10" VerticalAlignment="Top" />
+                <TextBox Height="19" HorizontalAlignment="Right" Margin="0,8,338,0" Name="txtNomTuteur" VerticalAlignment="Top" Width="120" FontSize="11" />
+            <Label Content="Prénom : " Height="28" HorizontalAlignment="Right" Margin="0,27,461,0" Name="label11" VerticalAlignment="Top" />
+                <TextBox Height="19" HorizontalAlignment="Right" Margin="0,29,338,0" Name="txtPrénomTuteur" VerticalAlignment="Top" Width="120" FontSize="11" />
+            <Label Content="Entreprise : " Height="28" HorizontalAlignment="Right" Margin="0,47,461,0" Name="label12" VerticalAlignment="Top" />
+                <TextBox Height="19" HorizontalAlignment="Right" Margin="0,50,338,0" Name="txtEntrepriseTuteur" VerticalAlignment="Top" Width="120" FontSize="11" />
+            <Label Content="Mail : " Height="28" HorizontalAlignment="Right" Margin="0,6,235,0" Name="label13" VerticalAlignment="Top" />
+                <TextBox Height="19" HorizontalAlignment="Right" Margin="0,8,115,0" Name="txtMailTuteur" VerticalAlignment="Top" Width="120" FontSize="11" />
+            <Label Content="Téléphone : " Height="28" HorizontalAlignment="Right" Margin="0,27,235,0" Name="label14" VerticalAlignment="Top" />
+                <TextBox Height="19" HorizontalAlignment="Right" Margin="0,29,115,0" Name="txtTelTuteur" VerticalAlignment="Top" Width="120" FontSize="11" />
+            <Label Content="Portable : " Height="28" HorizontalAlignment="Right" Margin="0,47,235,0" Name="label15" VerticalAlignment="Top" />
+                <TextBox Height="19" HorizontalAlignment="Right" Margin="0,50,115,0" Name="txtPortableTuteur" VerticalAlignment="Top" Width="120" FontSize="11" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Alertes" Height="110" HorizontalAlignment="Left" Name="gbAlertes" VerticalAlignment="Top" Width="586" Margin="6,276,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="46*" />
+                    <ColumnDefinition Width="534*" />
+                </Grid.ColumnDefinitions>
+                <ListView Name="listViewAlerte" Initialized="listViewAlerte_Initialized" 
+                  ItemTemplate="{StaticResource listAlertes}" SelectionChanged="listViewAlerte_SelectionChanged" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,6,0,7" Grid.ColumnSpan="2">
+                    
+                </ListView>
+            </Grid>
+        </GroupBox>
+        </Grid>
+</UserControl>
