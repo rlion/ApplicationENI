@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using ApplicationENI.Modele;
 
 namespace ApplicationENI.Vue
 {
@@ -23,6 +24,12 @@ namespace ApplicationENI.Vue
         public GestionECF()
         {
             InitializeComponent();
+
+            List<ECF> listeECFs = DAL.JeuDonnees.GetListECF();
+            foreach (ECF ecf in listeECFs)
+            {
+                cbECF.Items.Add(ecf);
+            }
         }
         
         private void radioButton1_Checked(object sender, RoutedEventArgs e)

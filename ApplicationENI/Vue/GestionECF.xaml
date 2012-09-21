@@ -6,11 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="460" d:DesignWidth="630">
     <Grid Loaded="Grid_Loaded">
-        <ComboBox Height="23" HorizontalAlignment="Left" Margin="141,29,0,0" Name="cbECF" VerticalAlignment="Top" Width="206" Text="">
-            <ComboBoxItem Content="ECF1" />
-            <ComboBoxItem Content="ECF2" />
-            <ComboBoxItem Content="ECF3" />
-        </ComboBox>
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="141,29,0,0" Name="cbECF" VerticalAlignment="Top" Width="206" Text="" DataContext="{Binding}"></ComboBox>
 
             <TextBox Height="23" HorizontalAlignment="Left" Margin="141,63,0,0" Name="tbLibECF" VerticalAlignment="Top" Width="206" Text="libelle" />
         <TextBox Margin="50,347,0,0" Name="tbCommECF" Text="commentaire" Height="62" VerticalAlignment="Top" HorizontalAlignment="Left" Width="514" />
