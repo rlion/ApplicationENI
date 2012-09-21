@@ -137,6 +137,56 @@ namespace ApplicationENI.DAL
             return c;
         }
 
+        public static List<ECF> GetListECF()
+        {
+            List<ECF> lesECFs = new List<ECF>();
+            ECF e1 = new ECF("SQL", false);
+            ECF e2 = new ECF("C#", false);
+            ECF e3 = new ECF("Administration", true);
+            ECF e4 = new ECF("AD", true);
+            ECF e5 = new ECF("VB.NET", false);
 
+            lesECFs.Add(e1);
+            lesECFs.Add(e2);
+            lesECFs.Add(e3);
+            lesECFs.Add(e4);
+            lesECFs.Add(e5);
+            return lesECFs;
         }
+
+        public static List<Competence> GetListCompetence()
+        {
+            List<Competence> lesCompetences = new List<Competence>();
+            Competence c1 = new Competence("SQL1");
+            Competence c2 = new Competence("SQL2");
+            Competence c3 = new Competence("C#");
+            Competence c4 = new Competence("VB.NET1");
+            Competence c5 = new Competence("VB.NET2");
+
+            lesCompetences.Add(c1);
+            lesCompetences.Add(c2);
+            lesCompetences.Add(c3);
+            lesCompetences.Add(c4);
+            lesCompetences.Add(c5);
+            return lesCompetences;
+        }
+
+        public static List<Evaluation> GetListEvaluation()
+        {
+            List<Evaluation> lesEvaluations = new List<Evaluation>();
+            Evaluation e1 = new Evaluation();
+            Evaluation e2 = new Evaluation();
+            Evaluation e3 = new Evaluation();
+            Evaluation e4 = new Evaluation();
+            Evaluation e5 = new Evaluation();
+
+            lesEvaluations.Add(e1);
+            lesEvaluations.Add(e2);
+            lesEvaluations.Add(e3);
+            lesEvaluations.Add(e4);
+            lesEvaluations.Add(e5);
+            return lesEvaluations;
+        }
+
+    }
 }
