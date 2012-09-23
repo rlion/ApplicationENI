@@ -15,10 +15,15 @@ namespace ApplicationENI.DAL
         static String INSERT_STAGIAIRE = "INSERT INTO STAGIAIRE VALUES (@id, @nom)";
         static String DELETE_STAGIAIRE = "DELETE FROM STAGIAIRE WHERE NOM=@nom";
         static String UPDATE_STAGIAIRE = "UPDATE STAGIAIRE SET NOM=@nouveauNom WHERE NOM=@nom";
-
+        static String LISTE_STAGIAIRE_PAR_COURS_FORMATION_DATE = "SELECT * FROM STAGIAIRE WHERE IDCOURS=@idCours AND IDFORMATION=@idFormation AND DATE=@date"; //il faut masse de jointures, etc... Je m'y risque pas tant que la base est pas faite, ça va être l'enfer sinon.
+        
         public static List<Stagiaire> getListeStagiaires()
         {
             // Pour l'instant c'est bidon vu qu'il y a pas de BDD au bout.
+            return DAL.JeuDonnees.GetListeStagiaire();
+        }
+
+        public static List<Stagiaire> getListeStagiaireParCoursEtDate(int idCours, DateTime dateDebut) {
             return DAL.JeuDonnees.GetListeStagiaire();
         }
 

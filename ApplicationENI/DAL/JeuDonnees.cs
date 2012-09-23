@@ -188,5 +188,30 @@ namespace ApplicationENI.DAL
             return lesEvaluations;
         }
 
+        public static List<Cours> GetListeCours()
+        {
+            List<Cours> lesCours = new List<Cours>();
+            Cours c1 = new Cours(1, DateTime.Now, DateTime.Now, 20, 15, 5000, DateTime.Now, DateTime.Now, "c#");
+            Cours c2 = new Cours(2, DateTime.Now, DateTime.Now, 10, 5, 4000, DateTime.Now, DateTime.Now, "SCRUM");
+            Cours c3 = new Cours(3, DateTime.Now, DateTime.Now, 60, 16, 520, DateTime.Now, DateTime.Now, "Prince2");
+            lesCours.Add(c1);
+            lesCours.Add(c2);
+            lesCours.Add(c3);
+            return lesCours;
+        }
+
+        public static List<Formation> GetListeFormation()
+        {
+            List<Formation> lesFormations = new List<Formation>();
+            Formation form1 = new Formation("Architecte Logiciel");
+            Formation form2 = new Formation("Concepteur Développeur Informatique");
+            Formation form3 = new Formation("Développeur Logiciel");
+            Formation form4 = new Formation("Informaticien Micro");
+            lesFormations.Add(form1);
+            lesFormations.Add(form2);
+            lesFormations.Add(form3);
+            lesFormations.Add(form4);
+            return lesFormations;
+        }
     }
 }

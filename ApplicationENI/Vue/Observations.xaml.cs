@@ -34,7 +34,10 @@ namespace ApplicationENI.Vue
             flag_mode_saisie = 0;
             
             this.dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
-
+            comboBox1.Items.Add("Pédagogique");
+            comboBox1.Items.Add("Entreprise");
+            comboBox1.Text = "Pédagogique";
+            comboBox1.SelectedValue = "Pédagogique";
            // Génération automatique des colonnes
             /*dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
             dataGridListAbsences.CanUserAddRows = false;

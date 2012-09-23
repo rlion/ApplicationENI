@@ -24,11 +24,38 @@ namespace ApplicationENI.Vue
         public Trombinoscope()
         {
             InitializeComponent();
+            groupBox2.Visibility = Visibility.Hidden;
+            groupBox3.Visibility = Visibility.Hidden;
+
+
             CtrlTrombinoscope ctrlStagiaire = new CtrlTrombinoscope();
-            List<Stagiaire> listStagiaire = ctrlStagiaire.listeStagiaires();
+            List<Formation> lesFormations = ctrlStagiaire.listeFormation();
+
+            foreach (Formation f in lesFormations)
+            {
+                cboFormation.Items.Add(f);
+            }
+        }
+
+        private void cboFormation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cboCours.ItemsSource = ((Formation)cboFormation.SelectedItem).listeCours();
+        }
+
+        private void btnAfficherTrombi_Click(object sender, RoutedEventArgs e)
+        {
+            CtrlTrombinoscope ctrlStagiaire = new CtrlTrombinoscope();
+                
+            groupBox2.Visibility = Visibility.Visible;
+            groupBox3.Visibility = Visibility.Visible;
+
+            // pour l'instant je laisse comme ça, c'est complexe d'aller plus loin sans les jeu de données filés par l'ENI, 
+            // la BDD est pas très claire (Stagiaire -> planningIndividuelFormation -> planningIndividuelDetail -> Cours
+            List<Stagiaire> listStagiaire = ((Cours)cboCours.SelectedItem).getListeStagiaires();
             Grid tableauImages = new Grid();
             int i = 0;
             int j = 0;
+            int photo = 1;
             foreach (Stagiaire s in listStagiaire)
             {
                 if(i - 4 == 0) {
@@ -45,7 +72,11 @@ namespace ApplicationENI.Vue
                 image.BeginInit();
 
                 TextBox txt = new TextBox();
+                // Modification de la gestion des photos pour les tests
                 BitmapImage img = new BitmapImage(new Uri(s._photo));
+                //BitmapImage img = new BitmapImage(new Uri("/ApplicationENI;component/Images/1.jpg"));
+                //BitmapImage img = new BitmapImage(new Uri(@"..\Images\1.jpg"));
+                //@"..\Images\info.png"
                 image.Source = img;
                 image.Width = 100;
                 image.Height = 120;
@@ -68,7 +99,16 @@ namespace ApplicationENI.Vue
                 i += 1;
                 //gridTrombi.Children.Add
                 //MessageBox.Show(s._photo);
-            }
+                photo++;
+}
+        }
+
+        private void buttonImprimer_Click(object sender, RoutedEventArgs e)
+        {
+            PrintDialog pD = new PrintDialog();
+            pD.PrintVisual(this, "Impression Trombinoscope");
+            var fixedDocument = new FixedDocument();
+            pD.PrintDocument(fixedDocument.DocumentPaginator, "Impression");
         }
     }
 }

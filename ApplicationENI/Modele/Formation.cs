@@ -36,5 +36,15 @@ namespace ApplicationENI.Modele
         {
             pFormation._epreuves.Add(pECF);
         }
-    }
+
+        public List<Cours> listeCours()
+        {
+           return DAL.JeuDonnees.GetListeCours();
+        }
+
+
+        public override String ToString() {
+            return this._libelle;
+        }
+   }
 }

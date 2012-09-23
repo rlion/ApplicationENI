@@ -36,7 +36,7 @@
                             <TreeViewItem Header="Sessions Examens" IsExpanded="True">
                                 <TreeViewItem Header="Gestion des passages" Name="tviGestionPassages" Selected="tviGestionPassages_Selected" />
                             </TreeViewItem>
-                            <TreeViewItem Header="Trombinoscopes" Name="tviTrombinoscope" Selected="tviTrombinoscope_Selected" />
+                            <TreeViewItem Header="Trombinoscopes" Name="tviTrombinoscope" Selected="tviTrombinoscope_Selected" Foreground="Red"/>
                         </TreeViewItem>
                         <TreeViewItem Header="Paramètres individuels" Name="tvPersonParam" IsExpanded="True">
                             <TreeViewItem Header="Profil &amp; alertes" Name="tviProfil" Selected="tviProfil_Selected" />
@@ -47,7 +47,6 @@
                             </TreeViewItem>
                             <TreeViewItem Header="Suivi pédagogique" IsExpanded="True">
                                 <TreeViewItem Header="Observations" Name="tviRemarques" Selected="tviRemarques_Selected" />
-                                <TreeViewItem Header="Suivi des acquis" Name="tviSuiviAcquis" Selected="tviSuiviAcquis_Selected" />
                             </TreeViewItem>
                             <TreeViewItem Header="Retards &amp; absences" IsExpanded="True">
                                 <TreeViewItem Header="Nouveau retard/absence" Name="tviNouvAbsence" Selected="tviNouvAbsence_Selected" />

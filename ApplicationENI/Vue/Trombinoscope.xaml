@@ -5,28 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
               mc:Ignorable="d">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0*" />
-            <ColumnDefinition Width="41" />
-            <ColumnDefinition Width="555" />
-        </Grid.ColumnDefinitions>
-        <GroupBox Header="Saisie des critères" Height="65" HorizontalAlignment="Left" Name="groupBox1" VerticalAlignment="Top" Width="582" Grid.Column="1" Margin="6,0,0,0" Grid.ColumnSpan="2">
+        
+        <GroupBox Header="Saisie des critères" Height="120" HorizontalAlignment="Left" Name="groupBox1" VerticalAlignment="Top" Width="582" Grid.Column="1" Margin="6,0,0,0" Grid.ColumnSpan="2">
 
-            <Grid Height="50" Margin="0">
-                <DatePicker Height="25" HorizontalAlignment="Left" Margin="48,6,0,0" Name="datePickerDateTrombi" VerticalAlignment="Top" Width="156" Text="Choisir date" />
-                <Label Content="Date : " Height="28" HorizontalAlignment="Left" Margin="6,3,0,0" Name="label1" VerticalAlignment="Top" />
-                <Label Content="Module : " Height="28" HorizontalAlignment="Left" Margin="213,4,0,0" Name="label2" VerticalAlignment="Top" />
-                <ComboBox Height="23" HorizontalAlignment="Left" Margin="275,7,0,0" Name="comboBox1" VerticalAlignment="Top" Width="120" />
+            <Grid>
+                <Label Content="Formation : " Height="28" HorizontalAlignment="Left" Margin="4,3,0,0" Name="label1" VerticalAlignment="Top" />
+                <Label Content="Cours : " Height="28" HorizontalAlignment="Left" Margin="297,3,0,0" Name="label2" VerticalAlignment="Top" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="345,6,0,0" Name="cboCours" VerticalAlignment="Top" Width="220"/>
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="77,6,0,0" Name="cboFormation" VerticalAlignment="Top" Width="220" SelectionChanged="cboFormation_SelectionChanged" />
+                <Label Content="Date : " Height="28" HorizontalAlignment="Left" Margin="33,33,0,0" Name="label3" VerticalAlignment="Top" />
+                <DatePicker Height="25" HorizontalAlignment="Left" Margin="77,35,0,0" Name="dateCours" VerticalAlignment="Top" Width="159" />
+                <Button Content="Afficher le trombinoscope" Height="23" HorizontalAlignment="Left" Margin="405,68,0,0" Name="btnAfficherTrombi" VerticalAlignment="Top" Width="159" Click="btnAfficherTrombi_Click" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Trombinosope" HorizontalAlignment="Left" Margin="6,125,0,0" Name="groupBox2" VerticalAlignment="Top" Width="586" Grid.Column="1" Grid.ColumnSpan="2">
+        <GroupBox Header="Trombinosope" HorizontalAlignment="Left" Margin="6,200,0,0" Name="groupBox2" VerticalAlignment="Top" Width="586" Grid.Column="1" Grid.ColumnSpan="2">
             <Grid Name="gridTrombi">
                 </Grid>
             
         </GroupBox>
-        <GroupBox Header="Opérations disponibles" HorizontalAlignment="Left" Margin="6,71,0,0" Name="groupBox3" VerticalAlignment="Top" Width="588" Grid.Column="1" Grid.ColumnSpan="2">
+        <GroupBox Header="Opérations disponibles" HorizontalAlignment="Left" Margin="6,130,0,0" Name="groupBox3" VerticalAlignment="Top" Width="588" Grid.Column="1" Grid.ColumnSpan="2">
             <Grid>
-                <Button Content="Imprimer" Height="23" HorizontalAlignment="Left" Margin="6,6,0,0" Name="buttonImprimer" VerticalAlignment="Top" Width="75" />
+                <Button Content="Imprimer" Height="23" HorizontalAlignment="Left" Margin="6,6,0,0" Name="buttonImprimer" VerticalAlignment="Top" Width="75" Click="buttonImprimer_Click" />
                 <Button Content="Envoyer par mail" Height="23" HorizontalAlignment="Left" Margin="87,6,0,0" Name="buttonEnvoiParMail" VerticalAlignment="Top" Width="109" />
             </Grid>
         </GroupBox>
