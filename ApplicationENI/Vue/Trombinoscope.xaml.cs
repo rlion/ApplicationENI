@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ApplicationENI.Controleur;
 using ApplicationENI.Modele;
+using System.Net.Mail;
 
 namespace ApplicationENI.Vue
 {
@@ -105,10 +106,29 @@ namespace ApplicationENI.Vue
 
         private void buttonImprimer_Click(object sender, RoutedEventArgs e)
         {
+            // TODO: morceau de code qui ne fonctionne pas encore
             PrintDialog pD = new PrintDialog();
             pD.PrintVisual(this, "Impression Trombinoscope");
             var fixedDocument = new FixedDocument();
             pD.PrintDocument(fixedDocument.DocumentPaginator, "Impression");
+        }
+
+        private void buttonEnvoiParMail_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: morceau de code qui ne fonctionne pas encore
+            MailMessage msg = new MailMessage();
+
+            msg.From = new MailAddress(Parametres.Instance.login + "@eni-ecole.fr");
+            msg.To.Add(new MailAddress("ADDESTINATAIRE", "NOM"));
+            msg.Body = "Bonjour\n" +
+            "Ci-joint le trombinoscope pour cette semaine. \n" +
+            "A bientôt";
+           // msg.Attachments.Add(new Attachment(@"c:\fichierjoint.txt"));
+
+            SmtpClient client = new SmtpClient("SERVEUR_SNMP", 587);
+            //client.EnableSsl = true;
+            // Envoi du mail
+            client.Send(msg);
         }
     }
 }

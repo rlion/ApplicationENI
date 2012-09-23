@@ -62,8 +62,11 @@
     <Compile Include="Controleur\CtrlProfilAlertesStagiaire..cs" />
     <Compile Include="Controleur\CtrlTrombinoscope.cs" />
     <Compile Include="DAL\AbsencesDAL.cs" />
-    <Compile Include="DAL\ConnexiionSQL.cs" />
+    <Compile Include="DAL\CompetencesDAL.cs" />
+    <Compile Include="DAL\ConnexionSQL.cs" />
     <Compile Include="DAL\ContactDAL.cs" />
+    <Compile Include="DAL\ECFDAL.cs" />
+    <Compile Include="DAL\EvaluationsDAL.cs" />
     <Compile Include="DAL\FormationDAL.cs" />
     <Compile Include="DAL\JeuDonnees.cs" />
     <Compile Include="DAL\ObservationsDAL.cs" />

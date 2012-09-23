@@ -48,12 +48,10 @@ namespace ApplicationENI.Vue
 
         private void datePickerDateDebut_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            textBoxRaison.Text = datePickerDateDebut.Text;
         }
 
         private void datePickerDateFin_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            textBoxRaison.Text = datePickerDateFin.Text;
         }
 
         private void btnAnnuler_Click(object sender, RoutedEventArgs e)

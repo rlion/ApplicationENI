@@ -7,16 +7,13 @@
     <Grid>
         <Grid Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
             <GroupBox Header="Liste des absences et retards" Height="109" HorizontalAlignment="Left" Margin="13,0,0,0" Name="gbListeAbsenceRetards" VerticalAlignment="Top" Width="558">
-                <ListView Height="72" Name="listViewRemarques" Width="529" HorizontalAlignment="Right" VerticalAlignment="Center" FlowDirection="LeftToRight" Margin="7">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="140" Header="Date début" />
-                            <GridViewColumn Width="140" Header="DateFin" />
-                            <GridViewColumn Width="125" Header="Durée" />
-                            <GridViewColumn Width="124" Header="Valide" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                <DataGrid AutoGenerateColumns="False" Name="dataGridListeAbsences" SelectionChanged="dataGridListeAbsences_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Date début" Binding="{Binding _dateDebut}" Width="35*" />
+                        <DataGridTextColumn Header="Date fin" Binding="{Binding _dateFin}" Width="35*" />
+                        <DataGridTextColumn Header="Durée" Binding="{Binding _duree}" Width="35*" />
+                    </DataGrid.Columns>
+                </DataGrid>
             </GroupBox>
             <GroupBox Header="Détail" Height="249" HorizontalAlignment="Left" Margin="12,115,0,0" Name="gbDetailAbsenceRetard" VerticalAlignment="Top" Width="559">
                 <Grid>
