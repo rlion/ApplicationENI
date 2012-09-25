@@ -72,7 +72,9 @@ namespace ApplicationENI
         {
             this.expandStagiaire.IsExpanded = false;
             this.MainGrid.Children.RemoveAt(0);
-            this.MainGrid.Children.Add(new Vue.GestionECF());
+            Vue.GestionECF gestionECF = new Vue.GestionECF();
+            instanceFenetre.InstanceFenetreEnCours = gestionECF; 
+            this.MainGrid.Children.Add(gestionECF);
         }
 
         private void tviGestionTitre_Selected(object sender, RoutedEventArgs e)
