@@ -7,8 +7,9 @@ namespace ApplicationENI.Modele
 {
     public class Competence
     {
-        #region Attributs( id, libelle)
+        #region Attributs(id, libelle)
         private Guid _id;
+        private String _code;        
         private String _libelle;        
         #endregion
 
@@ -17,6 +18,11 @@ namespace ApplicationENI.Modele
         {
             get { return _id; }
             set { _id = value; }
+        }
+        public String Code
+        {
+            get { return _code; }
+            set { _code = value; }
         }
         public String Libelle
         {
@@ -29,13 +35,20 @@ namespace ApplicationENI.Modele
         public Competence()
         {
             _id = new Guid();
+            _code = "";
             _libelle = "";
         }
-        public Competence(String pLibelle)
+        public Competence(String pCode, String pLibelle)
         {
             _id = new Guid();
+            _code = pCode;
             _libelle = pLibelle;
         }
         #endregion
+
+        public override string ToString()
+        {
+            return _code + " - " + _libelle;
+        }
     }
 }
