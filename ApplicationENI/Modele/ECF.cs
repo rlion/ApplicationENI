@@ -7,8 +7,9 @@ namespace ApplicationENI.Modele
 {
     public class ECF
     {
-        #region Attributs (id, libelle, coefficient, notationNumerique, nbreVersion, commentaire, competences)
-        private Guid _id;       
+        #region Attributs (id, code, libelle, coefficient, notationNumerique, nbreVersion, commentaire, competences)
+        private Guid _id;
+        private String _code;        
         private String _libelle;       
         private int _coefficient;        
         private Boolean _notationNumerique; //Vrai : numerique (0 a 20) - Faux : acquisition (oui, en cours, non)
@@ -22,6 +23,11 @@ namespace ApplicationENI.Modele
         {
             get { return _id; }
             set { _id = value; }
+        }
+        public String Code
+        {
+            get { return _code; }
+            set { _code = value; }
         }
         public String Libelle
         {
@@ -66,9 +72,10 @@ namespace ApplicationENI.Modele
             _commentaire = "";
         }
 
-        public ECF(String pLibelle)
+        public ECF(String pCode, String pLibelle)
         {
             _id = new Guid();
+            _code = pCode;
             _libelle = pLibelle;
             _coefficient = 1;
             _notationNumerique = true;
@@ -76,9 +83,10 @@ namespace ApplicationENI.Modele
             _commentaire = "";
         }
 
-        public ECF(String pLibelle, Boolean pNotationNumerique)
+        public ECF(String pCode, String pLibelle, Boolean pNotationNumerique)
         {
             _id = new Guid();
+            _code = pCode;
             _libelle = pLibelle;
             if (pNotationNumerique)
             {
@@ -92,6 +100,43 @@ namespace ApplicationENI.Modele
             _nbreVersion = 1;
             _commentaire = "";
         }
+        
+        public ECF(String pCode, String pLibelle, int pCoeff, Boolean pNotationNumerique, int pNbreVersion, String pCommentaire)
+        {
+            _id = new Guid();
+            _code = pCode;
+            _libelle = pLibelle;
+            if (pNotationNumerique)
+            {
+                _coefficient = pCoeff;
+            }
+            else
+            {
+                _coefficient = 0;
+            }
+            _notationNumerique = pNotationNumerique;
+            _nbreVersion = pNbreVersion;
+            _commentaire = pCommentaire;
+        }
+
+        public ECF(String pCode, String pLibelle, int pCoeff, Boolean pNotationNumerique, int pNbreVersion, String pCommentaire, List<Competence> pCompetences)
+        {
+            _id = new Guid();
+            _code = pCode;
+            _libelle = pLibelle;
+            if (pNotationNumerique)
+            {
+                _coefficient = pCoeff;
+            }
+            else
+            {
+                _coefficient = 0;
+            }
+            _notationNumerique = pNotationNumerique;
+            _nbreVersion = pNbreVersion;
+            _commentaire = pCommentaire;
+            _competences = pCompetences;
+        }
         #endregion
 
         public void ajouterCompetence(ECF pECF, Competence pCompetence)
@@ -99,11 +144,11 @@ namespace ApplicationENI.Modele
             pECF._competences.Add(pCompetence);
         }
 
-        public void ajouterCompetence(ECF pECF, String pLibelleCompetence)
-        {
-            Competence Cp = new Competence(pLibelleCompetence);
-            pECF._competences.Add(Cp);
-        }
+        //public void ajouterCompetence(ECF pECF, String pLibelleCompetence)
+        //{
+        //    Competence Cp = new Competence(pLibelleCompetence);
+        //    pECF._competences.Add(Cp);
+        //}
 
         public void changerNbreVersion(ECF pECF, int pNbreVersion)
         {
@@ -112,7 +157,7 @@ namespace ApplicationENI.Modele
 
         public override string ToString()
         {
-            return _libelle;
+            return _code + " - " + _libelle;
         }
 
     }
