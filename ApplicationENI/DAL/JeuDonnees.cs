@@ -139,12 +139,14 @@ namespace ApplicationENI.DAL
 
         public static List<ECF> GetListECF()
         {
+            List<Competence> lesC1 = GetListCompetence();            
+
             List<ECF> lesECFs = new List<ECF>();
-            ECF e1 = new ECF("SQL", false);
-            ECF e2 = new ECF("C#", false);
-            ECF e3 = new ECF("Administration", true);
-            ECF e4 = new ECF("AD", true);
-            ECF e5 = new ECF("VB.NET", false);
+            ECF e1 = new ECF("SQL1", "SQL 1er niveau",1, false,3,"toto commentaire test", lesC1);
+            ECF e2 = new ECF("C#", "Développement C#", 1, false, 2, "toto commentaire test1", lesC1);
+            ECF e3 = new ECF("R1", "Réseau Administration", 1, true, 1, "toto commentaire test2", lesC1);
+            ECF e4 = new ECF("R4", "Réseau Active Directory", 1, true, 5, "toto commentaire test3", lesC1);
+            ECF e5 = new ECF("VB.NET", "développement VB.NET", 1, false, 2, "toto commentaire test4", lesC1);
 
             lesECFs.Add(e1);
             lesECFs.Add(e2);
@@ -157,11 +159,11 @@ namespace ApplicationENI.DAL
         public static List<Competence> GetListCompetence()
         {
             List<Competence> lesCompetences = new List<Competence>();
-            Competence c1 = new Competence("SQL1");
-            Competence c2 = new Competence("SQL2");
-            Competence c3 = new Competence("C#");
-            Competence c4 = new Competence("VB.NET1");
-            Competence c5 = new Competence("VB.NET2");
+            Competence c1 = new Competence("Dev1", "SQL1");
+            Competence c2 = new Competence("Dev3", "SQL2");
+            Competence c3 = new Competence("Dev9", "C#");
+            Competence c4 = new Competence("Dev6", "VB.NET1");
+            Competence c5 = new Competence("Dev7", "VB.NET2");
 
             lesCompetences.Add(c1);
             lesCompetences.Add(c2);
