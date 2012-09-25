@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2371BF70-FE6A-41D5-A1EE-DCB310090829}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ApplicationENI</RootNamespace>
+    <AssemblyName>ApplicationENI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Controleur\CtrlGestionAbsences.cs" />
+    <Compile Include="Controleur\CtrlGestionObservations.cs" />
+    <Compile Include="Controleur\CtrlGestionPassageTitre.cs" />
+    <Compile Include="Controleur\CtrlProfilAlertesStagiaire..cs" />
+    <Compile Include="Controleur\CtrlTrombinoscope.cs" />
+    <Compile Include="DAL\AbsencesDAL.cs" />
+    <Compile Include="DAL\ConnexiionSQL.cs" />
+    <Compile Include="DAL\ContactDAL.cs" />
+    <Compile Include="DAL\JeuDonnees.cs" />
+    <Compile Include="DAL\ObservationsDAL.cs" />
+    <Compile Include="DAL\StagiairesDAL.cs" />
+    <Compile Include="DAL\TitresDAL.cs" />
+    <Compile Include="Modele\Absence.cs" />
+    <Compile Include="Modele\Competence.cs" />
+    <Compile Include="Modele\Contact.cs" />
+    <Compile Include="Modele\Cours.cs" />
+    <Compile Include="Modele\ECF.cs" />
+    <Compile Include="Modele\EpreuveTitre.cs" />
+    <Compile Include="Modele\Evaluation.cs" />
+    <Compile Include="Modele\Formation.cs" />
+    <Compile Include="Modele\ItemAlerte.cs" />
+    <Compile Include="Modele\Jury.cs" />
+    <Compile Include="Modele\Observation.cs" />
+    <Compile Include="Modele\Salle.cs" />
+    <Compile Include="Modele\Stagiaire.cs" />
+    <Compile Include="Modele\Titre.cs" />
+    <Compile Include="Parametres.cs" />
+    <Compile Include="Vue\AccueilGeneral.xaml.cs">
+      <DependentUpon>AccueilGeneral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\ExportDocuments.xaml.cs">
+      <DependentUpon>ExportDocuments.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\GestionECF.xaml.cs">
+      <DependentUpon>GestionECF.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Vue\GestionPassageTitre.xaml.cs">
+      <DependentUpon>GestionPassageTitre.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\GestionResultats.xaml.cs">
+      <DependentUpon>GestionResultats.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\HistoriqueAbsencesRetards.xaml.cs">
+      <DependentUpon>HistoriqueAbsencesRetards.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\InscriptionTitre.xaml.cs">
+      <DependentUpon>InscriptionTitre.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\ModificationDates.xaml.cs">
+      <DependentUpon>ModificationDates.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\NouvelleAbsence.xaml.cs">
+      <DependentUpon>NouvelleAbsence.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\Observations.xaml.cs">
+      <DependentUpon>Observations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\Planning.xaml.cs">
+      <DependentUpon>Planning.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\ProfilAlertesStagiaire.xaml.cs">
+      <DependentUpon>ProfilAlertesStagiaire.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\SaisieResultats.xaml.cs">
+      <DependentUpon>SaisieResultats.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\SuiviAcquis.xaml.cs">
+      <DependentUpon>SuiviAcquis.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\Trombinoscope.xaml.cs">
+      <DependentUpon>Trombinoscope.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Vue\AccueilGeneral.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vue\ExportDocuments.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vue\GestionECF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vue\GestionPassageTitre.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vue\GestionResultats.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vue\HistoriqueAbsencesRetards.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vue\InscriptionTitre.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vue\Login.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vue\ModificationDates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vue\NouvelleAbsence.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vue\Observations.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vue\Planning.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vue\ProfilAlertesStagiaire.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vue\SaisieResultats.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vue\SuiviAcquis.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vue\Trombinoscope.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\home.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Ressources\competences.txt" />
+    <Resource Include="Ressources\dates.txt" />
+    <Resource Include="Ressources\resultats.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\-ajouter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\-annuler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\-supprimer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\-valider.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ajouter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\annuler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\supprimer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\valider.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\J-ai-le-visage-ovale_diapo_full_gallery.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\20070123.WWW000000312_27479_3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\jo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ledgreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\erreur.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Ressources\planning.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Ressources\stagiaires.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
