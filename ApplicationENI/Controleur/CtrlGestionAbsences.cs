@@ -11,9 +11,18 @@ namespace ApplicationENI.Controleur {
             DateTime dateDebut = conversionStringEnDate(pDateDebut, pHeureDeb, pMinuteDeb);
             DateTime dateFin = conversionStringEnDate(pDateFin, pHeureFin, pMinuteFin);
 
-            TimeSpan duree = dateDebut - dateFin;
+            TimeSpan duree = dateFin - dateDebut;
 
-            Absence a = new Absence(pRaison, pCommentaire, Parametres.Instance.login, dateDebut, dateFin, duree, pValide, Parametres.Instance.stagiaire);
+            // on détermine si c'est une absence ou un retard.
+            bool isAbsence;
+            if (pAbsence == true) {
+                isAbsence = true;
+            }
+            else{
+                isAbsence = false;
+            }
+
+            Absence a = new Absence(pRaison, pCommentaire, Parametres.Instance.login, dateDebut, dateFin, duree, pValide, Parametres.Instance.stagiaire, isAbsence);
             a.ajouterAbsence();
         }
 
@@ -33,5 +42,8 @@ namespace ApplicationENI.Controleur {
             return Parametres.Instance.stagiaire.listeAbsences;
         }
 
+        public void supprimerAbsence(Absence a) {
+            a.supprimerAbsence();
+        }
     }
 }

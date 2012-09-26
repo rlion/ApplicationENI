@@ -6,8 +6,8 @@
             mc:Ignorable="d" Height="Auto">
     <Grid>
         <Grid Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <GroupBox Header="Liste des absences et retards" Height="109" HorizontalAlignment="Left" Margin="13,0,0,0" Name="gbListeAbsenceRetards" VerticalAlignment="Top" Width="558">
-                <DataGrid AutoGenerateColumns="False" Name="dataGridListeAbsences" SelectionChanged="dataGridListeAbsences_SelectionChanged">
+            <GroupBox Header="Liste des absences et retards" Height="125" HorizontalAlignment="Left" Margin="13,0,0,0" Name="gbListeAbsenceRetards" VerticalAlignment="Top" Width="558">
+                <DataGrid AutoGenerateColumns="False" Name="dataGridListeAbsences" SelectionChanged="dataGridListeAbsences_SelectionChanged" CanUserAddRows="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Date début" Binding="{Binding _dateDebut}" Width="35*" />
                         <DataGridTextColumn Header="Date fin" Binding="{Binding _dateFin}" Width="35*" />
@@ -15,7 +15,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
-            <GroupBox Header="Détail" Height="249" HorizontalAlignment="Left" Margin="12,115,0,0" Name="gbDetailAbsenceRetard" VerticalAlignment="Top" Width="559">
+            <GroupBox Header="Détail" Height="249" HorizontalAlignment="Left" Margin="12,135,0,0" Name="gbDetailAbsenceRetard" VerticalAlignment="Top" Width="559">
                 <Grid>
                     <DatePicker Height="25" HorizontalAlignment="Left" Margin="105,8,0,0" Name="datePickerDateDebut" VerticalAlignment="Top" Width="151" Text="Date début" />
                     <DatePicker Height="25" HorizontalAlignment="Left" Margin="346,8,0,0" Name="datePickerDateFin" VerticalAlignment="Top" Width="153" Text="Date fin" />
@@ -31,12 +31,13 @@
                     <RadioButton Height="16" HorizontalAlignment="Left" Margin="328,49,0,0" Name="radioButtonRetard" VerticalAlignment="Top" />
                     <Label Content="Absence : " Height="28" HorizontalAlignment="Left" Margin="140,41,0,0" Name="label6" VerticalAlignment="Top" />
                     <Label Content="Retard : " Height="28" HorizontalAlignment="Left" Margin="261,41,0,0" Name="label7" VerticalAlignment="Top" />
+                
+                <Button Content="Modifier" Height="23" HorizontalAlignment="Left" Margin="35,195,0,0" Name="btnModifier" VerticalAlignment="Top" Width="75" Click="btnModifier_Click" />
+                    <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="116,195,0,0" Name="btnSupprimer" VerticalAlignment="Top" Width="75" Click="btnSupprimer_Click" />
+                    <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="197,195,0,0" Name="btnEnregistrer" VerticalAlignment="Top" Width="75" />
+                    <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="278,195,0,0" Name="btnAnnuler" VerticalAlignment="Top" Width="75" />
                 </Grid>
             </GroupBox>
-            <Button Content="Modifier" Height="23" HorizontalAlignment="Left" Margin="35,325,0,0" Name="btnModifier" VerticalAlignment="Top" Width="75" />
-            <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="116,325,0,0" Name="btnSupprimer" VerticalAlignment="Top" Width="75" />
-            <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="197,325,0,0" Name="btnEnregistrer" VerticalAlignment="Top" Width="75" />
-            <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="278,325,0,0" Name="btnAnnuler" VerticalAlignment="Top" Width="75" />
-        </Grid>
+             </Grid>
     </Grid>
 </UserControl>

@@ -16,8 +16,9 @@ namespace ApplicationENI.Modele
         public TimeSpan _duree { get; set; }
         public bool _valide { get; set; }
 		public Stagiaire _stagiaire { get; set; }
+        public bool _isAbsence { get; set; }
 
-        public Absence(String pRaison, String pCommentaire, String pAuteur, DateTime pDateDebut, DateTime pDateFin, TimeSpan pDuree, bool pValide, Stagiaire pStagiaire)
+        public Absence(String pRaison, String pCommentaire, String pAuteur, DateTime pDateDebut, DateTime pDateFin, TimeSpan pDuree, bool pValide, Stagiaire pStagiaire, bool pIsAbsence)
         {
             //la personne qui saisit l'absence
             this._auteur = pAuteur;
@@ -29,6 +30,7 @@ namespace ApplicationENI.Modele
             this._raison = pRaison;
             this._valide = pValide;
             this._stagiaire = pStagiaire;
+            this._isAbsence = pIsAbsence;
         }
 
         public Absence() 
@@ -41,14 +43,14 @@ namespace ApplicationENI.Modele
             DAL.AbsencesDAL.ajouterAbsence(this);
         }
 
-        public void supprimerAbsence(Absence pA)
+        public void supprimerAbsence()
         {
-            DAL.AbsencesDAL.ajouterAbsence(pA);
+            DAL.AbsencesDAL.supprimerAbsence(this);
         }
 
         public void modifierAbsence(Absence pA)
         {
-            DAL.AbsencesDAL.ajouterAbsence(pA);
+            DAL.AbsencesDAL.modifierAbsence(pA);
         }
     }
 }

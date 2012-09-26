@@ -47,12 +47,13 @@ namespace ApplicationENI.DAL
         public static void supprimerAbsence(Absence pA) 
         { 
 			// test de suppression dans la base de données bidon
-            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            /*SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_ABSENCES, connexion);
             cmd.Parameters.AddWithValue("@num_absence", pA._id);  // il faut modifier tout ça
 
             cmd.ExecuteReader();
-            connexion.Close();
+            connexion.Close();*/
+            Parametres.Instance.stagiaire.listeAbsences.Remove(pA);
 		   
         }
         public static void modifierAbsence(Absence pA)

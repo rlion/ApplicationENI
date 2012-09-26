@@ -13,7 +13,9 @@ namespace ApplicationENI.Controleur {
             return stg.ListeStagiaire();
         }
 
-
+        public List<Formation> listeFormation() {
+            return new Formations().listeFormations;
+        }
             
     }
 }
