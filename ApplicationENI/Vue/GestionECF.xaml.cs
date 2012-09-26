@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.IO;
 using ApplicationENI.Modele;
 using ApplicationENI.Vue.PopUp;
+using ApplicationENI.DAL;
 
 namespace ApplicationENI.Vue
 {
@@ -29,11 +30,13 @@ namespace ApplicationENI.Vue
         {
             InitializeComponent();
 
-            _listeECF = DAL.JeuDonnees.GetListECF();
-            foreach (ECF ecf in _listeECF)
-            {
-                cbECF.Items.Add(ecf);
-            }
+            _listeECF = ECFDAL.getListECFs();
+
+            //_listeECF = DAL.JeuDonnees.GetListECF();
+            //foreach (ECF ecf in _listeECF)
+            //{
+            //    cbECF.Items.Add(ecf);
+            //}
         }
         
         private void radioButton1_Checked(object sender, RoutedEventArgs e)
