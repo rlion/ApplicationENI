@@ -30,13 +30,7 @@ namespace ApplicationENI.Vue
 
 
             CtrlTrombinoscope ctrlStagiaire = new CtrlTrombinoscope();
-            List<Formation> lesFormations = ctrlStagiaire.listeFormation();
 
-            foreach (Formation f in lesFormations)
-            {
-                cboFormation.Items.Add(f);
-            }
-        }
 
         private void cboFormation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
