@@ -70,7 +70,11 @@ namespace ApplicationENI.Vue
                 Absence abs = (Absence)dataGridListeAbsences.SelectedItem;
                 datePickerDateDebut.Text = abs._dateDebut.ToString();
                 datePickerDateFin.Text = abs._dateFin.ToString();
-                checkBox1.IsChecked = abs._valide;
+                txtHeureDeb.Text = abs._dateDebut.ToString("HH");
+                txtMinuteDeb.Text = abs._dateDebut.Minute.ToString();
+                txtHeureFin.Text = abs._dateFin.Hour.ToString();
+                txtMinuteFin.Text = abs._dateFin.Minute.ToString();
+                checkBoxValide.IsChecked = abs._valide;
                 //TODO: Il y a un soucis de conception, il n'y a pas d'attribut permettant de déterminer si c'est une abs ou un ret (se fier uniquement aux dates et heures ne semble pas judicieux).
                 //radioButtonAbsence.IsChecked = abs.
                 textBoxCommentaire.Text = abs._commentaire;
@@ -87,7 +91,7 @@ namespace ApplicationENI.Vue
                 // on désactive tout les champs, ils seront activés lors de la pression du bouton "Modifier"
                 datePickerDateDebut.IsEnabled = false;
                 datePickerDateFin.IsEnabled = false;
-                checkBox1.IsEnabled = false;
+                checkBoxValide.IsEnabled = false;
                 textBoxCommentaire.IsEnabled = false;
                 textBoxRaison.IsEnabled = false;
                 radioButtonAbsence.IsEnabled = false;
@@ -99,7 +103,7 @@ namespace ApplicationENI.Vue
         {
             datePickerDateDebut.IsEnabled = true;
             datePickerDateFin.IsEnabled = true;
-            checkBox1.IsEnabled = true;
+            checkBoxValide.IsEnabled = true;
             textBoxCommentaire.IsEnabled = true;
             textBoxRaison.IsEnabled = true;
             radioButtonAbsence.IsEnabled = true;
@@ -110,6 +114,85 @@ namespace ApplicationENI.Vue
         {
             ctrl.supprimerAbsence((Absence)dataGridListeAbsences.SelectedItem);
             this.dataGridListeAbsences.Items.Refresh();
+        }
+
+        private void btnEnregistrer_Click(object sender, RoutedEventArgs e)
+        {
+            if (VerificationSaisie())
+            {
+                String raison, commentaire, dateDebut, dateFin;
+                int heureDeb, minuteDeb, heureFin, minuteFin;
+                bool valide, absence, retard;
+                dateDebut = datePickerDateDebut.Text;
+                dateFin = datePickerDateDebut.Text;
+                raison = textBoxRaison.Text;
+                commentaire = textBoxCommentaire.Text;
+                heureDeb = int.Parse(txtHeureDeb.Text);
+                heureFin = int.Parse(txtHeureFin.Text);
+                minuteDeb = int.Parse(txtMinuteDeb.Text);
+                minuteFin = int.Parse(txtMinuteFin.Text);
+                valide = checkBoxValide.IsChecked.Value;
+                absence = radioButtonAbsence.IsChecked.Value;
+                retard = radioButtonRetard.IsChecked.Value;
+
+                ctrl.modifierAbsence((Absence)dataGridListeAbsences.SelectedItem, dateDebut, dateFin, heureDeb, minuteDeb, heureFin, minuteFin, raison, commentaire, valide, absence);
+                this.dataGridListeAbsences.Items.Refresh();
+            }
+        }
+
+        private bool VerificationSaisie()
+        {
+            bool retour = true;
+
+
+            // vérifications sur la présence des informations
+            if ((datePickerDateDebut.Text == null || txtHeureDeb.Text == "") || (txtHeureFin.Text == null || txtHeureFin.Text == ""))
+            {
+                MessageBox.Show("Veuillez vérifier les horaires saisis", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if ((datePickerDateDebut.Text == null || datePickerDateDebut.Text == "") || (datePickerDateFin.Text == null || datePickerDateFin.Text == ""))
+            {
+                MessageBox.Show("Veuillez vérifier les dates saisies", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (textBoxRaison.Text == null || textBoxRaison.Text == "")
+            {
+                MessageBox.Show("Veuillez saisir une raison.", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+
+            // vérification de la cohérence des infos.
+            int jour, mois, an;
+            jour = int.Parse(datePickerDateDebut.Text.Substring(0, 2));
+            mois = int.Parse(datePickerDateDebut.Text.Substring(3, 2));
+            an = int.Parse(datePickerDateDebut.Text.Substring(6, 4));
+            DateTime dateDebut = new DateTime(an, mois, jour);
+
+            jour = int.Parse(datePickerDateFin.Text.Substring(0, 2));
+            mois = int.Parse(datePickerDateFin.Text.Substring(3, 2));
+            an = int.Parse(datePickerDateFin.Text.Substring(6, 4));
+            DateTime dateFin = new DateTime(an, mois, jour);
+
+            if (dateFin - dateDebut < new TimeSpan(0))
+            {
+                MessageBox.Show("La date de fin est antérieure à la date de début.", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            // On vérifie que l'heure de fin est postérieur à l'heure de début uniquement si la date de début est la même que la date de fin.
+            if (dateDebut == dateFin)
+            {
+                if (int.Parse(txtHeureDeb.Text + txtMinuteDeb.Text) >= int.Parse(txtHeureFin.Text + txtMinuteFin.Text))
+                {
+                    MessageBox.Show("L'heure fin est antérieure à la date de début.", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+            }
+            return retour;
         }
 
     }

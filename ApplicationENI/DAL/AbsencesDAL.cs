@@ -59,7 +59,7 @@ namespace ApplicationENI.DAL
         public static void modifierAbsence(Absence pA)
         {
             // test de modification dans la base de données bidon
-            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            /*SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(UPDATE_ABSENCES, connexion);
             cmd.Parameters.AddWithValue("@dateDebut", DateTime.Now);
             cmd.Parameters.AddWithValue("@dateFin", DateTime.Now);
@@ -71,7 +71,7 @@ namespace ApplicationENI.DAL
             cmd.Parameters.AddWithValue("@num_absence", pA._id);
 
             cmd.ExecuteReader();
-            connexion.Close();
+            connexion.Close();*/
         }
         public static void ajouterAbsence(Absence pA)
         {

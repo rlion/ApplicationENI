@@ -15,27 +15,35 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
-            <GroupBox Header="Détail" Height="249" HorizontalAlignment="Left" Margin="12,135,0,0" Name="gbDetailAbsenceRetard" VerticalAlignment="Top" Width="559">
+            <GroupBox Header="Détail" Height="249" HorizontalAlignment="Left" Margin="12,130,0,0" Name="gbDetailAbsenceRetard" VerticalAlignment="Top" Width="559">
                 <Grid>
                     <DatePicker Height="25" HorizontalAlignment="Left" Margin="105,8,0,0" Name="datePickerDateDebut" VerticalAlignment="Top" Width="151" Text="Date début" />
-                    <DatePicker Height="25" HorizontalAlignment="Left" Margin="346,8,0,0" Name="datePickerDateFin" VerticalAlignment="Top" Width="153" Text="Date fin" />
-                    <Label Content="Raison : " Height="28" HorizontalAlignment="Left" Margin="45,69,0,0" Name="label1" VerticalAlignment="Top" />
+                    <DatePicker Height="25" HorizontalAlignment="Left" Margin="104,41,0,0" Name="datePickerDateFin" VerticalAlignment="Top" Width="153" Text="Date fin" />
+                    <Label Content="Raison : " Height="28" HorizontalAlignment="Left" Margin="45,110,0,0" Name="label1" VerticalAlignment="Top" />
                     <Label Content="Date début : " Height="28" HorizontalAlignment="Left" Margin="20,7,0,0" Name="label2" VerticalAlignment="Top" />
-                    <Label Content="Date fin : " Height="28" HorizontalAlignment="Left" Margin="279,7,0,0" Name="label3" VerticalAlignment="Top" />
-                    <TextBox Height="51" HorizontalAlignment="Left" Margin="105,69,0,0" Name="textBoxRaison" VerticalAlignment="Top" Width="416" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
-                    <Label Content="Avis : " Height="28" HorizontalAlignment="Left" Margin="58,126,0,0" Name="label4" VerticalAlignment="Top" />
-                    <TextBox Height="51" HorizontalAlignment="Left" Margin="105,126,0,0" Name="textBoxCommentaire" VerticalAlignment="Top" Width="416" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
-                    <Label Content="Semble valide : " Height="28" HorizontalAlignment="Left" Margin="6,41,0,0" Name="label5" VerticalAlignment="Top" />
-                    <CheckBox Height="16" HorizontalAlignment="Left" Margin="106,49,0,0" Name="checkBox1" VerticalAlignment="Top" />
-                    <RadioButton Height="16" HorizontalAlignment="Left" Margin="222,49,0,0" Name="radioButtonAbsence" VerticalAlignment="Top" />
-                    <RadioButton Height="16" HorizontalAlignment="Left" Margin="328,49,0,0" Name="radioButtonRetard" VerticalAlignment="Top" />
-                    <Label Content="Absence : " Height="28" HorizontalAlignment="Left" Margin="140,41,0,0" Name="label6" VerticalAlignment="Top" />
-                    <Label Content="Retard : " Height="28" HorizontalAlignment="Left" Margin="261,41,0,0" Name="label7" VerticalAlignment="Top" />
+                    <Label Content="Date fin : " Height="28" HorizontalAlignment="Left" Margin="37,40,0,0" Name="label3" VerticalAlignment="Top" />
+                    <TextBox Height="28" HorizontalAlignment="Left" Margin="105,110,0,0" Name="textBoxRaison" VerticalAlignment="Top" Width="416" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+                    <Label Content="Avis : " Height="28" HorizontalAlignment="Left" Margin="58,154,0,0" Name="label4" VerticalAlignment="Top" />
+                    <TextBox Height="28" HorizontalAlignment="Left" Margin="105,154,0,0" Name="textBoxCommentaire" VerticalAlignment="Top" Width="416" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+                    <Label Content="Semble valide : " Height="28" HorizontalAlignment="Left" Margin="6,71,0,0" Name="label5" VerticalAlignment="Top" />
+                    <CheckBox Height="16" HorizontalAlignment="Left" Margin="106,79,0,0" Name="checkBoxValide" VerticalAlignment="Top" />
+                    <RadioButton Height="16" HorizontalAlignment="Left" Margin="222,79,0,0" Name="radioButtonAbsence" VerticalAlignment="Top" />
+                    <RadioButton Height="16" HorizontalAlignment="Left" Margin="328,79,0,0" Name="radioButtonRetard" VerticalAlignment="Top" />
+                    <Label Content="Absence : " Height="28" HorizontalAlignment="Left" Margin="140,71,0,0" Name="label6" VerticalAlignment="Top" />
+                    <Label Content="Retard : " Height="28" HorizontalAlignment="Left" Margin="261,71,0,0" Name="label7" VerticalAlignment="Top" />
                 
-                <Button Content="Modifier" Height="23" HorizontalAlignment="Left" Margin="35,195,0,0" Name="btnModifier" VerticalAlignment="Top" Width="75" Click="btnModifier_Click" />
-                    <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="116,195,0,0" Name="btnSupprimer" VerticalAlignment="Top" Width="75" Click="btnSupprimer_Click" />
-                    <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="197,195,0,0" Name="btnEnregistrer" VerticalAlignment="Top" Width="75" />
-                    <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="278,195,0,0" Name="btnAnnuler" VerticalAlignment="Top" Width="75" />
+                <Button Content="Modifier" Height="23" HorizontalAlignment="Left" Margin="35,199,0,0" Name="btnModifier" VerticalAlignment="Top" Width="75" Click="btnModifier_Click" />
+                    <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="116,199,0,0" Name="btnSupprimer" VerticalAlignment="Top" Width="75" Click="btnSupprimer_Click" />
+                    <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="197,199,0,0" Name="btnEnregistrer" VerticalAlignment="Top" Width="75" Click="btnEnregistrer_Click" />
+                    <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="278,199,0,0" Name="btnAnnuler" VerticalAlignment="Top" Width="75" />
+                    <Label Content="Heure début : " Height="28" Margin="321,8,0,0" Name="label8" VerticalAlignment="Top" HorizontalAlignment="Left" Width="86" />
+                    <TextBox Height="20" HorizontalAlignment="Left" Margin="400,10,0,0" Name="txtHeureDeb" VerticalAlignment="Top" Width="33" />
+                    <TextBox Height="20" HorizontalAlignment="Left" Margin="441,10,0,0" Name="txtMinuteDeb" VerticalAlignment="Top" Width="33" />
+                    <Label Content=":" Height="28" HorizontalAlignment="Left" Margin="431,8,0,0" Name="label9" VerticalAlignment="Top" />
+                    <Label Content="Heure fin : " Height="28" HorizontalAlignment="Left" Margin="338,37,0,0" Name="label10" VerticalAlignment="Top" Width="81" />
+                    <TextBox Height="20" HorizontalAlignment="Left" Margin="400,39,0,0" Name="txtHeureFin" VerticalAlignment="Top" Width="33" />
+                    <TextBox Height="20" HorizontalAlignment="Left" Margin="441,39,0,0" Name="txtMinuteFin" VerticalAlignment="Top" Width="33" />
+                    <Label Content=":" Height="28" HorizontalAlignment="Left" Margin="431,37,0,0" Name="label11" VerticalAlignment="Top" />
                 </Grid>
             </GroupBox>
              </Grid>

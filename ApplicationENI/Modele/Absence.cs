@@ -48,9 +48,9 @@ namespace ApplicationENI.Modele
             DAL.AbsencesDAL.supprimerAbsence(this);
         }
 
-        public void modifierAbsence(Absence pA)
+        public void modifierAbsence()
         {
-            DAL.AbsencesDAL.modifierAbsence(pA);
+            DAL.AbsencesDAL.modifierAbsence(this);
         }
     }
 }
