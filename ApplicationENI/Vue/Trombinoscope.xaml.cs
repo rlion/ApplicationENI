@@ -30,7 +30,7 @@ namespace ApplicationENI.Vue
 
 
             CtrlTrombinoscope ctrlStagiaire = new CtrlTrombinoscope();
-
+        }
 
         private void cboFormation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
