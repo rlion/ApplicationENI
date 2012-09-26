@@ -8,10 +8,10 @@ namespace ApplicationENI.Modele
     public class ECF
     {
         #region Attributs (id, code, libelle, coefficient, notationNumerique, nbreVersion, commentaire, competences)
-        private Guid _id;
+        private String _id;//Guid _id;
         private String _code;        
         private String _libelle;       
-        private int _coefficient;        
+        private float _coefficient;        
         private Boolean _notationNumerique; //Vrai : numerique (0 a 20) - Faux : acquisition (oui, en cours, non)
         private int _nbreVersion;        
         private String _commentaire;
@@ -19,7 +19,7 @@ namespace ApplicationENI.Modele
         #endregion
 
         #region Proprietes
-        public Guid Id       
+        public String Id//Guid Id       
         {
             get { return _id; }
             set { _id = value; }
@@ -34,7 +34,7 @@ namespace ApplicationENI.Modele
             get { return _libelle; }
             set { _libelle = value; }
         }
-        public int Coefficient
+        public float Coefficient
         {
             get { return _coefficient; }
             set { _coefficient = value; }
@@ -64,7 +64,7 @@ namespace ApplicationENI.Modele
         #region Constructeurs
         public ECF()
         {
-            _id = new Guid();
+            _id = "";
             _libelle = "";
             _coefficient = 1;
             _notationNumerique = true;
@@ -74,7 +74,7 @@ namespace ApplicationENI.Modele
 
         public ECF(String pCode, String pLibelle)
         {
-            _id = new Guid();
+            _id = "";
             _code = pCode;
             _libelle = pLibelle;
             _coefficient = 1;
@@ -85,7 +85,7 @@ namespace ApplicationENI.Modele
 
         public ECF(String pCode, String pLibelle, Boolean pNotationNumerique)
         {
-            _id = new Guid();
+            _id = "";
             _code = pCode;
             _libelle = pLibelle;
             if (pNotationNumerique)
@@ -103,7 +103,7 @@ namespace ApplicationENI.Modele
         
         public ECF(String pCode, String pLibelle, int pCoeff, Boolean pNotationNumerique, int pNbreVersion, String pCommentaire)
         {
-            _id = new Guid();
+            _id = "";
             _code = pCode;
             _libelle = pLibelle;
             if (pNotationNumerique)
@@ -121,7 +121,7 @@ namespace ApplicationENI.Modele
 
         public ECF(String pCode, String pLibelle, int pCoeff, Boolean pNotationNumerique, int pNbreVersion, String pCommentaire, List<Competence> pCompetences)
         {
-            _id = new Guid();
+            _id = "";
             _code = pCode;
             _libelle = pLibelle;
             if (pNotationNumerique)
