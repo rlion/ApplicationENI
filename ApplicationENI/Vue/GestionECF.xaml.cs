@@ -24,8 +24,20 @@ namespace ApplicationENI.Vue
     public partial class GestionECF : UserControl
     {
         private List<ECF> _listeECF = null;
-        private ECF _ecfCourant = null;
+        private ECF _ecfCourant = null;        
         private bool _modif = false;
+        private bool _ecfAdd; //si true on est en train d'ajouter un ECF sinon une Competence
+
+        public bool EcfAdd
+        {
+            get { return _ecfAdd; }
+            set { _ecfAdd = value; }
+        }
+        public ECF EcfCourant
+        {
+            get { return _ecfCourant; }
+            set { _ecfCourant = value; }
+        }
 
         public GestionECF()
         {
@@ -34,16 +46,25 @@ namespace ApplicationENI.Vue
         }
 
         private void ActualiseAffichage(ECF pECFCourant){
+            cbECF.Items.Clear();
+            cbECF.ItemsSource = null;
+
             //recup de la liste d'ECF
             _listeECF = ECFDAL.getListECFs();
             //peuplement de la combobox
-            cbECF.Items.Clear();
             foreach (ECF ecf in _listeECF)
             {
                 cbECF.Items.Add(ecf);
             }
-            //affichage de l'ECF en cours
-            //afficheECF(pECFCourant);
+
+            if (pECFCourant != null)
+            {
+                foreach (ECF ecf in _listeECF)
+                {
+                    if (ecf.Id == pECFCourant.Id) pECFCourant = ecf;
+                }
+                cbECF.SelectedItem = pECFCourant;
+            }
         }
         
         private void slVersion_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -74,7 +95,7 @@ namespace ApplicationENI.Vue
         private void afficheECF(ECF pECF)
         {
             RAZ();
-
+            
             //si pas d'ECF selectionné on ne peut pas ajouter de competence
             if (pECF == null)
             {
@@ -82,6 +103,7 @@ namespace ApplicationENI.Vue
             }
             else
             {
+                cbECF.SelectedItem = pECF;
                 btPlus.IsEnabled = true;
             }
 
@@ -110,29 +132,19 @@ namespace ApplicationENI.Vue
 
         private void btAdd_Click(object sender, RoutedEventArgs e)
         {
+            _ecfAdd = true; // on va ajouter un ECF
             AjoutECF_Competence popUp = new AjoutECF_Competence();
             popUp.ShowDialog();
 
             if (popUp.ECF != null)
             {
-                _ecfCourant = popUp.ECF; 
-                _listeECF.Add(_ecfCourant);
-                ////cbECF.ItemsSource = null;
-                //cbECF.Items.Clear();
-                //foreach (ECF ecf in _listeECF)
-                //{
-                //    cbECF.Items.Add(ecf);
-                //}
+                _ecfCourant = popUp.ECF;
+                //_listeECF.Add(_ecfCourant);
                 ActualiseAffichage(_ecfCourant);
-                cbECF.SelectedItem = _ecfCourant;                               
-            }
-            if (popUp.Competence != null)
-            {
-                //if (_ecfCourant.Competences == null) _ecfCourant.Competences = new List<Competence>();
-                //_ecfCourant.Competences.Add(popUp.Competence);
+                //cbECF.SelectedItem = _ecfCourant;
 
-                //ActualiseAffichage(null);
-                //afficheECF(_ecfCourant);                
+                //cbECF.SelectedItem.Equals(_ecfCourant);
+                afficheECF(_ecfCourant);
             }
         }
         
@@ -152,10 +164,10 @@ namespace ApplicationENI.Vue
         {
             _ecfCourant.Libelle = tbLibECF.Text.Trim();
             _ecfCourant.NbreVersion = (int)slVersion.Value;
-            _ecfCourant.NotationNumerique = false;
-            if (rbNumerique.IsChecked == true)
+            _ecfCourant.NotationNumerique = true;
+            if (rbAcquisition.IsChecked == true)
             {
-                _ecfCourant.NotationNumerique = true;
+                _ecfCourant.NotationNumerique = false;
             }
             _ecfCourant.Commentaire = tbCommECF.Text.Trim();
 
@@ -174,8 +186,13 @@ namespace ApplicationENI.Vue
         private void btPlus_Click(object sender, RoutedEventArgs e)
         {
             //TODO Liste avec suppression ou ajout a l ecf
-            AvailablePresentationObjects liste = new AvailablePresentationObjects();
+            _ecfAdd = false;
+            ListeECF_Competences liste = new ListeECF_Competences();
             liste.ShowDialog();
+
+            ActualiseAffichage(_ecfCourant);
+            //cbECF.SelectedItem = _ecfCourant;
+            afficheECF(_ecfCourant);
         }
 
         private void btMoins_Click(object sender, RoutedEventArgs e)
@@ -189,6 +206,7 @@ namespace ApplicationENI.Vue
 
         private void btDelete_Click(object sender, RoutedEventArgs e)
         {
+            //TODO confirmer la suppression
             ECFDAL.supprimerECF(_ecfCourant);
 
             RAZ();
@@ -199,6 +217,5 @@ namespace ApplicationENI.Vue
         {
             _ecfCourant = ECFDAL.getECF(_ecfCourant);
         }
-
     }
 }
