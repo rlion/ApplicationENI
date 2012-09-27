@@ -3,83 +3,82 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ApplicationENI.Modele;
+using System.Data.SqlClient;
 
 namespace ApplicationENI.DAL
 {
     class CompetencesDAL
     {
         //TODO Mat
-        static String SELECT_COMPETENCES = "SELECT * FROM  WHERE ";
-        static String INSERT_COMPETENCE = "INSERT INTO  VALUES (@id, @date, @nom_auteur, @type, @titre, @texte, @num_stagiaire)";
-        static String DELETE_COMPETENCE = "DELETE FROM WHERE ";
-        static String UPDATE_COMPETENCE = "UPDATE  SET WHERE ";
+        static String SELECT_COMPETENCES = "SELECT * FROM COMPETENCES";
+        static String DELETE_COMPETENCE = "DELETE FROM COMPETENCES WHERE idCompetence=@id";
+        static String SELECT_MAX = "SELECT MAX(idCompetence) FROM COMPETENCES";
+
+        //static String UPDATE_COMPETENCE = "UPDATE SET WHERE ";
+
+        static String INSERT_COMP = "INSERT INTO COMPETENCES (idCompetence, code, libelle) VALUES (@id, @code, @libelle)";
 
         public static List<Competence> getListCompetences()
         {
-            // à reprendre quand il y aura la base...
+            List<Competence> lesCompetences = new List<Competence>();
 
+            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            SqlCommand cmd = new SqlCommand(SELECT_COMPETENCES, connexion);
+            SqlDataReader reader = cmd.ExecuteReader();
 
-            /*SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(SELECT_ECFs, connexion);
-            //cmd.Parameters.AddWithValue("@num_stagiaire", pStg._id);
-
-            SqlDataReader reader = cmd.ExecuteReader();            
-            
-            while(reader.Read()) 
+            while (reader.Read())
             {
-                ECF ecfTemp = new ECF();
-                ecfTemp.Id = reader.GetGuid(reader.GetOrdinal("id"));
-                ecfTemp.Libelle = reader.GetGuid(reader.GetOrdinal("libelle"));
-                ADD...   
-             }*/
+                Competence compTemp = new Competence();
+                compTemp.Id = reader.GetString(reader.GetOrdinal("idCompetence")).Trim();
+                compTemp.Code = reader.GetString(reader.GetOrdinal("code")).Trim();
+                compTemp.Libelle = reader.GetString(reader.GetOrdinal("libelle")).Trim();
+                               
+                lesCompetences.Add(compTemp);
+            }
+            connexion.Close();
 
-            return DAL.JeuDonnees.GetListCompetence();
+            return lesCompetences;
+            //return DAL.JeuDonnees.GetListCompetence();
         }
 
         public static void ajouterCompetence(Competence comp)
         {
+            //Récup de l'id max dans la table COMPETENCES
+            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            SqlCommand cmd = new SqlCommand(SELECT_MAX, connexion);
+            SqlDataReader reader = cmd.ExecuteReader();
+            String idMaxCompetence = "0";
+            if (reader.Read()) idMaxCompetence = reader.GetString(0).Trim();
+            comp.Id=(Convert.ToInt32(idMaxCompetence) + 1).ToString();
+            connexion.Close();
 
-            //Parametres.Instance.stagiaire.listeObservations.Add(o);
-            // test d'ajout dans la base de données bidon
-            /*SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(INSERT_OBSERVATION, connexion);
-            cmd.Parameters.AddWithValue("@id", Guid.NewGuid());  
-            cmd.Parameters.AddWithValue("@date", DateTime.Now);
-			cmd.Parameters.AddWithValue("@nom_auteur", o._nomAuteur);
-			cmd.Parameters.AddWithValue("@type", o._type);
-			cmd.Parameters.AddWithValue("@titre", o._titre);
-			cmd.Parameters.AddWithValue("@texte", o._texte);
-			cmd.Parameters.AddWithValue("@num_stagiaire", o._stagiaire._id);
-	
+            //Création de la competence
+            connexion = ConnexionSQL.CreationConnexion();
+            cmd = new SqlCommand(INSERT_COMP, connexion);
+
+            cmd.Parameters.AddWithValue("@id", comp.Id);
+            cmd.Parameters.AddWithValue("@code", comp.Code);
+            cmd.Parameters.AddWithValue("@libelle", comp.Libelle);
+
             cmd.ExecuteReader();
-            connexion.Close();*/
+            connexion.Close();
         }
 
         public static void modifierCompetence(Competence comp)
         {
-            // test de modification dans la base de données bidon
-            /*SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(UPDATE_OBSERVATION, connexion);
-            cmd.Parameters.AddWithValue("@date", DateTime.Now);
-			cmd.Parameters.AddWithValue("@nom_auteur", o._nomAuteur);
-			cmd.Parameters.AddWithValue("@type", o._type);
-			cmd.Parameters.AddWithValue("@titre", o._titre);
-			cmd.Parameters.AddWithValue("@texte", o._texte);
-			cmd.Parameters.AddWithValue("@num_observation", o._id);
-
-            cmd.ExecuteReader();
-            connexion.Close();*/
+            //TODO?
         }
 
         public static void supprimerCompetence(Competence comp)
         {
-            // test de suppression dans la base de données bidon
-            /*SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(DELETE_OBSERVATION, connexion);
-            cmd.Parameters.AddWithValue("@num_observation", o._id);  // il faut modifier tout ça
+            //Suppr d'une competence
+            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            SqlCommand cmd = new SqlCommand(DELETE_COMPETENCE, connexion);
+
+            cmd.Parameters.AddWithValue("@id", comp.Id);
 
             cmd.ExecuteReader();
-            connexion.Close();*/
+            connexion.Close();
         }
     }
 }
