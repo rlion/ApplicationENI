@@ -20,6 +20,14 @@ namespace ApplicationENI.Vue.PopUp
     /// </summary>
     public partial class AjoutECF_Competence : Window
     {
+        private bool _ecfAdd; //si true on est en train d'ajouter un ECF sinon une Competence
+
+        public bool ECFAdd1
+        {
+            get { return _ecfAdd; }
+            set { _ecfAdd = value; }
+        }
+        
         private ECF _ECF = null;
         private Competence _competence = null;
         public ECF ECF
@@ -36,74 +44,58 @@ namespace ApplicationENI.Vue.PopUp
         public AjoutECF_Competence()
         {
             InitializeComponent();
-
-            if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).cbECF.SelectedItem == null)
+            if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfAdd)
             {
-                rbAddCompetence.IsEnabled = false;
-                rbAddECF.IsChecked = true;
+                _ecfAdd = true;
+                Title = "Ajout d'un ECF";
             }
+            else
+            {
+                _ecfAdd = false;
+                Title = "Ajout d'une compétence";
+            }
+            tbCode.Focus();
         }
 
         private void btAnnuler_Click(object sender, RoutedEventArgs e)
         {
-            if (rbAddECF.IsChecked == false && rbAddCompetence.IsChecked == false)
+            if (tbCode.Text.Trim() == "" && tbLibelle.Text.Trim() == "")
             {
                 this.Close();
                 return;
-            }
-            
-            rbAddCompetence.IsChecked = false;
-            rbAddECF.IsChecked = false;
+            }            
             tbCode.Text = "";
             tbLibelle.Text = "";
-            lbCode.IsEnabled = false;
-            lbLibelle.IsEnabled = false;
-            tbCode.IsEnabled = false;
-            tbLibelle.IsEnabled = false;
-
-            if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).cbECF.SelectedItem == null)
-            {
-                rbAddCompetence.IsEnabled = false;
-            }
         }
 
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
+            String message = "";
+
             if (tbCode.Text.Trim() != "" && tbCode.Text.Trim() != "")
             {
-                if (rbAddECF.IsChecked == true)
+                if (_ecfAdd==true)
                 {
                     _competence = null;
                     _ECF = new ECF((tbCode.Text.Trim()).ToUpper(), tbCode.Text.Trim());
-                    ECFDAL.ajouterECF(_ECF);
+                    message=ECFDAL.ajouterECF(_ECF);                    
                 }
-
-                if (rbAddCompetence.IsChecked == true)
+                else
                 {
                     _ECF = null;
                     _competence = new Competence((tbCode.Text.Trim()).ToUpper(), tbCode.Text.Trim());
-                    CompetencesDAL.ajouterCompetence(_competence);
+                    message = CompetencesDAL.ajouterCompetence(_competence);
                 }
-                this.Close();
+
+                if (message.Trim() != "")
+                {
+                    MessageBox.Show(message);
+                }
+                else
+                {
+                    this.Close();
+                }
             }
-        }
-
-        private void rbAddECF_Checked(object sender, RoutedEventArgs e)
-        {
-            lbCode.IsEnabled = true;
-            lbLibelle.IsEnabled = true;
-            tbCode.IsEnabled = true;
-            tbLibelle.IsEnabled = true;
-        }
-
-        private void rbAddCompetence_Checked(object sender, RoutedEventArgs e)
-        {
-            lbCode.IsEnabled = true;
-            lbLibelle.IsEnabled = true;
-            tbCode.IsEnabled = true;
-            tbLibelle.IsEnabled = true;
-
-            tbCode.Focus();
         }
     }
 }
