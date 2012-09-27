@@ -71,12 +71,10 @@ namespace ApplicationENI.Vue
                 datePickerDateDebut.Text = abs._dateDebut.ToString();
                 datePickerDateFin.Text = abs._dateFin.ToString();
                 txtHeureDeb.Text = abs._dateDebut.ToString("HH");
-                txtMinuteDeb.Text = abs._dateDebut.Minute.ToString();
-                txtHeureFin.Text = abs._dateFin.Hour.ToString();
-                txtMinuteFin.Text = abs._dateFin.Minute.ToString();
+                txtMinuteDeb.Text = abs._dateDebut.ToString("mm");
+                txtHeureFin.Text = abs._dateFin.ToString("HH");
+                txtMinuteFin.Text = abs._dateFin.ToString("mm");
                 checkBoxValide.IsChecked = abs._valide;
-                //TODO: Il y a un soucis de conception, il n'y a pas d'attribut permettant de déterminer si c'est une abs ou un ret (se fier uniquement aux dates et heures ne semble pas judicieux).
-                //radioButtonAbsence.IsChecked = abs.
                 textBoxCommentaire.Text = abs._commentaire;
                 textBoxRaison.Text = abs._raison;
                 if (abs._isAbsence == true)
@@ -96,6 +94,10 @@ namespace ApplicationENI.Vue
                 textBoxRaison.IsEnabled = false;
                 radioButtonAbsence.IsEnabled = false;
                 radioButtonRetard.IsEnabled = false;
+                txtHeureDeb.IsEnabled = false;
+                txtHeureFin.IsEnabled = false;
+                txtMinuteDeb.IsEnabled = false;
+                txtMinuteFin.IsEnabled = false;
             }
         }
 
@@ -108,6 +110,10 @@ namespace ApplicationENI.Vue
             textBoxRaison.IsEnabled = true;
             radioButtonAbsence.IsEnabled = true;
             radioButtonRetard.IsEnabled = true;
+            txtHeureDeb.IsEnabled = true;
+            txtHeureFin.IsEnabled = true;
+            txtMinuteDeb.IsEnabled = true;
+            txtMinuteFin.IsEnabled = true;
         }
 
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
@@ -120,11 +126,12 @@ namespace ApplicationENI.Vue
         {
             if (VerificationSaisie())
             {
+                // TODO: bug dans la saisie de l'heure due au format des minutes ("7" au lieu de "07") ce qui fait que le nombre concaténé est plus petit que l'autre alors que l'heure est plus tardive...
                 String raison, commentaire, dateDebut, dateFin;
                 int heureDeb, minuteDeb, heureFin, minuteFin;
                 bool valide, absence, retard;
                 dateDebut = datePickerDateDebut.Text;
-                dateFin = datePickerDateDebut.Text;
+                dateFin = datePickerDateFin.Text;
                 raison = textBoxRaison.Text;
                 commentaire = textBoxCommentaire.Text;
                 heureDeb = int.Parse(txtHeureDeb.Text);
@@ -146,7 +153,7 @@ namespace ApplicationENI.Vue
 
 
             // vérifications sur la présence des informations
-            if ((datePickerDateDebut.Text == null || txtHeureDeb.Text == "") || (txtHeureFin.Text == null || txtHeureFin.Text == ""))
+            if ((datePickerDateDebut.Text == null || txtHeureDeb.Text == "") || (txtHeureFin.Text == null || txtHeureFin.Text == "")) 
             {
                 MessageBox.Show("Veuillez vérifier les horaires saisis", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
@@ -183,6 +190,18 @@ namespace ApplicationENI.Vue
                 return false;
             }
 
+            if (!verifierInterval(0, 23, int.Parse(txtHeureDeb.Text)) || !verifierInterval(0, 23, int.Parse(txtHeureFin.Text)))
+            {
+                MessageBox.Show("Les heures saisies doivent être comprises entre 0 et 23.", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (!verifierInterval(0, 59, int.Parse(txtMinuteDeb.Text)) || !verifierInterval(0, 59, int.Parse(txtMinuteFin.Text)))
+            {
+                MessageBox.Show("Les minutes saisies doivent être comprises entre 0 et 59.", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
             // On vérifie que l'heure de fin est postérieur à l'heure de début uniquement si la date de début est la même que la date de fin.
             if (dateDebut == dateFin)
             {
@@ -193,6 +212,39 @@ namespace ApplicationENI.Vue
                 }
             }
             return retour;
+        }
+
+        private void btnAnnuler_Click(object sender, RoutedEventArgs e)
+        {
+            this.gbDetailAbsenceRetard.Visibility = Visibility.Visible;
+            Absence abs = (Absence)dataGridListeAbsences.SelectedItem;
+            datePickerDateDebut.Text = abs._dateDebut.ToString();
+            datePickerDateFin.Text = abs._dateFin.ToString();
+            txtHeureDeb.Text = abs._dateDebut.ToString("HH");
+            txtMinuteDeb.Text = abs._dateDebut.Minute.ToString();
+            txtHeureFin.Text = abs._dateFin.Hour.ToString();
+            txtMinuteFin.Text = abs._dateFin.Minute.ToString();
+            checkBoxValide.IsChecked = abs._valide;
+            textBoxCommentaire.Text = abs._commentaire;
+            textBoxRaison.Text = abs._raison;
+            if (abs._isAbsence == true)
+            {
+                radioButtonAbsence.IsChecked = true;
+            }
+            else
+            {
+                radioButtonRetard.IsChecked = true;
+            }
+        }
+
+        private bool verifierInterval(int pFrom, int pTo, int pNombre) {
+            if (pNombre >= pFrom && pNombre <= pTo)
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
 
     }

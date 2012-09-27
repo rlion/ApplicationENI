@@ -93,8 +93,8 @@ namespace ApplicationENI.DAL
 
         public static List<Absence> GetListeAbsence()
         {
-            Absence a = new Absence("réveil qu'a pas sonné", "Le stagiaire semble sincère", "mperet", DateTime.Now, DateTime.Now, new TimeSpan(1000), false, Parametres.Instance.stagiaire, true);
-            Absence a2 = new Absence("panne d'oreiller", "il est 15h00", "mperet", DateTime.Now, DateTime.Now, new TimeSpan(1000), false, Parametres.Instance.stagiaire, true);
+            Absence a = new Absence("réveil qu'a pas sonné", "Le stagiaire semble sincère", "mperet", DateTime.Now, DateTime.Now.AddMinutes(25), DateTime.Now.AddMinutes(25)-DateTime.Now, false, Parametres.Instance.stagiaire, false);
+            Absence a2 = new Absence("panne d'oreiller", "il est 15h00", "mperet", DateTime.Now, DateTime.Now.AddDays(1), DateTime.Now.AddDays(1) - DateTime.Now, false, Parametres.Instance.stagiaire, true);
             List<Absence> listeAbs = new List<Absence>();
             listeAbs.Add(a);
             listeAbs.Add(a2);

@@ -23,7 +23,6 @@ namespace ApplicationENI.Vue
     {
         // 0 : rien ou modif
         // 1 : ajout
-
         static int flag_mode_saisie = 0;
         private CtrlGestionObservations ctrl = new CtrlGestionObservations();
         private Stagiaire stgEnCours = Parametres.Instance.stagiaire;

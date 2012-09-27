@@ -62,10 +62,15 @@ namespace ApplicationENI.Vue
                 if(i - 4 == 0) {
                     i = 0;
                     j+=2;
-                } 
-                
-                gridTrombi.ColumnDefinitions.Add(new ColumnDefinition());
-                gridTrombi.RowDefinitions.Add(new RowDefinition());
+                }
+
+                ColumnDefinition testColumn = new ColumnDefinition();
+                testColumn.Width = new GridLength(140);
+                RowDefinition testRow = new RowDefinition();
+                testRow.Height = new GridLength(120);
+
+                gridTrombi.ColumnDefinitions.Add(testColumn);
+                gridTrombi.RowDefinitions.Add(testRow);
                 gridTrombi.Width = 1000;
                 //gridTrombi.Height = 1000;
 
@@ -79,8 +84,8 @@ namespace ApplicationENI.Vue
                 //BitmapImage img = new BitmapImage(new Uri(@"..\Images\1.jpg"));
                 //@"..\Images\info.png"
                 image.Source = img;
-                image.Width = 100;
-                image.Height = 120;
+                /*image.Width = 100;
+                image.Height = 120;*/
                 image.Stretch = Stretch.Uniform;
                 
                 TextBox txtBoxTest = new TextBox();
@@ -95,6 +100,12 @@ namespace ApplicationENI.Vue
                 txtBoxTest.SetValue(Grid.RowProperty, j+1);
                 //image.SetValue(Panel.ZIndexProperty, 1);
                 gridTrombi.Children.Add(image);
+
+                // redéfinition de la hauteur de ligne pour le nom du stagiaire
+                RowDefinition testRowNomStagiaire = new RowDefinition();
+                testRowNomStagiaire.Height = new GridLength(30);
+
+                gridTrombi.RowDefinitions.Add(testRowNomStagiaire);
                 gridTrombi.Children.Add(txtBoxTest);
 
                 i += 1;

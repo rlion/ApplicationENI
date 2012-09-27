@@ -7,7 +7,7 @@
     <Grid>
         <Grid Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
             <GroupBox Header="Liste des absences et retards" Height="125" HorizontalAlignment="Left" Margin="13,0,0,0" Name="gbListeAbsenceRetards" VerticalAlignment="Top" Width="558">
-                <DataGrid AutoGenerateColumns="False" Name="dataGridListeAbsences" SelectionChanged="dataGridListeAbsences_SelectionChanged" CanUserAddRows="False">
+                <DataGrid AutoGenerateColumns="False" Name="dataGridListeAbsences" SelectionChanged="dataGridListeAbsences_SelectionChanged" CanUserAddRows="False" CanUserDeleteRows="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Date début" Binding="{Binding _dateDebut}" Width="35*" />
                         <DataGridTextColumn Header="Date fin" Binding="{Binding _dateFin}" Width="35*" />
@@ -35,7 +35,7 @@
                 <Button Content="Modifier" Height="23" HorizontalAlignment="Left" Margin="35,199,0,0" Name="btnModifier" VerticalAlignment="Top" Width="75" Click="btnModifier_Click" />
                     <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="116,199,0,0" Name="btnSupprimer" VerticalAlignment="Top" Width="75" Click="btnSupprimer_Click" />
                     <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="197,199,0,0" Name="btnEnregistrer" VerticalAlignment="Top" Width="75" Click="btnEnregistrer_Click" />
-                    <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="278,199,0,0" Name="btnAnnuler" VerticalAlignment="Top" Width="75" />
+                    <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="278,199,0,0" Name="btnAnnuler" VerticalAlignment="Top" Width="75" Click="btnAnnuler_Click" />
                     <Label Content="Heure début : " Height="28" Margin="321,8,0,0" Name="label8" VerticalAlignment="Top" HorizontalAlignment="Left" Width="86" />
                     <TextBox Height="20" HorizontalAlignment="Left" Margin="400,10,0,0" Name="txtHeureDeb" VerticalAlignment="Top" Width="33" />
                     <TextBox Height="20" HorizontalAlignment="Left" Margin="441,10,0,0" Name="txtMinuteDeb" VerticalAlignment="Top" Width="33" />
