@@ -46,9 +46,19 @@ namespace ApplicationENI.Modele
         }
         #endregion
 
+        //Surcharge
         public override string ToString()
         {
             return _code + " - " + _libelle;
+        }
+        public override bool Equals(object obj)
+        {
+            bool b = false;
+            if (this.Id == ((Competence)obj).Id && this.Code == ((Competence)obj).Code && this.Libelle == ((Competence)obj).Libelle)
+            {
+                b = true;
+            }
+            return b;
         }
     }
 }
