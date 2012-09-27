@@ -25,49 +25,34 @@ namespace ApplicationENI.Vue
     {
         private List<ECF> _listeECF = null;
         private ECF _ecfCourant = null;
+        private bool _modif = false;
 
         public GestionECF()
         {
             InitializeComponent();
+            ActualiseAffichage(null);
+        }
 
+        private void ActualiseAffichage(ECF pECFCourant){
+            //recup de la liste d'ECF
             _listeECF = ECFDAL.getListECFs();
-
-            //_listeECF = DAL.JeuDonnees.GetListECF();
-            //foreach (ECF ecf in _listeECF)
-            //{
-            //    cbECF.Items.Add(ecf);
-            //}
+            //peuplement de la combobox
+            cbECF.Items.Clear();
+            foreach (ECF ecf in _listeECF)
+            {
+                cbECF.Items.Add(ecf);
+            }
+            //affichage de l'ECF en cours
+            //afficheECF(pECFCourant);
         }
         
-        private void radioButton1_Checked(object sender, RoutedEventArgs e)
-        {
-            //?
-        }
-
         private void slVersion_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            //ActualiseAffichage dans le label correspondant du nombre de version du slider
             if (this.lbNbVersions!=null)
             {
                 this.lbNbVersions.Content = slVersion.Value;
             }    
-        }
-
-        //private void Grid_Loaded(object sender, RoutedEventArgs e)
-        //{
-            //StreamReader fileReader = new StreamReader(System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..\ressources\competences.txt"));
-            //String stringReader = "";
-
-            //while (!(fileReader.EndOfStream))
-            //{
-            //    stringReader = fileReader.ReadLine();
-            //    lbCompetences.Items.Add(stringReader);
-            //}
-            //fileReader.Close();        
-        //}
-
-        private void image1_ImageFailed(object sender, RoutedEventArgs e)
-        {
-            //?
         }
 
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -76,34 +61,34 @@ namespace ApplicationENI.Vue
             afficheECF(_ecfCourant);
         }
 
-        private void afficheECF(ECF pECF)
+        private void RAZ()
         {
-            //code, libelle, coefficient, notationNumerique, nbreVersion, commentaire, competences
-            //cbECF.SelectedIndex=0;
+            //RAZ
             tbLibECF.Text = "";
             rbNumerique.IsChecked = true;
             slVersion.Value = 1;
-            lbCompetences.ItemsSource = null;    
+            lbCompetences.ItemsSource = null;
             tbCommECF.Text = "";
+        }
 
+        private void afficheECF(ECF pECF)
+        {
+            RAZ();
+
+            //si pas d'ECF selectionné on ne peut pas ajouter de competence
             if (pECF == null)
             {
                 return;
             }
             else
             {
-                btAdd.IsEnabled = true;
+                btPlus.IsEnabled = true;
             }
 
-
-            //code
-            //if (cbECF.Text != pECF.ToString()) cbECF.Text = pECF.ToString();
-
+            //AFFICHAGE
             //libelle
             tbLibECF.Text = pECF.Libelle;
-
             //TODO MAT coeff
-
             //type de notation
             if (pECF.NotationNumerique)
             {
@@ -113,64 +98,107 @@ namespace ApplicationENI.Vue
             {
                 rbAcquisition.IsChecked = true;
             }
-
             //Nbre versions
             slVersion.Value = pECF.NbreVersion;
-
             //commentaire
             tbCommECF.Text = pECF.Commentaire;
-
             //competences
+            lbCompetences.ItemsSource = null;
+            lbCompetences.Items.Clear();
             lbCompetences.ItemsSource = pECF.Competences;
-
-
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void btAdd_Click(object sender, RoutedEventArgs e)
         {
             AjoutECF_Competence popUp = new AjoutECF_Competence();
             popUp.ShowDialog();
 
             if (popUp.ECF != null)
             {
-                _listeECF.Add(popUp.ECF);
-                _ecfCourant = popUp.ECF;
-                //cbECF.ItemsSource = null;
-                cbECF.Items.Clear();
-                foreach (ECF ecf in _listeECF)
-                {
-                    cbECF.Items.Add(ecf);
-                }
-                cbECF.SelectedItem = popUp.ECF;                               
+                _ecfCourant = popUp.ECF; 
+                _listeECF.Add(_ecfCourant);
+                ////cbECF.ItemsSource = null;
+                //cbECF.Items.Clear();
+                //foreach (ECF ecf in _listeECF)
+                //{
+                //    cbECF.Items.Add(ecf);
+                //}
+                ActualiseAffichage(_ecfCourant);
+                cbECF.SelectedItem = _ecfCourant;                               
             }
             if (popUp.Competence != null)
             {
-                if (_ecfCourant.Competences == null) _ecfCourant.Competences = new List<Competence>();
-                _ecfCourant.Competences.Add(popUp.Competence);
-                afficheECF(_ecfCourant);                
+                //if (_ecfCourant.Competences == null) _ecfCourant.Competences = new List<Competence>();
+                //_ecfCourant.Competences.Add(popUp.Competence);
+
+                //ActualiseAffichage(null);
+                //afficheECF(_ecfCourant);                
             }
         }
-
-        private void btDel_Click(object sender, RoutedEventArgs e)
-        {
-            foreach  (Competence comp in lbCompetences.SelectedItems)
-	        {
-		        _ecfCourant.Competences.Remove(comp);
-	        }
-            afficheECF(_ecfCourant);
-        }
-
+        
         private void lbCompetences_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (lbCompetences.SelectedItems.Count > 0)
             {
-                btDel.IsEnabled = true;
+                btMoins.IsEnabled = true;
             }
             else
             {
-                btDel.IsEnabled = false;
+                btMoins.IsEnabled = false;
             }
         }
-    
+
+        private void btSave_Click(object sender, RoutedEventArgs e)
+        {
+            _ecfCourant.Libelle = tbLibECF.Text.Trim();
+            _ecfCourant.NbreVersion = (int)slVersion.Value;
+            _ecfCourant.NotationNumerique = false;
+            if (rbNumerique.IsChecked == true)
+            {
+                _ecfCourant.NotationNumerique = true;
+            }
+            _ecfCourant.Commentaire = tbCommECF.Text.Trim();
+
+            RAZ();
+            ActualiseAffichage(null);
+
+            //List<Competence> lesCompTemp = new List<Competence>();
+            //foreach (Competence compTemp in lbCompetences.Items)
+            //{
+            //    lesCompTemp.Add(compTemp);
+            //}
+            //_ecfCourant.Competences = lesCompTemp;
+            //ECFDAL.modifierECF(_ecfCourant);          
+        }
+
+        private void btPlus_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO Liste avec suppression ou ajout a l ecf
+            AvailablePresentationObjects liste = new AvailablePresentationObjects();
+            liste.ShowDialog();
+        }
+
+        private void btMoins_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Competence comp in lbCompetences.SelectedItems)
+            {
+                _ecfCourant.Competences.Remove(comp);
+            }
+            afficheECF(_ecfCourant);
+        }
+
+        private void btDelete_Click(object sender, RoutedEventArgs e)
+        {
+            ECFDAL.supprimerECF(_ecfCourant);
+
+            RAZ();
+            ActualiseAffichage(null);
+        }
+
+        private void btCancel_Click(object sender, RoutedEventArgs e)
+        {
+            _ecfCourant = ECFDAL.getECF(_ecfCourant);
+        }
+
     }
 }

@@ -10,10 +10,10 @@
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="141,29,0,0" Name="cbECF" VerticalAlignment="Top" Width="206" Text="" DataContext="{Binding}" SelectionChanged="cbECF_SelectionChanged"></ComboBox>
 
             <TextBox Height="23" HorizontalAlignment="Left" Margin="141,63,0,0" Name="tbLibECF" VerticalAlignment="Top" Width="206" Text="" />
-        <TextBox Margin="50,347,0,0" Name="tbCommECF" Text="commentaire" Height="62" VerticalAlignment="Top" HorizontalAlignment="Left" Width="514" />
+        <TextBox Margin="50,347,0,0" Name="tbCommECF" Text="" Height="62" VerticalAlignment="Top" HorizontalAlignment="Left" Width="514" />
         <GroupBox Header="Type notation" Height="89" HorizontalAlignment="Left" Margin="403,25,0,0" Name="gbNotation" VerticalAlignment="Top" Width="167">
             <Grid>
-                <RadioButton Content="numérique" Height="16" HorizontalAlignment="Left" Margin="10,10,0,0" Name="rbNumerique" VerticalAlignment="Top" Checked="radioButton1_Checked" IsChecked="True" />
+                <RadioButton Content="numérique" Height="16" HorizontalAlignment="Left" Margin="10,10,0,0" Name="rbNumerique" VerticalAlignment="Top" IsChecked="True" />
                 <RadioButton Content="acquisition" Height="16" HorizontalAlignment="Left" Margin="10,32,0,0" Name="rbAcquisition" VerticalAlignment="Top" />
             </Grid>
         </GroupBox>
@@ -23,11 +23,11 @@
         <Label Content="Nb Version(s) :" Height="28" HorizontalAlignment="Left" Margin="22,97,0,0" Name="lbNbVersionECF" VerticalAlignment="Top" Width="113" HorizontalContentAlignment="Right" />
         <ListBox Height="195" HorizontalAlignment="Left" Margin="50,146,0,0" Name="lbCompetences" VerticalAlignment="Top" Width="514" ItemsSource="{Binding}" SelectionMode="Multiple" SelectionChanged="lbCompetences_SelectionChanged" />
         <Label Content="1" Height="28" HorizontalAlignment="Left" Margin="141,97,0,0" Name="lbNbVersions" VerticalAlignment="Top" />
-        <Button Content="Créer" Height="23" HorizontalAlignment="Left" Margin="219,425,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="button1_Click" />
-        <Button Content="Modifier" Height="23" HorizontalAlignment="Left" Margin="306,425,0,0" Name="button2" VerticalAlignment="Top" Width="75" />
-        <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="392,425,0,0" Name="button3" VerticalAlignment="Top" Width="75" />
-        <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="479,425,0,0" Name="button4" VerticalAlignment="Top" Width="75" />
-        <Button Content="+" Height="23" HorizontalAlignment="Left" Margin="591,146,0,0" Name="btAdd" VerticalAlignment="Top" Width="27" IsEnabled="False" />
-        <Button Content="-" Height="23" HorizontalAlignment="Left" Margin="591,175,0,0" Name="btDel" VerticalAlignment="Top" Width="27" Click="btDel_Click" IsEnabled="False" />
+        <Button Content="Ajouter ECF/Compétence" Height="23" HorizontalAlignment="Left" Margin="141,425,0,0" Name="btAdd1" VerticalAlignment="Top" Width="153" Click="btAdd_Click" />
+        <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="306,425,0,0" Name="btSave" VerticalAlignment="Top" Width="75" Click="btSave_Click" />
+        <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="392,425,0,0" Name="btDelete" VerticalAlignment="Top" Width="75" Click="btDelete_Click" />
+        <Button Content="Annuler" Height="23" Margin="479,425,0,0" Name="btCancel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75" Click="btCancel_Click" />
+        <Button Content="+" Height="23" HorizontalAlignment="Left" Margin="591,146,0,0" Name="btPlus" VerticalAlignment="Top" Width="27" IsEnabled="False" Click="btPlus_Click" />
+        <Button Content="-" Height="23" HorizontalAlignment="Left" Margin="591,175,0,0" Name="btMoins" VerticalAlignment="Top" Width="27" Click="btMoins_Click" IsEnabled="False" />
     </Grid>
 </UserControl>
