@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ApplicationENI.Modele;
+using ApplicationENI.DAL;
 
 namespace ApplicationENI.Vue.PopUp
 {
@@ -68,19 +69,23 @@ namespace ApplicationENI.Vue.PopUp
 
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
-            if (rbAddECF.IsChecked == true)
+            if (tbCode.Text.Trim() != "" && tbCode.Text.Trim() != "")
             {
-                _competence = null;
-                _ECF = new ECF((tbCode.Text.Trim()).ToUpper(), tbCode.Text.Trim()); 
-            }
+                if (rbAddECF.IsChecked == true)
+                {
+                    _competence = null;
+                    _ECF = new ECF((tbCode.Text.Trim()).ToUpper(), tbCode.Text.Trim());
+                    ECFDAL.ajouterECF(_ECF);
+                }
 
-            if (rbAddCompetence.IsChecked ==  true)
-            {
-                _ECF = null;
-                _competence= new Competence((tbCode.Text.Trim()).ToUpper(), tbCode.Text.Trim()); 
+                if (rbAddCompetence.IsChecked == true)
+                {
+                    _ECF = null;
+                    _competence = new Competence((tbCode.Text.Trim()).ToUpper(), tbCode.Text.Trim());
+                    CompetencesDAL.ajouterCompetence(_competence);
+                }
+                this.Close();
             }
-
-            this.Close();
         }
 
         private void rbAddECF_Checked(object sender, RoutedEventArgs e)
