@@ -11,12 +11,13 @@ namespace ApplicationENI.DAL
     {
         //TODO Mat
         static String SELECT_ECF = "SELECT * FROM ECFS WHERE idECF=@id";//, Competences, CompetenceECFS as lien WHERE lien.idECF=ECFs=idECF and lien.idCompetence=Competences.idCompetence order by ECFs.idECF";
-        static String SELECT_ECFS = "SELECT * FROM ECFS";//, Competences, CompetenceECFS as lien WHERE lien.idECF=ECFs=idECF and lien.idCompetence=Competences.idCompetence order by ECFs.idECF";
-        static String SELECT_COMPS = "SELECT COMPETENCES.idCompetence, COMPETENCES.code, COMPETENCES.libelle FROM COMPETENCES, COMPETENCESECF WHERE COMPETENCES.idCompetence=COMPETENCESECF.idCompetence and COMPETENCESECF.idECF=@lienECFComp";
+        static String SELECT_ECFS = "SELECT * FROM ECFS order by code, libelle";//, Competences, CompetenceECFS as lien WHERE lien.idECF=ECFs=idECF and lien.idCompetence=Competences.idCompetence order by ECFs.idECF";
+        static String SELECT_COMPS = "SELECT COMPETENCES.idCompetence, COMPETENCES.code, COMPETENCES.libelle FROM COMPETENCES, COMPETENCESECF WHERE COMPETENCES.idCompetence=COMPETENCESECF.idCompetence and COMPETENCESECF.idECF=@lienECFComp order by COMPETENCES.code, COMPETENCES.libelle";
         static String SELECT_MAX = "SELECT MAX(idECF) FROM ECFS";
+        static String SELECT_CODE = "SELECT * FROM ECFS where code=@code";
 
         static String INSERT_ECF= "INSERT INTO ECFS (idECF, code, libelle) VALUES (@id, @code, @libelle)";
-        static String INSERT_LIEN = "INSERT INTO COMPETENCESECF (idECF, idCompetence) VALUES (@idECF, @idCOmpetence)";
+        static String INSERT_LIEN = "INSERT INTO COMPETENCESECF (idECF, idCompetence) VALUES (@idECF, @idCompetence)";
         
         static String UPDATE_ECF = "UPDATE ECFS SET libelle=@libelleECF,coefficient=@coefficient,typeNotation=@typeNotation,nbreVersions=@nbreVersions,commentaire=@commentaire WHERE idECF=@idECF";
         
@@ -29,7 +30,7 @@ namespace ApplicationENI.DAL
 
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_ECF, connexion);
-            cmd.Parameters.AddWithValue("@id", ecf.Id);
+            cmd.Parameters.AddWithValue("@id", ecf.Id.Trim());
             SqlDataReader reader = cmd.ExecuteReader();
 
             if (reader.Read())
@@ -40,8 +41,12 @@ namespace ApplicationENI.DAL
                 ecfTemp.Libelle = reader.GetString(reader.GetOrdinal("libelle")).Trim();
 
                 if (reader["coefficient"] != DBNull.Value) ecfTemp.Coefficient = reader.GetDouble(reader.GetOrdinal("coefficient"));
-                ecfTemp.NotationNumerique = false;
-                if ((reader["typeNotation"] != DBNull.Value) && (reader.GetInt16(reader.GetOrdinal("typeNotation")) == Ressources.CONSTANTES.NOTATION_NUMERIQUE)) ecfTemp.NotationNumerique = true;
+                ecfTemp.NotationNumerique = true;
+                if ((reader["typeNotation"] != DBNull.Value) && (reader.GetInt16(reader.GetOrdinal("typeNotation")) == Ressources.CONSTANTES.NOTATION_ACQUISITION))
+                {
+                    ecfTemp.NotationNumerique = false;
+                }
+
                 if (reader["nbreVersions"] != DBNull.Value) ecfTemp.NbreVersion = reader.GetInt32(reader.GetOrdinal("nbreVersions"));
                 if (reader["commentaire"] != DBNull.Value) ecfTemp.Commentaire = reader.GetString(reader.GetOrdinal("commentaire")).Trim();
 
@@ -86,8 +91,11 @@ namespace ApplicationENI.DAL
                 ecfTemp.Libelle = reader.GetString(reader.GetOrdinal("libelle")).Trim();
                 
                 if (reader["coefficient"] != DBNull.Value) ecfTemp.Coefficient = reader.GetDouble(reader.GetOrdinal("coefficient"));
-                ecfTemp.NotationNumerique = false;
-                if ((reader["typeNotation"] != DBNull.Value) && (reader.GetInt16(reader.GetOrdinal("typeNotation")) == Ressources.CONSTANTES.NOTATION_NUMERIQUE)) ecfTemp.NotationNumerique = true;
+                ecfTemp.NotationNumerique = true;
+                if ((reader["typeNotation"] != DBNull.Value) && (reader.GetInt16(reader.GetOrdinal("typeNotation")) == Ressources.CONSTANTES.NOTATION_ACQUISITION))
+                {
+                    ecfTemp.NotationNumerique = false;
+                }    
                 if (reader["nbreVersions"] != DBNull.Value) ecfTemp.NbreVersion = reader.GetInt32(reader.GetOrdinal("nbreVersions"));
                 if (reader["commentaire"] != DBNull.Value) ecfTemp.Commentaire = reader.GetString(reader.GetOrdinal("commentaire")).Trim();
 
@@ -116,27 +124,41 @@ namespace ApplicationENI.DAL
             //return DAL.JeuDonnees.GetListECF();
         }
 
-        public static void ajouterECF(ECF ecf)
+        public static String ajouterECF(ECF ecf)
         {
-            //Récup de l'id max dans la table ECFS
+            //Verifier que ce code n'existe pas deja dans la base
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(SELECT_MAX, connexion);
+            SqlCommand cmd = new SqlCommand(SELECT_CODE, connexion);
+            cmd.Parameters.AddWithValue("@code", ecf.Code.Trim());
             SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                connexion.Close(); 
+                return "Ce code et déjà utilisé par un autre ECF";
+            }            
+            connexion.Close();
+            
+            //Récup de l'id max dans la table ECFS
+            connexion = ConnexionSQL.CreationConnexion();
+            cmd = new SqlCommand(SELECT_MAX, connexion);
+            reader = cmd.ExecuteReader();
             String idMaxECF="0";
             if (reader.Read()) idMaxECF = reader.GetString(0).Trim();
-            ecf.Id = (Convert.ToInt32(idMaxECF) + 1).ToString();
+            ecf.Id = (Convert.ToInt32(idMaxECF) + 1).ToString().Trim();
             connexion.Close();
 
             //Création de l'ECF
             connexion = ConnexionSQL.CreationConnexion();
             cmd = new SqlCommand(INSERT_ECF, connexion);
 
-            cmd.Parameters.AddWithValue("@id", ecf.Id);
-            cmd.Parameters.AddWithValue("@code", ecf.Code);
-            cmd.Parameters.AddWithValue("@libelle", ecf.Libelle);
+            cmd.Parameters.AddWithValue("@id", ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@code", ecf.Code.Trim());
+            cmd.Parameters.AddWithValue("@libelle", ecf.Libelle.Trim());
 
             cmd.ExecuteReader();
             connexion.Close();
+            
+            return "";
         }
 
         public static void modifierECF(ECF ecf)
@@ -145,7 +167,7 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(UPDATE_ECF, connexion);
 
-            cmd.Parameters.AddWithValue("@idECF", ecf.Id);  
+            cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());  
             cmd.Parameters.AddWithValue("@libelleECF", ecf.Libelle);
 			cmd.Parameters.AddWithValue("@coefficient", ecf.Coefficient);
             int typeNotation = Ressources.CONSTANTES.NOTATION_ACQUISITION;
@@ -158,35 +180,48 @@ namespace ApplicationENI.DAL
             connexion.Close();
 
             //Suppr des liens ECF-Competences
-            connexion = ConnexionSQL.CreationConnexion();
-            cmd = new SqlCommand(DELETE_LIENS, connexion);
-
-            cmd.Parameters.AddWithValue("@idECF", ecf.Id);
-
-            cmd.ExecuteReader();
-            connexion.Close();
+            supprimerLiens(ecf);
 
             //Création des liens ECF-Competences
             foreach (Competence compTemp in ecf.Competences)
             {
-                connexion = ConnexionSQL.CreationConnexion();
-                cmd = new SqlCommand(INSERT_LIEN, connexion);
-
-                cmd.Parameters.AddWithValue("@idECF", ecf.Id);
-                cmd.Parameters.AddWithValue("@idCompetence", compTemp.Id);
-
-                cmd.ExecuteReader();
-                connexion.Close();
+                AjouterLien(ecf, compTemp);
             }
+        }
+
+        public static void AjouterLien(ECF ecf, Competence comp)
+        {
+            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            SqlCommand cmd = new SqlCommand(INSERT_LIEN, connexion);
+
+            cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@idCompetence", comp.Id.Trim());
+
+            cmd.ExecuteReader();
+            connexion.Close();
+        }
+
+        public static void supprimerLiens(ECF ecf)
+        {
+            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            SqlCommand cmd = new SqlCommand(DELETE_LIENS, connexion);
+
+            cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());
+
+            cmd.ExecuteReader();
+            connexion.Close();
         }
 
         public static void supprimerECF(ECF ecf)
         {
+            //Suppr des liens ECF-Competences
+            supprimerLiens(ecf);
+            
             //Suppr d'un ECF
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_ECF, connexion);
 
-            cmd.Parameters.AddWithValue("@id", ecf.Id);
+            cmd.Parameters.AddWithValue("@id", ecf.Id.Trim());
 
             cmd.ExecuteReader();
             connexion.Close();
