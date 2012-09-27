@@ -65,22 +65,25 @@ namespace ApplicationENI.Modele
         public ECF()
         {
             _id = "";
+            _code = "";
             _libelle = "";
             _coefficient = 1;
             _notationNumerique = true;
             _nbreVersion = 1;
             _commentaire = "";
+            _competences = new List<Competence>();
         }
 
         public ECF(String pCode, String pLibelle)
         {
             _id = "";
-            _code = pCode;
-            _libelle = pLibelle;
+            _code = pCode.Trim();
+            _libelle = pLibelle.Trim();
             _coefficient = 1;
             _notationNumerique = true;
             _nbreVersion = 1;
             _commentaire = "";
+            _competences = new List<Competence>();
         }
 
         //public ECF(String pCode, String pLibelle, Boolean pNotationNumerique)
@@ -122,8 +125,8 @@ namespace ApplicationENI.Modele
         public ECF(String pCode, String pLibelle, int pCoeff, Boolean pNotationNumerique, int pNbreVersion, String pCommentaire, List<Competence> pCompetences)
         {
             _id = "";
-            _code = pCode;
-            _libelle = pLibelle;
+            _code = pCode.Trim();
+            _libelle = pLibelle.Trim();
             if (pNotationNumerique)
             {
                 _coefficient = pCoeff;
@@ -160,5 +163,29 @@ namespace ApplicationENI.Modele
             return _code + " - " + _libelle;
         }
 
+        public override bool Equals(object obj)
+        {
+            bool b = false;
+            int i = 0;
+
+            if (this.Id == ((ECF)obj).Id &&
+                this.Code == ((ECF)obj).Code &&
+                this.Libelle == ((ECF)obj).Libelle &&
+                this.Coefficient == ((ECF)obj).Coefficient &&
+                this.NbreVersion == ((ECF)obj).NbreVersion &&
+                this.NotationNumerique == ((ECF)obj).NotationNumerique &&
+                this.Commentaire == ((ECF)obj).Commentaire &&
+                this.Competences.Count() == ((ECF)obj).Competences.Count) b = true;
+
+            if (b) {
+                foreach (Competence comp in ((ECF)obj).Competences)
+                {
+                    if (!comp.Equals(this.Competences[i])) b=false;
+                    i++;
+                }
+            }
+
+            return b;
+        }
     }
 }
