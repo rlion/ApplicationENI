@@ -62,12 +62,17 @@
     <Compile Include="Controleur\CtrlProfilAlertesStagiaire..cs" />
     <Compile Include="Controleur\CtrlTrombinoscope.cs" />
     <Compile Include="DAL\AbsencesDAL.cs" />
-    <Compile Include="DAL\ConnexiionSQL.cs" />
+    <Compile Include="DAL\CompetencesDAL.cs" />
+    <Compile Include="DAL\ConnexionSQL.cs" />
     <Compile Include="DAL\ContactDAL.cs" />
+    <Compile Include="DAL\ECFDAL.cs" />
+    <Compile Include="DAL\EvaluationsDAL.cs" />
+    <Compile Include="DAL\FormationDAL.cs" />
     <Compile Include="DAL\JeuDonnees.cs" />
     <Compile Include="DAL\ObservationsDAL.cs" />
     <Compile Include="DAL\StagiairesDAL.cs" />
     <Compile Include="DAL\TitresDAL.cs" />
+    <Compile Include="instanceFenetre.cs" />
     <Compile Include="Modele\Absence.cs" />
     <Compile Include="Modele\Competence.cs" />
     <Compile Include="Modele\Contact.cs" />
@@ -76,6 +81,7 @@
     <Compile Include="Modele\EpreuveTitre.cs" />
     <Compile Include="Modele\Evaluation.cs" />
     <Compile Include="Modele\Formation.cs" />
+    <Compile Include="Modele\Formations.cs" />
     <Compile Include="Modele\ItemAlerte.cs" />
     <Compile Include="Modele\Jury.cs" />
     <Compile Include="Modele\Observation.cs" />
@@ -83,6 +89,7 @@
     <Compile Include="Modele\Stagiaire.cs" />
     <Compile Include="Modele\Titre.cs" />
     <Compile Include="Parametres.cs" />
+    <Compile Include="Ressources\CONSTANTES.cs" />
     <Compile Include="Vue\AccueilGeneral.xaml.cs">
       <DependentUpon>AccueilGeneral.xaml</DependentUpon>
     </Compile>
@@ -119,6 +126,12 @@
     </Compile>
     <Compile Include="Vue\Planning.xaml.cs">
       <DependentUpon>Planning.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\PopUp\AjoutECF_Competence.xaml.cs">
+      <DependentUpon>AjoutECF_Competence.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\PopUp\ListeECF_Competences.xaml.cs">
+      <DependentUpon>ListeECF_Competences.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vue\ProfilAlertesStagiaire.xaml.cs">
       <DependentUpon>ProfilAlertesStagiaire.xaml</DependentUpon>
@@ -189,6 +202,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Vue\Planning.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vue\PopUp\AjoutECF_Competence.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vue\PopUp\ListeECF_Competences.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
