@@ -56,14 +56,15 @@
                 <TextBox Height="19" HorizontalAlignment="Right" Margin="0,50,115,0" Name="txtPortableTuteur" VerticalAlignment="Top" Width="120" FontSize="11" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Alertes" Height="110" HorizontalAlignment="Left" Name="gbAlertes" VerticalAlignment="Top" Width="586" Margin="6,276,0,0">
+        <GroupBox Header="Alertes" HorizontalAlignment="Left" Name="gbAlertes" VerticalAlignment="Top" Width="586" Margin="6,276,0,0" DataContext="{Binding}">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="46*" />
-                    <ColumnDefinition Width="534*" />
+                    <ColumnDefinition Width="15*" />
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="15*" />
                 </Grid.ColumnDefinitions>
                 <ListView Name="listViewAlerte" Initialized="listViewAlerte_Initialized" 
-                  ItemTemplate="{StaticResource listAlertes}" SelectionChanged="listViewAlerte_SelectionChanged" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,6,0,7" Grid.ColumnSpan="2">
+                  ItemTemplate="{StaticResource listAlertes}" SelectionChanged="listViewAlerte_SelectionChanged" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,6,0,7" Grid.ColumnSpan="3">
                     
                 </ListView>
             </Grid>

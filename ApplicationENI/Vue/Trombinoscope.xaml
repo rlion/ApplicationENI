@@ -11,7 +11,7 @@
             <Grid>
                 <Label Content="Formation : " Height="28" HorizontalAlignment="Left" Margin="4,3,0,0" Name="label1" VerticalAlignment="Top" />
                 <Label Content="Cours : " Height="28" HorizontalAlignment="Left" Margin="297,3,0,0" Name="label2" VerticalAlignment="Top" />
-                <ComboBox Height="23" HorizontalAlignment="Left" Margin="345,6,0,0" Name="cboCours" VerticalAlignment="Top" Width="220"/>
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="345,6,0,0" Name="cboCours" VerticalAlignment="Top" Width="220 " IsEnabled="False" SelectionChanged="cboCours_SelectionChanged" />
                 <ComboBox Height="23" HorizontalAlignment="Left" Margin="77,6,0,0" Name="cboFormation" VerticalAlignment="Top" Width="220" SelectionChanged="cboFormation_SelectionChanged" />
                 <Label Content="Date : " Height="28" HorizontalAlignment="Left" Margin="33,33,0,0" Name="label3" VerticalAlignment="Top" />
                 <DatePicker Height="25" HorizontalAlignment="Left" Margin="77,35,0,0" Name="dateCours" VerticalAlignment="Top" Width="159" />
@@ -19,9 +19,13 @@
             </Grid>
         </GroupBox>
         <GroupBox Header="Trombinosope" HorizontalAlignment="Left" Margin="6,200,0,0" Name="groupBox2" VerticalAlignment="Top" Width="586" Grid.Column="1" Grid.ColumnSpan="2">
-            <Grid Name="gridTrombi">
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid Name="gridTrombi" VerticalAlignment="Center">
+
                 </Grid>
-            
+            </ScrollViewer>
+
         </GroupBox>
         <GroupBox Header="Opérations disponibles" HorizontalAlignment="Left" Margin="6,130,0,0" Name="groupBox3" VerticalAlignment="Top" Width="588" Grid.Column="1" Grid.ColumnSpan="2">
             <Grid>

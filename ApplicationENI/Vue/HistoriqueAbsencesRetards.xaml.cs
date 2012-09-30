@@ -25,7 +25,8 @@ namespace ApplicationENI.Vue
         public HistoriqueAbsencesRetards()
         {
             InitializeComponent();
-            this.dataGridListeAbsences.ItemsSource = ctrl.getListAbsences();
+            dataGridListeAbsences.ItemsSource = ctrl.getListAbsences();
+            dataGridListeAbsences.IsReadOnly = true;
             //gbListeAbsenceRetards.Header = this.dataGridListeAbsences.Items.Count + " Absence(s)/Retard(s) répertorié(s)";
             int compteurAbsences = 0;
             int compteurRetards = 0;
@@ -114,12 +115,16 @@ namespace ApplicationENI.Vue
             txtHeureFin.IsEnabled = true;
             txtMinuteDeb.IsEnabled = true;
             txtMinuteFin.IsEnabled = true;
+            btnEnregistrer.IsEnabled = true;
         }
 
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
         {
-            ctrl.supprimerAbsence((Absence)dataGridListeAbsences.SelectedItem);
-            this.dataGridListeAbsences.Items.Refresh();
+                if (MessageBox.Show("Etes-vous CERTAIN de vouloir supprimer cette absence ?", "Confirmation avant suppression", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    ctrl.supprimerAbsence((Absence)dataGridListeAbsences.SelectedItem);
+                    this.dataGridListeAbsences.Items.Refresh();
+                }
         }
 
         private void btnEnregistrer_Click(object sender, RoutedEventArgs e)

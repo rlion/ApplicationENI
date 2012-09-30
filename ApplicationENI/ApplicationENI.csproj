@@ -70,6 +70,7 @@
     <Compile Include="Controleur\CtrlProfilAlertesStagiaire..cs" />
     <Compile Include="Controleur\CtrlTrombinoscope.cs" />
     <Compile Include="DAL\AbsencesDAL.cs" />
+    <Compile Include="DAL\AlerteDAL.cs" />
     <Compile Include="DAL\CompetencesDAL.cs" />
     <Compile Include="DAL\ConnexionSQL.cs" />
     <Compile Include="DAL\ContactDAL.cs" />

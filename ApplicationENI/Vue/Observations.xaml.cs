@@ -32,7 +32,8 @@ namespace ApplicationENI.Vue
             InitializeComponent();
             flag_mode_saisie = 0;
             
-            this.dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
+            dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
+            dataGridListAbsences.IsReadOnly = true;
             comboBox1.Items.Add("Pédagogique");
             comboBox1.Items.Add("Entreprise");
             comboBox1.Text = "Pédagogique";
@@ -69,6 +70,7 @@ namespace ApplicationENI.Vue
         }
 
         private void btnAjouter_Click(object sender, RoutedEventArgs e) {
+            dataGridListAbsences.UnselectAll();
             flag_mode_saisie = 1;
             //désactiver la sélection sur le datagrid.
             txtBoxTitre.Text = "";
@@ -122,7 +124,7 @@ namespace ApplicationENI.Vue
         {
             if (this.dataGridListAbsences.SelectedItem != null)
             {
-                if(MessageBox.Show("Etes-vous CERTAIN de vouloir supprimer cette observation ?", "Confirmation de suppression", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes){
+                if(MessageBox.Show("Etes-vous CERTAIN de vouloir supprimer cette observation ?", "Confirmation de suppression", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes){
                    ctrl.supprimerObservation(this.dataGridListAbsences.SelectedIndex);
                  dataGridListAbsences.Items.Refresh();                 
                 }

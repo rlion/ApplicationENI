@@ -24,10 +24,6 @@ namespace ApplicationENI.Vue
         public ProfilAlertesStagiaire()
         {
             InitializeComponent();
-        }
-
-        private void listViewAlerte_Initialized(object sender, EventArgs e)
-        {
             CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
             Stagiaire stg = Parametres.Instance.stagiaire;
 
@@ -46,7 +42,7 @@ namespace ApplicationENI.Vue
             txtRep.Text = stg._repertoire;
             //txtTelTuteur = ?
             txtDateNaiss.Text = stg._dateNaissance.ToString();
-            
+
             //informations sur le tuteur du stagiaire
             //txtEntrepriseTuteur = ?
             txtEntrepriseTuteur.Text = "Boucherie Chesnard";
@@ -63,7 +59,17 @@ namespace ApplicationENI.Vue
             //DAL.StagiairesDAL.ajouterStagiaire(stg1);
             //DAL.StagiairesDAL.supprimerStagiaire(stg1);
             //DAL.StagiairesDAL.modifierStagiaire(stg1);
+
+            //TODO: mettre un datagrid pour la liste des alertes ?
+            //TODO: s'il y a vraiment beaucoup d'alarmes, on affiche un message du genre "il y a 5 alarmes de type ECF" -> on pourrait cliquer dessus ensuite pour le détail?
             this.listViewAlerte.ItemsSource = Parametres.Instance.listAlertes;
+            this.listViewAlerte.Items.Refresh();
+            //TODO: on pourrait aussi mettre une listbox sous le datagrid pour afficher les alertes pour une catégorie
+        }
+
+        private void listViewAlerte_Initialized(object sender, EventArgs e)
+        {
+            
         }
         private void listViewAlerte_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

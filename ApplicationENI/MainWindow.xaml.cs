@@ -20,8 +20,8 @@ namespace ApplicationENI
             Contact tuteur = new Contact("Jones", "Indiana", "0202020202", "0602020202", "0202020202", "indianajones@gmail.com", "il est sympa", "", "Melle");
             Parametres.Instance.stagiaire = new Stagiaire("Mr.", "Denis", "Choniphroa", "36 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/1.jpg", true, "", tuteur);
             Parametres.Instance.listAlertes = new List<ItemAlerte>();
-            Parametres.Instance.listAlertes.Add(new ItemAlerte(0, "Alerte", "Examen le 23 juin."));
-            Parametres.Instance.listAlertes.Add(new ItemAlerte(3, "Examen", "ECF n° 3 non corrigé."));
+            Parametres.Instance.listAlertes.Add(new ItemAlerte(0, "Examen le 23 juin.", 5));
+            Parametres.Instance.listAlertes.Add(new ItemAlerte(3, "ECF n° 3 non corrigé.", 1));
 
 
             BlurEffect myBlurEffect = new BlurEffect();
@@ -73,7 +73,7 @@ namespace ApplicationENI
             this.expandStagiaire.IsExpanded = false;
             this.MainGrid.Children.RemoveAt(0);
             Vue.GestionECF gestionECF = new Vue.GestionECF();
-            instanceFenetre.InstanceFenetreEnCours = gestionECF; 
+            //instanceFenetre.InstanceFenetreEnCours = gestionECF; 
             this.MainGrid.Children.Add(gestionECF);
         }
 

@@ -8,20 +8,20 @@ namespace ApplicationENI.Modele
     public class ItemAlerte
     {
         private string icone;
-        private string theme;
         private string description;
+        private string type;
 
         public ItemAlerte()
         {
             icone = GetIcone(3);
-            theme = "Passage titre";
             description = "Boubou est bleu";
+            type = "";
         }
 
-        public ItemAlerte(int codeAlerte, string titre, string libelle)
+        public ItemAlerte(int codeAlerte, string libelle, int codeType)
         {
             icone = GetIcone(codeAlerte);
-            theme = titre;
+            type = GetType(codeType);
             description = libelle;
         }
 
@@ -30,14 +30,14 @@ namespace ApplicationENI.Modele
             get { return icone; }
         }
 
-        public string THEME
-        {
-            get { return theme; }
-        }
-
         public string DESCRIPTION
         {
             get { return description; }
+        }
+
+        public String TYPE
+        {
+            get { return type; }
         }
 
         //0:information, 1:avertissement, 2:erreur, 3:interdiction
@@ -57,5 +57,35 @@ namespace ApplicationENI.Modele
                     return @"..\Images\ledgreen.png";
             }
         }
+
+        private String GetType(int code)
+        { 
+            switch (code)
+            {
+                case 0:
+                    return "Absences";
+                case 1:
+                    return "ECF";
+                case 2:
+                    return "Observations";
+                default:
+                    return "Divers";
+            }
+
+
+        }
+
+        public void EnregistrerAlerte() {
+            DAL.AlerteDAL.AjouterAlerte(this);
+        }
+
+        public void ModifierAlerte() {
+            DAL.AlerteDAL.ModifierAlerte(this);
+        }
+
+        public void SupprimerAlerte() {
+            DAL.AlerteDAL.SupprimerAlerte(this);
+        }
+
     }
 }

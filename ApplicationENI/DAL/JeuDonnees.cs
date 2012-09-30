@@ -111,6 +111,14 @@ namespace ApplicationENI.DAL
             Stagiaire stg5 = new Stagiaire("Mr.", "Jean", "Haymard", "32 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/5.jpg", true, "", tuteur);
             Stagiaire stg6 = new Stagiaire("Mr.", "Titi", "Test", "31 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/6.jpg", true, "", tuteur);
             Stagiaire stg7 = new Stagiaire("Mr.", "Denis", "Denat", "30 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/7.jpg", true, "", tuteur);
+            Stagiaire stg8 = new Stagiaire("Mr.", "Jo", "Pasquier", "30 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/7.jpg", true, "", tuteur);
+            Stagiaire stg9 = new Stagiaire("Mr.", "Fred", "Henri", "36 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/1.jpg", true, "", tuteur);
+            Stagiaire stg10 = new Stagiaire("Mme.", "Denise", "Aufroi", "35 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/2.jpg", true, "", tuteur);
+            Stagiaire stg11 = new Stagiaire("Mme.", "Jules", "Jabert", "34 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/3.jpg", true, "", tuteur);
+            Stagiaire stg12 = new Stagiaire("Mme.", "Saïd", "Croupier", "33 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/4.jpg", true, "", tuteur);
+            Stagiaire stg13 = new Stagiaire("Mr.", "Omar", "Fred", "32 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/5.jpg", true, "", tuteur);
+            Stagiaire stg14 = new Stagiaire("Mr.", "Jean", "Rousseau", "31 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/6.jpg", true, "", tuteur);
+            Stagiaire stg15 = new Stagiaire("Mr.", "Jeff", "Purid", "30 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/7.jpg", true, "", tuteur);
 
             List<Stagiaire> listeStagiaires = new List<Stagiaire>();
             listeStagiaires.Add(stg1);
@@ -120,6 +128,13 @@ namespace ApplicationENI.DAL
             listeStagiaires.Add(stg5);
             listeStagiaires.Add(stg6);
             listeStagiaires.Add(stg7);
+            listeStagiaires.Add(stg8);
+            listeStagiaires.Add(stg9);
+            listeStagiaires.Add(stg10);
+            listeStagiaires.Add(stg11);
+            listeStagiaires.Add(stg12);
+            listeStagiaires.Add(stg13);
+            listeStagiaires.Add(stg14);
             return listeStagiaires;
         }
 

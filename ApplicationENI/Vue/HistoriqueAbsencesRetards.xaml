@@ -34,7 +34,7 @@
                 
                 <Button Content="Modifier" Height="23" HorizontalAlignment="Left" Margin="35,199,0,0" Name="btnModifier" VerticalAlignment="Top" Width="75" Click="btnModifier_Click" />
                     <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="116,199,0,0" Name="btnSupprimer" VerticalAlignment="Top" Width="75" Click="btnSupprimer_Click" />
-                    <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="197,199,0,0" Name="btnEnregistrer" VerticalAlignment="Top" Width="75" Click="btnEnregistrer_Click" />
+                    <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="197,199,0,0" Name="btnEnregistrer" VerticalAlignment="Top" Width="75" Click="btnEnregistrer_Click" IsEnabled="False" />
                     <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="278,199,0,0" Name="btnAnnuler" VerticalAlignment="Top" Width="75" Click="btnAnnuler_Click" />
                     <Label Content="Heure début : " Height="28" Margin="321,8,0,0" Name="label8" VerticalAlignment="Top" HorizontalAlignment="Left" Width="86" />
                     <TextBox Height="20" HorizontalAlignment="Left" Margin="400,10,0,0" Name="txtHeureDeb" VerticalAlignment="Top" Width="33" />
