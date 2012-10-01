@@ -90,7 +90,7 @@ namespace ApplicationENI.Controleur
             //listTitres.Add(titre);
             histoTitre = new Titre(titre.CodeTitre, titre.LibelleCourt, titre.LibelleLong,
                 titre.Niveau, titre.CodeRome, titre.CodeNSF, titre.DateCreation,
-                titre.DateModif, titre.TitreENI, titre.Archiver);
+                titre.DateModif, titre.TitreENI, titre.Archiver, titre.ListeEpreuves);
             DAL.TitresDAL.ModifierTitre(titre);
         }
 

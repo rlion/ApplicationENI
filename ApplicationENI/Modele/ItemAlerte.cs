@@ -75,17 +75,5 @@ namespace ApplicationENI.Modele
 
         }
 
-        public void EnregistrerAlerte() {
-            DAL.AlerteDAL.AjouterAlerte(this);
-        }
-
-        public void ModifierAlerte() {
-            DAL.AlerteDAL.ModifierAlerte(this);
-        }
-
-        public void SupprimerAlerte() {
-            DAL.AlerteDAL.SupprimerAlerte(this);
-        }
-
     }
 }

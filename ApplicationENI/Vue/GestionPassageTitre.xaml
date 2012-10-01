@@ -6,8 +6,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="460" d:DesignWidth="630">
     <Grid>
-        <Label Content="Choisir un titre :" Height="25" HorizontalAlignment="Left" Margin="190,16,0,0" Name="label1" VerticalAlignment="Top" Width="103" FontWeight="Bold" />
-        <ComboBox Height="23" HorizontalAlignment="Left" Margin="293,18,0,0" Name="cbChoixTitre" VerticalAlignment="Top" Width="120" SelectionChanged="cbChoixTitre_SelectionChanged">
+        <Label Content="Choisir un titre :" Height="25" HorizontalAlignment="Left" Margin="190,14,0,0" Name="label1" VerticalAlignment="Top" Width="103" FontWeight="Bold" />
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="293,16,0,0" Name="cbChoixTitre" VerticalAlignment="Top" Width="120" SelectionChanged="cbChoixTitre_SelectionChanged">
             <!--<ComboBoxItem Content="AL" />
             <ComboBoxItem Content="ASR" />
             <ComboBoxItem Content="CDI" />
@@ -15,7 +15,7 @@
             <ComboBoxItem Content="EISI" />
             <ComboBoxItem Content="SSR" />-->
         </ComboBox>
-        <GroupBox Header="Informations titre" Height="166" Margin="12,56,0,0" Name="groupBoxTitre" VerticalAlignment="Top" HorizontalAlignment="Left" Width="606">
+        <GroupBox Header="Informations titre" Height="166" Margin="12,50,0,0" Name="groupBoxTitre" VerticalAlignment="Top" HorizontalAlignment="Left" Width="606">
             <Grid>
                 <Label Content="Code :" Height="25" HorizontalAlignment="Left" Margin="39,8,0,0" Name="label2" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="46" />
                 <Label Content="Intitulé court :" HorizontalAlignment="Left" Margin="191,8,0,0" Name="label3" Height="25" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="84" />
@@ -35,36 +35,40 @@
                 <TextBox Height="23" HorizontalAlignment="Left" Margin="83,61,0,0" Name="txtCodeNsf" VerticalAlignment="Top" Width="80" Text="{Binding CodeNSF}" />
                 <CheckBox Content="Titre ENI" Height="16" HorizontalAlignment="Left" Margin="83,89,0,0" Name="chkTitreEni" VerticalAlignment="Top" IsChecked="{Binding TitreENI}" />
                 <CheckBox Content="Archiver" Height="16" HorizontalAlignment="Left" Margin="275,89,0,0" Name="chkArchive" VerticalAlignment="Top" IsChecked="{Binding Archiver}" />
-                <Button Content="Ajouter" Height="23" HorizontalAlignment="Left" Margin="250,118,0,0" Name="btCreerTitre" VerticalAlignment="Top" Width="75" Click="btCreerTitre_Click" />
-                <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="337,118,0,0" Name="btModifTitre" VerticalAlignment="Top" Width="75" Click="btModifTitre_Click" />
-                <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="423,118,0,0" Name="btSupprTitre" VerticalAlignment="Top" Width="75" Click="btSupprTitre_Click" />
-                <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="510,118,0,0" Name="btAnnulTitre" VerticalAlignment="Top" Width="75" Click="btAnnulTitre_Click" />
+                <Button Content="Ajouter" Height="23" HorizontalAlignment="Left" Margin="270,117,0,0" Name="btCreerTitre" VerticalAlignment="Top" Width="75" Click="btCreerTitre_Click" />
+                <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="351,117,0,0" Name="btModifTitre" VerticalAlignment="Top" Width="75" Click="btModifTitre_Click" />
+                <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="432,117,0,0" Name="btSupprTitre" VerticalAlignment="Top" Width="75" Click="btSupprTitre_Click" />
+                <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="513,117,0,0" Name="btAnnulTitre" VerticalAlignment="Top" Width="75" Click="btAnnulTitre_Click" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Date passage titre" Height="214" HorizontalAlignment="Left" Margin="424,234,0,0" Name="groupBox2" VerticalAlignment="Top" Width="194">
+        <GroupBox Header="Date passage titre" HorizontalAlignment="Left" Margin="424,228,0,0" Name="groupBox2" Width="194" Height="220" VerticalAlignment="Top">
             <Grid>
-                <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Left" Name="dgDatesPassage">
+                <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Left" Name="dgDatesPassage" IsReadOnly="True" SelectionMode="Single" SelectionChanged="dgDatesPassage_SelectionChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Date" Width="60*" />
-                        <DataGridTextColumn Header="Salle" Width="40*" />
+                        <DataGridTextColumn Header="Date" Width="60*" Binding="{Binding Path=DateEpreuve, StringFormat={}{0:dd/MM/yyyy}}" />
+                        <DataGridTextColumn Header="Salle" Width="40*" Binding="{Binding Salle.CodeSalle}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Gestion passage titre" Height="214" HorizontalAlignment="Left" Margin="12,234,0,0" Name="groupBox3" VerticalAlignment="Top" Width="401">
+        <GroupBox Header="Gestion passage titre" Height="220" HorizontalAlignment="Left" Margin="12,228,0,0" Name="groupBox3" VerticalAlignment="Top" Width="401">
             <Grid>
-                <DatePicker Height="25" HorizontalAlignment="Left" Margin="50,9,0,0" Name="dpPassage" VerticalAlignment="Top" Width="156" />
-                <TextBox Height="23" HorizontalAlignment="Left" Margin="50,42,0,0" Name="txtSalle" VerticalAlignment="Top" Width="90" />
-                <Label Content="Date :" Height="25" HorizontalAlignment="Left" Margin="10,8,0,0" Name="label8" VerticalAlignment="Top" HorizontalContentAlignment="Right" />
-                <Label Content="Salle :" Height="25" HorizontalAlignment="Left" Margin="10,40,0,0" Name="label9" VerticalAlignment="Top" HorizontalContentAlignment="Right" />
-                <Label Content="Jury :" Height="25" HorizontalAlignment="Left" Margin="13,67,0,0" Name="label10" VerticalAlignment="Top" HorizontalContentAlignment="Right" />
-                <ListBox Height="71" HorizontalAlignment="Left" Margin="50,73,0,0" Name="lbJury" VerticalAlignment="Top" Width="197" />
-                <Button Content="Ajouter un membre" Height="23" HorizontalAlignment="Left" Margin="253,73,0,0" Name="btAjoutMembre" VerticalAlignment="Top" Width="130" />
-                <Button Content="Supprimer un membre" Height="23" HorizontalAlignment="Left" Margin="253,102,0,0" Name="btSupprMembre" VerticalAlignment="Top" Width="130" />
-                <Button Content="Ajouter" Height="23" HorizontalAlignment="Left" Margin="15,161,0,0" Name="btAjoutPassage" VerticalAlignment="Top" Width="70" />
-                <Button Content="Modifier" Height="23" HorizontalAlignment="Left" Margin="108,161,0,0" Name="btModifPassage" VerticalAlignment="Top" Width="70" />
-                <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="201,161,0,0" Name="btSupprPassage" VerticalAlignment="Top" Width="70" />
-                <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="296,161,0,0" Name="btAnnulPassage" VerticalAlignment="Top" Width="70" />
+                <DatePicker Height="25" HorizontalAlignment="Left" Margin="50,6,0,0" Name="dpPassage" VerticalAlignment="Top" Width="156" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="50,36,0,0" Name="txtSalle" VerticalAlignment="Top" Width="90" />
+                <Label Content="Date :" Height="25" HorizontalAlignment="Left" Margin="10,5,0,0" Name="label8" VerticalAlignment="Top" HorizontalContentAlignment="Right" />
+                <Label Content="Salle :" Height="25" HorizontalAlignment="Left" Margin="10,34,0,0" Name="label9" VerticalAlignment="Top" HorizontalContentAlignment="Right" />
+                <Label Content="Jury :" Height="25" HorizontalAlignment="Left" Margin="13,59,0,0" Name="label10" VerticalAlignment="Top" HorizontalContentAlignment="Right" />
+                <Button Content="Ajouter" Height="23" HorizontalAlignment="Left" Margin="82,170,0,0" Name="btAjoutPassage" VerticalAlignment="Top" Width="70" />
+                <Button Content="Modifier" Height="23" HorizontalAlignment="Left" Margin="158,170,0,0" Name="btModifPassage" VerticalAlignment="Top" Width="70" />
+                <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="234,170,0,0" Name="btSupprPassage" VerticalAlignment="Top" Width="70" />
+                <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="310,170,0,0" Name="btAnnulPassage" VerticalAlignment="Top" Width="70" />
+                <DataGrid AutoGenerateColumns="False" Height="89" HorizontalAlignment="Left" Margin="49,64,0,0" Name="dgJury" VerticalAlignment="Top" Width="331" CanUserDeleteRows="True" CanUserAddRows="True" CanUserResizeRows="False" CanUserReorderColumns="False" ColumnHeaderHeight="23">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Civ." Width="12*" Binding="{Binding Civilite}" />
+                        <DataGridTextColumn Header="Nom" Width="44*" Binding="{Binding Nom}" />
+                        <DataGridTextColumn Header="Prénom" Width="44*" Binding="{Binding Prenom}" />
+                    </DataGrid.Columns>
+                </DataGrid>
             </Grid>
         </GroupBox>
     </Grid>

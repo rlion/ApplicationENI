@@ -99,6 +99,13 @@ namespace ApplicationENI.Modele
             archiver = archiv;
         }
 
+        public Titre(string codeT, string libC, string libL, string nivo, string codeR, string codNSF,
+            DateTime dateC, DateTime dateM, bool titre, bool archiv, List<EpreuveTitre> let)
+            : this(codeT,libC,libL,nivo,codeR,codNSF,dateC,dateM,titre,archiv)
+        {
+            listeEpreuves = let;
+        }
+
 
 
     }

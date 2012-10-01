@@ -52,6 +52,20 @@ namespace ApplicationENI.Vue
             this.groupBoxTitre.DataContext = titre;
         }
 
+        private void DisplayDetailPassage()
+        {
+            dpPassage.SelectedDate = ((EpreuveTitre)dgDatesPassage.SelectedValue).DateEpreuve;
+            txtSalle.Text = ((EpreuveTitre)dgDatesPassage.SelectedValue).Salle.CodeSalle;
+            dgJury.ItemsSource = ((EpreuveTitre)dgDatesPassage.SelectedValue).ListeJury;
+        }
+
+        private void ResetDetailPassage()
+        {
+            dgDatesPassage.SelectedIndex = -1;
+            txtSalle.Text = string.Empty;
+            dgJury.ItemsSource = null;
+        }
+
         private void btCreerTitre_Click(object sender, RoutedEventArgs e)
         {
             this.cbChoixTitre.SelectedIndex = -1;
@@ -98,12 +112,29 @@ namespace ApplicationENI.Vue
 
         private void cbChoixTitre_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(this.cbChoixTitre.SelectedIndex != -1)
+            if (this.cbChoixTitre.SelectedIndex != -1)
+            {
                 titre = Controleur.GetTitre((string)cbChoixTitre.SelectedValue);
+
+                if (titre.ListeEpreuves != null && titre.ListeEpreuves.Count > 0)
+                {
+                    this.dgDatesPassage.ItemsSource = titre.ListeEpreuves;
+                }
+                else this.dgDatesPassage.ItemsSource = null;
+            }
             else
                 titre = new Titre();
 
             this.groupBoxTitre.DataContext = titre;
+        }
+
+        private void dgDatesPassage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgDatesPassage.Items != null && dgDatesPassage.SelectedIndex != -1)
+            {
+                DisplayDetailPassage();
+            }
+            else ResetDetailPassage();
         }
     }
 }
