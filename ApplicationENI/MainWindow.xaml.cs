@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Windows.Media.Effects;
 using System;
 using System.DirectoryServices;
+using ApplicationENI.Controleur;
+
 namespace ApplicationENI
 {
     /// <summary>
@@ -13,6 +15,9 @@ namespace ApplicationENI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private CtrlAccueilGeneral Controleur;
+        private bool isInitAutoCompBox;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -36,9 +41,20 @@ namespace ApplicationENI
             login.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             login.ShowDialog();
 
+            Controleur = new CtrlAccueilGeneral();
+            InitBandeStagiaire();
+
             this.Effect = null;
-            
         }
+
+        private void InitBandeStagiaire()
+        {
+            acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires();
+            isInitAutoCompBox = true;
+        }
+
+
+        #region XAML events
 
         private void expandStagiaire_Collapsed(object sender, RoutedEventArgs e)
         {
@@ -168,5 +184,15 @@ namespace ApplicationENI
 
         }
 
+        #endregion
+
+        private void acbNomPrenom_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (isInitAutoCompBox)
+            {
+                acbNomPrenom.Text = string.Empty;
+                isInitAutoCompBox = false;
+            }
+        }
     }
 }

@@ -64,6 +64,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controleur\CtrlAccueilGeneral.cs" />
     <Compile Include="Controleur\CtrlGestionAbsences.cs" />
     <Compile Include="Controleur\CtrlGestionObservations.cs" />
     <Compile Include="Controleur\CtrlGestionPassageTitre.cs" />

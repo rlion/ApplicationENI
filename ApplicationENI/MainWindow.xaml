@@ -69,7 +69,7 @@
           VerticalAlignment="Top" Width="173" Text="Prénom &amp; Nom du stagiaire" IsEditable="True" 
           IsReadOnly="True" />-->
                     <toolkit:AutoCompleteBox Height="23" HorizontalAlignment="Left" Margin="21,12,0,0" 
-                                             Name="acbNomPrenom" VerticalAlignment="Top" Width="173" Text="Nom &amp; prénom du stagiaire" />
+                                             Name="acbNomPrenom" VerticalAlignment="Top" Width="173" Text="Nom &amp; prénom du stagiaire" GotFocus="acbNomPrenom_GotFocus" FilterMode="Contains" />
                     
                     <ComboBox Height="23" HorizontalAlignment="Left" IsEditable="True" IsReadOnly="True" Margin="212,12,0,0" Name="comboBox1" Text="Intitulé titre" VerticalAlignment="Top" Width="93" />
                     <GroupBox Header="Statut" Height="66" HorizontalAlignment="Left" Margin="315,3,0,0" Name="groupBox1" VerticalAlignment="Top" Width="76">
@@ -78,8 +78,8 @@
                             <RadioButton Content="CP" Height="16" HorizontalAlignment="Left" Margin="5,22,0,0" Name="radioButton2" VerticalAlignment="Top" Width="36" />
                         </Grid>
                     </GroupBox>
-                    <Button Content="Rechercher" Height="23" HorizontalAlignment="Left" Margin="443,12,0,0" Name="button1" VerticalAlignment="Top" Width="75" />
-                    <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="443,46,0,0" Name="button2" VerticalAlignment="Top" Width="75" />
+                    <Button Content="Rechercher" Height="23" HorizontalAlignment="Left" Margin="443,12,0,0" Name="btRechercher" VerticalAlignment="Top" Width="75" />
+                    <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="443,46,0,0" Name="btAnnuler" VerticalAlignment="Top" Width="75" />
                 </Grid>
             </Expander>
             <Grid Background="AliceBlue" Name="MainGrid">
