@@ -14,7 +14,7 @@ namespace ApplicationENI.Controleur
         public List<string> GetListeStagiaires()
         {
             List<string> ls = new List<string>();
-            ls = DAL.JeuDonnees.GetListeStagiaire().Select(x => x._prenom + " " + x._nom).ToList();
+            ls = DAL.AccueilDAL.GetListeStagiaires().Select(x => x._prenom + " " + x._nom).ToList();
 
             return ls;
         }
