@@ -266,7 +266,6 @@
   <ItemGroup>
     <Resource Include="Images\home.png" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Ressources\competences.txt" />
     <Resource Include="Ressources\dates.txt" />
