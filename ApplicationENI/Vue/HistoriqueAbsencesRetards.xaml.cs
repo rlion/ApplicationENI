@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -27,7 +28,7 @@ namespace ApplicationENI.Vue
             InitializeComponent();
             dataGridListeAbsences.ItemsSource = ctrl.getListAbsences();
             dataGridListeAbsences.IsReadOnly = true;
-            //gbListeAbsenceRetards.Header = this.dataGridListeAbsences.Items.Count + " Absence(s)/Retard(s) répertorié(s)";
+            gbListeAbsenceRetards.Header = this.dataGridListeAbsences.Items.Count + " Absence(s)/Retard(s) répertorié(s)";
             int compteurAbsences = 0;
             int compteurRetards = 0;
             String texteAAfficher = "Total : ";
