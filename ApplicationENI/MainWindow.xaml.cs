@@ -89,7 +89,7 @@ namespace ApplicationENI
             this.expandStagiaire.IsExpanded = false;
             this.MainGrid.Children.RemoveAt(0);
             Vue.GestionECF gestionECF = new Vue.GestionECF();
-            //instanceFenetre.InstanceFenetreEnCours = gestionECF; 
+            instanceFenetre.InstanceFenetreEnCours = gestionECF; 
             this.MainGrid.Children.Add(gestionECF);
         }
 
