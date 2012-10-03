@@ -19,6 +19,6 @@
         <Button Content="Ajouter" Height="23" HorizontalAlignment="Left" Margin="14,226,0,0" Name="btAjouter" VerticalAlignment="Top" Width="75" Click="btAjouter_Click" />
         <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="95,226,0,0" Name="btSupprimer" VerticalAlignment="Top" Width="75" Click="btSupprimer_Click" />
         <Button Height="25" HorizontalAlignment="Left" Margin="393,12,0,0" Name="btSelect" VerticalAlignment="Top" Width="113" Content="Tout sélectionner" Click="btSelect_Click" />
-        <Button Content="Tout désélectionner" Height="25" HorizontalAlignment="Left" Margin="393,43,0,0" Name="button1" VerticalAlignment="Top" Width="113" Click="button1_Click" />
+        <Button Content="Tout désélectionner" Height="25" HorizontalAlignment="Left" Margin="393,43,0,0" Name="btDeselect" VerticalAlignment="Top" Width="113" Click="btDeselect_Click" />
     </Grid>
 </Window>

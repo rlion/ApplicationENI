@@ -133,7 +133,7 @@ namespace ApplicationENI.Vue.PopUp
             refresh();
         }
 
-        private void button1_Click(object sender, RoutedEventArgs e)
+        private void btDeselect_Click(object sender, RoutedEventArgs e)
         {
             foreach (SelectionCompetence selComp in _listeCompetences)
             {
