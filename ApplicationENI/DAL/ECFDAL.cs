@@ -22,6 +22,7 @@ namespace ApplicationENI.DAL
         static String UPDATE_ECF = "UPDATE ECFS SET libelle=@libelleECF,coefficient=@coefficient,typeNotation=@typeNotation,nbreVersions=@nbreVersions,commentaire=@commentaire WHERE idECF=@idECF";
         
         static String DELETE_LIENS = "DELETE FROM COMPETENCESECF WHERE idECF=@idECF";
+        static String DELETE_LIEN = "DELETE FROM COMPETENCESECF WHERE idECF=@idECF AND idCompetence=@idCompetence";
         static String DELETE_ECF = "DELETE FROM ECFS WHERE idECF=@id";
 
         public static ECF getECF(ECF ecf)
@@ -185,14 +186,26 @@ namespace ApplicationENI.DAL
             //Création des liens ECF-Competences
             foreach (Competence compTemp in ecf.Competences)
             {
-                AjouterLien(ecf, compTemp);
+                ajouterLien(ecf, compTemp);
             }
         }
 
-        public static void AjouterLien(ECF ecf, Competence comp)
+        public static void ajouterLien(ECF ecf, Competence comp)
         {
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(INSERT_LIEN, connexion);
+
+            cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@idCompetence", comp.Id.Trim());
+
+            cmd.ExecuteReader();
+            connexion.Close();
+        }
+
+        public static void supprimerLien(ECF ecf, Competence comp)
+        {
+            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            SqlCommand cmd = new SqlCommand(DELETE_LIEN, connexion);
 
             cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());
             cmd.Parameters.AddWithValue("@idCompetence", comp.Id.Trim());
