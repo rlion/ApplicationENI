@@ -52,10 +52,11 @@ namespace ApplicationENI.Vue
             //recup de la liste d'ECF
             _listeECF = ECFDAL.getListECFs();
             //peuplement de la combobox
-            foreach (ECF ecf in _listeECF)
-            {
-                cbECF.Items.Add(ecf);
-            }
+            //foreach (ECF ecf in _listeECF)
+            //{
+            //    cbECF.Items.Add(ecf);
+            //}
+            cbECF.ItemsSource = _listeECF;
 
             if (pECFCourant != null)
             {

@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
+using ApplicationENI.Modele;
+using ApplicationENI.DAL;
 
 namespace ApplicationENI.Vue
 {
@@ -19,38 +21,70 @@ namespace ApplicationENI.Vue
     /// </summary>
     public partial class SaisieResultats : UserControl
     {
+        private List<ECF> _listeECFs = null;
+
+        private class ECFSession
+        {
+            private ECF _ecf;
+            private int _version;
+            private DateTime _dateSession;
+            private List<StagiaireSession> _lesStagiairesSession;
+
+            private class StagiaireSession
+            {
+                private Stagiaire _stagiaireSession;
+                private Competence _competenceSession;
+                private Resultat _resultat;
+
+                private class Resultat
+                {
+                    private int _note=0;
+                    private bool _notationNumerique = false;
+                }
+            }
+        }
+
+        
         public SaisieResultats()
         {
             InitializeComponent();
+
+            _listeECFs = ECFDAL.getListECFs();
+            cbECF.ItemsSource = _listeECFs;
         }
 
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            StreamReader fileReader = new StreamReader(System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..\ressources\competences.txt"));
-            String stringReader = "";
 
-            while (!(fileReader.EndOfStream))
-            {
-                stringReader = fileReader.ReadLine();
-                listBox1.Items.Add(stringReader);
-            }
-            fileReader.Close();
-
-            fileReader = new StreamReader(System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..\ressources\stagiaires.txt"));
-            stringReader = "";
-
-            while (!(fileReader.EndOfStream))
-            {
-                stringReader = fileReader.ReadLine();
-                listBox2.Items.Add(stringReader);
-            }
-            fileReader.Close();
         }
 
-        private void image1_ImageFailed(object sender, RoutedEventArgs e)
-        {
-            //?
-        }
+        //private void Grid_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //    StreamReader fileReader = new StreamReader(System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..\ressources\competences.txt"));
+        //    String stringReader = "";
+
+        //    while (!(fileReader.EndOfStream))
+        //    {
+        //        stringReader = fileReader.ReadLine();
+        //        listBox1.Items.Add(stringReader);
+        //    }
+        //    fileReader.Close();
+
+        //    fileReader = new StreamReader(System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..\ressources\stagiaires.txt"));
+        //    stringReader = "";
+
+        //    while (!(fileReader.EndOfStream))
+        //    {
+        //        stringReader = fileReader.ReadLine();
+        //        listBox2.Items.Add(stringReader);
+        //    }
+        //    fileReader.Close();
+        //}
+
+        //private void image1_ImageFailed(object sender, RoutedEventArgs e)
+        //{
+        //    //?
+        //}
 
 
     }

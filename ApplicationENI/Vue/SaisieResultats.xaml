@@ -5,8 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="460" d:DesignWidth="630">
-    <Grid Loaded="Grid_Loaded">
-        <ComboBox Height="23" HorizontalAlignment="Left" Margin="140,11,0,0" Name="cbECF" VerticalAlignment="Top" Width="162" Text="" />
+    <!--Grid Loaded="Grid_Loaded"-->
+    <Grid>
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="140,11,0,0" Name="cbECF" VerticalAlignment="Top" Width="162" Text="" SelectionChanged="cbECF_SelectionChanged" />
         <Label Content="ECF :" Height="28" HorizontalAlignment="Left" Margin="35,11,0,0" Name="lbECF" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right" />
         <ListBox Height="283" HorizontalAlignment="Left" Margin="35,90,0,0" Name="listBox1" VerticalAlignment="Top" Width="267" ItemsSource="{Binding}" SelectionMode="Single" />
         <ListBox Height="283" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="330,90,0,0" Name="listBox2" SelectionMode="Single" VerticalAlignment="Top" Width="263" />
