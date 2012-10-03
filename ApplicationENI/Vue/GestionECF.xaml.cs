@@ -196,10 +196,11 @@ namespace ApplicationENI.Vue
         }
 
         private void btMoins_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             foreach (Competence comp in lbCompetences.SelectedItems)
             {
                 _ecfCourant.Competences.Remove(comp);
+                ECFDAL.supprimerLien(_ecfCourant,comp);
             }
             afficheECF(_ecfCourant);
         }
