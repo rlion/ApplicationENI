@@ -118,10 +118,34 @@ namespace ApplicationENI.Vue.PopUp
             {
                 if (selComp.IsChecked)
                 {
-                    ECFDAL.AjouterLien(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant, selComp.Competence);
+                    ECFDAL.ajouterLien(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant, selComp.Competence);
                 }
             }
             Close();
+        }
+
+        private void btSelect_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (SelectionCompetence selComp in _listeCompetences)
+            {
+                selComp.IsChecked = true;
+            }
+            refresh();
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (SelectionCompetence selComp in _listeCompetences)
+            {
+                selComp.IsChecked = false;
+            }
+            refresh();
+        }
+        private void refresh()
+        {
+            lbListeCompetences.ItemsSource = null;
+            lbListeCompetences.Items.Clear();
+            lbListeCompetences.ItemsSource = _listeCompetences;
         }
     }
 }
