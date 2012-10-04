@@ -70,18 +70,43 @@
     <Compile Include="Controleur\CtrlGestionPassageTitre.cs" />
     <Compile Include="Controleur\CtrlProfilAlertesStagiaire..cs" />
     <Compile Include="Controleur\CtrlTrombinoscope.cs" />
-    <Compile Include="DAL\AbsencesDAL.cs" />
-    <Compile Include="DAL\AccueilDAL.cs" />
-    <Compile Include="DAL\CompetencesDAL.cs" />
-    <Compile Include="DAL\ConnexionSQL.cs" />
-    <Compile Include="DAL\ContactDAL.cs" />
-    <Compile Include="DAL\ECFDAL.cs" />
-    <Compile Include="DAL\EvaluationsDAL.cs" />
-    <Compile Include="DAL\FormationDAL.cs" />
-    <Compile Include="DAL\JeuDonnees.cs" />
-    <Compile Include="DAL\ObservationsDAL.cs" />
-    <Compile Include="DAL\StagiairesDAL.cs" />
-    <Compile Include="DAL\TitresDAL.cs" />
+    <Compile Include="DAL\AbsencesDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DAL\AccueilDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DAL\CompetencesDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DAL\ConnexionSQL.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DAL\ContactDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DAL\ECFDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DAL\EvaluationsDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DAL\FormationDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DAL\JeuDonnees.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DAL\ObservationsDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DAL\SessionECFDAL.cs" />
+    <Compile Include="DAL\StagiairesDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DAL\TitresDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="instanceFenetre.cs" />
     <Compile Include="Modele\Absence.cs" />
     <Compile Include="Modele\Competence.cs" />
@@ -96,6 +121,7 @@
     <Compile Include="Modele\Jury.cs" />
     <Compile Include="Modele\Observation.cs" />
     <Compile Include="Modele\Salle.cs" />
+    <Compile Include="Modele\SessionECF.cs" />
     <Compile Include="Modele\Stagiaire.cs" />
     <Compile Include="Modele\Titre.cs" />
     <Compile Include="Parametres.cs" />
@@ -139,6 +165,9 @@
     </Compile>
     <Compile Include="Vue\PopUp\AjoutECF_Competence.xaml.cs">
       <DependentUpon>AjoutECF_Competence.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\PopUp\AjoutSessionECF.xaml.cs">
+      <DependentUpon>AjoutSessionECF.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vue\PopUp\ListeECF_Competences.xaml.cs">
       <DependentUpon>ListeECF_Competences.xaml</DependentUpon>
@@ -218,6 +247,10 @@
     <Page Include="Vue\PopUp\AjoutECF_Competence.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Vue\PopUp\AjoutSessionECF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vue\PopUp\ListeECF_Competences.xaml">
       <Generator>MSBuild:Compile</Generator>
