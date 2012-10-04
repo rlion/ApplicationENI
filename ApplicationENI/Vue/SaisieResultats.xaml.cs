@@ -20,42 +20,71 @@ namespace ApplicationENI.Vue
     /// Logique d'interaction pour SaisieResultats.xaml
     /// </summary>
     public partial class SaisieResultats : UserControl
-    {
-        private List<ECF> _listeECFs = null;
+    {        
+        private List<SessionECF> _listeSessionECFs = null;
+        private ECF _ecfCourant = null;
+        private List<DateTime> _planif = new List<DateTime>();
 
-        private class ECFSession
-        {
-            private ECF _ecf;
-            private int _version;
-            private DateTime _dateSession;
-            private List<StagiaireSession> _lesStagiairesSession;
+        //private class ECFSession
+        //{
+        //    private ECF _ecf;
+        //    private int _version;
+        //    private DateTime _dateSession;
+        //    private List<StagiaireSession> _lesStagiairesSession;
 
-            private class StagiaireSession
-            {
-                private Stagiaire _stagiaireSession;
-                private Competence _competenceSession;
-                private Resultat _resultat;
+        //    private class StagiaireSession
+        //    {
+        //        private Stagiaire _stagiaireSession;
+        //        private Competence _competenceSession;
+        //        private Resultat _resultat;
 
-                private class Resultat
-                {
-                    private int _note=0;
-                    private bool _notationNumerique = false;
-                }
-            }
-        }
+        //        private class Resultat
+        //        {
+        //            private int _note=0;
+        //            private bool _notationNumerique = false;
+        //        }
+        //    }
+        //}
 
         
         public SaisieResultats()
         {
             InitializeComponent();
 
-            _listeECFs = ECFDAL.getListECFs();
-            cbECF.ItemsSource = _listeECFs;
+            _listeSessionECFs = SessionECFDAL.getListSessionsECFs();
+            //cbECF.ItemsSource = _listeSessionECFs; redondance
+            foreach (SessionECF sessEcf in _listeSessionECFs)
+            {
+                if (!cbECF.HasItems)
+                {
+                    cbECF.Items.Add(sessEcf.Ecf);
+                }
+                else if (!cbECF.Items.Contains(sessEcf.Ecf))
+                {
+                    cbECF.Items.Add(sessEcf.Ecf);
+                }
+            }
         }
 
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            calendar1.IsEnabled = true;
 
+            _ecfCourant = (ECF)cbECF.SelectedItem;
+            foreach (SessionECF sessEcf in _listeSessionECFs)
+            {
+                if (sessEcf.Ecf == _ecfCourant)
+                {
+                    _planif.Add(sessEcf.Date);
+                    calendar1.SelectedDates.Add(sessEcf.Date);
+                }
+            }
+        }
+
+        private void btAdd1_Click(object sender, RoutedEventArgs e)
+        {
+            PopUp.AjoutSessionECF popup = new PopUp.AjoutSessionECF();
+            popup.ShowDialog();
         }
 
         //private void Grid_Loaded(object sender, RoutedEventArgs e)
