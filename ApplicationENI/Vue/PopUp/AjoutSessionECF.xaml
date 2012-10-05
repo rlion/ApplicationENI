@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ApplicationENI.Vue.PopUp.AjoutSessionECF"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AjoutSessionECF" Height="150" Width="344">
+        Title="AjoutSessionECF" Height="150" Width="344" WindowStartupLocation="CenterScreen">
     <Grid>
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="92,5,0,0" Name="cbECF" Text="" VerticalAlignment="Top" Width="218" />
         <Label Content="ECF :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Name="lbECF" VerticalAlignment="Top" Width="86" />

@@ -28,6 +28,8 @@ namespace ApplicationENI.Vue.PopUp
 
             _listeECFs = ECFDAL.getListECFs();
             cbECF.ItemsSource = _listeECFs;
+
+            datePicker1.DisplayDateStart = DateTime.Now;
         }
 
         private void btAnnuler_Click(object sender, RoutedEventArgs e)
@@ -42,6 +44,7 @@ namespace ApplicationENI.Vue.PopUp
             sessionECFTemp.Date = (DateTime)datePicker1.SelectedDate;
 
             SessionECFDAL.ajouterSessionECF(sessionECFTemp);
+            Close();
         }
     }
 }
