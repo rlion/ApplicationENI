@@ -98,7 +98,7 @@ namespace ApplicationENI.Vue
             RAZ();
             
             //si pas d'ECF selectionné on ne peut pas ajouter de competence
-            if (pECF == null)
+            if (pECF.Equals(null))//pECF == null)
             {
                 return;
             }

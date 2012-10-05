@@ -24,6 +24,7 @@ namespace ApplicationENI.Vue
         private List<SessionECF> _listeSessionECFs = null;
         private ECF _ecfCourant = null;
         private List<DateTime> _planif = new List<DateTime>();
+        bool _datePlanif = false;
 
         //private class ECFSession
         //{
@@ -64,6 +65,7 @@ namespace ApplicationENI.Vue
                     cbECF.Items.Add(sessEcf.Ecf);
                 }
             }
+            calendar1.DisplayDateStart = DateTime.Now;        
         }
 
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -71,14 +73,19 @@ namespace ApplicationENI.Vue
             calendar1.IsEnabled = true;
 
             _ecfCourant = (ECF)cbECF.SelectedItem;
+            
             foreach (SessionECF sessEcf in _listeSessionECFs)
             {
-                if (sessEcf.Ecf == _ecfCourant)
+                if (sessEcf.Ecf.Equals(_ecfCourant))
                 {
-                    _planif.Add(sessEcf.Date);
-                    calendar1.SelectedDates.Add(sessEcf.Date);
+                    _planif.Add(sessEcf.Date);                    
+                    calendar1.SelectedDates.Add(sessEcf.Date);                    
                 }
             }
+
+            
+
+            //CalendarDateRange cdr = new CalendarDateRange(DateTime.Now, new DateTime(2030, DateTime.Now.Month, DateTime.Now.Day));
         }
 
         private void btAdd1_Click(object sender, RoutedEventArgs e)
@@ -86,6 +93,48 @@ namespace ApplicationENI.Vue
             PopUp.AjoutSessionECF popup = new PopUp.AjoutSessionECF();
             popup.ShowDialog();
         }
+
+        private void calendar1_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            calendar1.SelectedDatesChanged -= calendar1_SelectedDatesChanged;
+
+            DateTime? dt = new DateTime();
+            Calendar cal=sender as Calendar;
+            dt = cal.SelectedDate;
+
+            if (!dt.Equals(null))
+            {
+                if (!_planif.Contains((DateTime)dt))
+                {
+                    MessageBox.Show("Cette date n'est pas planifiée pour l'ECF " + _ecfCourant.ToString());
+                }
+                else
+                {
+                    _datePlanif = true;
+                }
+            }
+
+            calendar1.SelectedDates.Clear();
+            foreach (DateTime dateTemp in _planif)
+            {
+                calendar1.SelectedDates.Add(dateTemp);
+            }       
+            calendar1.SelectedDatesChanged += calendar1_SelectedDatesChanged;
+
+            if (_datePlanif)
+            {
+                cbVersions.IsEnabled = true;
+                List<int> versions = new List<int>();
+                for (int i = 1; i <= _ecfCourant.NbreVersion; i++)
+                {
+                    versions.Add(i);
+                }
+                cbVersions.ItemsSource = versions;
+
+                //TODO afficher reste
+            }
+        }
+
 
         //private void Grid_Loaded(object sender, RoutedEventArgs e)
         //{

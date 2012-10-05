@@ -2,10 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="460" d:DesignWidth="630"
-             xmlns:chartingToolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
              >
     <!--Grid Loaded="Grid_Loaded"-->
     <Grid>
@@ -13,8 +9,8 @@
         <Label Content="ECF :" Height="28" HorizontalAlignment="Left" Margin="35,11,0,0" Name="lbECF" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right" />
         <ListBox Height="220" HorizontalAlignment="Left" Margin="35,190,0,0" Name="listBox1" VerticalAlignment="Top" Width="267" ItemsSource="{Binding}" SelectionMode="Single" IsEnabled="False" />
         <ListBox Height="220" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="330,190,0,0" Name="listBox2" SelectionMode="Single" VerticalAlignment="Top" Width="263" IsEnabled="False" />
-        <ComboBox Height="23" Margin="140,47,0,0" Name="comboBox1" Text="" VerticalAlignment="Top" HorizontalAlignment="Left" Width="54" IsEnabled="False" />
-        <Label Content="Version :" Height="28" HorizontalAlignment="Left" Margin="35,47,0,0" Name="label1" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right" IsEnabled="False" />
+        <ComboBox Height="23" Margin="140,47,0,0" Name="cbVersions" Text="" VerticalAlignment="Top" HorizontalAlignment="Left" Width="54" IsEnabled="False" />
+        <Label Content="Version :" Height="28" HorizontalAlignment="Left" Margin="35,47,0,0" Name="label1" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right" IsEnabled="True" />
         <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="407,425,0,0" Name="btnAjouter" VerticalAlignment="Top" Width="90" />
         <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="503,425,0,0" Name="btnModifier" VerticalAlignment="Top" Width="90" />
         <GroupBox Header="Note" Height="50" HorizontalAlignment="Left" Margin="35,134,0,0" Name="groupBox1" VerticalAlignment="Top" Width="273" IsEnabled="False">
@@ -28,6 +24,6 @@
         </GroupBox>
         <Button Content="Planifier ECF" Height="23" HorizontalAlignment="Left" Margin="35,425,0,0" Name="btAdd1" VerticalAlignment="Top" Width="90" Click="btAdd1_Click" />
         <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Left" Margin="131,425,0,0" Name="btDelete" VerticalAlignment="Top" Width="90" />
-        <Calendar Height="173" HorizontalAlignment="Left" Margin="403,11,0,0" Name="calendar1" VerticalAlignment="Top" Width="190" IsEnabled="False" MaxWidth="Infinity" SelectionMode="MultipleRange" />
+        <Calendar Height="173" HorizontalAlignment="Left" Margin="403,11,0,0" Name="calendar1" VerticalAlignment="Top" Width="190" IsEnabled="False" MaxWidth="Infinity" SelectionMode="MultipleRange" IsTodayHighlighted="False" SelectedDatesChanged="calendar1_SelectedDatesChanged" />
     </Grid>
 </UserControl>
