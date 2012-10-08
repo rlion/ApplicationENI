@@ -16,7 +16,7 @@
                 <TextBox Height="51" HorizontalAlignment="Left" Margin="104,135,0,0" Name="textBoxRaison" VerticalAlignment="Top" Width="416" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
                 <Label Content="Avis : " Height="28" HorizontalAlignment="Left" Margin="57,192,0,0" Name="label4" VerticalAlignment="Top" />
                 <TextBox Height="51" HorizontalAlignment="Left" Margin="104,192,0,0" Name="textBoxCommentaire" VerticalAlignment="Top" Width="416" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
-                <Label Content="Semble valide : " Height="28" HorizontalAlignment="Left" Margin="6,75,0,0" Name="label5" VerticalAlignment="Top" />
+                <Label Content="Justifiée : " Height="28" HorizontalAlignment="Left" Margin="37,73,0,0" Name="label5" VerticalAlignment="Top" />
                 <CheckBox Height="16" HorizontalAlignment="Left" Margin="106,81,0,0" Name="checkBoxValide" VerticalAlignment="Top" />
                 <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="45,258,0,0" Name="btnEnregistrer" VerticalAlignment="Top" Width="75" Click="btnEnregistrer_Click" />
                 <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="126,258,0,0" Name="btnAnnuler" VerticalAlignment="Top" Width="75" Click="btnAnnuler_Click" />

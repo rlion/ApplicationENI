@@ -12,7 +12,7 @@
             <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="177,331,0,0" Name="btnEnregistrer" VerticalAlignment="Top" Width="75" Click="btnEnregistrer_Click" />
             <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="258,331,0,0" Name="btnAnnuler" VerticalAlignment="Top" Width="75" Click="btnAnnuler_Click" />
         </Grid>
-        <Grid Margin="16,140,-4,69">
+        <Grid Margin="16,140,-4,0" Height="180" VerticalAlignment="Top" ClipToBounds="False">
             <Label Content="Date : " Height="28" HorizontalAlignment="Left" Margin="19,63,0,0" Name="label1" VerticalAlignment="Top" />
             <Label Content="Auteur : " Height="28" HorizontalAlignment="Left" Margin="194,63,0,0" Name="label2" VerticalAlignment="Top" />
             <Label Content="Type : " Height="28" HorizontalAlignment="Left" Margin="382,63,0,0" Name="label3" VerticalAlignment="Top" />
@@ -24,8 +24,8 @@
             <TextBox Height="76" HorizontalAlignment="Left" Margin="67,104,0,0" Name="txtBoxTexte" VerticalAlignment="Top" Width="486" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
             <ComboBox Height="23" HorizontalAlignment="Left" Margin="432,65,0,0" Name="comboBox1" VerticalAlignment="Top" Width="120" ItemsSource="{Binding}" />
         </Grid>
-        <GroupBox Header="Liste des observations" Height="128" HorizontalAlignment="Left" Margin="22,0,0,0" Name="gbListeRemarques" VerticalAlignment="Top" Width="559">
-            <DataGrid AutoGenerateColumns="False" Name="dataGridListAbsences" SelectionChanged="dataGridListAbsences_SelectionChanged" CanUserAddRows="False">
+        <GroupBox Header="Liste des observations" Height="auto" HorizontalAlignment="Left" Margin="22,0,0,0" Name="gbListeRemarques" VerticalAlignment="Top" Width="559">
+            <DataGrid AutoGenerateColumns="False" Name="dataGridListAbsences" SelectionChanged="dataGridListAbsences_SelectionChanged" CanUserAddRows="False" MaxHeight="200" Background="Black">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date" Binding="{Binding _date}" Width="25*" />
                     <DataGridTextColumn Header="Auteur" Binding="{Binding _nomAuteur}" Width="15*" />

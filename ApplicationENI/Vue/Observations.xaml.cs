@@ -23,14 +23,14 @@ namespace ApplicationENI.Vue
     {
         // 0 : rien ou modif
         // 1 : ajout
-        static int flag_mode_saisie = 0;
+        static int flag_mode_saisie;
         private CtrlGestionObservations ctrl = new CtrlGestionObservations();
         private Stagiaire stgEnCours = Parametres.Instance.stagiaire;
 
         public Observations()
         {
             InitializeComponent();
-            flag_mode_saisie = 0;
+            flag_mode_saisie = 1;
             
             dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
             dataGridListAbsences.IsReadOnly = true;
@@ -86,38 +86,51 @@ namespace ApplicationENI.Vue
         }
 
         private void btnEnregistrer_Click(object sender, RoutedEventArgs e) {
-            if (this.dataGridListAbsences.SelectedItem != null)
-            {
-                String typeObs = comboBox1.Text;
+            String typeObs = comboBox1.Text;
                 String titre = txtBoxTitre.Text;
                 String texte = txtBoxTexte.Text;
                 String type = (string)comboBox1.SelectedValue;
-
+            
+            if (this.dataGridListAbsences.SelectedItem != null)
+            {
                     if(OperationExiste(texte, titre, type))
                     {
                         MessageBox.Show("L'observation est déjà enregistrée en base.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     }
                     else {
-                        if (flag_mode_saisie == 1) //si on est en mode ajout
+                        if (flag_mode_saisie == 0) //si on est en mode modif
                         {
-                            ctrl.ajouterObservation(typeObs, titre, texte, stgEnCours);
-                        }
-                        else {
                             Observation obsSelectionne = (Observation)this.dataGridListAbsences.SelectedItem;
                             ctrl.modifierOperation(obsSelectionne, typeObs, titre, texte);
                             // passer en paramètre l'observation + les nouveaux paramètres.
-                        }
-                        dataGridListAbsences.Items.Refresh();
-                        // on peut réinitialiser le mode saisie à 0
-                        flag_mode_saisie = 0;
+                        }            
                     }
                 
 
                 
             }
             else {
-                MessageBox.Show("Il n'y a rien à enregistrer", "Erreur", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                if (txtBoxTexte.Text == "" || txtBoxTitre.Text == "")
+                {
+                    MessageBox.Show("Il n'y a rien à enregistrer", "Erreur", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+                else {
+                    if (OperationExiste(texte, titre, type))
+                    {
+                        MessageBox.Show("L'observation est déjà enregistrée en base.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                    else {
+                        ctrl.ajouterObservation(typeObs, titre, texte, stgEnCours);    
+
+                    }
+                                    }
+                
+                
             }
+            dataGridListAbsences.Items.Refresh();
+            
+            // on peut réinitialiser le  saisie à 0
+            flag_mode_saisie = 0;
         }
 
         private void btnSupprimer_Click(object sender, RoutedEventArgs e)
