@@ -7,20 +7,26 @@ using System.Data.SqlClient;
 namespace ApplicationENI.DAL {
     public static class ConnexionSQL {
         
-        private static String chaineCnx = "Data Source=ASDEPIX\\SQLEXPRESS;Initial Catalog=APPLICATION_ENI;User Id=sa;Password=opti;";
+        private static String chaineCnx = "Data Source=localhost;Initial Catalog=APPLICATION_ENI;User Id=sa;Password=password";
+        //"Data Source=ASDEPIX\\SQLEXPRESS;Initial Catalog=APPLICATION_ENI;User Id=sa;Password=opti;"
         //pas ma source : "Data Source=RESEAU-93C88A71;Initial Catalog=eni;User ID=sa"
         //(MAT) ma source : "Data Source=ASDEPIX\\SQLEXPRESS;Initial Catalog=APPLICATION_ENI;User Id=sa;Password=opti;"
         private static SqlConnection cnx;
 
         public static SqlConnection CreationConnexion()
         {
-            SqlConnection cnx = new SqlConnection(chaineCnx);
-            cnx.Open();
-            return cnx;
+            try
+            {
+                SqlConnection cnx = new SqlConnection(chaineCnx);
+                cnx.Open();
+                return cnx;
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible de se connecter à la base de données : " + e.Message, "Echec de connexion", 
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return null;
+            }
         }
-        
-
-
-
     }
 }

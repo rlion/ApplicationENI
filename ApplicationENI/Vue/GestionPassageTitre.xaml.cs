@@ -55,7 +55,7 @@ namespace ApplicationENI.Vue
         private void DisplayDetailPassage()
         {
             dpPassage.SelectedDate = ((EpreuveTitre)dgDatesPassage.SelectedValue).DateEpreuve;
-            txtSalle.Text = ((EpreuveTitre)dgDatesPassage.SelectedValue).Salle.CodeSalle;
+            txtSalle.Text = ((EpreuveTitre)dgDatesPassage.SelectedValue).Salle;
             dgJury.ItemsSource = ((EpreuveTitre)dgDatesPassage.SelectedValue).ListeJury;
         }
 

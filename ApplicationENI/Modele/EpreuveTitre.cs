@@ -8,7 +8,7 @@ namespace ApplicationENI.Modele
     public class EpreuveTitre
     {
         private DateTime _dateEpreuve;
-        private Salle _salle;
+        private string _salle;
         private List<Jury> _listeJury;
 
         public List<Jury> ListeJury
@@ -17,7 +17,7 @@ namespace ApplicationENI.Modele
             set { _listeJury = value; }
         }
 
-        public Salle Salle
+        public string Salle
         {
             get { return _salle; }
             set { _salle = value; }
@@ -31,7 +31,7 @@ namespace ApplicationENI.Modele
 
         public EpreuveTitre(){}
 
-        public EpreuveTitre(DateTime dateEpreuve, Salle salle, List<Jury> listeJury)
+        public EpreuveTitre(DateTime dateEpreuve, string salle, List<Jury> listeJury)
         {
             this._dateEpreuve = dateEpreuve;
             this._salle = salle;

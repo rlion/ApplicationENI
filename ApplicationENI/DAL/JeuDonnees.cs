@@ -26,14 +26,6 @@ namespace ApplicationENI.DAL
 
             listTitres.Add(t1);
 
-            List<Jury> lj1 = new List<Jury>();
-            List<Jury> lj2 = new List<Jury>();
-
-            lj1.Add(GetJurys().ElementAt(0));
-            lj1.Add(GetJurys().ElementAt(1));
-            lj2.Add(GetJurys().ElementAt(2));
-            lj2.Add(GetJurys().ElementAt(3));
-
             t1.ListeEpreuves = GetEpreuveTitres();
 
             return listTitres;
@@ -81,8 +73,8 @@ namespace ApplicationENI.DAL
             lj2.Add(GetJurys().ElementAt(2));
             lj2.Add(GetJurys().ElementAt(3));
 
-            EpreuveTitre et1 = new EpreuveTitre(new DateTime(2012, 12, 12), GetSalles().ElementAt(0), lj1);
-            EpreuveTitre et2 = new EpreuveTitre(new DateTime(2012, 12, 19), GetSalles().ElementAt(1), lj2);
+            EpreuveTitre et1 = new EpreuveTitre(new DateTime(2012, 12, 12),"S101", lj1);// GetSalles().ElementAt(0)
+            EpreuveTitre et2 = new EpreuveTitre(new DateTime(2012, 12, 19),"S102" , lj2); //GetSalles().ElementAt(1)
 
             List<EpreuveTitre> let1 = new List<EpreuveTitre>();
             let1.Add(et1);

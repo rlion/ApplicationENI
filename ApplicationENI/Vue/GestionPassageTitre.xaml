@@ -46,7 +46,7 @@
                 <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Left" Name="dgDatesPassage" IsReadOnly="True" SelectionMode="Single" SelectionChanged="dgDatesPassage_SelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Date" Width="60*" Binding="{Binding Path=DateEpreuve, StringFormat={}{0:dd/MM/yyyy}}" />
-                        <DataGridTextColumn Header="Salle" Width="40*" Binding="{Binding Salle.CodeSalle}" />
+                        <DataGridTextColumn Header="Salle" Width="40*" Binding="{Binding Path=Salle}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
