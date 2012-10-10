@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -124,6 +123,42 @@ namespace ApplicationENI.Vue
                 if (MessageBox.Show("Etes-vous CERTAIN de vouloir supprimer cette absence ?", "Confirmation avant suppression", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     ctrl.supprimerAbsence((Absence)dataGridListeAbsences.SelectedItem);
+                    gbListeAbsenceRetards.Header = this.dataGridListeAbsences.Items.Count + " Absence(s)/Retard(s) répertorié(s)";
+                    int compteurAbsences = 0;
+                    int compteurRetards = 0;
+                    String texteAAfficher = "Total : ";
+
+                    foreach (Absence a in dataGridListeAbsences.Items)
+                    {
+                        if (a._isAbsence == true)
+                        {
+                            compteurAbsences++;
+                        }
+                        else
+                        {
+                            compteurRetards++;
+                        }
+                    }
+
+                    if (compteurAbsences > 1)
+                    {
+                        texteAAfficher += compteurAbsences + " absences, ";
+                    }
+                    else
+                    {
+                        texteAAfficher += compteurAbsences + " absence, ";
+                    }
+
+                    if (compteurRetards > 1)
+                    {
+                        texteAAfficher += compteurRetards + " retards.";
+                    }
+                    else
+                    {
+                        texteAAfficher += compteurRetards + " retard.";
+                    }
+
+                    gbListeAbsenceRetards.Header = texteAAfficher;
                     this.dataGridListeAbsences.Items.Refresh();
                 }
         }

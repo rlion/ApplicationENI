@@ -7,10 +7,9 @@ namespace ApplicationENI.Modele
 {
     public class Absence
     {
-        public Guid _id { get; set; }
+        public int _id { get; set; }
         public String _raison { get; set; }
         public String _commentaire { get; set; }
-        public String _auteur { get; set; }
         public DateTime _dateDebut { get; set; }
         public DateTime _dateFin { get; set; }
         public TimeSpan _duree { get; set; }
@@ -18,15 +17,13 @@ namespace ApplicationENI.Modele
 		public Stagiaire _stagiaire { get; set; }
         public bool _isAbsence { get; set; }
 
-        public Absence(String pRaison, String pCommentaire, String pAuteur, DateTime pDateDebut, DateTime pDateFin, TimeSpan pDuree, bool pValide, Stagiaire pStagiaire, bool pIsAbsence)
+        public Absence(String pRaison, String pCommentaire, DateTime pDateDebut, DateTime pDateFin, TimeSpan pDuree, bool pValide, Stagiaire pStagiaire, bool pIsAbsence)
         {
-            //la personne qui saisit l'absence
-            this._auteur = pAuteur;
             this._commentaire = pCommentaire;
             this._dateDebut = pDateDebut;
             this._dateFin = pDateFin;
             this._duree = pDuree;
-            this._id = Guid.NewGuid();
+            this._id = 0; // TODO: faire une requête pour aller chercher le dernier ID
             this._raison = pRaison;
             this._valide = pValide;
             this._stagiaire = pStagiaire;

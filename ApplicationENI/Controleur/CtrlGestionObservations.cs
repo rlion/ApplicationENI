@@ -15,7 +15,8 @@ namespace ApplicationENI.Controleur {
             obs.AjouterObservation();
         }
 
-        public void supprimerObservation(int pIndex) {
+        public void supprimerObservation(Observation pObs, int pIndex) {
+            pObs.SupprimerObservation();
             Parametres.Instance.stagiaire.listeObservations.RemoveAt(pIndex);
         }
 
@@ -24,6 +25,7 @@ namespace ApplicationENI.Controleur {
             pObs._type = pTypeObs;
             pObs._texte = pTexte;
             pObs._titre = pTitre;
+            pObs.ModifierObservation();
         }
 
     }

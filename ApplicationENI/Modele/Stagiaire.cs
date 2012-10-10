@@ -8,7 +8,7 @@ namespace ApplicationENI.Modele
     public class Stagiaire
     {
         // utilisation des propriétés simplifiées (on est flemmard ou on l'est pas^^).
-        public Guid _id { get; set; }
+        public int _id { get; set; }
         public String _civilité { get; set; }
         public String _nom { get; set; }
         public String _prenom { get; set; }
@@ -57,7 +57,7 @@ namespace ApplicationENI.Modele
             this._envoiDocEnCours = pEnvoiDocEnCours;
             this._historique = pHistorique;
             //TODO:créer un guid digne de ce nom.
-            this._id = new Guid();
+            this._id = 1; // TODO: auto-incrémentation.
             this._nom = pNom;
             this._permis = pPermis;
             this._photo = pPhoto;
@@ -67,20 +67,64 @@ namespace ApplicationENI.Modele
             this._telephonePortable = pTelephonePortable;
             this._ville = pVille;
             this._tuteur = pTuteur;
+            this.listeObservations = new List<Observation>();
             this.listeObservations = DAL.ObservationsDAL.getListObservations(this);
+            //this.listeAbsences = new List<Absence>(); //TODO: on appelle la DAL , si le retour est vide, on retourne une liste vide et pas null
+            /*this.listeObservations = DAL.ObservationsDAL.getListObservations(this);*/
+            this.listeAbsences = new List<Absence>();
             this.listeAbsences = DAL.AbsencesDAL.getListeAbsences(this);
 	    }
+
+        public Stagiaire(int pId, String pCivilité, String pNom, String pPrenom, String pAdresse1, String pAdresse2, String pAdresse3,
+            String pCp, String pVille, String pTelephonePortable, String pTelephoneFixe, String pEmail, DateTime pDateNaissance,
+            String pCodeRegion, String pCodeNationalité, String pCodeOrigineMedia, DateTime pDatePremierEnvoiDoc, DateTime pDateCreation,
+            String pRepertoire, bool pPermis, String pPhoto, bool pEnvoiDocEnCours, String pHistorique, Contact pTuteur)
+        {
+            this._id = pId;
+            this._adresse1 = pAdresse1;
+            this._adresse2 = pAdresse2;
+            this._adresse3 = pAdresse3;
+            this._civilité = pCivilité;
+            this._codeNationalité = pCodeNationalité;
+            this._codeOrigineMedia = pCodeOrigineMedia;
+            this._codeRegion = pCodeRegion;
+            this._cp = pCp;
+            this._dateCreation = pDateCreation;
+            this._dateNaissance = pDateNaissance;
+            this._datePremierEnvoiDoc = pDatePremierEnvoiDoc;
+            this._email = pEmail;
+            this._envoiDocEnCours = pEnvoiDocEnCours;
+            this._historique = pHistorique;
+            //TODO:créer un guid digne de ce nom.
+            this._id = 1; // TODO: auto-incrémentation.
+            this._nom = pNom;
+            this._permis = pPermis;
+            this._photo = pPhoto;
+            this._prenom = pPrenom;
+            this._repertoire = pRepertoire;
+            this._telephoneFixe = pTelephoneFixe;
+            this._telephonePortable = pTelephonePortable;
+            this._ville = pVille;
+            this._tuteur = pTuteur;
+           
+            //this.listeAbsences = new List<Absence>(); //TODO: on appelle la DAL , si le retour est vide, on retourne une liste vide et pas null
+            /*this.listeObservations = DAL.ObservationsDAL.getListObservations(this);*/
+            this.listeObservations = new List<Observation>();
+            this.listeObservations = DAL.ObservationsDAL.getListObservations(this);//TODO: idem plus bas.
+            this.listeAbsences = new List<Absence>();
+            this.listeAbsences = DAL.AbsencesDAL.getListeAbsences(this);
+        }
 
         public Stagiaire ()
 	    {
             //TODO: idem plus haut : créer un beau guid.
-            this._id=new Guid();     
+            this._id = 1;     
 	    }
 
         public Stagiaire (String pNom, String pPrenom)
 	    {
             //TODO: idem plus haut : créer un beau guid.
-            this._id=new Guid();   
+            this._id = 1;   
             this._nom = pNom;
             this._prenom = pPrenom;
 	    }

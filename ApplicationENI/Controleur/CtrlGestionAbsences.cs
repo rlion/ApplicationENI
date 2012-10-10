@@ -22,7 +22,7 @@ namespace ApplicationENI.Controleur {
                 isAbsence = false;
             }
 
-            Absence a = new Absence(pRaison, pCommentaire, Parametres.Instance.login, dateDebut, dateFin, duree, pValide, Parametres.Instance.stagiaire, isAbsence);
+            Absence a = new Absence(pRaison, pCommentaire, dateDebut, dateFin, duree, pValide, Parametres.Instance.stagiaire, isAbsence);
             a.ajouterAbsence();
         }
 

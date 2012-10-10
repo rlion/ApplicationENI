@@ -7,13 +7,7 @@ namespace ApplicationENI.Modele
 {
     public class Observation
     {
-        private Contact con;
-        private string p;
-        private string p_2;
-        private string p_3;
-        private Stagiaire pStg;
-
-        public Guid _id { get; set; }
+        public int _id { get; set; }
         public DateTime _date { get; set; }
         public String _nomAuteur { get; set; }
         public String _type { get; set; }
@@ -25,7 +19,7 @@ namespace ApplicationENI.Modele
         {
             this._nomAuteur = pAuteur;
             this._date = DateTime.Now;
-            this._id = Guid.NewGuid();
+            this._id = 1;
             this._texte = pTexte;
             this._titre = pTitre;
             this._type = pType;

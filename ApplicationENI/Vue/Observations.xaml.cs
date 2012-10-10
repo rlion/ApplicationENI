@@ -114,21 +114,22 @@ namespace ApplicationENI.Vue
                 {
                     MessageBox.Show("Il n'y a rien à enregistrer", "Erreur", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
-                else {
+                else
+                {
                     if (OperationExiste(texte, titre, type))
                     {
                         MessageBox.Show("L'observation est déjà enregistrée en base.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     }
-                    else {
-                        ctrl.ajouterObservation(typeObs, titre, texte, stgEnCours);    
-
+                    else
+                    {
+                        ctrl.ajouterObservation(typeObs, titre, texte, stgEnCours);
+                        dataGridListAbsences.SelectedItem = dataGridListAbsences.Items[dataGridListAbsences.Items.Count - 1];
                     }
-                                    }
+                }
                 
                 
             }
             dataGridListAbsences.Items.Refresh();
-            
             // on peut réinitialiser le  saisie à 0
             flag_mode_saisie = 0;
         }
@@ -138,7 +139,7 @@ namespace ApplicationENI.Vue
             if (this.dataGridListAbsences.SelectedItem != null)
             {
                 if(MessageBox.Show("Etes-vous CERTAIN de vouloir supprimer cette observation ?", "Confirmation de suppression", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes){
-                   ctrl.supprimerObservation(this.dataGridListAbsences.SelectedIndex);
+                   ctrl.supprimerObservation((Observation)this.dataGridListAbsences.SelectedItem, this.dataGridListAbsences.SelectedIndex);
                  dataGridListAbsences.Items.Refresh();                 
                 }
                 
