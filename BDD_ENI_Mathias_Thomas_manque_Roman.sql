@@ -1715,3 +1715,153 @@ INSERT [dbo].[Stagiaire] ([CodeStagiaire], [Civilite], [Nom], [Prenom], [Adresse
 INSERT [dbo].[Stagiaire] ([CodeStagiaire], [Civilite], [Nom], [Prenom], [Adresse1], [Adresse2], [Adresse3], [Codepostal], [Ville], [TelephoneFixe], [TelephonePortable], [Email], [DateNaissance], [CodeRegion], [CodeNationalite], [CodeOrigineMedia], [DateDernierEnvoiDoc], [DateCreation], [Repertoire], [Permis], [Photo], [EnvoiDocEnCours], [Historique]) VALUES (39, N'Mr ', N'Bruitui', N'Jeff', N'8 bd José', NULL, NULL, N'35500', N'Rennes', N'0202020202    ', N'0202020202    ', N'test@gmail.com', NULL, N'__', N'__', N'__', NULL, NULL, NULL, 0, N'c:\testPhotos\7.jpg', 0, NULL)
 INSERT [dbo].[Stagiaire] ([CodeStagiaire], [Civilite], [Nom], [Prenom], [Adresse1], [Adresse2], [Adresse3], [Codepostal], [Ville], [TelephoneFixe], [TelephonePortable], [Email], [DateNaissance], [CodeRegion], [CodeNationalite], [CodeOrigineMedia], [DateDernierEnvoiDoc], [DateCreation], [Repertoire], [Permis], [Photo], [EnvoiDocEnCours], [Historique]) VALUES (40, N'Mr ', N'Basse', N'Jeanne', N'8 bd José', NULL, NULL, N'35500', N'Rennes', N'0202020202    ', N'0202020202    ', N'test@gmail.com', NULL, N'__', N'__', N'__', NULL, NULL, NULL, 0, N'c:\testPhotos\1.jpg', 0, NULL)
 SET IDENTITY_INSERT [dbo].[Stagiaire] OFF
+
+
+/********************** AJOUT CODE ROMAN ***************************/
+
+USE [APPLICATION_ENI]
+GO
+/****** Object:  Table [dbo].[EPREUVETITRE]    Script Date: 11/10/2012 00:45:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[EPREUVETITRE](
+	[CodeSalle] [varchar](5) NOT NULL,
+	[CodeTitre] [char](8) NOT NULL,
+	[dateEpreuve] [datetime] NOT NULL,
+ CONSTRAINT [PK_EPREUVETITRE] PRIMARY KEY CLUSTERED 
+(
+	[CodeSalle] ASC,
+	[CodeTitre] ASC,
+	[dateEpreuve] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[EPTITREJURY]    Script Date: 11/10/2012 00:45:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[EPTITREJURY](
+	[idJury] [int] NOT NULL,
+	[CodeTitre] [char](8) NOT NULL,
+	[dateEpreuve] [datetime] NOT NULL,
+	[CodeSalle] [varchar](5) NOT NULL,
+ CONSTRAINT [PK_EPTITREJURY] PRIMARY KEY CLUSTERED 
+(
+	[idJury] ASC,
+	[CodeTitre] ASC,
+	[dateEpreuve] ASC,
+	[CodeSalle] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[JURY]    Script Date: 11/10/2012 00:45:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[JURY](
+	[idJury] [int] IDENTITY(1,1) NOT NULL,
+	[civilite] [varchar](4) NULL,
+	[nom] [varchar](50) NOT NULL,
+	[prenom] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_JURY] PRIMARY KEY CLUSTERED 
+(
+	[idJury] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Titre]    Script Date: 11/10/2012 00:45:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Titre](
+	[CodeTitre] [char](8) NOT NULL,
+	[LibelleCourt] [varchar](50) NOT NULL,
+	[LibelleLong] [varchar](200) NULL,
+	[DateCreation] [datetime] NOT NULL,
+	[TitreENI] [bit] NOT NULL,
+	[Archiver] [bit] NOT NULL,
+	[DateModif] [timestamp] NULL,
+	[niveau] [varchar](5) NULL,
+	[codeRome] [varchar](20) NULL,
+	[codeNSF] [varchar](20) NULL,
+ CONSTRAINT [PK_Titre] PRIMARY KEY CLUSTERED 
+(
+	[CodeTitre] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+INSERT [dbo].[EPREUVETITRE] ([CodeSalle], [CodeTitre], [dateEpreuve]) VALUES (N'S101', N'AL      ', CAST(0x0000A12500000000 AS DateTime))
+INSERT [dbo].[EPREUVETITRE] ([CodeSalle], [CodeTitre], [dateEpreuve]) VALUES (N'S102', N'AL      ', CAST(0x0000A12C00000000 AS DateTime))
+INSERT [dbo].[EPTITREJURY] ([idJury], [CodeTitre], [dateEpreuve], [CodeSalle]) VALUES (1, N'AL      ', CAST(0x0000A12500000000 AS DateTime), N'S101')
+INSERT [dbo].[EPTITREJURY] ([idJury], [CodeTitre], [dateEpreuve], [CodeSalle]) VALUES (2, N'AL      ', CAST(0x0000A12500000000 AS DateTime), N'S101')
+INSERT [dbo].[EPTITREJURY] ([idJury], [CodeTitre], [dateEpreuve], [CodeSalle]) VALUES (3, N'AL      ', CAST(0x0000A12C00000000 AS DateTime), N'S102')
+INSERT [dbo].[EPTITREJURY] ([idJury], [CodeTitre], [dateEpreuve], [CodeSalle]) VALUES (4, N'AL      ', CAST(0x0000A12C00000000 AS DateTime), N'S102')
+SET IDENTITY_INSERT [dbo].[JURY] ON 
+
+INSERT [dbo].[JURY] ([idJury], [civilite], [nom], [prenom]) VALUES (1, N'Mr', N'Bond', N'James')
+INSERT [dbo].[JURY] ([idJury], [civilite], [nom], [prenom]) VALUES (2, N'Mme', N'Spears', N'Britney')
+INSERT [dbo].[JURY] ([idJury], [civilite], [nom], [prenom]) VALUES (3, N'Mlle', N'Gomez', N'Selena')
+INSERT [dbo].[JURY] ([idJury], [civilite], [nom], [prenom]) VALUES (4, N'Mr', N'Dujardin', N'Jean')
+SET IDENTITY_INSERT [dbo].[JURY] OFF
+INSERT [dbo].[Titre] ([CodeTitre], [LibelleCourt], [LibelleLong], [DateCreation], [TitreENI], [Archiver], [niveau], [codeRome], [codeNSF]) VALUES (N'AL      ', N'Archi. Log.', N'Architecte Logiciel', CAST(0x00009E9900000000 AS DateTime), 1, 1, N'1', N'ALROM', N'ALNSF')
+INSERT [dbo].[Titre] ([CodeTitre], [LibelleCourt], [LibelleLong], [DateCreation], [TitreENI], [Archiver], [niveau], [codeRome], [codeNSF]) VALUES (N'ASR     ', N'Archi. Spé. Réseau', N'Architecte Spécialiste Réseau', CAST(0x0000922800000000 AS DateTime), 1, 0, N'2', N'ASRROM', N'ASRNSF')
+INSERT [dbo].[Titre] ([CodeTitre], [LibelleCourt], [LibelleLong], [DateCreation], [TitreENI], [Archiver], [niveau], [codeRome], [codeNSF]) VALUES (N'CDI     ', N'Concept Dev. Log.', N'Concepteur Développeur Informatique', CAST(0x0000916800000000 AS DateTime), 1, 0, N'2', N'CDIROM', N'CDINSF')
+INSERT [dbo].[Titre] ([CodeTitre], [LibelleCourt], [LibelleLong], [DateCreation], [TitreENI], [Archiver], [niveau], [codeRome], [codeNSF]) VALUES (N'DL      ', N'Dev. Log.', N'Développeur Logiciel', CAST(0x0000901A00000000 AS DateTime), 1, 0, N'3', N'DLROM', N'DLNSF')
+INSERT [dbo].[Titre] ([CodeTitre], [LibelleCourt], [LibelleLong], [DateCreation], [TitreENI], [Archiver], [niveau], [codeRome], [codeNSF]) VALUES (N'EISI    ', N'EISI', N'EISI', CAST(0x00009ED600000000 AS DateTime), 1, 0, N'1', N'EISIROM', N'EISINSF')
+ALTER TABLE [dbo].[Titre] ADD  CONSTRAINT [DF_Titre_DateCreation]  DEFAULT (getdate()) FOR [DateCreation]
+GO
+ALTER TABLE [dbo].[Titre] ADD  CONSTRAINT [DF_Titre_Archiver]  DEFAULT ((0)) FOR [Archiver]
+GO
+ALTER TABLE [dbo].[EPREUVETITRE]  WITH CHECK ADD  CONSTRAINT [FK_EPREUVETITRE_Salle] FOREIGN KEY([CodeSalle])
+REFERENCES [dbo].[Salle] ([CodeSalle])
+GO
+ALTER TABLE [dbo].[EPREUVETITRE] CHECK CONSTRAINT [FK_EPREUVETITRE_Salle]
+GO
+ALTER TABLE [dbo].[EPREUVETITRE]  WITH CHECK ADD  CONSTRAINT [FK_EPREUVETITRE_Titre] FOREIGN KEY([CodeTitre])
+REFERENCES [dbo].[Titre] ([CodeTitre])
+GO
+ALTER TABLE [dbo].[EPREUVETITRE] CHECK CONSTRAINT [FK_EPREUVETITRE_Titre]
+GO
+ALTER TABLE [dbo].[EPTITREJURY]  WITH CHECK ADD  CONSTRAINT [FK_EPTITREJURY_EPREUVETITRE] FOREIGN KEY([CodeSalle], [CodeTitre], [dateEpreuve])
+REFERENCES [dbo].[EPREUVETITRE] ([CodeSalle], [CodeTitre], [dateEpreuve])
+GO
+ALTER TABLE [dbo].[EPTITREJURY] CHECK CONSTRAINT [FK_EPTITREJURY_EPREUVETITRE]
+GO
+ALTER TABLE [dbo].[EPTITREJURY]  WITH CHECK ADD  CONSTRAINT [FK_EPTITREJURY_JURY] FOREIGN KEY([idJury])
+REFERENCES [dbo].[JURY] ([idJury])
+GO
+ALTER TABLE [dbo].[EPTITREJURY] CHECK CONSTRAINT [FK_EPTITREJURY_JURY]
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Notifie le niveau diplomant associé au titre' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Titre', @level2type=N'COLUMN',@level2name=N'niveau'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Notifie le codeRome associé au titre' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Titre', @level2type=N'COLUMN',@level2name=N'codeRome'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Notifie le codeRome associé au titre' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Titre', @level2type=N'COLUMN',@level2name=N'codeNSF'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'Définir les titres décernés par les formations de l''ENI' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Titre'
+GO
