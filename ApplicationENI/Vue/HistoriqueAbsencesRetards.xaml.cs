@@ -262,9 +262,9 @@ namespace ApplicationENI.Vue
             datePickerDateDebut.Text = abs._dateDebut.ToString();
             datePickerDateFin.Text = abs._dateFin.ToString();
             txtHeureDeb.Text = abs._dateDebut.ToString("HH");
-            txtMinuteDeb.Text = abs._dateDebut.Minute.ToString();
-            txtHeureFin.Text = abs._dateFin.Hour.ToString();
-            txtMinuteFin.Text = abs._dateFin.Minute.ToString();
+            txtMinuteDeb.Text = abs._dateDebut.ToString("mm");
+            txtHeureFin.Text = abs._dateFin.ToString("HH");
+            txtMinuteFin.Text = abs._dateFin.ToString("mm");
             checkBoxValide.IsChecked = abs._valide;
             textBoxCommentaire.Text = abs._commentaire;
             textBoxRaison.Text = abs._raison;
