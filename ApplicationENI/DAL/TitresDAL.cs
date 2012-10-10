@@ -91,6 +91,29 @@ namespace ApplicationENI.DAL
 
         public static void AjouterTitre(Titre titre)
         {
+            //CodeTitre, LibelleCourt, LibelleLong, DateCreation, TitreENI, Archiver, DateModif, niveau, codeRome, codeNSF
+            string req = "insert into Titre select @codeT, @libC, @libL, @dateC, @titENI, @archiv, @dateM, @nivo, @codeR, @codeN " +
+                         "where not exists (select 0 from Titre where CodeTitre='"+titre.CodeTitre+"'";
+
+            //INSERT INTO clients (client_id, client_name, client_type)
+            //SELECT 10345, 'IBM', 'advertising'
+            //WHERE not exists (select * from clients where clients.client_id = 10345);
+
+            SqlConnection conn = ConnexionSQL.CreationConnexion();
+            SqlCommand commande = conn.CreateCommand();
+            commande.CommandText = req;
+            commande.Parameters.AddWithValue("@codeT", titre.CodeTitre);
+            commande.Parameters.AddWithValue("@libC", titre.LibelleCourt);
+            commande.Parameters.AddWithValue("@libL", titre.LibelleLong);
+            commande.Parameters.AddWithValue("@dateC", titre.DateCreation);
+            commande.Parameters.AddWithValue("@titENI", titre.TitreENI);
+            commande.Parameters.AddWithValue("@archiv", titre.Archiver);
+            commande.Parameters.AddWithValue("@dateM", titre.DateModif);
+            commande.Parameters.AddWithValue("@nivo", titre.Niveau);
+            commande.Parameters.AddWithValue("@codeR", titre.CodeRome);
+            commande.Parameters.AddWithValue("@codeN", titre.CodeNSF);
+
+            commande.ExecuteNonQuery();
         }
 
         public static void ModifierTitre(Titre titre)

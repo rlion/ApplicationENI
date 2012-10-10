@@ -75,22 +75,21 @@ namespace ApplicationENI.Controleur
 
         public void AjouterTitre(Titre titre)
         {
-            listTitres.Add(titre);
+            titre.DateCreation = DateTime.Now;
+            titre.DateModif = titre.DateCreation;
             DAL.TitresDAL.AjouterTitre(titre);
-
+            listTitres.Add(titre);
             InitDictionnaires();
         }
 
         public void ModifierTitre(Titre titre)
         {
-            //Code ci-dessous inutile car Titre dans view bindé directement 
-            //à la liste dans contrôleur
-            //Titre titreToDelete = listTitres.Where(x => x.CodeTitre.Equals(titre.CodeTitre)).First();
-            //listTitres.Remove(titreToDelete);
-            //listTitres.Add(titre);
+
             histoTitre = new Titre(titre.CodeTitre, titre.LibelleCourt, titre.LibelleLong,
                 titre.Niveau, titre.CodeRome, titre.CodeNSF, titre.DateCreation,
                 titre.DateModif, titre.TitreENI, titre.Archiver, titre.ListeEpreuves);
+
+            titre.DateModif = DateTime.Now;
             DAL.TitresDAL.ModifierTitre(titre);
         }
 
