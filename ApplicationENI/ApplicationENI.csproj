@@ -167,9 +167,6 @@
     <Compile Include="Vue\PopUp\AjoutECF_Competence.xaml.cs">
       <DependentUpon>AjoutECF_Competence.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vue\PopUp\AjoutJury.xaml.cs">
-      <DependentUpon>AjoutJury.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Vue\PopUp\AjoutSessionECF.xaml.cs">
       <DependentUpon>AjoutSessionECF.xaml</DependentUpon>
     </Compile>
@@ -249,10 +246,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Vue\PopUp\AjoutECF_Competence.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vue\PopUp\AjoutJury.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

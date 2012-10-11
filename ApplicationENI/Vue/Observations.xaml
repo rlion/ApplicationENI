@@ -24,12 +24,12 @@
             <TextBox Height="76" HorizontalAlignment="Left" Margin="67,104,0,0" Name="txtBoxTexte" VerticalAlignment="Top" Width="486" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
             <ComboBox Height="23" HorizontalAlignment="Left" Margin="432,65,0,0" Name="comboBox1" VerticalAlignment="Top" Width="120" ItemsSource="{Binding}" />
         </Grid>
-        <GroupBox Header="Liste des observations" Height="auto" HorizontalAlignment="Left" Margin="22,0,0,0" Name="gbListeRemarques" VerticalAlignment="Top" Width="559">
-            <DataGrid AutoGenerateColumns="False" Name="dataGridListAbsences" SelectionChanged="dataGridListAbsences_SelectionChanged" CanUserAddRows="False" MaxHeight="200" Background="Black">
+        <GroupBox Header="Liste des observations" Height="auto" HorizontalAlignment="Left" Margin="22,0,0,0" Name="gbListeRemarques" VerticalAlignment="Top" Width="559" MaxHeight="125">
+            <DataGrid AutoGenerateColumns="False" Name="dataGridListAbsences" SelectionChanged="dataGridListAbsences_SelectionChanged" CanUserAddRows="False" MaxHeight="200" Background="#FFF0F0F0" HorizontalGridLinesBrush="AliceBlue">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Date" Binding="{Binding _date}" Width="25*" />
+                    <DataGridTextColumn Header="Date" Binding="{Binding _date}" Width="30*" />
                     <DataGridTextColumn Header="Auteur" Binding="{Binding _nomAuteur}" Width="15*" />
-                    <DataGridTextColumn Header="Titre" Binding="{Binding _titre}" Width="60*" />
+                    <DataGridTextColumn Header="Titre" Binding="{Binding _titre}" Width="55*" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>

@@ -24,19 +24,28 @@ namespace ApplicationENI.DAL
 
         public static List<ItemAlerte> listeAlertesParStagiaire(Stagiaire pStg) 
         {
-
-            SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(SELECT_ALERTES_PAR_STAGIAIRE, connexion);
-            List<ItemAlerte> listeAlertes = new List<ItemAlerte>();
-            SqlDataReader reader = cmd.ExecuteReader();
-            while (reader.Read()) {
-                ItemAlerte alerteTemp = new ItemAlerte();
-                alerteTemp.DESCRIPTION = reader.GetString(reader.GetOrdinal("Commentaire"));
-                alerteTemp.TYPE = reader.GetString(reader.GetOrdinal("CodeTypeEvenement"));
-                // une absence correspond à une icone de niveau Warning.
-                alerteTemp.ICONE = alerteTemp.GetIcone(0);
-                pStg.listeAlertes.Add(alerteTemp);
+            try
+            {
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+                SqlCommand cmd = new SqlCommand(SELECT_ALERTES_PAR_STAGIAIRE, connexion);
+                List<ItemAlerte> listeAlertes = new List<ItemAlerte>();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read()) {
+                    ItemAlerte alerteTemp = new ItemAlerte();
+                    alerteTemp.DESCRIPTION = reader.GetString(reader.GetOrdinal("Commentaire"));
+                    alerteTemp.TYPE = reader.GetString(reader.GetOrdinal("CodeTypeEvenement"));
+                    // une absence correspond à une icone de niveau Warning.
+                    alerteTemp.ICONE = alerteTemp.GetIcone(0);
+                    pStg.listeAlertes.Add(alerteTemp);
+                }
             }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible d'éxécuter la requête : " + e.Message, "Echec de la requête",
+                      System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return null;
+            }
+            
             return pStg.listeAlertes;
         }
 
