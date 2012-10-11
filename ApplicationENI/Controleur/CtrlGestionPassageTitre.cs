@@ -73,13 +73,29 @@ namespace ApplicationENI.Controleur
             return t;
         }
 
+        //THIS IS IT boubou!
         public void AjouterTitre(Titre titre)
         {
-            titre.DateCreation = DateTime.Now;
-            titre.DateModif = titre.DateCreation;
-            DAL.TitresDAL.AjouterTitre(titre);
-            listTitres.Add(titre);
-            InitDictionnaires();
+            if(!string.IsNullOrEmpty(titre.CodeTitre) && !string.IsNullOrEmpty(titre.LibelleCourt)) 
+            {
+                titre.DateCreation = DateTime.Now;
+                titre.DateModif = titre.DateCreation;
+                if(DAL.TitresDAL.AjouterTitre(titre) > 0) 
+                {
+                    listTitres.Add(titre);
+                    InitDictionnaires();
+                } 
+                else 
+                {
+                    System.Windows.MessageBox.Show("Ce titre existe déjà!",
+                    "Ajout titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                }
+            } 
+            else 
+            {
+                System.Windows.MessageBox.Show("Le code et le libellé court du titre doivent être obligatoirement renseignés!",
+                    "Ajout titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+            }
         }
 
         public void ModifierTitre(Titre titre)
@@ -93,12 +109,15 @@ namespace ApplicationENI.Controleur
             DAL.TitresDAL.ModifierTitre(titre);
         }
 
+        //THIS IS IT boubou!
         public void SupprimerTitre(string codeTitre)
         {
-            Titre titreToDelete = listTitres.Where(x=>x.CodeTitre.Equals(codeTitre)).First();
-            listTitres.Remove(titreToDelete);
-            dictTitre.Remove(titreToDelete.CodeTitre);
-            DAL.TitresDAL.SupprimerTitre(codeTitre);
+            if(DAL.TitresDAL.SupprimerTitre(codeTitre) != -1) 
+            {
+                Titre titreToDelete = listTitres.Where(x => x.CodeTitre.Equals(codeTitre)).First();
+                listTitres.Remove(titreToDelete);
+                dictTitre.Remove(titreToDelete.CodeTitre);
+            }
         }
     }
 }

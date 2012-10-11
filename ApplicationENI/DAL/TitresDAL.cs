@@ -89,40 +89,61 @@ namespace ApplicationENI.DAL
             return lj;
         }
 
-        public static void AjouterTitre(Titre titre)
+        //THIS IS IT boubou!
+        public static int AjouterTitre(Titre titre)
         {
-            //CodeTitre, LibelleCourt, LibelleLong, DateCreation, TitreENI, Archiver, DateModif, niveau, codeRome, codeNSF
-            string req = "insert into Titre select @codeT, @libC, @libL, @dateC, @titENI, @archiv, @dateM, @nivo, @codeR, @codeN " +
-                         "where not exists (select 0 from Titre where CodeTitre='"+titre.CodeTitre+"'";
+            try 
+            {
+                string req = "insert into Titre (CodeTitre,LibelleCourt,LibelleLong,DateCreation,TitreENI,Archiver,niveau,codeRome,codeNSF) " +
+    "select @codeT, @libC, @libL, @dateC, @titENI, @archiv, @nivo, @codeR, @codeN " +
+             "where not exists (select 0 from Titre where CodeTitre=@codeT)";
 
-            //INSERT INTO clients (client_id, client_name, client_type)
-            //SELECT 10345, 'IBM', 'advertising'
-            //WHERE not exists (select * from clients where clients.client_id = 10345);
+                SqlConnection conn = ConnexionSQL.CreationConnexion();
+                SqlCommand commande = conn.CreateCommand();
+                commande.CommandText = req;
+                commande.Parameters.AddWithValue("@codeT", titre.CodeTitre);
+                commande.Parameters.AddWithValue("@libC", titre.LibelleCourt);
+                commande.Parameters.AddWithValue("@libL", titre.LibelleLong ?? string.Empty);
+                commande.Parameters.AddWithValue("@dateC", titre.DateCreation);
+                commande.Parameters.AddWithValue("@titENI", titre.TitreENI);
+                commande.Parameters.AddWithValue("@archiv", titre.Archiver);
+                commande.Parameters.AddWithValue("@nivo", titre.Niveau ?? string.Empty);
+                commande.Parameters.AddWithValue("@codeR", titre.CodeRome ?? string.Empty);
+                commande.Parameters.AddWithValue("@codeN", titre.CodeNSF ?? string.Empty);
 
-            SqlConnection conn = ConnexionSQL.CreationConnexion();
-            SqlCommand commande = conn.CreateCommand();
-            commande.CommandText = req;
-            commande.Parameters.AddWithValue("@codeT", titre.CodeTitre);
-            commande.Parameters.AddWithValue("@libC", titre.LibelleCourt);
-            commande.Parameters.AddWithValue("@libL", titre.LibelleLong);
-            commande.Parameters.AddWithValue("@dateC", titre.DateCreation);
-            commande.Parameters.AddWithValue("@titENI", titre.TitreENI);
-            commande.Parameters.AddWithValue("@archiv", titre.Archiver);
-            commande.Parameters.AddWithValue("@dateM", titre.DateModif);
-            commande.Parameters.AddWithValue("@nivo", titre.Niveau);
-            commande.Parameters.AddWithValue("@codeR", titre.CodeRome);
-            commande.Parameters.AddWithValue("@codeN", titre.CodeNSF);
+                return commande.ExecuteNonQuery();
+            } 
+            catch(Exception e) 
+            {
+                System.Windows.MessageBox.Show("L'ajout de ce titre est impossible : " + e.Message, 
+                    "Suppression Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return -1;
+            }
 
-            commande.ExecuteNonQuery();
         }
 
         public static void ModifierTitre(Titre titre)
         {
         }
 
-        public static void SupprimerTitre(string codeTitre)
+        //THIS IS IT boubou!
+        public static int SupprimerTitre(string codeTitre)
         {
-            
+            // Supprimer le titre en catchant si la suppression est impossible
+            try 
+            {              
+                SqlConnection conn = ConnexionSQL.CreationConnexion();
+                SqlCommand commande = conn.CreateCommand();
+                string req = "delete from Titre where CodeTitre=@codeTitre";
+                commande.CommandText = req;
+                commande.Parameters.AddWithValue("@codeTitre", codeTitre);
+                return commande.ExecuteNonQuery();
+            } 
+            catch(Exception) 
+            {
+                System.Windows.MessageBox.Show("La suppression de ce titre est impossible : d'autres informations dépendent de celui-ci.", "Suppression Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return -1;
+            }
         }
     }
 }

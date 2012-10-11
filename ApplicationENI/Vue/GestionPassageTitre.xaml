@@ -17,8 +17,8 @@
         </ComboBox>
         <GroupBox Header="Informations titre" Height="166" Margin="12,50,0,0" Name="groupBoxTitre" VerticalAlignment="Top" HorizontalAlignment="Left" Width="606">
             <Grid>
-                <Label Content="Code :" Height="25" HorizontalAlignment="Left" Margin="39,8,0,0" Name="label2" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="46" />
-                <Label Content="Intitulé court :" HorizontalAlignment="Left" Margin="191,8,0,0" Name="label3" Height="25" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="84" />
+                <Label Content="* Code :" Height="25" HorizontalAlignment="Left" Margin="27,8,0,0" Name="label2" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="58" />
+                <Label Content="* Intitulé court :" HorizontalAlignment="Left" Margin="180,8,0,0" Name="label3" Height="25" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="95" />
                 <Label Content="Niveau :" Height="25" HorizontalAlignment="Left" Margin="222,58,0,0" Name="label5" VerticalAlignment="Top" HorizontalContentAlignment="Right" Width="53" />
                 <ComboBox Height="23" HorizontalAlignment="Left" Margin="275,61,0,0" Name="cbNiveau" VerticalAlignment="Top" Width="44" SelectedValue="{Binding Niveau}">
                     <!--<ComboBoxItem Content="1" />
