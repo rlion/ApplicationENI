@@ -37,7 +37,9 @@ namespace ApplicationENI.Modele
 
         public void ajouterAbsence()
         {
+            //TODO: reprendre ceci et vérifier que l'alerte n'existe pas déjà avant de l'ajouter.
             DAL.AbsencesDAL.ajouterAbsence(this);
+            
         }
 
         public void supprimerAbsence()

@@ -11,7 +11,7 @@ namespace ApplicationENI.Modele
 
         public Formations()
         {
-            listeFormations = DAL.FormationDAL.listeFormations();
+            listeFormations = DAL.JeuDonnees.GetListeFormation();
         }
 
     }

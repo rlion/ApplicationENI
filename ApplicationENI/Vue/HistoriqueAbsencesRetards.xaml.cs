@@ -160,6 +160,7 @@ namespace ApplicationENI.Vue
 
                     gbListeAbsenceRetards.Header = texteAAfficher;
                     this.dataGridListeAbsences.Items.Refresh();
+                    this.gbDetailAbsenceRetard.Visibility = Visibility.Hidden;
                 }
         }
 

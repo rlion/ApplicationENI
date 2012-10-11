@@ -35,46 +35,9 @@ namespace ApplicationENI.Modele
         //public List<Evaluation> _resultats;
         public List<Observation> listeObservations { get; set; }
 		public List<Absence> listeAbsences { get; set; }
+        public List<ItemAlerte> listeAlertes { get; set; }
 
-
-        public Stagiaire (String pCivilité, String pNom, String pPrenom, String pAdresse1, String pAdresse2, String pAdresse3, 
-            String pCp, String pVille, String pTelephonePortable, String pTelephoneFixe, String pEmail, DateTime pDateNaissance, 
-            String pCodeRegion, String pCodeNationalité, String pCodeOrigineMedia, DateTime pDatePremierEnvoiDoc, DateTime pDateCreation,
-            String pRepertoire, bool pPermis, String pPhoto, bool pEnvoiDocEnCours, String pHistorique, Contact pTuteur)
-	    {
-            this._adresse1 = pAdresse1;
-            this._adresse2 = pAdresse2;
-            this._adresse3 = pAdresse3;
-            this._civilité = pCivilité;
-            this._codeNationalité = pCodeNationalité;
-            this._codeOrigineMedia = pCodeOrigineMedia;
-            this._codeRegion =  pCodeRegion;
-            this._cp = pCp;
-            this._dateCreation = pDateCreation;
-            this._dateNaissance = pDateNaissance;
-            this._datePremierEnvoiDoc = pDatePremierEnvoiDoc;
-            this._email = pEmail;
-            this._envoiDocEnCours = pEnvoiDocEnCours;
-            this._historique = pHistorique;
-            //TODO:créer un guid digne de ce nom.
-            this._id = 1; // TODO: auto-incrémentation.
-            this._nom = pNom;
-            this._permis = pPermis;
-            this._photo = pPhoto;
-            this._prenom = pPrenom;
-            this._repertoire = pRepertoire;
-            this._telephoneFixe = pTelephoneFixe;
-            this._telephonePortable = pTelephonePortable;
-            this._ville = pVille;
-            this._tuteur = pTuteur;
-            this.listeObservations = new List<Observation>();
-            this.listeObservations = DAL.ObservationsDAL.getListObservations(this);
-            //this.listeAbsences = new List<Absence>(); //TODO: on appelle la DAL , si le retour est vide, on retourne une liste vide et pas null
-            /*this.listeObservations = DAL.ObservationsDAL.getListObservations(this);*/
-            this.listeAbsences = new List<Absence>();
-            this.listeAbsences = DAL.AbsencesDAL.getListeAbsences(this);
-	    }
-
+        
         public Stagiaire(int pId, String pCivilité, String pNom, String pPrenom, String pAdresse1, String pAdresse2, String pAdresse3,
             String pCp, String pVille, String pTelephonePortable, String pTelephoneFixe, String pEmail, DateTime pDateNaissance,
             String pCodeRegion, String pCodeNationalité, String pCodeOrigineMedia, DateTime pDatePremierEnvoiDoc, DateTime pDateCreation,
@@ -96,8 +59,7 @@ namespace ApplicationENI.Modele
             this._envoiDocEnCours = pEnvoiDocEnCours;
             this._historique = pHistorique;
             //TODO:créer un guid digne de ce nom.
-            this._id = 1; // TODO: auto-incrémentation.
-            this._nom = pNom;
+             this._nom = pNom;
             this._permis = pPermis;
             this._photo = pPhoto;
             this._prenom = pPrenom;
@@ -105,7 +67,7 @@ namespace ApplicationENI.Modele
             this._telephoneFixe = pTelephoneFixe;
             this._telephonePortable = pTelephonePortable;
             this._ville = pVille;
-            this._tuteur = pTuteur;
+            this._tuteur = DAL.ContactDAL.rechercherContact(pId);
            
             //this.listeAbsences = new List<Absence>(); //TODO: on appelle la DAL , si le retour est vide, on retourne une liste vide et pas null
             /*this.listeObservations = DAL.ObservationsDAL.getListObservations(this);*/
@@ -113,6 +75,9 @@ namespace ApplicationENI.Modele
             this.listeObservations = DAL.ObservationsDAL.getListObservations(this);//TODO: idem plus bas.
             this.listeAbsences = new List<Absence>();
             this.listeAbsences = DAL.AbsencesDAL.getListeAbsences(this);
+            this.listeAlertes = new List<ItemAlerte>();
+            //this.listeAlertes = DAL.AlerteDAL.listeAlertesParStagiaire(this);
+
         }
 
         public Stagiaire ()

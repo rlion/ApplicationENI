@@ -87,7 +87,7 @@ namespace ApplicationENI.DAL
             cmd.Parameters.AddWithValue("@commentaire", pA._commentaire);
             cmd.Parameters.AddWithValue("@raison", pA._raison);
             cmd.Parameters.AddWithValue("@justifiee", pA._valide);
-            cmd.Parameters.AddWithValue("@num_stagiaire", 1);
+            cmd.Parameters.AddWithValue("@num_stagiaire", pA._stagiaire._id);
             cmd.Parameters.AddWithValue("@isAbsence", pA._isAbsence);
             //cmd.Parameters.AddWithValue("@num_stagiaire", pA._stagiaire._id);
             cmd.ExecuteNonQuery();

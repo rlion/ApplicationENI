@@ -7,41 +7,24 @@ namespace ApplicationENI.Modele
 {
     public class ItemAlerte
     {
-        private string icone;
-        private string description;
-        private string type;
+        public string ICONE { get; set; }
+        public string DESCRIPTION { get; set; }
+        public string TYPE { get; set; }
 
         public ItemAlerte()
         {
-            icone = GetIcone(3);
-            description = "Boubou est bleu";
-            type = "";
+            
         }
 
         public ItemAlerte(int codeAlerte, string libelle, int codeType)
         {
-            icone = GetIcone(codeAlerte);
-            type = GetType(codeType);
-            description = libelle;
-        }
-
-        public string ICONE
-        {
-            get { return icone; }
-        }
-
-        public string DESCRIPTION
-        {
-            get { return description; }
-        }
-
-        public String TYPE
-        {
-            get { return type; }
+            ICONE = GetIcone(codeAlerte);
+            TYPE = GetType(codeType);
+            DESCRIPTION = libelle;
         }
 
         //0:information, 1:avertissement, 2:erreur, 3:interdiction
-        private string GetIcone(int code)
+        public string GetIcone(int code)
         {
             switch (code)
             {
@@ -65,8 +48,10 @@ namespace ApplicationENI.Modele
                 case 0:
                     return "Absences";
                 case 1:
-                    return "ECF";
+                    return "Retards";
                 case 2:
+                    return "ECF";
+                case 3:
                     return "Observations";
                 default:
                     return "Divers";
@@ -75,5 +60,12 @@ namespace ApplicationENI.Modele
 
         }
 
+        public void Enregistrer() {
+            DAL.AlerteDAL.AjouterAlerte(this);
+        }
+
+        public void Supprimer() { 
+        
+        }
     }
 }

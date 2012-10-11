@@ -45,24 +45,16 @@ namespace ApplicationENI.Vue
 
             //informations sur le tuteur du stagiaire
             //txtEntrepriseTuteur = ?
-            txtEntrepriseTuteur.Text = "Boucherie Chesnard";
+            txtEntrepriseTuteur.Text = stg._tuteur._nomEntreprise;
             txtMailTuteur.Text = stg._tuteur._email;
             txtNomTuteur.Text = stg._tuteur._nom;
             txtPortableTuteur.Text = stg._tuteur._telMobile;
             txtPrénomTuteur.Text = stg._tuteur._prenom;
             txtTelTuteur.Text = stg._tuteur._telFixe;
 
-            //test connexion bdd
-            // AVANT TOUTE CHOSE, ON EST BIEN D'ACCORD QUE C'EST HYPER CRADE D'APPELER LA DAL DANS LA VUE, MAIS POUR LES TESTS C'EST PRATIQUE
-            //txtNom.Text = DAL.StagiairesDAL.getInfosStagiaire("toto")._nom;
-            //Stagiaire stg1 = new Stagiaire("testAjout", "tata");
-            //DAL.StagiairesDAL.ajouterStagiaire(stg1);
-            //DAL.StagiairesDAL.supprimerStagiaire(stg1);
-            //DAL.StagiairesDAL.modifierStagiaire(stg1);
-
             //TODO: mettre un datagrid pour la liste des alertes ?
             //TODO: s'il y a vraiment beaucoup d'alarmes, on affiche un message du genre "il y a 5 alarmes de type ECF" -> on pourrait cliquer dessus ensuite pour le détail?
-            this.listViewAlerte.ItemsSource = Parametres.Instance.listAlertes;
+            this.listViewAlerte.ItemsSource = ctrlStagiaires.listeAlertes();
             this.listViewAlerte.Items.Refresh();
             //TODO: on pourrait aussi mettre une listbox sous le datagrid pour afficher les alertes pour une catégorie
         }

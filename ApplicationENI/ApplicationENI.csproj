@@ -76,6 +76,7 @@
     <Compile Include="DAL\AccueilDAL.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DAL\AlerteDAL.cs" />
     <Compile Include="DAL\CompetencesDAL.cs">
       <SubType>Code</SubType>
     </Compile>

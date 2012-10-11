@@ -94,8 +94,7 @@ namespace ApplicationENI.DAL
         }
 
         public static List<Stagiaire> GetListeStagiaire() {
-            Contact tuteur = new Contact("Jones", "Indiana", "0202020202", "0602020202", "0202020202", "indianajones@gmail.com", "il est sympa", "", "Melle");
-
+            Contact tuteur = new Contact(1, "Jones", "Indiana", "0202020202", "0602020202", "0202020202", "indianajones@gmail.com", "il est sympa", "", "Melle", "test");
             Stagiaire stg1 = new Stagiaire(1, "Mr.", "Denis", "Choniphroa", "36 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/1.jpg", true, "", tuteur);
             Stagiaire stg2 = new Stagiaire(2, "Mme.", "Denise", "Hipec", "35 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/2.jpg", true, "", tuteur);
             Stagiaire stg3 = new Stagiaire(3, "Mme.", "Sylvie", "Tanmieux", "34 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/3.jpg", true, "", tuteur);
@@ -131,7 +130,6 @@ namespace ApplicationENI.DAL
         }
 
         public static List<Observation> GetListeObservation() {
-            Contact con = new Contact("Contact1", "tst", "test", "test", "test", "test", "test", "test", "test");
             Observation obs1 = new Observation("jgabillaud", "Pédagogique", "Ne bosse pas bien", "Bosse vraiment mal", Parametres.Instance.stagiaire);
             Observation obs2 = new Observation("jgabillaud", "Entreprise", "N'a pas le niveau", "Mérite l'exclusion.", Parametres.Instance.stagiaire);
             List<Observation> listeObservation = new List<Observation>();
@@ -141,7 +139,7 @@ namespace ApplicationENI.DAL
             }
 
         public static Contact GetContact() {
-            Contact c = new Contact("contact", "Jean", "0202020202", "0602020202", "0202020202", "jean@jean.fr", "semble correct", "", "M.");
+            Contact c = new Contact(1, "contact", "Jean", "0202020202", "0602020202", "0202020202", "jean@jean.fr", "semble correct", "", "M.", "test");
             return c;
         }
 

@@ -140,7 +140,16 @@ namespace ApplicationENI.Vue
             {
                 if(MessageBox.Show("Etes-vous CERTAIN de vouloir supprimer cette observation ?", "Confirmation de suppression", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes){
                    ctrl.supprimerObservation((Observation)this.dataGridListAbsences.SelectedItem, this.dataGridListAbsences.SelectedIndex);
-                 dataGridListAbsences.Items.Refresh();                 
+                 dataGridListAbsences.Items.Refresh();
+                 txtBoxTitre.Text = "";
+                 txtBoxAuteur.Text = "";
+                 txtBoxDate.Text = "";
+                 txtBoxTexte.Text = "";
+                 comboBox1.Items.Clear();
+                 comboBox1.Items.Add("Pédagogique");
+                 comboBox1.Items.Add("Entreprise");
+                 comboBox1.Text = "Pédagogique";
+                 comboBox1.SelectedValue = "Pédagogique";
                 }
                 
             }
