@@ -10,7 +10,7 @@ namespace ApplicationENI.DAL
     class FormationDAL
     {
         static String SELECT_FORMATIONS = "SELECT * FROM FORMATION";
-        /*public static List<Formation> listeFormations() {
+        public static List<Formation> listeFormations() {
 
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_FORMATIONS, connexion);
@@ -18,10 +18,11 @@ namespace ApplicationENI.DAL
 
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read()) {
+                Formation f = new Formation(reader.GetString(reader.GetOrdinal("LibelleCourt")));
+                listeFormations.Add(f);
             }
-            return null;
+            return listeFormations;
         }
-        }*/
 
     }
 }

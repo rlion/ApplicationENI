@@ -39,7 +39,7 @@
                             </TreeViewItem>
                             <TreeViewItem Header="Trombinoscopes" Name="tviTrombinoscope" Selected="tviTrombinoscope_Selected" Foreground="Red"/>
                         </TreeViewItem>
-                        <TreeViewItem Header="Paramètres individuels" Name="tvPersonParam" IsExpanded="True">
+                        <TreeViewItem Header="Paramètres individuels" Name="tvPersonParam" IsExpanded="False" IsEnabled="False">
                             <TreeViewItem Header="Profil &amp; alertes" Name="tviProfil" Selected="tviProfil_Selected" />
                             <TreeViewItem Header="Planning" Name="tviPlanning" Selected="tviPlanning_Selected" Foreground="Red" />
                             <TreeViewItem Header="ECF" IsExpanded="True">

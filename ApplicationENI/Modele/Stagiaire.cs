@@ -41,7 +41,7 @@ namespace ApplicationENI.Modele
         public Stagiaire(int pId, String pCivilité, String pNom, String pPrenom, String pAdresse1, String pAdresse2, String pAdresse3,
             String pCp, String pVille, String pTelephonePortable, String pTelephoneFixe, String pEmail, DateTime pDateNaissance,
             String pCodeRegion, String pCodeNationalité, String pCodeOrigineMedia, DateTime pDatePremierEnvoiDoc, DateTime pDateCreation,
-            String pRepertoire, bool pPermis, String pPhoto, bool pEnvoiDocEnCours, String pHistorique, Contact pTuteur)
+            String pRepertoire, bool pPermis, String pPhoto, bool pEnvoiDocEnCours, String pHistorique)
         {
             this._id = pId;
             this._adresse1 = pAdresse1;
@@ -113,7 +113,23 @@ namespace ApplicationENI.Modele
         {
             DAL.StagiairesDAL.supprimerStagiaire(this);
         }
-    }
+
+        public int nombreAbsences() {
+            return DAL.AlerteDAL.nombreAbsences(this);
+        }
+
+        public int nombreRetards()
+        {
+            return DAL.AlerteDAL.nombreRetards(this);
+        }
+
+        public List<ECF> listeECFNonCorriges() {
+            // return DAL.ECFDAL.getListeEcfNonCorriges(Stagiaire stg);
+            //    ou
+            // return DAL.StagiairesDAL.getListeEcfNonCorriges(Stagiaire stg);
+            return null;
+        }
+    }   
 
     
 }

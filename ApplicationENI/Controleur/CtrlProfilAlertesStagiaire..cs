@@ -32,13 +32,19 @@ namespace ApplicationENI.Controleur
                 Parametres.Instance.stagiaire.listeAlertes.RemoveRange(0, Parametres.Instance.stagiaire.listeAlertes.Count);
             }
 
-            GererItemAlerte("Absence", DAL.AlerteDAL.nombreAbsences(Parametres.Instance.stagiaire));
-            GererItemAlerte("Retard", DAL.AlerteDAL.nombreRetards(Parametres.Instance.stagiaire));
-            
+            GererItemAlerteAbsenceRetard("Absence", Parametres.Instance.stagiaire.nombreAbsences());
+            GererItemAlerteAbsenceRetard("Retard", Parametres.Instance.stagiaire.nombreRetards());
+            //GererItemAlerte("ECF", DAL.AlerteDAL.nombreRetards(Parametres.Instance.stagiaire));
+            //TODO: attente du code de Mathias vérifiant les ECFS non corrigés pour un stagiaire
+            /*if (Parametres.Instance.stagiaire.listeECFNonCorriges()!=null) {
+                Parametres.Instance.stagiaire.listeAlertes.Add(new ItemAlerte(0, "ECF blablabla (mettre le numéro et l'intitulé)", 0));
+                    
+            }*/
+
             return Parametres.Instance.stagiaire.listeAlertes;
         }
 
-        public void GererItemAlerte(String type, int nb)
+        public void GererItemAlerteAbsenceRetard(String type, int nb)
         {
             // manipulation permettant de contourner le fait qu'un Switch ne prend pas d'interval
             int indice = (int)Math.Floor((decimal)nb / 10);
@@ -61,5 +67,6 @@ namespace ApplicationENI.Controleur
 
             }
         }
+
     }
 }

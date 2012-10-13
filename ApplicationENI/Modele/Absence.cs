@@ -51,5 +51,6 @@ namespace ApplicationENI.Modele
         {
             DAL.AbsencesDAL.modifierAbsence(this);
         }
+
     }
 }
