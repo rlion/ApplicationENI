@@ -67,7 +67,6 @@ namespace ApplicationENI.Vue
         {
             if (this.dataGridListeAbsences.SelectedItem != null)
             {
-                this.gbListeAbsenceRetards.MaxHeight = 125;
                 this.gbDetailAbsenceRetard.Visibility = Visibility.Visible;
                 Absence abs = (Absence)dataGridListeAbsences.SelectedItem;
                 datePickerDateDebut.Text = abs._dateDebut.ToString();

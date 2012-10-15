@@ -195,10 +195,9 @@ namespace ApplicationENI
 
         private void btRechercher_Click(object sender, RoutedEventArgs e) 
         {
-            Parametres.Instance.stagiaire = new Stagiaire(11, "Mr.", "Denis", "Choniphroa", "36 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/1.jpg", true, "");
+            Contact tuteur = new Contact(1,"Jones", "Indiana", "0202020202", "0602020202", "0202020202", "indianajones@gmail.com", "il est sympa", "", "Melle","UAC");
 
-            tvPersonParam.IsEnabled = true;
-            tvPersonParam.IsExpanded = true;
+            Parametres.Instance.stagiaire = new Stagiaire(1, "Mr.", "Denis", "Choniphroa", "36 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/1.jpg", true, "", tuteur);
         }
     }
 }

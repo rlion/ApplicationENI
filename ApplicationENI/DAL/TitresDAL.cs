@@ -9,7 +9,7 @@ namespace ApplicationENI.DAL
 {
     public class TitresDAL
     {
-
+        //THIS IS IT boubou!
         public static List<Titre> GetListeTitres()
         {
             List<Titre> listTitres = new List<Titre>();
@@ -48,9 +48,33 @@ namespace ApplicationENI.DAL
             return listTitres;
         }
 
+        //THIS IS IT boubou!
+        public static List<Salle> GetListeSalles() 
+        {
+            List<Salle> listeSalles = new List<Salle>();
+
+            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+
+            if(connexion != null) {
+                string reqSalle = "select CodeSalle, libelle from Salle";
+
+                SqlCommand commande = connexion.CreateCommand();
+                commande.CommandText = reqSalle;
+                SqlDataReader reader = commande.ExecuteReader();
+
+                while(reader.Read()) {
+                    string codS = reader[0] != null ? reader.GetString(0) : string.Empty;
+                    string lib = reader[1] != null ? reader.GetString(1) : string.Empty;
+
+                    listeSalles.Add(new Salle(codS, lib));
+                }
+            }
+            return listeSalles;
+        }
+
         private static List<EpreuveTitre> GetEpreuvesTitre(string codeTitre)
         {
-            string req = "select CodeSalle, dateEpreuve from EPREUVETITRE where CodeTitre=@code";
+            string req = "select CodeSalle, dateEpreuve, CodeTitre from EPREUVETITRE where CodeTitre=@code";
 
             SqlConnection conn = ConnexionSQL.CreationConnexion();
             SqlCommand commande = conn.CreateCommand();
@@ -62,21 +86,27 @@ namespace ApplicationENI.DAL
             SqlDataReader reader = commande.ExecuteReader();
             while (reader.Read())
             {
-                let.Add(new EpreuveTitre((DateTime)reader[1],(string)reader[0],GetJury(reader.GetDateTime(1))));
+                EpreuveTitre et = new EpreuveTitre((DateTime)reader[1], (string)reader[0], (string)reader[2]);
+                et.ListeJury = GetListeJuryParEpreuve(et.DateEpreuve, et.Salle, et.Titre);
+                let.Add(et);
+                
             }
 
             return let;
         }
 
-        private static List<Jury> GetJury(DateTime datePassage)
+        //THIS IS IT boubou!
+        private static List<Jury> GetListeJuryParEpreuve(DateTime datePassage, string CodeSalle, string CodeTitre)
         {
             string req = "select idJury, civilite, nom, prenom from JURY where idJury in " +
-                "(select idJury from EPTITREJURY where dateEpreuve=@date)";
+                "(select idJury from EPTITREJURY where dateEpreuve=@date and CodeSalle=@salle and CodeTitre=@titre)";
 
             SqlConnection conn = ConnexionSQL.CreationConnexion();
             SqlCommand commande = conn.CreateCommand();
             commande.CommandText = req;
             commande.Parameters.AddWithValue("@date", datePassage);
+            commande.Parameters.AddWithValue("@salle", CodeSalle);
+            commande.Parameters.AddWithValue("@titre", CodeTitre);
 
             List<Jury> lj = new List<Jury>();
 
@@ -116,14 +146,39 @@ namespace ApplicationENI.DAL
             catch(Exception e) 
             {
                 System.Windows.MessageBox.Show("L'ajout de ce titre est impossible : " + e.Message, 
-                    "Suppression Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                    "Ajout Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
                 return -1;
             }
 
         }
 
-        public static void ModifierTitre(Titre titre)
+        public static int ModifierTitre(Titre titre)
         {
+            try 
+            {
+                string req = "update Titre set LibelleCourt = @libC, LibelleLong = @libL, DateCreation = @dateC, TitreENI = @titENI, Archiver = @archiv, niveau = @nivo, codeRome = @codeR, codeNSF = @codeN where CodeTitre=@codeT";
+
+                SqlConnection conn = ConnexionSQL.CreationConnexion();
+                SqlCommand commande = conn.CreateCommand();
+                commande.CommandText = req;
+                commande.Parameters.AddWithValue("@codeT", titre.CodeTitre);
+                commande.Parameters.AddWithValue("@libC", titre.LibelleCourt);
+                commande.Parameters.AddWithValue("@libL", titre.LibelleLong ?? string.Empty);
+                commande.Parameters.AddWithValue("@dateC", titre.DateCreation);
+                commande.Parameters.AddWithValue("@titENI", titre.TitreENI);
+                commande.Parameters.AddWithValue("@archiv", titre.Archiver);
+                commande.Parameters.AddWithValue("@nivo", titre.Niveau ?? string.Empty);
+                commande.Parameters.AddWithValue("@codeR", titre.CodeRome ?? string.Empty);
+                commande.Parameters.AddWithValue("@codeN", titre.CodeNSF ?? string.Empty);
+
+                return commande.ExecuteNonQuery();
+            } 
+            catch(Exception e) 
+            {
+                System.Windows.MessageBox.Show("La modification de ce titre est impossible : " + e.Message,
+                                    "Modification Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return -1;
+            }
         }
 
         //THIS IS IT boubou!

@@ -73,6 +73,11 @@ namespace ApplicationENI.Controleur
             return t;
         }
 
+        public List<Salle> GetSalles() 
+        {
+            return DAL.TitresDAL.GetListeSalles();
+        }
+
         //THIS IS IT boubou!
         public void AjouterTitre(Titre titre)
         {
@@ -84,11 +89,6 @@ namespace ApplicationENI.Controleur
                 {
                     listTitres.Add(titre);
                     InitDictionnaires();
-                } 
-                else 
-                {
-                    System.Windows.MessageBox.Show("Ce titre existe déjà!",
-                    "Ajout titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
                 }
             } 
             else 
@@ -100,13 +100,23 @@ namespace ApplicationENI.Controleur
 
         public void ModifierTitre(Titre titre)
         {
+            if(!string.IsNullOrEmpty(titre.LibelleCourt)) 
+            {
+                titre.DateModif = DateTime.Now;
+                if(DAL.TitresDAL.ModifierTitre(titre) > 0) 
+                {
+                    histoTitre = new Titre(titre.CodeTitre, titre.LibelleCourt, titre.LibelleLong,
+                        titre.Niveau, titre.CodeRome, titre.CodeNSF, titre.DateCreation,
+                        titre.DateModif, titre.TitreENI, titre.Archiver, titre.ListeEpreuves);
 
-            histoTitre = new Titre(titre.CodeTitre, titre.LibelleCourt, titre.LibelleLong,
-                titre.Niveau, titre.CodeRome, titre.CodeNSF, titre.DateCreation,
-                titre.DateModif, titre.TitreENI, titre.Archiver, titre.ListeEpreuves);
-
-            titre.DateModif = DateTime.Now;
-            DAL.TitresDAL.ModifierTitre(titre);
+                    System.Windows.MessageBox.Show("Le titre a bien été modifié!", "Modification titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                }
+            } 
+            else 
+            {
+                System.Windows.MessageBox.Show("Le libellé court du titre doit être obligatoirement renseigné!",
+                    "Modification titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+            }
         }
 
         //THIS IS IT boubou!

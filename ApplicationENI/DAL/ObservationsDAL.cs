@@ -19,38 +19,28 @@ namespace ApplicationENI.DAL
         public static List<Observation> getListObservations(Stagiaire pStg) {
             // à reprendre quand il y aura la base...
 
-            try
-            {
-                SqlConnection connexion = ConnexionSQL.CreationConnexion();
-                SqlCommand cmd = new SqlCommand(SELECT_INFOS_OBSERVATIONS, connexion);
-                cmd.Parameters.AddWithValue("@num_stagiaire", pStg._id);
+			SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            SqlCommand cmd = new SqlCommand(SELECT_INFOS_OBSERVATIONS, connexion);
+            cmd.Parameters.AddWithValue("@num_stagiaire", pStg._id);
 
-                SqlDataReader reader = cmd.ExecuteReader();
+            SqlDataReader reader = cmd.ExecuteReader();
 
-
-
-                while (reader.Read())
-                {
-                    Observation obsTemp = new Observation();
-                    obsTemp._id = reader.GetInt32(reader.GetOrdinal("id_observation")); //et ainsi de suite (attendre que la base soit faire pour avoir les bons noms de paramètres)...
-                    obsTemp._date = reader.GetDateTime(reader.GetOrdinal("date"));
-                    obsTemp._nomAuteur = reader.GetString(reader.GetOrdinal("auteur"));
-                    obsTemp._titre = reader.GetString(reader.GetOrdinal("titre"));
-                    obsTemp._type = reader.GetString(reader.GetOrdinal("type"));
-                    obsTemp._texte = reader.GetString(reader.GetOrdinal("texte"));
-                    obsTemp._stagiaire = pStg; //TODO: tout comme pour absence, vérifier s'il est important que le stagiaire soit contenu dans l'absence
-                    pStg.listeObservations.Add(obsTemp);
-                }
-                return pStg.listeObservations;
-            }
-            catch (Exception e)
-            {
-                System.Windows.MessageBox.Show("Impossible d'éxécuter la requête : " + e.Message, "Echec de la requête",
-                      System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return null;
-            }
-			
             
+            
+            while(reader.Read()) 
+            {
+				Observation obsTemp = new Observation();
+                obsTemp._id = reader.GetInt32(reader.GetOrdinal("id_observation")); //et ainsi de suite (attendre que la base soit faire pour avoir les bons noms de paramètres)...
+				obsTemp._date = reader.GetDateTime(reader.GetOrdinal("date"));
+				obsTemp._nomAuteur = reader.GetString(reader.GetOrdinal("auteur"));
+				obsTemp._titre = reader.GetString(reader.GetOrdinal("titre"));
+				obsTemp._type = reader.GetString(reader.GetOrdinal("type"));
+				obsTemp._texte = reader.GetString(reader.GetOrdinal("texte"));
+				obsTemp._stagiaire = pStg; //TODO: tout comme pour absence, vérifier s'il est important que le stagiaire soit contenu dans l'absence
+				pStg.listeObservations.Add(obsTemp);
+			}
+            return pStg.listeObservations;
+            //listeRetour:return DAL.JeuDonnees.GetListeObservation();
         }
 
         public static void ajouterObservation(Observation o) {

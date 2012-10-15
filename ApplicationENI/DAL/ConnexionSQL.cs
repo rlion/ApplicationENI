@@ -12,7 +12,6 @@ namespace ApplicationENI.DAL {
         //"Data Source=ASDEPIX\\SQLEXPRESS;Initial Catalog=APPLICATION_ENI;User Id=sa;Password=opti;"
         //pas ma source : "Data Source=RESEAU-93C88A71;Initial Catalog=eni;User ID=sa"
         //(MAT) ma source : "Data Source=ASDEPIX\\SQLEXPRESS;Initial Catalog=APPLICATION_ENI;User Id=sa;Password=opti;"
-        private static SqlConnection cnx;
 
         public static SqlConnection CreationConnexion()
         {

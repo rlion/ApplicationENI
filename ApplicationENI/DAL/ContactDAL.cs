@@ -13,35 +13,23 @@ namespace ApplicationENI.DAL
 
         public static Contact rechercherContact(int pNumStagiaire){
 
-            try
-            {
-                SqlConnection connexion = ConnexionSQL.CreationConnexion();
-                SqlCommand cmd = new SqlCommand(SELECT_CONTACT_PAR_STAGIAIRE, connexion);
-                cmd.Parameters.AddWithValue("@num_stagiaire", pNumStagiaire);
-                Contact tuteur = new Contact();
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.Read()) {
+            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            SqlCommand cmd = new SqlCommand(SELECT_CONTACT_PAR_STAGIAIRE, connexion);
+            cmd.Parameters.AddWithValue("@num_stagiaire", pNumStagiaire);
+            Contact tuteur = new Contact();
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read()) {
                 
-                    tuteur._nomEntreprise = reader.GetString(reader.GetOrdinal("RaisonSociale"));
-                    tuteur._codeContact = reader.GetInt32(reader.GetOrdinal("CODECONTACT"));
-                    tuteur._email = reader.GetString(reader.GetOrdinal("Email"));
-                    tuteur._nom = reader.GetString(reader.GetOrdinal("NOM"));
-                    tuteur._prenom = reader.GetString(reader.GetOrdinal("PRENOM"));
-                    tuteur._telFixe = reader.GetString(reader.GetOrdinal("TELFIXE"));
-                    tuteur._telMobile = reader.GetString(reader.GetOrdinal("TelMobile"));
-
-                }
-                return tuteur;
+                tuteur._nomEntreprise = reader.GetString(reader.GetOrdinal("RaisonSociale"));
+                tuteur._codeContact = reader.GetInt32(reader.GetOrdinal("CODECONTACT"));
+                tuteur._email = reader.GetString(reader.GetOrdinal("Email"));
+                tuteur._nom = reader.GetString(reader.GetOrdinal("NOM"));
+                tuteur._prenom = reader.GetString(reader.GetOrdinal("PRENOM"));
+                tuteur._telFixe = reader.GetString(reader.GetOrdinal("TELFIXE"));
+                tuteur._telMobile = reader.GetString(reader.GetOrdinal("TelMobile"));
 
             }
-            catch (Exception e)
-            {
-                System.Windows.MessageBox.Show("Impossible d'éxécuter la requête : " + e.Message, "Echec de la requête",
-                      System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                return null;
-            }
-            
-            
+            return tuteur;
         }
     }
 }

@@ -37,9 +37,13 @@ namespace ApplicationENI.Vue
             this.cbNiveau.SelectedValuePath = "Key";
             this.cbNiveau.DisplayMemberPath = "Value";
 
+            this.cbSalle.SelectedValuePath = "CodeSalle";
+            this.cbSalle.DisplayMemberPath = "Libelle";
+
             InitData();
         }
 
+        //Initialisation des données du titre (partie haute)
         private void InitData()
         {
             this.groupBoxTitre.DataContext = null;
@@ -47,33 +51,45 @@ namespace ApplicationENI.Vue
             this.cbChoixTitre.ItemsSource = Controleur.GetListeCodeTitre();
             this.cbNiveau.ItemsSource = null;
             this.cbNiveau.ItemsSource = Controleur.GetListeNiveaux();
+            this.cbSalle.ItemsSource = null;
+            this.cbSalle.ItemsSource = Controleur.GetSalles();
 
             this.cbChoixTitre.SelectedIndex = 0;
             titre = Controleur.GetTitre((string)cbChoixTitre.SelectedValue);
             this.groupBoxTitre.DataContext = titre;
+
+            this.epreuveTitre = null;
         }
 
+        //Affichage d'une épreuve titre à partir du choix du datagrid de liste des passages
         private void DisplayDetailPassage()
         {
             dpPassage.SelectedDate = ((EpreuveTitre)dgDatesPassage.SelectedValue).DateEpreuve;
-            txtSalle.Text = ((EpreuveTitre)dgDatesPassage.SelectedValue).Salle;
+            cbSalle.SelectedValue = ((EpreuveTitre)dgDatesPassage.SelectedValue).Salle;
             dgJury.ItemsSource = ((EpreuveTitre)dgDatesPassage.SelectedValue).ListeJury;
         }
 
+        //Vidage des données d'une épreuve titre lorsque aucune ligne du datagrid de liste des passages n'est sélectionnée
         private void ResetDetailPassage()
         {
             dgDatesPassage.SelectedIndex = -1;
-            txtSalle.Text = string.Empty;
+            cbSalle.SelectedIndex = -1;
+            dpPassage.SelectedDate = null;
             dgJury.ItemsSource = null;
+            epreuveTitre = null;
         }
 
+        //THIS IS IT boubou!
+        //Passage du formulaire en mode "Ajout d'un titre"
         private void btCreerTitre_Click(object sender, RoutedEventArgs e)
         {
             this.cbChoixTitre.SelectedIndex = -1;
             this.cbChoixTitre.IsEnabled = false;
             this.txtCodeTitre.IsEnabled = true;
+            ResetDetailPassage();
         }
 
+        //THIS IS IT boubou!
         private void btModifTitre_Click(object sender, RoutedEventArgs e)
         {
             if(txtCodeTitre.Text == (string)cbChoixTitre.SelectedValue)
@@ -87,6 +103,7 @@ namespace ApplicationENI.Vue
             }
         }
 
+        //THIS IS IT boubou!
         private void btSupprTitre_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Etes-vous sûr(e) de vouloir supprimer ce titre?", "Gestion des titres", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
@@ -97,6 +114,7 @@ namespace ApplicationENI.Vue
             }
         }
 
+        //THIS IS IT boubou!
         private void btAnnulTitre_Click(object sender, RoutedEventArgs e)
         {
             if(this.cbChoixTitre.SelectedIndex != -1)
@@ -111,6 +129,7 @@ namespace ApplicationENI.Vue
             this.groupBoxTitre.DataContext = titre;
         }
 
+        //THIS IS IT boubou!
         private void cbChoixTitre_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (this.cbChoixTitre.SelectedIndex != -1)
@@ -136,6 +155,7 @@ namespace ApplicationENI.Vue
         {
             if (dgDatesPassage.Items != null && dgDatesPassage.SelectedIndex != -1)
             {
+                this.epreuveTitre = (EpreuveTitre)dgDatesPassage.SelectedValue;
                 DisplayDetailPassage();
                 btSupprPassage.IsEnabled = true;
             }
@@ -160,47 +180,62 @@ namespace ApplicationENI.Vue
 
         private void btModifPassage_Click(object sender, RoutedEventArgs e) 
         {
-            /*
-             * - Si CodeTitre null et CodeSalle null : messagebox rien à enregistrer.
-             */
-            btSupprPassage.IsEnabled = true;
-            
-            /* TODO : 
-             * Si datePassage et/ou codeSalle a changé : 
-             *     - On conserve en cache : datePassage, codeTitre, codeSalle, list<Jury>
-             *     - On supprime dans eptitrejury les lignes avec datePassage = ancienne datePassage
-             *     - On supprime dans epreuvetitre la ligne avec datePassage = ancienne datePassage
-             *     - On insert dans epreuvetitre avec les données en cache
-             *     - On insert dans eptitrejury les données en utilisant list<Jury>...
-             * Sinon, si List<Jury> a changé : 
-             *     - On supprime dans eptitrejury les lignes avec datePassage = ancienne datePassage
-             *     - On insert dans eptitrejury les données en utilisant list<Jury>...
-             */
+            if(titre != null && titre.CodeTitre != null && cbSalle.SelectedIndex != -1 && dpPassage.SelectedDate.HasValue) 
+            {
+                btSupprPassage.IsEnabled = true;
+
+                if(epreuveTitre.Salle != null) 
+                {
+                    //Modification
+
+                    if(dpPassage.SelectedDate.Value != epreuveTitre.DateEpreuve || cbSalle.SelectedValue != epreuveTitre.Salle) 
+                    {
+                        /* TODO : 
+                         * Si datePassage et/ou codeSalle a changé : 
+                         *     - On conserve en cache : datePassage, codeTitre, codeSalle, list<Jury>
+                         *     - On supprime dans eptitrejury les lignes avec datePassage = ancienne datePassage
+                         *     - On supprime dans epreuvetitre la ligne avec datePassage = ancienne datePassage
+                         *     - On insert dans epreuvetitre avec les données en cache
+                         *     - On insert dans eptitrejury les données en utilisant list<Jury>...
+                         */
+                    } 
+                    else 
+                    {
+                       /* Sinon, si List<Jury> a changé : 
+                        *     - On supprime dans eptitrejury les lignes avec datePassage = ancienne datePassage
+                        *     - On insert dans eptitrejury les données en utilisant list<Jury>...
+                        */
+                    }
+
+                } 
+                else 
+                {
+                    //Ajout
+                }
+            }
         }
 
-        private void dgJury_SelectionChanged(object sender, SelectionChangedEventArgs e) 
-        {
-            //TODO: ouvrir le gestionnaire de jury sur double clic (voire plus tard clic droit -> menu contextuel).
-        }
-
+        //Passage du formulaire en mode "ajout d'une épreuve titre"
         private void btAjoutPassage_Click(object sender, RoutedEventArgs e) 
         {
-            /*
-             * - Si CodeTitre null : messagebox rien à ajouter.
-             */
-
-            /*TODO:
-             * - Mettre tous les champs du groupbox à vide
-             * - Créer une EpreuveTitre vide
-            */
-            btSupprPassage.IsEnabled = false;
+            if(titre != null && !string.IsNullOrEmpty(titre.CodeTitre)) 
+            {
+                ResetDetailPassage();
+                btSupprPassage.IsEnabled = false;
+                this.epreuveTitre = new EpreuveTitre();
+            }
         }
 
         private void btAnnulPassage_Click(object sender, RoutedEventArgs e) {
-            /*
-             *  - Mettre les valeurs des champs en fonction de EpreuveTitre en cache (et List<Jury>)
-             */
+
             btSupprPassage.IsEnabled = true;
+
+            if(this.epreuveTitre != null) 
+            {
+                dpPassage.SelectedDate = epreuveTitre.DateEpreuve;
+                cbSalle.SelectedValue = epreuveTitre.Salle;
+                dgJury.ItemsSource = epreuveTitre.ListeJury;
+            }
         }
 
         private void dgJury_MouseDoubleClick(object sender, MouseButtonEventArgs e)

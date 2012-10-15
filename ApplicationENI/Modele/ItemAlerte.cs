@@ -61,7 +61,7 @@ namespace ApplicationENI.Modele
         }
 
         public void Enregistrer() {
-            //DAL.AlerteDAL.AjouterAlerte(this);
+            DAL.AlerteDAL.AjouterAlerte(this);
         }
 
         public void Supprimer() { 

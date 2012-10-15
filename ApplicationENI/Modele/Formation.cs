@@ -39,7 +39,6 @@ namespace ApplicationENI.Modele
 
         public List<Cours> listeCours()
         {
-            //return DAL.CoursDAL.listeCours(this);
            return DAL.JeuDonnees.GetListeCours();
         }
 

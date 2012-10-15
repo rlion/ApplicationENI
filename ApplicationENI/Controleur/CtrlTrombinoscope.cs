@@ -16,10 +16,6 @@ namespace ApplicationENI.Controleur {
         public List<Formation> listeFormation() {
             return new Formations().listeFormations;
         }
-
-        public List<Cours> listeCours(Formation pF) {
-            return pF.listeCours();
-        }
             
     }
 }
