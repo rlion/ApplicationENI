@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>TimeMachine.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -167,9 +170,6 @@
     <Compile Include="Vue\PopUp\AjoutECF_Competence.xaml.cs">
       <DependentUpon>AjoutECF_Competence.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vue\PopUp\AjoutJury.xaml.cs">
-      <DependentUpon>AjoutJury.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Vue\PopUp\AjoutSessionECF.xaml.cs">
       <DependentUpon>AjoutSessionECF.xaml</DependentUpon>
     </Compile>
@@ -249,10 +249,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Vue\PopUp\AjoutECF_Competence.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vue\PopUp\AjoutJury.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -369,6 +365,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\cache.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icone.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TimeMachine.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

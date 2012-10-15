@@ -64,7 +64,6 @@ namespace ApplicationENI.DAL
         // ébauche de requête SQL, à modifier et tester une fois qu'on aura la base
         public static Stagiaire getInfosStagiaire(String pNom) {
             
-            //TODO: faire une classe de connexion propre, et mettre la chaine de connexion quand on l'aura
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_INFOS_STAGIAIRE, connexion);
             cmd.Parameters.AddWithValue("@nom", pNom);

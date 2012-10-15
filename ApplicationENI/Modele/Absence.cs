@@ -23,7 +23,6 @@ namespace ApplicationENI.Modele
             this._dateDebut = pDateDebut;
             this._dateFin = pDateFin;
             this._duree = pDuree;
-            this._id = 0; // TODO: faire une requête pour aller chercher le dernier ID
             this._raison = pRaison;
             this._valide = pValide;
             this._stagiaire = pStagiaire;
@@ -37,7 +36,6 @@ namespace ApplicationENI.Modele
 
         public void ajouterAbsence()
         {
-            //TODO: reprendre ceci et vérifier que l'alerte n'existe pas déjà avant de l'ajouter.
             DAL.AbsencesDAL.ajouterAbsence(this);
             
         }

@@ -65,12 +65,18 @@ namespace ApplicationENI.Vue
         }
         private void listViewAlerte_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            Grid test = (Grid)this.Parent;
+            DockPanel testDP = (DockPanel)test.Parent;
+            Grid testG = (Grid)testDP.Parent;
+            ((MainWindow)testG.Parent).MainGrid.Children.RemoveAt(0);
+            ((MainWindow)testG.Parent).MainGrid.Children.Add(new Vue.HistoriqueAbsencesRetards());
+            //MessageBox.Show("ça marche");
         }
 
         private void imageStagiaire_ImageFailed(object sender, ExceptionRoutedEventArgs e)
         {
 
         }
+
     }
 }

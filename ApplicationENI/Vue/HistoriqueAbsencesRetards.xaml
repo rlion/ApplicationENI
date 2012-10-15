@@ -6,7 +6,7 @@
             mc:Ignorable="d" Height="Auto">
     <Grid>
         <Grid Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <GroupBox Header="Liste des absences et retards" HorizontalAlignment="Left" Margin="13,0,0,0" Name="gbListeAbsenceRetards" VerticalAlignment="Top" Width="558" MaxHeight="115">
+            <GroupBox Header="Liste des absences et retards" HorizontalAlignment="Left" Margin="13,0,0,0" Name="gbListeAbsenceRetards" VerticalAlignment="Top" Width="558" MaxHeight="500">
                 <DataGrid AutoGenerateColumns="False" Name="dataGridListeAbsences" SelectionChanged="dataGridListeAbsences_SelectionChanged" CanUserAddRows="False" CanUserDeleteRows="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Date début" Binding="{Binding _dateDebut}" Width="35*" />

@@ -58,7 +58,6 @@ namespace ApplicationENI.Modele
             this._email = pEmail;
             this._envoiDocEnCours = pEnvoiDocEnCours;
             this._historique = pHistorique;
-            //TODO:créer un guid digne de ce nom.
              this._nom = pNom;
             this._permis = pPermis;
             this._photo = pPhoto;
@@ -69,10 +68,10 @@ namespace ApplicationENI.Modele
             this._ville = pVille;
             this._tuteur = DAL.ContactDAL.rechercherContact(pId);
            
-            //this.listeAbsences = new List<Absence>(); //TODO: on appelle la DAL , si le retour est vide, on retourne une liste vide et pas null
+            //this.listeAbsences = new List<Absence>(); 
             /*this.listeObservations = DAL.ObservationsDAL.getListObservations(this);*/
             this.listeObservations = new List<Observation>();
-            this.listeObservations = DAL.ObservationsDAL.getListObservations(this);//TODO: idem plus bas.
+            this.listeObservations = DAL.ObservationsDAL.getListObservations(this);
             this.listeAbsences = new List<Absence>();
             this.listeAbsences = DAL.AbsencesDAL.getListeAbsences(this);
             this.listeAlertes = new List<ItemAlerte>();
@@ -82,13 +81,11 @@ namespace ApplicationENI.Modele
 
         public Stagiaire ()
 	    {
-            //TODO: idem plus haut : créer un beau guid.
-            this._id = 1;     
+     
 	    }
 
         public Stagiaire (String pNom, String pPrenom)
 	    {
-            //TODO: idem plus haut : créer un beau guid.
             this._id = 1;   
             this._nom = pNom;
             this._prenom = pPrenom;

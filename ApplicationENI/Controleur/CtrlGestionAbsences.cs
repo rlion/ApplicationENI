@@ -39,7 +39,6 @@ namespace ApplicationENI.Controleur {
         }
 
         public List<Absence> getListAbsences() {
-            // TODO: ici ou dans la classe Absence mettre en forme les propriétés
             return Parametres.Instance.stagiaire.listeAbsences;
         }
 

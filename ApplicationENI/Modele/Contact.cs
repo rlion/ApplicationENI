@@ -23,7 +23,6 @@ namespace ApplicationENI.Modele
         {
             this._archive = pArchive;
             this._civilite = pCivilite;
-            //TODO: à reprendre
             this._codeContact = pCodeContact;
             this._email = pEmail;
             this._fax = pFax;
@@ -38,11 +37,6 @@ namespace ApplicationENI.Modele
         public Contact()
         {
         }
-
-        /*public Contact rechercherContact(String pNom) {
-            return DAL.ContactDAL.rechercherContact(pNom);
-        }*/
-        // pas de ajouter/modifier/supprimer contact, c'est fait dans l'appli administrative
 
     }
 }

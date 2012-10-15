@@ -41,22 +41,32 @@ namespace ApplicationENI.DAL
         }
 
         public static void AjouterAlerte(ItemAlerte pAlerte) {
-            // test d'ajout dans la base de données bidon
+            /* les alertes nes sont plus historisées en BDD
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(INSERT_ALERTE, connexion);
 
             cmd.Parameters.AddWithValue("@texte", pAlerte.DESCRIPTION);
             cmd.Parameters.AddWithValue("@date", DateTime.Now);
+            
+            try
+            {
+                cmd.Parameters.AddWithValue("@numContactEni", 1);
+                cmd.ExecuteNonQuery();
+                // maintenant il faut mettre à jour l'objet Absence en lui assignant son numéro
+                SqlCommand cmd2 = new SqlCommand(GET_NUM_ALERTE, connexion);
+                int idDernierAlerte = Convert.ToInt32(cmd2.ExecuteScalar());
+                Parametres.Instance.stagiaire.listeAlertes.Add(pAlerte);
+                connexion.Close();
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show(e.ToString());
+            }
+            
+            */
+            
 
-            //TODO: trouver un moyen pour contourner ça (si jamais il n'y a pas de contact 1 dans la base, ça va planter)
-            cmd.Parameters.AddWithValue("@numContactEni", 1);
-            cmd.ExecuteNonQuery();
-
-            // maintenant il faut mettre à jour l'objet Absence en lui assignant son numéro
-            SqlCommand cmd2 = new SqlCommand(GET_NUM_ALERTE, connexion);
-            int idDernierAlerte = Convert.ToInt32(cmd2.ExecuteScalar());
-            Parametres.Instance.stagiaire.listeAlertes.Add(pAlerte);
-            connexion.Close();
+            
         }
 
         public static int nombreAbsences(Stagiaire pStg)
