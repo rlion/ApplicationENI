@@ -10,15 +10,15 @@ namespace ApplicationENI.DAL
     class CompetencesDAL
     {
         //TODO Mat
-        static String SELECT_COMPETENCES = "SELECT * FROM COMPETENCES order by code, libelle";
-        static String SELECT_CODE = "SELECT * FROM COMPETENCES WHERE code=@code";
+        static String SELECT_COMPETENCES = "SELECT * FROM COMPETENCE order by code, libelle";
+        static String SELECT_CODE = "SELECT * FROM COMPETENCE WHERE code=@code";
         
-        static String DELETE_COMPETENCE = "DELETE FROM COMPETENCES WHERE idCompetence=@id";
-        static String SELECT_MAX = "SELECT MAX(idCompetence) FROM COMPETENCES";
+        static String DELETE_COMPETENCE = "DELETE FROM COMPETENCE WHERE idCompetence=@id";
+        static String SELECT_MAX = "SELECT MAX(idCompetence) FROM COMPETENCE";
         static String SELECT_LIENS = "SELECT * FROM COMPETENCESECF where idCompetence=@idCompetence";
         //static String UPDATE_COMPETENCE = "UPDATE SET WHERE ";
 
-        static String INSERT_COMP = "INSERT INTO COMPETENCES (idCompetence, code, libelle) VALUES (@id, @code, @libelle)";
+        static String INSERT_COMP = "INSERT INTO COMPETENCE (idCompetence, code, libelle) VALUES (@id, @code, @libelle)";
 
         public static List<Competence> getListCompetences()
         {

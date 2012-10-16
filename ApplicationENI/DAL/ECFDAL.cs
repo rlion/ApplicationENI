@@ -10,20 +10,20 @@ namespace ApplicationENI.DAL
     class ECFDAL
     {
         //TODO Mat
-        static String SELECT_ECF = "SELECT * FROM ECFS WHERE idECF=@id";//, Competences, CompetenceECFS as lien WHERE lien.idECF=ECFs=idECF and lien.idCompetence=Competences.idCompetence order by ECFs.idECF";
-        static String SELECT_ECFS = "SELECT * FROM ECFS order by code, libelle";//, Competences, CompetenceECFS as lien WHERE lien.idECF=ECFs=idECF and lien.idCompetence=Competences.idCompetence order by ECFs.idECF";
-        static String SELECT_COMPS = "SELECT COMPETENCES.idCompetence, COMPETENCES.code, COMPETENCES.libelle FROM COMPETENCES, COMPETENCESECF WHERE COMPETENCES.idCompetence=COMPETENCESECF.idCompetence and COMPETENCESECF.idECF=@lienECFComp order by COMPETENCES.code, COMPETENCES.libelle";
-        static String SELECT_MAX = "SELECT MAX(idECF) FROM ECFS";
-        static String SELECT_CODE = "SELECT * FROM ECFS where code=@code";
+        static String SELECT_ECF = "SELECT * FROM ECF WHERE idECF=@id";//, Competences, CompetenceECFS as lien WHERE lien.idECF=ECFs=idECF and lien.idCompetence=Competences.idCompetence order by ECFs.idECF";
+        static String SELECT_ECFS = "SELECT * FROM ECF order by code, libelle";//, Competences, CompetenceECFS as lien WHERE lien.idECF=ECFs=idECF and lien.idCompetence=Competences.idCompetence order by ECFs.idECF";
+        static String SELECT_COMPS = "SELECT COMPETENCE.idCompetence, COMPETENCE.code, COMPETENCE.libelle FROM COMPETENCE, COMPETENCESECF WHERE COMPETENCE.idCompetence=COMPETENCESECF.idCompetence and COMPETENCESECF.idECF=@lienECFComp order by COMPETENCE.code, COMPETENCE.libelle";
+        static String SELECT_MAX = "SELECT MAX(idECF) FROM ECF";
+        static String SELECT_CODE = "SELECT * FROM ECF where code=@code";
 
-        static String INSERT_ECF= "INSERT INTO ECFS (idECF, code, libelle) VALUES (@id, @code, @libelle)";
+        static String INSERT_ECF= "INSERT INTO ECF (idECF, code, libelle) VALUES (@id, @code, @libelle)";
         static String INSERT_LIEN = "INSERT INTO COMPETENCESECF (idECF, idCompetence) VALUES (@idECF, @idCompetence)";
         
-        static String UPDATE_ECF = "UPDATE ECFS SET libelle=@libelleECF,coefficient=@coefficient,typeNotation=@typeNotation,nbreVersions=@nbreVersions,commentaire=@commentaire WHERE idECF=@idECF";
+        static String UPDATE_ECF = "UPDATE ECF SET libelle=@libelleECF,coefficient=@coefficient,typeNotation=@typeNotation,nbreVersions=@nbreVersions,commentaire=@commentaire WHERE idECF=@idECF";
         
         static String DELETE_LIENS = "DELETE FROM COMPETENCESECF WHERE idECF=@idECF";
         static String DELETE_LIEN = "DELETE FROM COMPETENCESECF WHERE idECF=@idECF AND idCompetence=@idCompetence";
-        static String DELETE_ECF = "DELETE FROM ECFS WHERE idECF=@id";
+        static String DELETE_ECF = "DELETE FROM ECF WHERE idECF=@id";
 
         public static ECF getECF(ECF ecf)
         {
@@ -139,7 +139,7 @@ namespace ApplicationENI.DAL
             }            
             connexion.Close();
             
-            //Récup de l'id max dans la table ECFS
+            //Récup de l'id max dans la table ECF
             connexion = ConnexionSQL.CreationConnexion();
             cmd = new SqlCommand(SELECT_MAX, connexion);
             reader = cmd.ExecuteReader();
