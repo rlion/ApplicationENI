@@ -4,15 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              >
     <!--Grid Loaded="Grid_Loaded"-->
-    <Grid>
+    <Grid Height="493" Width="656">
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="140,11,0,0" Name="cbECF" VerticalAlignment="Top" Width="162" Text="" SelectionChanged="cbECF_SelectionChanged" />
         <Label Content="ECF :" Height="28" HorizontalAlignment="Left" Margin="35,11,0,0" Name="lbECF" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right" />
-        <ListBox Height="220" HorizontalAlignment="Left" Margin="35,190,0,0" Name="listBox1" VerticalAlignment="Top" Width="267" ItemsSource="{Binding}" SelectionMode="Single" IsEnabled="False" />
-        <ListBox Height="220" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="330,190,0,0" Name="listBox2" SelectionMode="Single" VerticalAlignment="Top" Width="263" IsEnabled="False" />
+        <ListBox Height="220" HorizontalAlignment="Left" Margin="35,190,0,0" Name="lbCompetences" VerticalAlignment="Top" Width="267" ItemsSource="{Binding}" SelectionMode="Single" IsEnabled="False" />
+        <ListBox Height="220" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="330,190,0,0" Name="lbStagiaires" SelectionMode="Single" VerticalAlignment="Top" Width="263" IsEnabled="False" />
         <ComboBox Height="23" Margin="140,47,0,0" Name="cbVersions" Text="" VerticalAlignment="Top" HorizontalAlignment="Left" Width="54" IsEnabled="False" />
         <Label Content="Version :" Height="28" HorizontalAlignment="Left" Margin="35,47,0,0" Name="label1" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right" IsEnabled="True" />
-        <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="407,425,0,0" Name="btnAjouter" VerticalAlignment="Top" Width="90" />
-        <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="503,425,0,0" Name="btnModifier" VerticalAlignment="Top" Width="90" />
+        <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="407,425,0,0" Name="btnEnregistrer" VerticalAlignment="Top" Width="90" />
+        <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="503,425,0,0" Name="btnAnnu" VerticalAlignment="Top" Width="90" />
         <GroupBox Header="Note" Height="50" HorizontalAlignment="Left" Margin="35,134,0,0" Name="groupBox1" VerticalAlignment="Top" Width="273" IsEnabled="False">
             <Grid>
                 <RadioButton Content="Acquis" Height="15" HorizontalAlignment="Left" Margin="6,5,0,0" Name="radioButton2" VerticalAlignment="Top" Width="64" Visibility="Hidden" />
@@ -22,8 +22,9 @@
                 <Label Content="Note :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="-24,0,0,0" Name="label3" VerticalAlignment="Top" Width="86" Visibility="Hidden" />
             </Grid>
         </GroupBox>
-        <Button Content="Planifier ECF" Height="23" HorizontalAlignment="Left" Margin="35,425,0,0" Name="btAdd1" VerticalAlignment="Top" Width="90" Click="btAdd1_Click" />
-        <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Left" Margin="131,425,0,0" Name="btDelete" VerticalAlignment="Top" Width="90" />
+        <Button Content="Planifier ECF" Height="23" HorizontalAlignment="Left" Margin="35,425,0,0" Name="btnAjouter" VerticalAlignment="Top" Width="90" Click="btnAjouter_Click" />
+        <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Left" Margin="131,425,0,0" Name="btnSupprimer" VerticalAlignment="Top" Width="90" />
         <Calendar Height="173" HorizontalAlignment="Left" Margin="403,11,0,0" Name="calendar1" VerticalAlignment="Top" Width="190" IsEnabled="False" MaxWidth="Infinity" SelectionMode="MultipleRange" IsTodayHighlighted="False" SelectedDatesChanged="calendar1_SelectedDatesChanged" />
+        <Label Height="29" HorizontalAlignment="Left" Margin="35,99,0,0" Name="lbDateSession" VerticalAlignment="Top" Width="267" FontSize="16" FontWeight="Bold" />
     </Grid>
 </UserControl>

@@ -46,7 +46,7 @@ namespace ApplicationENI.Vue
         }
 
         private void ActualiseAffichage(ECF pECFCourant){
-            cbECF.Items.Clear();
+            //cbECF.Items.Clear();
             cbECF.ItemsSource = null;
 
             //recup de la liste d'ECF
@@ -80,7 +80,21 @@ namespace ApplicationENI.Vue
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _ecfCourant = (ECF)cbECF.SelectedItem;
-            afficheECF(_ecfCourant);
+
+
+            if (_ecfCourant != null)
+            {
+                afficheECF(_ecfCourant);
+                btDelete.IsEnabled = true;
+                btSave.IsEnabled = true;
+                btCancel.IsEnabled = true;
+            }
+            else
+            {
+                btDelete.IsEnabled = false;
+                btSave.IsEnabled = false;
+                btCancel.IsEnabled = false;
+            }
         }
 
         private void RAZ()
@@ -172,6 +186,8 @@ namespace ApplicationENI.Vue
             }
             _ecfCourant.Commentaire = tbCommECF.Text.Trim();
 
+            ECFDAL.modifierECF(_ecfCourant);
+
             RAZ();
             ActualiseAffichage(null);
 
@@ -217,7 +233,10 @@ namespace ApplicationENI.Vue
 
         private void btCancel_Click(object sender, RoutedEventArgs e)
         {
-            _ecfCourant = ECFDAL.getECF(_ecfCourant);
+            //_ecfCourant = ECFDAL.getECF(_ecfCourant);
+
+            RAZ();
+            ActualiseAffichage(_ecfCourant);
         }
     }
 }

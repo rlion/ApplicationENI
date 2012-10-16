@@ -25,35 +25,23 @@ namespace ApplicationENI.Vue
         private ECF _ecfCourant = null;
         private List<DateTime> _planif = new List<DateTime>();
         bool _datePlanif = false;
-
-        //private class ECFSession
-        //{
-        //    private ECF _ecf;
-        //    private int _version;
-        //    private DateTime _dateSession;
-        //    private List<StagiaireSession> _lesStagiairesSession;
-
-        //    private class StagiaireSession
-        //    {
-        //        private Stagiaire _stagiaireSession;
-        //        private Competence _competenceSession;
-        //        private Resultat _resultat;
-
-        //        private class Resultat
-        //        {
-        //            private int _note=0;
-        //            private bool _notationNumerique = false;
-        //        }
-        //    }
-        //}
-
+        private SessionECF _sessionECFcourant = null;
         
         public SaisieResultats()
         {
             InitializeComponent();
 
-            _listeSessionECFs = SessionECFDAL.getListSessionsECFs();
+            
             //cbECF.ItemsSource = _listeSessionECFs; redondance
+
+            ActualiseAffichage();
+
+            calendar1.DisplayDateStart = DateTime.Now;        
+        }
+
+        private void ActualiseAffichage(){
+            cbECF.ItemsSource = null;
+            _listeSessionECFs = SessionECFDAL.getListSessionsECFs();
             foreach (SessionECF sessEcf in _listeSessionECFs)
             {
                 if (!cbECF.HasItems)
@@ -65,42 +53,71 @@ namespace ApplicationENI.Vue
                     cbECF.Items.Add(sessEcf.Ecf);
                 }
             }
-            calendar1.DisplayDateStart = DateTime.Now;        
+        }
+
+        private void afficheSessionECF(ECF Ecfcourant)
+        {
+            if (Ecfcourant != null)
+            {
+                _ecfCourant = Ecfcourant;
+                cbECF.SelectedItem = _ecfCourant;
+
+                _planif = new List<DateTime>();
+                calendar1.SelectedDates.Clear();
+
+                foreach (SessionECF sessEcf in _listeSessionECFs)
+                {
+                    if (sessEcf.Ecf.Equals(_ecfCourant))
+                    {
+                        _planif.Add(sessEcf.Date);
+                        calendar1.SelectedDates.Add(sessEcf.Date);
+                    }
+                }
+
+                lbCompetences.ItemsSource=_ecfCourant.Competences;
+
+                lbCompetences.IsEnabled = true;
+                lbStagiaires.IsEnabled = true;
+                
+            }
+            else
+            {
+                //??TODO
+            }
         }
 
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             calendar1.IsEnabled = true;
 
-            _ecfCourant = (ECF)cbECF.SelectedItem;
-            
-            foreach (SessionECF sessEcf in _listeSessionECFs)
-            {
-                if (sessEcf.Ecf.Equals(_ecfCourant))
-                {
-                    _planif.Add(sessEcf.Date);                    
-                    calendar1.SelectedDates.Add(sessEcf.Date);                    
-                }
-            }
-
-            
-
+            afficheSessionECF((ECF)cbECF.SelectedItem);
             //CalendarDateRange cdr = new CalendarDateRange(DateTime.Now, new DateTime(2030, DateTime.Now.Month, DateTime.Now.Day));
         }
 
-        private void btAdd1_Click(object sender, RoutedEventArgs e)
+        private void btnAjouter_Click(object sender, RoutedEventArgs e)
         {
             PopUp.AjoutSessionECF popup = new PopUp.AjoutSessionECF();
             popup.ShowDialog();
+
+            if (popup.SessionECF != null)
+            {
+                _ecfCourant = popup.SessionECF.Ecf;
+                ActualiseAffichage();
+                afficheSessionECF(_ecfCourant);
+            }
         }
 
         private void calendar1_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             calendar1.SelectedDatesChanged -= calendar1_SelectedDatesChanged;
 
-            DateTime? dt = new DateTime();
+            DateTime dt = new DateTime();
             Calendar cal=sender as Calendar;
-            dt = cal.SelectedDate;
+            //if (dt != DateTime.MinValue)
+            //{
+                
+            //}
+            dt =(DateTime) cal.SelectedDate.Value;
 
             if (!dt.Equals(null))
             {
@@ -111,6 +128,9 @@ namespace ApplicationENI.Vue
                 else
                 {
                     _datePlanif = true;
+                    _sessionECFcourant = new SessionECF(_ecfCourant,calendar1.SelectedDate.Value);
+                    //TODO?? modifier aspect date selectionnée
+                    lbDateSession.Content = "Epreuve du " + _sessionECFcourant.Date.ToShortDateString();
                 }
             }
 
@@ -134,36 +154,5 @@ namespace ApplicationENI.Vue
                 //TODO afficher reste
             }
         }
-
-
-        //private void Grid_Loaded(object sender, RoutedEventArgs e)
-        //{
-        //    StreamReader fileReader = new StreamReader(System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..\ressources\competences.txt"));
-        //    String stringReader = "";
-
-        //    while (!(fileReader.EndOfStream))
-        //    {
-        //        stringReader = fileReader.ReadLine();
-        //        listBox1.Items.Add(stringReader);
-        //    }
-        //    fileReader.Close();
-
-        //    fileReader = new StreamReader(System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..\ressources\stagiaires.txt"));
-        //    stringReader = "";
-
-        //    while (!(fileReader.EndOfStream))
-        //    {
-        //        stringReader = fileReader.ReadLine();
-        //        listBox2.Items.Add(stringReader);
-        //    }
-        //    fileReader.Close();
-        //}
-
-        //private void image1_ImageFailed(object sender, RoutedEventArgs e)
-        //{
-        //    //?
-        //}
-
-
     }
 }

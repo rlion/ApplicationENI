@@ -24,9 +24,9 @@
         <ListBox Height="195" HorizontalAlignment="Left" Margin="50,146,0,0" Name="lbCompetences" VerticalAlignment="Top" Width="514" ItemsSource="{Binding}" SelectionMode="Multiple" SelectionChanged="lbCompetences_SelectionChanged" />
         <Label Content="1" Height="28" HorizontalAlignment="Left" Margin="141,97,0,0" Name="lbNbVersions" VerticalAlignment="Top" />
         <Button Content="Ajouter ECF" Height="23" HorizontalAlignment="Left" Margin="50,425,0,0" Name="btAdd1" VerticalAlignment="Top" Width="90" Click="btAdd_Click" />
-        <Button Content="Enregistrer" Height="23" Margin="378,425,0,0" Name="btSave" VerticalAlignment="Top" Click="btSave_Click" HorizontalAlignment="Left" Width="90" />
-        <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Left" Margin="146,425,0,0" Name="btDelete" VerticalAlignment="Top" Width="90" Click="btDelete_Click" />
-        <Button Content="Annuler" Height="23" Margin="474,425,0,0" Name="btCancel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="90" Click="btCancel_Click" />
+        <Button Content="Enregistrer" Height="23" Margin="378,425,0,0" Name="btSave" VerticalAlignment="Top" Click="btSave_Click" HorizontalAlignment="Left" Width="90" IsEnabled="False" />
+        <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Left" Margin="146,425,0,0" Name="btDelete" VerticalAlignment="Top" Width="90" Click="btDelete_Click" IsEnabled="False" />
+        <Button Content="Annuler" Height="23" Margin="474,425,0,0" Name="btCancel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="90" Click="btCancel_Click" IsEnabled="False" />
         <Button Content="+" Height="23" HorizontalAlignment="Left" Margin="591,146,0,0" Name="btPlus" VerticalAlignment="Top" Width="27" IsEnabled="False" Click="btPlus_Click" />
         <Button Content="-" Height="23" HorizontalAlignment="Left" Margin="591,175,0,0" Name="btMoins" VerticalAlignment="Top" Width="27" Click="btMoins_Click" IsEnabled="False" />
     </Grid>
