@@ -21,6 +21,14 @@ namespace ApplicationENI.Vue.PopUp
     public partial class AjoutSessionECF : Window
     {
         private List<ECF> _listeECFs = null;
+        private SessionECF _sessionECF = null;
+
+        public SessionECF SessionECF
+        {
+            get { return _sessionECF; }
+            set { _sessionECF = value; }
+        }
+
         
         public AjoutSessionECF()
         {
@@ -43,8 +51,12 @@ namespace ApplicationENI.Vue.PopUp
             sessionECFTemp.Ecf = (ECF)cbECF.SelectedItem;
             sessionECFTemp.Date = (DateTime)datePicker1.SelectedDate;
 
-            SessionECFDAL.ajouterSessionECF(sessionECFTemp);
-            Close();
+            if (sessionECFTemp.Date != DateTime.MinValue && sessionECFTemp.Ecf != null)
+            {
+                _sessionECF = sessionECFTemp;
+                SessionECFDAL.ajouterSessionECF(sessionECFTemp);
+                Close();
+            }
         }
     }
 }
