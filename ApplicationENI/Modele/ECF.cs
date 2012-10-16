@@ -168,6 +168,18 @@ namespace ApplicationENI.Modele
             bool b = false;
             int i = 0;
 
+            if (this == null || obj == null)
+            {
+                if (this == null && obj == null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
             if (this.Id == ((ECF)obj).Id &&
                 this.Code == ((ECF)obj).Code &&
                 this.Libelle == ((ECF)obj).Libelle &&

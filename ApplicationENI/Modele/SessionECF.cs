@@ -6,7 +6,7 @@ using ApplicationENI.Modele;
 
 namespace ApplicationENI.Modele
 {
-    class SessionECF
+    public class SessionECF
     {
         private ECF _ecf;
 
@@ -21,6 +21,18 @@ namespace ApplicationENI.Modele
         {
             get { return _date; }
             set { _date = value; }
+        }
+
+        public SessionECF()
+        {
+            _ecf = null;
+            _date = DateTime.MinValue;
+        }
+
+        public SessionECF(ECF ecf, DateTime date)
+        {
+            _ecf = ecf;
+            _date = date;
         }
     }
 }
