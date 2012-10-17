@@ -188,7 +188,7 @@ namespace ApplicationENI.Vue
                 {
                     //Modification
 
-                    if(dpPassage.SelectedDate.Value != epreuveTitre.DateEpreuve || cbSalle.SelectedValue != epreuveTitre.Salle) 
+                    if(dpPassage.SelectedDate.Value != epreuveTitre.DateEpreuve || ((string)cbSalle.SelectedValue) != epreuveTitre.Salle) 
                     {
                         /* TODO : 
                          * Si datePassage et/ou codeSalle a changé : 

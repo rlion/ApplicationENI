@@ -149,7 +149,6 @@ namespace ApplicationENI.DAL
                     "Ajout Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
                 return -1;
             }
-
         }
 
         public static int ModifierTitre(Titre titre)
@@ -199,6 +198,108 @@ namespace ApplicationENI.DAL
                 System.Windows.MessageBox.Show("La suppression de ce titre est impossible : d'autres informations dépendent de celui-ci.", "Suppression Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
                 return -1;
             }
+        }
+
+        public static int AjouterEpreuveTitre(EpreuveTitre epTitre)
+        {
+            try
+            {
+                string req = "insert into EpreuveTitre (CodeSalle,CodeTitre,dateEpreuve) " +
+                             "select @codeS, @codeT, @dateE where not exists "+
+                             "(select 0 from EpreuveTitre where CodeSalle=@codeS and CodeTitre=@codeT and dateEpreuve=@dateE)";
+
+                SqlConnection conn = ConnexionSQL.CreationConnexion();
+                SqlCommand commande = conn.CreateCommand();
+                commande.CommandText = req;
+                commande.Parameters.AddWithValue("@codeS", epTitre.Salle);
+                commande.Parameters.AddWithValue("@codeT", epTitre.Titre);
+                commande.Parameters.AddWithValue("@dateE", epTitre.DateEpreuve);
+
+                return commande.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("L'ajout de cette épreuve est impossible : " + e.Message,
+                    "Ajout Epreuve Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return -1;
+            }
+        }
+
+        public static int AjouterJuryEpreuveTitre(EpreuveTitre epTitre)
+        {
+            try
+            {
+                int i =-2;
+
+                if (epTitre.ListeJury != null && epTitre.ListeJury.Count > 0)
+                {
+                    foreach (Jury j in epTitre.ListeJury)
+                    {
+
+                        string req = "insert into EpTitreJury (idJury,CodeSalle,CodeTitre,dateEpreuve) " +
+                 "select @codeS, @codeT, @dateE, @idJury where not exists " +
+                 "(select 0 from EpTitreJury where CodeSalle=@codeS and CodeTitre=@codeT and dateEpreuve=@dateE and idJury=@idJury)";
+
+                        SqlConnection conn = ConnexionSQL.CreationConnexion();
+                        SqlCommand commande = conn.CreateCommand();
+                        commande.CommandText = req;
+                        commande.Parameters.AddWithValue("@codeS", epTitre.Salle);
+                        commande.Parameters.AddWithValue("@codeT", epTitre.Titre);
+                        commande.Parameters.AddWithValue("@dateE", epTitre.DateEpreuve);
+                        commande.Parameters.AddWithValue("@idJury", j.IdPersonneJury);
+
+                        i = commande.ExecuteNonQuery();
+                    }
+                }
+                return i;
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("L'ajout du jury à cette épreuve est impossible : " + e.Message,
+                    "Ajout Jury Epreuve Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return -1;
+            }
+        }
+
+        public static int AjouterJury(Jury jury)
+        {
+            try
+            {
+                string req = "insert into Jury (civilite, nom, prenom) " +
+                             "select @civ, @nom, @prenom where not exists " +
+                             "(select 0 from Jury where civilite=@civ and nom=@nom and prenom=@prenom)";
+
+                SqlConnection conn = ConnexionSQL.CreationConnexion();
+                SqlCommand commande = conn.CreateCommand();
+                commande.CommandText = req;
+                commande.Parameters.AddWithValue("@civ", jury.Civilite);
+                commande.Parameters.AddWithValue("@nom", jury.Nom);
+                commande.Parameters.AddWithValue("@prenom", jury.Prenom);
+
+                return commande.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("L'ajout de ce jury est impossible : " + e.Message,
+                    "Ajout Jury", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return -1;
+            }
+        }
+
+        //TODO -> requêtes de suppression...
+        public static int SupprimerEpreuveTitre(EpreuveTitre epTitre)
+        {
+            return 0;
+        }
+
+        public static int SupprimerJuryEpreuveTitre(EpreuveTitre epTitre)
+        {
+            return 0;
+        }
+
+        public static int SupprimerJury(Jury jury)
+        {
+            return 0;
         }
     }
 }
