@@ -27,6 +27,23 @@ namespace ApplicationENI.DAL
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
+//<<<<<<< .mine
+
+//            while (reader.Read())
+//            {
+//                Observation obsTemp = new Observation();
+//                obsTemp._id = reader.GetInt32(reader.GetOrdinal("id_observation")); //et ainsi de suite (attendre que la base soit faire pour avoir les bons noms de paramètres)...
+//                obsTemp._date = reader.GetDateTime(reader.GetOrdinal("date"));
+//                obsTemp._nomAuteur = reader.GetString(reader.GetOrdinal("auteur"));
+//                obsTemp._titre = reader.GetString(reader.GetOrdinal("titre"));
+//                obsTemp._type = reader.GetString(reader.GetOrdinal("type"));
+//                obsTemp._texte = reader.GetString(reader.GetOrdinal("texte"));
+//                obsTemp._stagiaire = pStg; //TODO: tout comme pour absence, vérifier s'il est important que le stagiaire soit contenu dans l'absence
+//                pStg.listeObservations.Add(obsTemp);
+//            }
+//            return pStg.listeObservations;
+//            //listeRetour:return DAL.JeuDonnees.GetListeObservation();
+//=======
 
 
                 while (reader.Read())
@@ -51,6 +68,7 @@ namespace ApplicationENI.DAL
             }
 			
             
+//>>>>>>> .r106
         }
 
         public static void ajouterObservation(Observation o) {

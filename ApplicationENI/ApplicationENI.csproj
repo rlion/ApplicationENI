@@ -36,7 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>TimeMachine.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -365,12 +366,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\cache.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\icone.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="TimeMachine.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
