@@ -292,9 +292,28 @@ namespace ApplicationENI.DAL
             return 0;
         }
 
-        public static int SupprimerJuryEpreuveTitre(EpreuveTitre epTitre)
+        public static int SupprimerJuryEpreuveTitre(EpreuveTitre epTitre, int idJury)
         {
-            return 0;
+            try
+            {
+                SqlConnection conn = ConnexionSQL.CreationConnexion();
+                SqlCommand commande = conn.CreateCommand();
+                string req = "delete from EpTitreJury where CodeTitre=@codeT and CodeSalle=@codeS and dateEpreuve=@date and idJury=@jury";
+                commande.CommandText = req;
+                commande.Parameters.AddWithValue("@codeT", epTitre.Titre);
+                commande.Parameters.AddWithValue("@codeS", epTitre.Salle);
+                commande.Parameters.AddWithValue("@date", epTitre.DateEpreuve);
+                commande.Parameters.AddWithValue("@jury", idJury);
+                int retour = commande.ExecuteNonQuery();
+                if (retour == 1) epTitre.ListeJury.RemoveAt(idJury);
+                return retour;
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("La suppression de ce membre du jury à cette épreuve est impossible :"+e.Message, "Suppression Jury Epreuve Titre",
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return -1;
+            }
         }
 
         public static int SupprimerJury(Jury jury)
