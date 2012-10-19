@@ -92,6 +92,7 @@ namespace ApplicationENI.Vue
 
             afficheSessionECF((ECF)cbECF.SelectedItem);
             //CalendarDateRange cdr = new CalendarDateRange(DateTime.Now, new DateTime(2030, DateTime.Now.Month, DateTime.Now.Day));
+            calendar1.Visibility = Visibility.Visible;
         }
 
         private void btnAjouter_Click(object sender, RoutedEventArgs e)
@@ -113,34 +114,64 @@ namespace ApplicationENI.Vue
 
             DateTime dt = new DateTime();
             Calendar cal=sender as Calendar;
-            //if (dt != DateTime.MinValue)
-            //{
-                
-            //}
-            dt =(DateTime) cal.SelectedDate.Value;
 
-            if (!dt.Equals(null))
+            //
+            if (!cal.SelectedDate.HasValue)
             {
-                if (!_planif.Contains((DateTime)dt))
-                {
-                    MessageBox.Show("Cette date n'est pas planifiée pour l'ECF " + _ecfCourant.ToString());
-                }
-                else
-                {
-                    _datePlanif = true;
-                    _sessionECFcourant = new SessionECF(_ecfCourant,calendar1.SelectedDate.Value);
-                    //TODO?? modifier aspect date selectionnée
-                    lbDateSession.Content = "Epreuve du " + _sessionECFcourant.Date.ToShortDateString();
-                }
+                calendar1.SelectedDatesChanged += calendar1_SelectedDatesChanged;
+                return;
             }
+            
+            dt = (DateTime)cal.SelectedDate.Value; 
 
+            //reinit de l affichage des dates planifiees
             calendar1.SelectedDates.Clear();
             foreach (DateTime dateTemp in _planif)
             {
                 calendar1.SelectedDates.Add(dateTemp);
-            }       
+            }
             calendar1.SelectedDatesChanged += calendar1_SelectedDatesChanged;
 
+            
+            
+            //if (dt == DateTime.MinValue)
+            //{
+            //    calendar1.SelectedDatesChanged += calendar1_SelectedDatesChanged;
+            //    return;
+            //}
+            
+
+            //if (!dt.Equals(null))
+            //{
+                if (!_planif.Contains((DateTime)dt))
+                {
+                    MessageBox.Show("Cette date n'est pas planifiée pour l'ECF " + _ecfCourant.ToString());
+                    //calendar1.Visibility = Visibility.Hidden;
+                    lbCompetences.Visibility = Visibility.Hidden;
+                    lbStagiaires.Visibility = Visibility.Hidden;
+                    cbVersions.Visibility = Visibility.Hidden;
+                    label1.Visibility = Visibility.Hidden;
+                    groupBox1.Visibility = Visibility.Hidden;
+                    lbDateSession.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    _datePlanif = true;
+                    _sessionECFcourant = new SessionECF(_ecfCourant,dt);
+                    //TODO?? modifier aspect date selectionnée
+                    lbDateSession.Content = "Epreuve du " + _sessionECFcourant.Date.ToShortDateString();
+                    //calendar1.Visibility = Visibility.Visible;
+                    lbCompetences.Visibility = Visibility.Visible;
+                    lbStagiaires.Visibility = Visibility.Visible;
+                    cbVersions.Visibility = Visibility.Visible;
+                    label1.Visibility = Visibility.Visible;
+                    groupBox1.Visibility = Visibility.Visible;
+                    lbDateSession.Visibility = Visibility.Visible;
+                }
+            //}
+
+            
+            
             if (_datePlanif)
             {
                 cbVersions.IsEnabled = true;
@@ -152,6 +183,16 @@ namespace ApplicationENI.Vue
                 cbVersions.ItemsSource = versions;
 
                 //TODO afficher reste
+            }
+        }
+
+        //http://stackoverflow.com/questions/5543119/wpf-button-takes-two-clicks-to-fire-click-event
+        protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseUp(e);
+            if (Mouse.Captured is Calendar || Mouse.Captured is System.Windows.Controls.Primitives.CalendarItem)
+            {
+                Mouse.Capture(null);
             }
         }
     }
