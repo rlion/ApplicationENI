@@ -22,26 +22,32 @@ namespace ApplicationENI.DAL
 			SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_INFOS_ABSENCES, connexion);
             cmd.Parameters.AddWithValue("@num_stagiaire", pS._id);
-
-            SqlDataReader reader = cmd.ExecuteReader();
-            
-            //TODO: il y a un bug sur le format de date quand il y a lecture à partir de mysqsl
-            
-            while(reader.Read()) 
+            try
             {
-                Absence absTemp = new Absence();
-                absTemp._id = reader.GetInt32(reader.GetOrdinal("id_absence")); //et ainsi de suite (attendre que la base soit faire pour avoir les bons noms de paramètres)...
-				absTemp._dateDebut = reader.GetDateTime(reader.GetOrdinal("dateDebut"));
-                absTemp._dateFin = reader.GetDateTime(reader.GetOrdinal("dateFin"));
-                absTemp._raison = reader.GetString(reader.GetOrdinal("raison"));
-				absTemp._commentaire = reader.GetString(reader.GetOrdinal("commentaire"));
-                absTemp._duree = absTemp._dateFin - absTemp._dateDebut;
-				absTemp._valide = reader.GetBoolean(reader.GetOrdinal("justifiee"));
-                // TODO: le mieux c'est de faire une grosse requête qui renvoie aussi le nom du stagiaire, faire pareil pour l'auteur
-                // sinon le stagiaire se trouve dans la session...
-                absTemp._stagiaire = pS;
-				pS.listeAbsences.Add(absTemp);
-			}
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Absence absTemp = new Absence();
+                    absTemp._id = reader.GetInt32(reader.GetOrdinal("id_absence")); //et ainsi de suite (attendre que la base soit faire pour avoir les bons noms de paramètres)...
+                    absTemp._dateDebut = reader.GetDateTime(reader.GetOrdinal("dateDebut"));
+                    absTemp._dateFin = reader.GetDateTime(reader.GetOrdinal("dateFin"));
+                    absTemp._raison = reader.GetString(reader.GetOrdinal("raison"));
+                    absTemp._commentaire = reader.GetString(reader.GetOrdinal("commentaire"));
+                    absTemp._duree = absTemp._dateFin - absTemp._dateDebut;
+                    absTemp._valide = reader.GetBoolean(reader.GetOrdinal("justifiee"));
+                    absTemp._isAbsence = reader.GetBoolean(reader.GetOrdinal("isAbsence"));
+                    absTemp._stagiaire = pS;
+                    pS.listeAbsences.Add(absTemp);
+                }
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible d'éxécuter la requête : " + e.Message, "Echec de la requête",
+                      System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return null;
+            }
+            
             return pS.listeAbsences;
             //return DAL.JeuDonnees.GetListeAbsence();
         }

@@ -26,22 +26,46 @@ namespace ApplicationENI.Controleur
         }
 
         public List<ItemAlerte> listeAlertes() {
-            if(Parametres.Instance.listAlertes.Count>0 ){
-                foreach (ItemAlerte ia in Parametres.Instance.listAlertes) {
-                    Parametres.Instance.stagiaire.listeAlertes.Remove(ia);
-                }
-                if(DAL.AlerteDAL.nombreAbsences(Parametres.Instance.stagiaire)>=10){
-                    ItemAlerte al = new ItemAlerte(1, "Plus de 10 absences pour ce stagiaire", 1);
-                    Parametres.Instance.stagiaire.listeAlertes.Add(al);
-                }
-                if(DAL.AlerteDAL.nombreRetards(Parametres.Instance.stagiaire)>=10){
-                    ItemAlerte al = new ItemAlerte(1, "Plus de 10 retards pour ce stagiaire", 1);
-                    Parametres.Instance.stagiaire.listeAlertes.Add(al);
-                }
+
+            if (Parametres.Instance.stagiaire.listeAlertes.Count > 0) {
+                Parametres.Instance.stagiaire.listeAlertes.RemoveRange(0, Parametres.Instance.stagiaire.listeAlertes.Count);
             }
+
+            GererItemAlerteAbsenceRetard("Absence", Parametres.Instance.stagiaire.nombreAbsences());
+            GererItemAlerteAbsenceRetard("Retard", Parametres.Instance.stagiaire.nombreRetards());
+            //GererItemAlerte("ECF", DAL.AlerteDAL.nombreRetards(Parametres.Instance.stagiaire));
+            //TODO: attente du code de Mathias vérifiant les ECFS non corrigés pour un stagiaire
+            /*if (Parametres.Instance.stagiaire.listeECFNonCorriges()!=null) {
+                Parametres.Instance.stagiaire.listeAlertes.Add(new ItemAlerte(0, "ECF blablabla (mettre le numéro et l'intitulé)", 0));
+                    
+            }*/
+
             return Parametres.Instance.stagiaire.listeAlertes;
         }
 
+        public void GererItemAlerteAbsenceRetard(String type, int nb)
+        {
+            // manipulation permettant de contourner le fait qu'un Switch ne prend pas d'interval
+            int indice = (int)Math.Floor((decimal)nb / 10);
+            if (indice>3) {indice=3;}  // pour éviter de mettre en place un grand nombre de cas dans le switch (à partir de 30 abs/ret, il n'y a plus d'augmentation du niveau de criticité).
+
+            
+            switch (indice)
+            {
+                case 1:
+                    Parametres.Instance.stagiaire.listeAlertes.Add(new ItemAlerte(0, nb + " " + type + " pour ce stagiaire", 0));
+                    break;
+                case 2:
+                    Parametres.Instance.stagiaire.listeAlertes.Add(new ItemAlerte(1, nb + " " + type + " pour ce stagiaire", 0));
+                    break;
+                case 3:
+                    Parametres.Instance.stagiaire.listeAlertes.Add(new ItemAlerte(2, nb + " " + type + " pour ce stagiaire", 0));
+                    break;
+                default:
+                    break;
+
+            }
+        }
 
     }
 }

@@ -9,9 +9,9 @@ namespace ApplicationENI.DAL
 {
     class ContactDAL
     {
-        static String SELECT_CONTACT_PAR_STAGIAIRE = "SELECT CONTACT.CODECONTACT, Contact.NOM, Contact.PRENOM, Contact.TELFIXE, Contact.TelMobile, Contact.Email, Entreprise.RaisonSociale FROM CONTACT, Fonction, StagiaireParEntreprise, Entreprise WHERE Contact.CodeFonction = Fonction.CodeFonction AND Fonction.CodeFonction=StagiaireParEntreprise.CodeFonction AND StagiaireParEntreprise.CodeEntreprise=Entreprise.CodeEntreprise AND Fonction.CodeFonction LIKE 'TUT' AND StagiaireParEntreprise.CodeStagiaire=@num_stagiaire";
+        static String SELECT_CONTACT_PAR_STAGIAIRE = "SELECT CONTACT.CODECONTACT, Contact.NOM, Contact.PRENOM, Contact.TELFIXE, Contact.TelMobile, Contact.Email, Entreprise.RaisonSociale FROM CONTACT, Fonction, StagiaireParEntreprise, Entreprise WHERE Contact.CodeFonction = Fonction.CodeFonction AND StagiaireParEntreprise.CodeEntreprise=Entreprise.CodeEntreprise AND Fonction.CodeFonction LIKE 'TUT' AND StagiaireParEntreprise.CodeStagiaire=@num_stagiaire";
 
-        public static Contact rechercherContact(int pNumStagiaire){
+        public static Contact   rechercherContact(int pNumStagiaire){
 
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_CONTACT_PAR_STAGIAIRE, connexion);
