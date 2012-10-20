@@ -169,7 +169,6 @@ namespace ApplicationENI.Vue
         {
             if (VerificationSaisie())
             {
-                // TODO: bug dans la saisie de l'heure due au format des minutes ("7" au lieu de "07") ce qui fait que le nombre concaténé est plus petit que l'autre alors que l'heure est plus tardive...
                 String raison, commentaire, dateDebut, dateFin;
                 int heureDeb, minuteDeb, heureFin, minuteFin;
                 bool valide, absence, retard;

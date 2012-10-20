@@ -72,6 +72,23 @@ namespace ApplicationENI.Vue
 
         private void btnEnregistrer_Click(object sender, RoutedEventArgs e)
         {
+
+            if (txtHeureDeb.Text.Length <= 1)
+            {
+                txtHeureDeb.Text = 0 + txtHeureDeb.Text;
+            }
+            if (txtMinuteDeb.Text.Length <= 1)
+            {
+                txtMinuteDeb.Text = 0 + txtMinuteDeb.Text;
+            }
+            if (txtHeureFin.Text.Length <= 1)
+            {
+                txtHeureFin.Text = 0 + txtHeureFin.Text;
+            }
+            if (txtMinuteFin.Text.Length <= 1)
+            {
+                txtMinuteFin.Text = 0 + txtMinuteFin.Text;
+            }
             if (VerificationSaisie())
             {
                 String raison, commentaire, dateDebut, dateFin;

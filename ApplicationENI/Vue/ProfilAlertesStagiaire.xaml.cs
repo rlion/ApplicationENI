@@ -52,11 +52,8 @@ namespace ApplicationENI.Vue
             txtPrénomTuteur.Text = stg._tuteur._prenom;
             txtTelTuteur.Text = stg._tuteur._telFixe;
 
-            //TODO: mettre un datagrid pour la liste des alertes ?
-            //TODO: s'il y a vraiment beaucoup d'alarmes, on affiche un message du genre "il y a 5 alarmes de type ECF" -> on pourrait cliquer dessus ensuite pour le détail?
             this.listViewAlerte.ItemsSource = ctrlStagiaires.listeAlertes();
             this.listViewAlerte.Items.Refresh();
-            //TODO: on pourrait aussi mettre une listbox sous le datagrid pour afficher les alertes pour une catégorie
         }
 
         private void listViewAlerte_Initialized(object sender, EventArgs e)
