@@ -37,7 +37,7 @@
                 <TextBox Height="19" HorizontalAlignment="Left" Margin="339,62,0,0" Name="txtDateNaiss" VerticalAlignment="Top" Width="120" FontSize="11" />
                 <Label Content="Répertoire : " Height="28" HorizontalAlignment="Right" Margin="0,111,235,0" Name="label9" VerticalAlignment="Top" />
                 <TextBox Height="19" HorizontalAlignment="Left" Margin="339,113,0,0" Name="txtRep" VerticalAlignment="Top" Width="120" FontSize="11" />
-                <Image DataContext="{Binding}" Height="79" HorizontalAlignment="Left" Margin="116,12,0,0" Name="imageStagiaire" Source="/ApplicationENI;component/Images/J-ai-le-visage-ovale_diapo_full_gallery.jpg" Stretch="Fill" VerticalAlignment="Top" Width="89" ImageFailed="imageStagiaire_ImageFailed" />
+                <Image DataContext="{Binding}" Height="100" HorizontalAlignment="Left" Margin="116,6,0,0" Name="imageStagiaire" Source="/ApplicationENI;component/Images/portrait-vide.jpg" Stretch="Uniform" VerticalAlignment="Top" Width="120" ImageFailed="imageStagiaire_ImageFailed" />
             </Grid>
         </GroupBox>
         <GroupBox Header="Informations tuteur" HorizontalAlignment="Left" Name="gbInfosTuteur" VerticalAlignment="Top" Width="586" Margin="6,184,0,0" Height="92">

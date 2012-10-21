@@ -42,6 +42,17 @@ namespace ApplicationENI.Vue
             txtRep.Text = stg._repertoire;
             //txtTelTuteur = ?
             txtDateNaiss.Text = stg._dateNaissance.ToString();
+            try
+            {
+                BitmapImage img = new BitmapImage(new Uri(stg._photo));
+                imageStagiaire.Source = img;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Image non récupérée", "Pas d'image pour ce stagiaire", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            
+
 
             //informations sur le tuteur du stagiaire
             //txtEntrepriseTuteur = ?
@@ -67,6 +78,7 @@ namespace ApplicationENI.Vue
             Grid testG = (Grid)testDP.Parent;
             ((MainWindow)testG.Parent).MainGrid.Children.RemoveAt(0);
             ((MainWindow)testG.Parent).MainGrid.Children.Add(new Vue.HistoriqueAbsencesRetards());
+            ((MainWindow)this.Parent).tviHistorique.IsSelected = true;
             //MessageBox.Show("ça marche");
         }
 

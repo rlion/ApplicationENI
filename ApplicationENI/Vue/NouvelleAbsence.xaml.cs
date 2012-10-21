@@ -27,18 +27,17 @@ namespace ApplicationENI.Vue
         {
             InitializeComponent();
 
-            //TODO: à virer - ces éléments sont renseignés temporairement pour éviter de tout avoir à saisir pour les milliers de tests.
             txtHeureDeb.Text = "09";
             txtMinuteDeb.Text = "00";
-            txtHeureFin.Text = "10";
-            txtMinuteFin.Text = "09";
+            txtHeureFin.Text = "09";
+            txtMinuteFin.Text = "05";
             datePickerDateDebut.Text = DateTime.Now.ToString();
             datePickerDateFin.Text = DateTime.Now.ToString();
             checkBoxValide.IsChecked = false;
             radioButtonAbsence.IsChecked = true;
             radioButtonRetard.IsChecked = false;
-            textBoxRaison.Text = "Panne de réveil";
-            textBoxCommentaire.Text = "Panne de motivation plutôt...";
+            textBoxRaison.Text = "";
+            textBoxCommentaire.Text = "";
 
         }
 

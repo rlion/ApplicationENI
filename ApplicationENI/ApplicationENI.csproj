@@ -370,6 +370,10 @@
   <ItemGroup>
     <Resource Include="Images\cache.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\portrait-vide.jpg" />
+    <Resource Include="Images\portrait_vide.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

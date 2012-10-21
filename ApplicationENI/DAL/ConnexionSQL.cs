@@ -27,6 +27,9 @@ namespace ApplicationENI.DAL {
             {
                 System.Windows.MessageBox.Show("Impossible de se connecter à la base de données : " + e.Message, "Echec de connexion", 
                     System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                
+                // si la connexion n'est pas opérationnelle, autant fermer l'appli tout de suite.
+                System.Environment.Exit(0);
                 return null;
             }
         }

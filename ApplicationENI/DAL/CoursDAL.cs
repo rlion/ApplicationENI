@@ -11,7 +11,6 @@ namespace ApplicationENI.DAL
     {
 
         static String SELECT_COURS = "SELECT * FROM COURS";
-        //TODO: la requête suivante va permettre de retourner une liste de cours en fonction de la formation
         //static String SELECT_COURS = "SELECT * FROM COURS WHERE BLABLA";
 
         public static List<Cours> listeCours(Formation pF)
