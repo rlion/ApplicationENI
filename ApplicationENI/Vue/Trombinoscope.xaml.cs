@@ -30,18 +30,16 @@ namespace ApplicationENI.Vue
 
 
             CtrlTrombinoscope ctrlStagiaire = new CtrlTrombinoscope();
-            List<Formation> lesFormations = ctrlStagiaire.listeFormation();
+            List<Promotion> lesPromos = ctrlStagiaire.listePromotion();
 
-            foreach (Formation f in lesFormations)
+            foreach (Promotion p in lesPromos)
             {
-                cboFormation.Items.Add(f);
+                cboFormation.Items.Add(p);
             }
         }
 
         private void cboFormation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            cboCours.IsEnabled = true;
-            cboCours.ItemsSource = ((Formation)cboFormation.SelectedItem).listeCours();
             groupBox2.Visibility = Visibility.Hidden;
             groupBox3.Visibility = Visibility.Hidden;
         }
@@ -54,13 +52,13 @@ namespace ApplicationENI.Vue
 
                 // pour l'instant je laisse comme ça, c'est complexe d'aller plus loin sans les jeu de données filés par l'ENI, 
                 // la BDD est pas très claire (Stagiaire -> planningIndividuelFormation -> planningIndividuelDetail -> Cours
-                if (cboCours.SelectedItem != null && cboFormation.SelectedItem != null)
+                if (cboFormation.SelectedItem != null)
                 {
-                    CtrlTrombinoscope ctrlStagiaire = new CtrlTrombinoscope();
+                    CtrlTrombinoscope ctrlTrombi = new CtrlTrombinoscope();
 
                     groupBox2.Visibility = Visibility.Visible;
                     groupBox3.Visibility = Visibility.Visible;
-                    List<Stagiaire> listStagiaire = ((Cours)cboCours.SelectedItem).getListeStagiaires();
+                    List<Stagiaire> listStagiaire = ctrlTrombi.listeStagiaires(cboFormation.Text);
                     Grid tableauImages = new Grid();
                     int i = 0;
                     int j = 0;

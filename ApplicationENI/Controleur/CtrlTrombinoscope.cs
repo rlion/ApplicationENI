@@ -5,17 +5,25 @@ using System.Text;
 using ApplicationENI.Modele;
 
 namespace ApplicationENI.Controleur {
-    class CtrlTrombinoscope 
+    class CtrlTrombinoscope     
     {
-        public List<Stagiaire> listeStagiaires() 
+        public List<Stagiaire> listeStagiaires(String pNomPromo)
         {
-            Stagiaire stg = new Stagiaire();
-            return stg.ListeStagiaire();
+            return DAL.PromotionDAL.listeStagiaires(pNomPromo);
         }
 
-        public List<Formation> listeFormation() {
+        public List<Formation> listeFormation()
+        {
             return new Formations().listeFormations;
         }
-            
+
+        public List<Cours> listeCours(Formation pF)
+        {
+            return pF.listeCours();
+        }
+
+        public List<Promotion> listePromotion() {
+            return DAL.PromotionDAL.listePromotions();
+        }
     }
 }

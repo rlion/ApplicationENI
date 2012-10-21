@@ -90,6 +90,8 @@
     <Compile Include="DAL\ContactDAL.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DAL\PromotionDAL.cs" />
+    <Compile Include="DAL\CoursDAL.cs" />
     <Compile Include="DAL\ECFDAL.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -125,6 +127,7 @@
     <Compile Include="Modele\ItemAlerte.cs" />
     <Compile Include="Modele\Jury.cs" />
     <Compile Include="Modele\Observation.cs" />
+    <Compile Include="Modele\Promotion.cs" />
     <Compile Include="Modele\Salle.cs" />
     <Compile Include="Modele\SessionECF.cs" />
     <Compile Include="Modele\Stagiaire.cs" />
