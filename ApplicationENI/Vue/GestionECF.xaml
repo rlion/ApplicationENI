@@ -7,27 +7,35 @@
              d:DesignHeight="460" d:DesignWidth="630">
     <!--<Grid Loaded="Grid_Loaded">-->
     <Grid>
-        <ComboBox Height="23" HorizontalAlignment="Left" Margin="141,29,0,0" Name="cbECF" VerticalAlignment="Top" Width="206" Text="" DataContext="{Binding}" SelectionChanged="cbECF_SelectionChanged"></ComboBox>
-
-            <TextBox Height="23" HorizontalAlignment="Left" Margin="141,63,0,0" Name="tbLibECF" VerticalAlignment="Top" Width="206" Text="" />
-        <TextBox Margin="50,347,0,0" Name="tbCommECF" Text="" Height="62" VerticalAlignment="Top" HorizontalAlignment="Left" Width="514" />
-        <GroupBox Header="Type notation" Height="89" HorizontalAlignment="Left" Margin="403,25,0,0" Name="gbNotation" VerticalAlignment="Top" Width="167">
+        <ComboBox Height="23" HorizontalAlignment="Left" Margin="141,29,0,0" Name="cbECF" VerticalAlignment="Top" Width="187" Text="" DataContext="{Binding}" SelectionChanged="cbECF_SelectionChanged"></ComboBox>
+        <Label Content="ECF :" Height="28" Margin="22,29,0,0" Name="lbECF" VerticalAlignment="Top" HorizontalAlignment="Left" Width="113" HorizontalContentAlignment="Right" />
+        <Button Content="Ajouter ECF" Height="23" HorizontalAlignment="Left" Margin="33,425,0,0" Name="btAdd1" VerticalAlignment="Top" Width="90" Click="btAdd_Click" />
+        <Button Content="Enregistrer" Height="23" Margin="392,425,0,0" Name="btSave" VerticalAlignment="Top" Click="btSave_Click" HorizontalAlignment="Left" Width="90" IsEnabled="False" />
+        <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Left" Margin="129,425,0,0" Name="btDelete" VerticalAlignment="Top" Width="90" Click="btDelete_Click" IsEnabled="False" />
+        <Button Content="Annuler" Height="23" Margin="488,425,0,0" Name="btCancel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="90" Click="btCancel_Click" IsEnabled="False" />
+        <GroupBox Header="Compétences :" Height="384" HorizontalAlignment="Left" Margin="344,29,0,0" Name="groupBox1" VerticalAlignment="Top" Width="234">
             <Grid>
-                <RadioButton Content="numérique" Height="16" HorizontalAlignment="Left" Margin="10,10,0,0" Name="rbNumerique" VerticalAlignment="Top" IsChecked="True" />
-                <RadioButton Content="acquisition" Height="16" HorizontalAlignment="Left" Margin="10,32,0,0" Name="rbAcquisition" VerticalAlignment="Top" />
+                <ListBox Height="345" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="10,10,0,0" Name="lbCompetences" SelectionMode="Multiple" VerticalAlignment="Top" Width="171" SelectionChanged="lbCompetences_SelectionChanged" />
+                <Button Content="+" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="187,10,0,0" Name="btPlus" VerticalAlignment="Top" Width="27" Click="btPlus_Click" />
+                <Button Content="-" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="187,39,0,0" Name="btMoins" VerticalAlignment="Top" Width="27" Click="btMoins_Click" />
             </Grid>
         </GroupBox>
-        <Slider Height="23" HorizontalAlignment="Left" Margin="187,102,0,0" Name="slVersion" VerticalAlignment="Top" Width="160" Minimum="1" Maximum="10" IsSnapToTickEnabled="True" TickFrequency="1" TickPlacement="TopLeft" SmallChange="1" AutoToolTipPlacement="BottomRight" ValueChanged="slVersion_ValueChanged" />
-        <Label Content="ECF :" Height="28" Margin="22,29,0,0" Name="lbECF" VerticalAlignment="Top" HorizontalAlignment="Left" Width="113" HorizontalContentAlignment="Right" />
-        <Label Content="Libellé :" Height="28" HorizontalAlignment="Left" Margin="22,0,0,371" Name="lbLibECF" VerticalAlignment="Bottom" Width="113" HorizontalContentAlignment="Right" />
-        <Label Content="Nb Version(s) :" Height="28" HorizontalAlignment="Left" Margin="22,97,0,0" Name="lbNbVersionECF" VerticalAlignment="Top" Width="113" HorizontalContentAlignment="Right" />
-        <ListBox Height="195" HorizontalAlignment="Left" Margin="50,146,0,0" Name="lbCompetences" VerticalAlignment="Top" Width="514" ItemsSource="{Binding}" SelectionMode="Multiple" SelectionChanged="lbCompetences_SelectionChanged" />
-        <Label Content="1" Height="28" HorizontalAlignment="Left" Margin="141,97,0,0" Name="lbNbVersions" VerticalAlignment="Top" />
-        <Button Content="Ajouter ECF" Height="23" HorizontalAlignment="Left" Margin="50,425,0,0" Name="btAdd1" VerticalAlignment="Top" Width="90" Click="btAdd_Click" />
-        <Button Content="Enregistrer" Height="23" Margin="378,425,0,0" Name="btSave" VerticalAlignment="Top" Click="btSave_Click" HorizontalAlignment="Left" Width="90" IsEnabled="False" />
-        <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Left" Margin="146,425,0,0" Name="btDelete" VerticalAlignment="Top" Width="90" Click="btDelete_Click" IsEnabled="False" />
-        <Button Content="Annuler" Height="23" Margin="474,425,0,0" Name="btCancel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="90" Click="btCancel_Click" IsEnabled="False" />
-        <Button Content="+" Height="23" HorizontalAlignment="Left" Margin="591,146,0,0" Name="btPlus" VerticalAlignment="Top" Width="27" IsEnabled="False" Click="btPlus_Click" />
-        <Button Content="-" Height="23" HorizontalAlignment="Left" Margin="591,175,0,0" Name="btMoins" VerticalAlignment="Top" Width="27" Click="btMoins_Click" IsEnabled="False" />
+        <GroupBox Header="Propriétés :" Height="357" HorizontalAlignment="Left" Margin="33,56,0,0" Name="groupBox2" VerticalAlignment="Top" Width="295">
+            <Grid>
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="108,12,0,0" Name="tbLibECF" Text="" VerticalAlignment="Top" Width="169" />
+                <TextBox Height="125" HorizontalAlignment="Left" Margin="13,203,0,0" Name="tbCommECF" Text="" VerticalAlignment="Top" Width="264" />
+                <GroupBox Header="Type notation" Height="89" HorizontalAlignment="Left" Margin="13,80,0,0" Name="gbNotation" VerticalAlignment="Top" Width="264">
+                    <Grid>
+                        <RadioButton Content="numérique" Height="16" HorizontalAlignment="Left" IsChecked="True" Margin="32,13,0,0" Name="rbNumerique" VerticalAlignment="Top" />
+                        <RadioButton Content="acquisition" Height="16" HorizontalAlignment="Left" Margin="32,35,0,0" Name="rbAcquisition" VerticalAlignment="Top" />
+                    </Grid>
+                </GroupBox>
+                <Slider AutoToolTipPlacement="BottomRight" Height="23" HorizontalAlignment="Left" IsSnapToTickEnabled="True" Margin="130,51,0,0" Maximum="10" Minimum="1" Name="slVersion" SmallChange="1" TickFrequency="1" TickPlacement="TopLeft" VerticalAlignment="Top" Width="147" ValueChanged="slVersion_ValueChanged" />
+                <Label Content="Libellé :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="-11,0,0,296" Name="lbLibECF" VerticalAlignment="Bottom" Width="113" />
+                <Label Content="Nb Version(s) :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="-11,46,0,0" Name="lbNbVersionECF" VerticalAlignment="Top" Width="113" />
+                <Label Content="1" Height="28" HorizontalAlignment="Left" Margin="108,46,0,0" Name="lbNbVersions" VerticalAlignment="Top" />
+                <Label Content="Commentaire :" FlowDirection="LeftToRight" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="13,0,0,131" Name="label1" VerticalAlignment="Bottom" Width="113" />
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>
