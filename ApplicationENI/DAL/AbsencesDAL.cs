@@ -104,7 +104,7 @@ namespace ApplicationENI.DAL
                 Parametres.Instance.stagiaire.listeAbsences.Add(pA);
                 connexion.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 System.Windows.MessageBox.Show("Cette absence a déjà été ajoutée. Pour la modifier, veuillez consulter l'historique des absences.",
                     "Ajout Absence impossible", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);

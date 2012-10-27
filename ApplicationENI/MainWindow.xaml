@@ -37,7 +37,7 @@
                             <TreeViewItem Header="Sessions Examens" IsExpanded="True">
                                 <TreeViewItem Header="Gestion des passages" Name="tviGestionPassages" Selected="tviGestionPassages_Selected" />
                             </TreeViewItem>
-                            <TreeViewItem Header="Trombinoscopes" Name="tviTrombinoscope" Selected="tviTrombinoscope_Selected" Foreground="Red"/>
+                            <TreeViewItem Header="Trombinoscopes" Name="tviTrombinoscope" Selected="tviTrombinoscope_Selected"/>
                         </TreeViewItem>
                         <TreeViewItem Header="Paramètres individuels" Name="tvPersonParam" IsExpanded="False" IsEnabled="False">
                             <TreeViewItem Header="Profil &amp; alertes" Name="tviProfil" Selected="tviProfil_Selected" />

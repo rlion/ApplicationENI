@@ -41,7 +41,7 @@ namespace ApplicationENI.Vue
                 BitmapImage img = new BitmapImage(new Uri(stg._photo));
                 imageStagiaire.Source = img;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 MessageBox.Show("Image non récupérée", "Pas d'image pour ce stagiaire", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
