@@ -91,13 +91,6 @@ namespace ApplicationENI.Modele
             this._libelleCours = libCours;
         }
 
-        public List<Stagiaire> getListeStagiaires() {
-            // surement une requete SQL de barbare derrière tout ça...
-            // éventuellement passer le nom du cours en paramètre...
-            return DAL.StagiairesDAL.getListeStagiaires();
-        }
-
-
 
         public override string ToString()
         {

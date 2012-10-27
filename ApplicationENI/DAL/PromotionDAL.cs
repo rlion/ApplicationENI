@@ -43,7 +43,6 @@ namespace ApplicationENI.DAL
             while (reader.Read())
             {
                 Stagiaire s = new Stagiaire();
-                //s._adresse1 = reader.IsDBNull(13) ? reader.GetString(13) : string.Empty;
                 s._id = reader.GetInt32(reader.GetOrdinal("CodeStagiaire"));
                 s._civilité = reader.GetSqlString(10).IsNull ? string.Empty : reader.GetString(10);
                 s._nom = reader.GetSqlString(11).IsNull ? string.Empty : reader.GetString(11);

@@ -31,16 +31,10 @@ namespace ApplicationENI.Vue
             txtNom.Text = stg._nom;
             txtAddr.Text = stg._adresse1;
             txtPrenom.Text = stg._prenom;
-            //txtEntrepriseTuteur = ?
             txtFixe.Text = stg._telephoneFixe;
             txtMail.Text = stg._email;
-            //txtMailTuteur = ?
-            //txtNomTuteur = ?
             txtPortable.Text = stg._telephonePortable;
-            //txtPortableTuteur = ?
-            //txtPrénomTuteur = ?
             txtRep.Text = stg._repertoire;
-            //txtTelTuteur = ?
             txtDateNaiss.Text = stg._dateNaissance.ToString();
             try
             {
@@ -55,7 +49,6 @@ namespace ApplicationENI.Vue
 
 
             //informations sur le tuteur du stagiaire
-            //txtEntrepriseTuteur = ?
             txtEntrepriseTuteur.Text = stg._tuteur._nomEntreprise;
             txtMailTuteur.Text = stg._tuteur._email;
             txtNomTuteur.Text = stg._tuteur._nom;
@@ -78,8 +71,7 @@ namespace ApplicationENI.Vue
             Grid testG = (Grid)testDP.Parent;
             ((MainWindow)testG.Parent).MainGrid.Children.RemoveAt(0);
             ((MainWindow)testG.Parent).MainGrid.Children.Add(new Vue.HistoriqueAbsencesRetards());
-            ((MainWindow)this.Parent).tviHistorique.IsSelected = true;
-            //MessageBox.Show("ça marche");
+            ((MainWindow)testG.Parent).tviHistorique.IsSelected = true;
         }
 
         private void imageStagiaire_ImageFailed(object sender, ExceptionRoutedEventArgs e)

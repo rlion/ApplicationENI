@@ -38,17 +38,12 @@ namespace ApplicationENI.Vue
             comboBox1.Items.Add("Entreprise");
             comboBox1.Text = "Pédagogique";
             comboBox1.SelectedValue = "Pédagogique";
-           // Génération automatique des colonnes
-            /*dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
-            dataGridListAbsences.CanUserAddRows = false;
-            dataGridListAbsences.AutoGenerateColumns = true;*/
-            //dataGridListAbsences.ItemsSource = stg1.listeObservations;
 
         }
 
         
         private void dataGridListAbsences_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            // on actualise le formulaire juste en bas
+            // on actualise le formulaire avec les données du datagrid
             if (this.dataGridListAbsences.SelectedItem != null)
             {
                 flag_mode_saisie = 0;
@@ -59,7 +54,6 @@ namespace ApplicationENI.Vue
                 txtBoxTexte.Text = obsSelectionne._texte;
             }
             
-            // pour la combo box on verra comment faire lors de la saisie d'une nouvelle observation
             comboBox1.Items.Clear();
             comboBox1.Items.Add("Pédagogique");
             comboBox1.Items.Add("Entreprise");
@@ -75,7 +69,7 @@ namespace ApplicationENI.Vue
             //désactiver la sélection sur le datagrid.
             txtBoxTitre.Text = "";
             //l'auteur est pas défini à la main, on récupère le nom en session (profil connexion)
-            txtBoxAuteur.Text = "";
+            txtBoxAuteur.Text = Parametres.Instance.login;
             txtBoxDate.Text = "";
             txtBoxTexte.Text = "";
             comboBox1.Items.Clear();
@@ -102,7 +96,6 @@ namespace ApplicationENI.Vue
                         {
                             Observation obsSelectionne = (Observation)this.dataGridListAbsences.SelectedItem;
                             ctrl.modifierOperation(obsSelectionne, typeObs, titre, texte);
-                            // passer en paramètre l'observation + les nouveaux paramètres.
                         }            
                     }
                 

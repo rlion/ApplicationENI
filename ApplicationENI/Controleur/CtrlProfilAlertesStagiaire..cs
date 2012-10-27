@@ -8,13 +8,13 @@ namespace ApplicationENI.Controleur
 {
     class CtrlProfilAlertesStagiaire
     {
-        public List<Stagiaire> listeStagiaires() 
+        /*public List<Stagiaire> listeStagiaires() 
         {
             Stagiaire stg = new Stagiaire();
             return stg.ListeStagiaire();
-        }
+        }*/
 
-        public Stagiaire rechercherStagiaire()
+        /*public Stagiaire rechercherStagiaire()
         {
             Stagiaire stg = new Stagiaire();
             List<Stagiaire> listeStg = stg.ListeStagiaire();
@@ -23,7 +23,7 @@ namespace ApplicationENI.Controleur
                 stg = stag;
             }
             return stg;
-        }
+        }*/
 
         public List<ItemAlerte> listeAlertes() {
 

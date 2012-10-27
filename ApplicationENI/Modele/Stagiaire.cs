@@ -7,7 +7,7 @@ namespace ApplicationENI.Modele
 {
     public class Stagiaire
     {
-        // utilisation des propriétés simplifiées (on est flemmard ou on l'est pas^^).
+        // utilisation des propriétés simplifiées 
         public int _id { get; set; }
         public String _civilité { get; set; }
         public String _nom { get; set; }
@@ -67,18 +67,11 @@ namespace ApplicationENI.Modele
             this._telephonePortable = pTelephonePortable;
             this._ville = pVille;
             this._tuteur = DAL.ContactDAL.rechercherContact(pId);
-           
-            //this.listeAbsences = new List<Absence>(); 
-            /*this.listeObservations = DAL.ObservationsDAL.getListObservations(this);*/
             this.listeObservations = new List<Observation>();
             this.listeObservations = DAL.ObservationsDAL.getListObservations(this);
             this.listeAbsences = new List<Absence>();
             this.listeAbsences = DAL.AbsencesDAL.getListeAbsences(this);
             this.listeAlertes = new List<ItemAlerte>();
-            //this.listeAlertes = DAL.AlerteDAL.listeAlertesParStagiaire(this);
-
-
-
         }
 
         public Stagiaire ()
@@ -92,16 +85,6 @@ namespace ApplicationENI.Modele
             this._nom = pNom;
             this._prenom = pPrenom;
 	    }
-
-        // Faudra que je m'appuie sur ce que Mathias a fait pour choper la bonne liste de stagiaire en rapport avec la promo...
-        public List<Stagiaire> ListeStagiaire() 
-        {
-            return DAL.StagiairesDAL.getListeStagiaires();
-        }
-
-        public void ajouterStagiaire(){
-            DAL.StagiairesDAL.ajouterStagiaire(this);
-        }
 
         public void modifierStagiaire()
         {
@@ -123,7 +106,8 @@ namespace ApplicationENI.Modele
         }
 
         public List<ECF> listeECFNonCorriges() {
-            // return DAL.ECFDAL.getListeEcfNonCorriges(Stagiaire stg);
+            //TODO: Attente Mathias
+            //return DAL.ECFDAL.getListeEcfNonCorriges(Stagiaire stg);
             //    ou
             // return DAL.StagiairesDAL.getListeEcfNonCorriges(Stagiaire stg);
             return null;

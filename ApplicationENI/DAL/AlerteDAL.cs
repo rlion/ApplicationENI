@@ -10,7 +10,7 @@ namespace ApplicationENI.DAL
     class AlerteDAL
     {
         /*
-         * Tu peux t'en servir Roman, j'ai laissé mes vieilles requêtes au cas où et j'ai ajouté les nouvelles.
+         * Classe conservée en vue d'évolutions futures.
          */
 
         static String ABSENCES_COUNT = "select COUNT(*) nb from ABSENCE where id_stagiaire=@num_stagiaire and isAbsence=1";
@@ -18,8 +18,8 @@ namespace ApplicationENI.DAL
 
 
         static String SELECT_ALERTES_PAR_STAGIAIRE = "SELECT * FROM EVENEMENT";
-        static String GET_NUM_ALERTE = "SELECT MAX(CodeEvenement) NbAlertes FROM EVENEMENT";
-        static String INSERT_ALERTE = "INSERT INTO EVENEMENT VALUES(@texte, @date, @date, @date, @numContactEni, 'AL', null, null, null, 0, null);";
+        //static String GET_NUM_ALERTE = "SELECT MAX(CodeEvenement) NbAlertes FROM EVENEMENT";
+        //static String INSERT_ALERTE = "INSERT INTO EVENEMENT VALUES(@texte, @date, @date, @date, @numContactEni, 'AL', null, null, null, 0, null);";
 
 
         public static List<ItemAlerte> listeAlertesParStagiaire(Stagiaire pStg) 

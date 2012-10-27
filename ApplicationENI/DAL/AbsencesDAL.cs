@@ -10,14 +10,17 @@ namespace ApplicationENI.DAL
     class AbsencesDAL
     {
 		static String SELECT_INFOS_ABSENCES = "SELECT * FROM ABSENCE WHERE ID_STAGIAIRE=@num_stagiaire";
-        static String INSERT_ABSENCES = "INSERT INTO ABSENCE VALUES (@raison, @commentaire, @dateDebut, @dateFin, @justifiee, @isAbsence, @num_stagiaire)";
+        static String INSERT_ABSENCES = "INSERT INTO ABSENCE (RAISON, COMMENTAIRE, DATEDEBUT, DATEFIN, JUSTIFIEE, ISABSENCE, ID_STAGIAIRE) " +
+            "SELECT @raison, @commentaire, @dateDebut, @dateFin, @justifiee, @isAbsence, @num_stagiaire " +
+            "WHERE NOT EXISTS (SELECT 0 FROM ABSENCE WHERE RAISON=@raison AND COMMENTAIRE=@commentaire AND DATEDEBUT=@dateDebut AND DATEFIN=@dateFin "+
+            "AND JUSTIFIEE=@justifiee AND ISABSENCE=@isAbsence AND ID_STAGIAIRE=@num_stagiaire)";
+        
         static String DELETE_ABSENCES = "DELETE FROM ABSENCE WHERE ID_ABSENCE=@id_absence";
         static String UPDATE_ABSENCES = "UPDATE ABSENCE SET DATEDEBUT=@dateDebut, DATEFIN=@dateFin, COMMENTAIRE=@commentaire, RAISON=@raison, JUSTIFIEE=@justifiee WHERE ID_ABSENCE=@id_absence";
         static String GET_NUM_ABSENCE = "SELECT @@IDENTITY AS IDENT";
 
         public static List<Absence> getListeAbsences(Stagiaire pS)
         {
-            //Stagiaire stgCourant = new Stagiaire();
 
 			SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_INFOS_ABSENCES, connexion);
@@ -29,14 +32,15 @@ namespace ApplicationENI.DAL
                 while (reader.Read())
                 {
                     Absence absTemp = new Absence();
-                    absTemp._id = reader.GetInt32(reader.GetOrdinal("id_absence")); //et ainsi de suite (attendre que la base soit faire pour avoir les bons noms de paramètres)...
-                    absTemp._dateDebut = reader.GetDateTime(reader.GetOrdinal("dateDebut"));
-                    absTemp._dateFin = reader.GetDateTime(reader.GetOrdinal("dateFin"));
-                    absTemp._raison = reader.GetString(reader.GetOrdinal("raison"));
-                    absTemp._commentaire = reader.GetString(reader.GetOrdinal("commentaire"));
-                    absTemp._duree = absTemp._dateFin - absTemp._dateDebut;
-                    absTemp._valide = reader.GetBoolean(reader.GetOrdinal("justifiee"));
-                    absTemp._isAbsence = reader.GetBoolean(reader.GetOrdinal("isAbsence"));
+                    absTemp._id = reader.GetInt32(reader.GetOrdinal("id_absence"));
+
+                    if (!reader.GetSqlDateTime(3).IsNull) { absTemp._dateDebut = reader.GetDateTime(3); }
+                    if (!reader.GetSqlDateTime(4).IsNull) { absTemp._dateFin = reader.GetDateTime(4); }
+                    absTemp._raison = reader.GetSqlString(1).IsNull ? String.Empty : reader.GetString(1);
+                    absTemp._commentaire = reader.GetSqlString(2).IsNull ? String.Empty : reader.GetString(2);
+                    if (reader.GetBoolean(5)) { absTemp._valide = reader.GetBoolean(5); }
+                    if (reader.GetBoolean(6)) { absTemp._isAbsence = reader.GetBoolean(6); }
+                    try{absTemp._duree = absTemp._dateFin - absTemp._dateDebut;}catch (Exception){absTemp._duree = new TimeSpan(0);}
                     absTemp._stagiaire = pS;
                     pS.listeAbsences.Add(absTemp);
                 }
@@ -49,15 +53,13 @@ namespace ApplicationENI.DAL
             }
             
             return pS.listeAbsences;
-            //return DAL.JeuDonnees.GetListeAbsence();
         }
 
         public static void supprimerAbsence(Absence pA) 
         { 
-			// test de suppression dans la base de données bidon
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_ABSENCES, connexion);
-            cmd.Parameters.AddWithValue("@id_absence", pA._id);  // il faut modifier tout ça
+            cmd.Parameters.AddWithValue("@id_absence", pA._id); 
 
             cmd.ExecuteReader();
             connexion.Close();
@@ -66,7 +68,6 @@ namespace ApplicationENI.DAL
         }
         public static void modifierAbsence(Absence pA)
         {
-            // test de modification dans la base de données bidon
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(UPDATE_ABSENCES, connexion);
             cmd.Parameters.AddWithValue("@dateDebut", pA._dateDebut);
@@ -81,29 +82,34 @@ namespace ApplicationENI.DAL
         }
         public static void ajouterAbsence(Absence pA)
         {
-            //Parametres.Instance.stagiaire.listeAbsences.Add(pA);
-            
-            
-            // test d'ajout dans la base de données bidon
-            SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(INSERT_ABSENCES, connexion);
-            cmd.Parameters.AddWithValue("@id", 1);  
-            cmd.Parameters.AddWithValue("@dateDebut", pA._dateDebut);
-            cmd.Parameters.AddWithValue("@dateFin", pA._dateFin);
-            cmd.Parameters.AddWithValue("@commentaire", pA._commentaire);
-            cmd.Parameters.AddWithValue("@raison", pA._raison);
-            cmd.Parameters.AddWithValue("@justifiee", pA._valide);
-            cmd.Parameters.AddWithValue("@num_stagiaire", pA._stagiaire._id);
-            cmd.Parameters.AddWithValue("@isAbsence", pA._isAbsence);
-            //cmd.Parameters.AddWithValue("@num_stagiaire", pA._stagiaire._id);
-            cmd.ExecuteNonQuery();
 
-            // maintenant il faut mettre à jour l'objet Absence en lui assignant son numéro
-            SqlCommand cmd2 = new SqlCommand(GET_NUM_ABSENCE, connexion);
-            int idDernierAbsence = Convert.ToInt32(cmd2.ExecuteScalar());
-            pA._id = Convert.ToInt32(idDernierAbsence);
-            Parametres.Instance.stagiaire.listeAbsences.Add(pA);
-            connexion.Close();
+            try
+            {
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+                SqlCommand cmd = new SqlCommand(INSERT_ABSENCES, connexion);
+                cmd.Parameters.AddWithValue("@id", 1);  
+                cmd.Parameters.AddWithValue("@dateDebut", pA._dateDebut);
+                cmd.Parameters.AddWithValue("@dateFin", pA._dateFin);
+                cmd.Parameters.AddWithValue("@commentaire", pA._commentaire);
+                cmd.Parameters.AddWithValue("@raison", pA._raison);
+                cmd.Parameters.AddWithValue("@justifiee", pA._valide);
+                cmd.Parameters.AddWithValue("@num_stagiaire", pA._stagiaire._id);
+                cmd.Parameters.AddWithValue("@isAbsence", pA._isAbsence);
+                cmd.ExecuteNonQuery();
+
+                // maintenant il faut mettre à jour l'objet Absence en lui assignant son numéro
+                SqlCommand cmd2 = new SqlCommand(GET_NUM_ABSENCE, connexion);
+                int idDernierAbsence = Convert.ToInt32(cmd2.ExecuteScalar());
+                pA._id = Convert.ToInt32(idDernierAbsence);
+                Parametres.Instance.stagiaire.listeAbsences.Add(pA);
+                connexion.Close();
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Cette absence a déjà été ajoutée. Pour la modifier, veuillez consulter l'historique des absences.",
+                    "Ajout Absence impossible", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+            }
+            
         }
     }
 }

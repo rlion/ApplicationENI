@@ -17,8 +17,6 @@ namespace ApplicationENI.DAL
 
 
         public static List<Observation> getListObservations(Stagiaire pStg) {
-            // à reprendre quand il y aura la base...
-
             try
             {
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
@@ -31,11 +29,11 @@ namespace ApplicationENI.DAL
                 {
                     Observation obsTemp = new Observation();
                     obsTemp._id = reader.GetInt32(reader.GetOrdinal("id_observation"));
-                    obsTemp._date = reader.GetDateTime(reader.GetOrdinal("date"));
-                    obsTemp._nomAuteur = reader.GetString(reader.GetOrdinal("auteur"));
-                    obsTemp._titre = reader.GetString(reader.GetOrdinal("titre"));
-                    obsTemp._type = reader.GetString(reader.GetOrdinal("type"));
-                    obsTemp._texte = reader.GetString(reader.GetOrdinal("texte"));
+                    if (reader.GetDateTime(reader.GetOrdinal("date")).ToString().Length > 0) { obsTemp._date = reader.GetDateTime(reader.GetOrdinal("date")); }
+                    obsTemp._nomAuteur = reader.GetSqlString(2).IsNull ? string.Empty : reader.GetString(2);
+                    obsTemp._type = reader.GetSqlString(3).IsNull ? string.Empty : reader.GetString(3);
+                    obsTemp._titre = reader.GetSqlString(4).IsNull ? string.Empty : reader.GetString(4);
+                    obsTemp._texte = reader.GetSqlString(5).IsNull ? string.Empty : reader.GetString(5);
                     obsTemp._stagiaire = pStg; 
                     pStg.listeObservations.Add(obsTemp);
                 }
@@ -51,7 +49,6 @@ namespace ApplicationENI.DAL
         }
 
         public static void ajouterObservation(Observation o) {
-            // test d'ajout dans la base de données bidon
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(INSERT_OBSERVATION, connexion);  
             cmd.Parameters.AddWithValue("@date", DateTime.Now);
@@ -72,7 +69,6 @@ namespace ApplicationENI.DAL
 
         public static void modifierObservation(Observation o)
         {
-            // test de modification dans la base de données bidon
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(UPDATE_OBSERVATION, connexion);
             cmd.Parameters.AddWithValue("@date", DateTime.Now);
@@ -88,10 +84,9 @@ namespace ApplicationENI.DAL
 
         public static void supprimerObservation(Observation o)
         {
-           // test de suppression dans la base de données bidon
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_OBSERVATION, connexion);
-            cmd.Parameters.AddWithValue("@num_observation", o._id);  // il faut modifier tout ça
+            cmd.Parameters.AddWithValue("@num_observation", o._id); 
 
             cmd.ExecuteReader();
             connexion.Close();

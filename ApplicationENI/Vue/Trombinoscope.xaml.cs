@@ -48,10 +48,6 @@ namespace ApplicationENI.Vue
         {
             if (groupBox2.Visibility == Visibility.Hidden)
             {
-                //TODO: gérer le problème de l'emplacement des photos
-
-                // pour l'instant je laisse comme ça, c'est complexe d'aller plus loin sans les jeu de données filés par l'ENI, 
-                // la BDD est pas très claire (Stagiaire -> planningIndividuelFormation -> planningIndividuelDetail -> Cours
                 if (cboFormation.SelectedItem != null)
                 {
                     CtrlTrombinoscope ctrlTrombi = new CtrlTrombinoscope();
@@ -98,22 +94,24 @@ namespace ApplicationENI.Vue
                             }
 
                             gridTrombi.Width = 1000;
-                            //gridTrombi.Height = 1000;
 
                             Image image = new Image();
                             image.BeginInit();
 
                             TextBox txt = new TextBox();
-                            // Modification de la gestion des photos pour les tests
-                            BitmapImage img = new BitmapImage(new Uri(s._photo));
-                            //BitmapImage img = new BitmapImage(new Uri("/ApplicationENI;component/Images/1.jpg"));
-                            //BitmapImage img = new BitmapImage(new Uri(@"..\Images\1.jpg"));
-                            //@"..\Images\info.png"
-                            image.Source = img;
-                            /*image.Width = 100;
-                            image.Height = 120;*/
-                            image.Stretch = Stretch.Uniform;
+                            BitmapImage img;
+                            try
+                            {
+                                img = new BitmapImage(new Uri(s._photo));
+                                
+                            }
+                            catch (Exception)
+                            {
+                                img = new BitmapImage(new Uri("pack://application:,,,/ApplicationENI;component/Images/portrait-vide.jpg"));
+                            }
 
+                            image.Source = img;
+                            image.Stretch = Stretch.Uniform;
                             TextBox txtBoxTest = new TextBox();
                             txtBoxTest.Background = Brushes.AliceBlue;
                             txtBoxTest.TextAlignment = TextAlignment.Center;
@@ -124,7 +122,6 @@ namespace ApplicationENI.Vue
                             txtBoxTest.Text = s._prenom + " " + s._nom;
                             txtBoxTest.SetValue(Grid.ColumnProperty, i);
                             txtBoxTest.SetValue(Grid.RowProperty, j + 1);
-                            //image.SetValue(Panel.ZIndexProperty, 1);
                             gridTrombi.Children.Add(image);
 
                             // redéfinition de la hauteur de ligne pour le nom du stagiaire
@@ -138,8 +135,6 @@ namespace ApplicationENI.Vue
                             gridTrombi.Children.Add(txtBoxTest);
 
                             i += 1;
-                            //gridTrombi.Children.Add
-                            //MessageBox.Show(s._photo);
                             photo++;
                         }
                     }
@@ -159,6 +154,7 @@ namespace ApplicationENI.Vue
             {
                 pD.PrintVisual(gridTrombi, "Trombinoscope");
             }
+            //TODO: améliorer le rendu.
             /*ReportViewer rv = new ReportViewer();
             rv.ProcessingMode = ProcessingMode.Local;
             ReportDataSource rds = new ReportDataSource(
@@ -171,8 +167,8 @@ namespace ApplicationENI.Vue
 
         private void buttonEnvoiParMail_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: morceau de code qui ne fonctionne pas encore
-            MailMessage msg = new MailMessage();
+            // Portion de code supprimée, pourrait faire partie des évolutions de la 2.0 sur demande du client.
+            /*MailMessage msg = new MailMessage();
 
             msg.From = new MailAddress(Parametres.Instance.login + "@eni-ecole.fr");
             msg.To.Add(new MailAddress("ADDESTINATAIRE", "NOM"));
@@ -184,7 +180,7 @@ namespace ApplicationENI.Vue
             SmtpClient client = new SmtpClient("SERVEUR_SNMP", 587);
             //client.EnableSsl = true;
             // Envoi du mail
-            client.Send(msg);
+            client.Send(msg);*/
         }
 
         private void cboCours_SelectionChanged(object sender, SelectionChangedEventArgs e)

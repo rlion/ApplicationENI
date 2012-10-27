@@ -105,7 +105,6 @@ namespace ApplicationENI.Vue
                 absence = radioButtonAbsence.IsChecked.Value;
                 retard = radioButtonRetard.IsChecked.Value;
 
-                //TODO: pour l'instant c'est pas terrible, on peut ajouter la même absence 1000 fois...
                 ctrl.AjouterAbsence(dateDebut, dateFin, heureDeb, minuteDeb, heureFin, minuteFin, raison, commentaire, valide, absence, retard);
 
             }
