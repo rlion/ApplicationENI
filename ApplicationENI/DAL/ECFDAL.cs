@@ -144,7 +144,12 @@ namespace ApplicationENI.DAL
             cmd = new SqlCommand(SELECT_MAX, connexion);
             reader = cmd.ExecuteReader();
             String idMaxECF="0";
-            if (reader.Read()) idMaxECF = reader.GetString(0).Trim();
+            if (reader.Read())
+            {
+                if (reader[0] != DBNull.Value) {
+                    idMaxECF = reader.GetString(0).Trim();
+                }
+            }
             ecf.Id = (Convert.ToInt32(idMaxECF) + 1).ToString().Trim();
             connexion.Close();
 

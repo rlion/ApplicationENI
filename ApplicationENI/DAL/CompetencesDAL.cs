@@ -62,7 +62,13 @@ namespace ApplicationENI.DAL
             cmd = new SqlCommand(SELECT_MAX, connexion);
             reader = cmd.ExecuteReader();
             String idMaxCompetence = "0";
-            if (reader.Read()) idMaxCompetence = reader.GetString(0).Trim();
+            if (reader.Read())
+            {
+                if (reader[0] != DBNull.Value)
+                {
+                    idMaxCompetence = reader.GetString(0).Trim();
+                }
+            }
             comp.Id=(Convert.ToInt32(idMaxCompetence) + 1).ToString();
             connexion.Close();
 
