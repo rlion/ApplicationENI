@@ -147,8 +147,8 @@
     <Compile Include="Vue\GestionPassageTitre.xaml.cs">
       <DependentUpon>GestionPassageTitre.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vue\GestionResultats.xaml.cs">
-      <DependentUpon>GestionResultats.xaml</DependentUpon>
+    <Compile Include="Vue\SyntheseECF.xaml.cs">
+      <DependentUpon>SyntheseECF.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vue\HistoriqueAbsencesRetards.xaml.cs">
       <DependentUpon>HistoriqueAbsencesRetards.xaml</DependentUpon>
@@ -220,7 +220,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Vue\GestionResultats.xaml">
+    <Page Include="Vue\SyntheseECF.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
