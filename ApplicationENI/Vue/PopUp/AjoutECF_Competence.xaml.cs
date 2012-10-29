@@ -72,18 +72,18 @@ namespace ApplicationENI.Vue.PopUp
         {
             String message = "";
 
-            if (tbCode.Text.Trim() != "" && tbCode.Text.Trim() != "")
+            if (tbCode.Text.Trim() != "" && tbLibelle.Text.Trim() != "")
             {
                 if (_ecfAdd==true)
                 {
                     _competence = null;
-                    _ECF = new ECF((tbCode.Text.Trim()).ToUpper(), tbCode.Text.Trim());
+                    _ECF = new ECF((tbCode.Text.Trim()).ToUpper(), tbLibelle.Text.Trim());
                     message=ECFDAL.ajouterECF(_ECF);                    
                 }
                 else
                 {
                     _ECF = null;
-                    _competence = new Competence((tbCode.Text.Trim()).ToUpper(), tbCode.Text.Trim());
+                    _competence = new Competence((tbCode.Text.Trim()).ToUpper(), tbLibelle.Text.Trim());
                     message = CompetencesDAL.ajouterCompetence(_competence);
                 }
 
