@@ -43,6 +43,10 @@ namespace ApplicationENI
             InitBandeStagiaire();
 
             this.Effect = null;
+
+            //Modif mat on masque ici sinon on ne voit pas dans l'éditeur graphique...
+            tvPersonParam.IsExpanded=false;
+            tvPersonParam.IsEnabled = false;
         }
 
         private void InitBandeStagiaire()
@@ -137,7 +141,7 @@ namespace ApplicationENI
         {
             this.expandStagiaire.IsExpanded = true; 
             this.MainGrid.Children.RemoveAt(0);
-            this.MainGrid.Children.Add(new Vue.GestionResultats());
+            this.MainGrid.Children.Add(new Vue.SyntheseECF());
         }
 
         private void tviModifDate_Selected(object sender, RoutedEventArgs e)
