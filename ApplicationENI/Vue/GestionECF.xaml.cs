@@ -112,7 +112,7 @@ namespace ApplicationENI.Vue
             RAZ();
             
             //si pas d'ECF selectionné on ne peut pas ajouter de competence
-            if (pECF.Equals(null))//pECF == null)
+            if (pECF == null) //pECF.Equals(null))
             {
                 return;
             }
@@ -240,3 +240,134 @@ namespace ApplicationENI.Vue
         }
     }
 }
+//FORMATIONS :
+//-----------------------------------------------------------------------------
+//DL: NOTES A NA ou ECA
+//Initiation a la programmation         2s
+//Programmation Orientée Objet (C#)     2s
+//SQL (SQL Server)                      1s
+//PL/SQL (Oracle)                       1s
+//Appli. client/serveur (VB.Net)        4s      ECF - Base de données
+//Mise en pratique –Projet (VB.Net)     2s      ECF - Application client/serveur
+//Analyse & conception                  3s      ECF - Modélisation
+//Appli. Internet/Intranet (Java EE)    4s
+//Introduction à PHP                    2s
+//Mise en pratique –Projet (Java)       3s      ECF - Anglais (2ème semaine jeudi) / ECF - Développement Web (2ème semaine vendredi)
+
+//CDI:
+//SQL (SQL Server)                      1s
+//PL/SQL (Oracle)                       1s
+//Appli. client/serveur (VB.Net)        4s      ECF – Base de données
+//Mise en pratique –Projet (VB.Net)     2s      ECF – Application client/serveur
+//Analyse & conception                  3s      ECF – Modélisation
+//Appli. Internet/Intranet (Java EE)    4s
+//Introduction à PHP                    2s
+//Mise en pratique –Projet (Java)       3s      ECF – Anglais (2ème semaine jeudi) / ECF - Développement Web (2ème semaine vendredi)
+//Java EE avancé                        2s      ECF - Développement  multi-tiers
+//Administration Tomcat                 1s      ECF - Administration Tomcat
+//Gestion de projet                     1s
+//MS Project                            1s
+//Mise  en pratique - Projet            3s      ECF - Gestion de projet
+
+//ECF – Base de données
+    //C04: Manipuler les données avec le langage SQL
+    //C13: Mettre en place la base de données
+    //C14: Programmer dans le langage du SGBD
+//ECF – Développement client-serveur
+    //C08: Organiser son temps
+    //C20: Développer les composants de la couche présentation (IHM)
+    //C02: Programmer les formulaires et les états
+    //C06: Installer des composants
+    //C05: Développer les composants d'accès aux données
+    //C19: Manipuler les données réparties dans une architecture client-serveur x-tiers
+//ECF – Modélisation
+    //C12: Modéliser les données
+//ECF – Développement Web
+    //C01: Maquetter l'application
+    //C03: Programmer des pages Web
+    //C22: Réaliser un test d'intégration
+//ECF – Développement multi-tiers
+    //C15: Définir l'architecture de l'application
+    //C16: Modéliser l'application à développer en utilisant UML
+    //C18: Développer les composants métier
+    //C21: Développer des composants intégrés à l'informatique nomade
+//ECF – Administration Tomcat
+    //C23: Déployer l'application
+//ECF – Conduite de projet
+    //C17: Appliquer une démarche qualité
+    //C24: Animer l'équipe de développement
+//ECF – Anglais
+    //C10: Utiliser l'anglais dans son activité professionnelle en informatique 
+//ECF – Exposé
+    //C07: Assister les utilisateurs 
+    //C09: Communiquer dans un contexte professionnel 
+    //C11: Actualiser ses compétences techniques
+//-----------------------------------------------------------------------------
+//ASR-SSR (?): NOTES SUR 20
+//Unité de formation 1 : Gestion du poste de travail    
+    //Installation et configuration de Windows 7            1s
+    //Utilisation d’un système UNIX                         1s
+    //CISCO 1 : Notions de base sur les réseaux             2s      ECF1A Bdr
+//Unité de formation 2 : Administration des systèmes informatiques
+    //Administration et maintenance d'un environnement 
+    //Microsoft Windows Server 2008                         1s
+    //TP de synthèse                                        1s      ECF1B Windows/Unix/Elect
+    //Administration des systèmes Unix/Linux                1s
+    //Administration avancée Unix/Linux                     1s
+    //TP de synthèse                                        1s  
+    //Configuration et résolution des problèmes des 
+    //services de domaine Active Directory Windows 
+    //Server 2008                                           1s
+    //TP de synthèse                                        1s      ECF2
+//Unité de formation 3 : Administration des services réseaux
+    //Services Réseaux Windows                              1s
+    //TP de Synthèse                                        1s
+    //Administration des services réseaux sous Unix/Linux   2s
+    //TP de Synthèse                                        1s
+    //Automatisation des tâches d’administration:Scripting  1s
+    //CISCO 2 : Protocoles et concepts de  routage          1s
+    //TP de Synthèse                                        1s      ECF 3A / ECF5T1 Oral
+//Unité de formation 4: Exploitation et administration de services transverses
+    //Messagerie et communications unifiées                 1s
+    //TP de Synthèse                                        1s
+    //Supervision, Téléphonie                               1s
+    //Sécurité des réseaux                                  1s
+    //Organisation d’une DSI, ITIL et gestion de projet     1s      ECF 3B / ECF4A / ECF 5T2 Anglais
+//UE5?????????????????????????????????????????????????????????
+//Unité de formation 6 : Conception et projets d’infrastructure
+    //Cisco 3: Commutation de réseau local                  1s
+    //Gestion de projet : Partie 2                          1s
+    //Gestion de projet : Partie 3                          1s      ECF3C / (ECF5A)
+    //Virtualisation de serveur : conception et réalisation 1s
+    //Conception d’un infrastructure réseaux Sécurisée      2s
+    //Projet Infrastructure                                 2s      ECF5B / ECF5C / (ECF5A)
+//Unité de formation 7 : Bases de données et architecture du système d’information
+    //Le langage de requête SQL                             1s
+    //Administration d’une base de données SQL Server       1s
+    //Administration d’une base de données ORACLE           1s
+    //Présentation des architectures applicatives           1s      ECF4B1
+    //TP                                                    1s      ECF4B2
+
+
+// je ne comprends rien...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

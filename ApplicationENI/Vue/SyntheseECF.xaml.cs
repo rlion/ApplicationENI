@@ -38,9 +38,6 @@ namespace ApplicationENI.Vue
             fileReader.Close();
         }
 
-        private void image1_ImageFailed(object sender, RoutedEventArgs e)
-        {
-            //?
-        }
+
     }
 }
