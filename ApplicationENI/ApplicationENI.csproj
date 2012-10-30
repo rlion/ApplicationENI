@@ -74,6 +74,7 @@
     <Compile Include="Controleur\CtrlGestionPassageTitre.cs" />
     <Compile Include="Controleur\CtrlProfilAlertesStagiaire..cs" />
     <Compile Include="Controleur\CtrlTrombinoscope.cs" />
+    <Compile Include="Controleur\CtrlGestionECF.cs" />
     <Compile Include="DAL\AbsencesDAL.cs">
       <SubType>Code</SubType>
     </Compile>
