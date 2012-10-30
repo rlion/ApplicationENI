@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ApplicationENI.Modele;
-using ApplicationENI.DAL;
+using ApplicationENI.Controleur;
 
 namespace ApplicationENI.Vue.PopUp
 {
@@ -20,26 +20,32 @@ namespace ApplicationENI.Vue.PopUp
     /// </summary>
     public partial class AjoutSessionECF : Window
     {
+        #region proprietes
         private List<ECF> _listeECFs = null;
         private SessionECF _sessionECF = null;
+        #endregion
 
+        #region get/set
         public SessionECF SessionECF
         {
             get { return _sessionECF; }
             set { _sessionECF = value; }
         }
+        #endregion
 
-        
+        #region constructeur
         public AjoutSessionECF()
         {
             InitializeComponent();
 
-            _listeECFs = ECFDAL.getListECFs();
+            _listeECFs = CtrlGestionECF.getListECFs();
             cbECF.ItemsSource = _listeECFs;
 
             datePicker1.DisplayDateStart = DateTime.Now;
         }
+        #endregion
 
+        #region evenement
         private void btAnnuler_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -54,9 +60,10 @@ namespace ApplicationENI.Vue.PopUp
             if (sessionECFTemp.Date != DateTime.MinValue && sessionECFTemp.Ecf != null)
             {
                 _sessionECF = sessionECFTemp;
-                SessionECFDAL.ajouterSessionECF(sessionECFTemp);
+                CtrlGestionECF.ajouterSessionECF(sessionECFTemp);
                 Close();
             }
         }
+        #endregion
     }
 }

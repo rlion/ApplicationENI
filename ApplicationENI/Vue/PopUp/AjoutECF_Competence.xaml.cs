@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ApplicationENI.Modele;
-using ApplicationENI.DAL;
+using ApplicationENI.Controleur;
 
 namespace ApplicationENI.Vue.PopUp
 {
@@ -20,16 +20,18 @@ namespace ApplicationENI.Vue.PopUp
     /// </summary>
     public partial class AjoutECF_Competence : Window
     {
+        #region propriétés
         private bool _ecfAdd; //si true on est en train d'ajouter un ECF sinon une Competence
+        private ECF _ECF = null;
+        private Competence _competence = null;
+        #endregion
 
+        #region get/set
         public bool ECFAdd1
         {
             get { return _ecfAdd; }
             set { _ecfAdd = value; }
-        }
-        
-        private ECF _ECF = null;
-        private Competence _competence = null;
+        }       
         public ECF ECF
         {
             get { return _ECF; }
@@ -40,10 +42,14 @@ namespace ApplicationENI.Vue.PopUp
             get { return _competence; }
             set { _competence = value; }
         }
+        #endregion
 
+        #region constructeur
         public AjoutECF_Competence()
         {
             InitializeComponent();
+            
+            //ECF ou compétence?
             if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfAdd)
             {
                 _ecfAdd = true;
@@ -56,7 +62,9 @@ namespace ApplicationENI.Vue.PopUp
             }
             tbCode.Focus();
         }
+        #endregion
 
+        #region evenements
         private void btAnnuler_Click(object sender, RoutedEventArgs e)
         {
             if (tbCode.Text.Trim() == "" && tbLibelle.Text.Trim() == "")
@@ -74,19 +82,21 @@ namespace ApplicationENI.Vue.PopUp
 
             if (tbCode.Text.Trim() != "" && tbLibelle.Text.Trim() != "")
             {
+                //ajout d'un ECF
                 if (_ecfAdd==true)
                 {
                     _competence = null;
                     _ECF = new ECF((tbCode.Text.Trim()).ToUpper(), tbLibelle.Text.Trim());
-                    message=ECFDAL.ajouterECF(_ECF);                    
+                    message = CtrlGestionECF.ajouterECF(_ECF);                    
                 }
-                else
+                else //ajout d'une compétence
                 {
                     _ECF = null;
                     _competence = new Competence((tbCode.Text.Trim()).ToUpper(), tbLibelle.Text.Trim());
-                    message = CompetencesDAL.ajouterCompetence(_competence);
+                    message = CtrlGestionECF.ajouterCompetence(_competence);
                 }
 
+                //Gestion erreur TODO à revoir??
                 if (message.Trim() != "")
                 {
                     MessageBox.Show(message);
@@ -97,5 +107,6 @@ namespace ApplicationENI.Vue.PopUp
                 }
             }
         }
+        #endregion
     }
 }

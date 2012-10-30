@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ApplicationENI.Modele;
-using ApplicationENI.DAL;
+using ApplicationENI.Controleur;
 
 namespace ApplicationENI.Vue.PopUp
 {
@@ -22,13 +22,16 @@ namespace ApplicationENI.Vue.PopUp
     {
         //exemple : http://merill.net/2009/10/wpf-checked-listbox/
 
+        #region propriété + get/set
         private List<SelectionCompetence> _listeCompetences;
         private List<SelectionCompetence> ListeCompetences
         {
             get { return _listeCompetences; }
             set { _listeCompetences = value; }
         }
+        #endregion
 
+        #region classe spéciale SelectionCompetence
         //classe listant l'ensemble des compétences (avec coche si elle est liée à l'ECF courant)
         private class SelectionCompetence 
         {
@@ -46,20 +49,26 @@ namespace ApplicationENI.Vue.PopUp
                 set { _isChecked = value; }
             }
         }
+        #endregion
 
+        #region constructeur
         public ListeECF_Competences()
         {
             InitializeComponent();
 
             ActualiseAffichage();
         }
+        #endregion
 
+        #region affichage
         private void ActualiseAffichage()
         {
-            //lbListeCompetences.Items.Clear();
-            lbListeCompetences.ItemsSource = null;
+            //RAZ
+            lbListeCompetences.ItemsSource = null;//lbListeCompetences.Items.Clear();
+            
+            //MAJ
             _listeCompetences = new List<SelectionCompetence>();
-            foreach (Competence comp in CompetencesDAL.getListCompetences())
+            foreach (Competence comp in CtrlGestionECF.getListCompetences())
             {
                 SelectionCompetence uneComp = new SelectionCompetence();
                 uneComp.Competence = comp;
@@ -71,23 +80,28 @@ namespace ApplicationENI.Vue.PopUp
 
                 _listeCompetences.Add(uneComp);
             }
-
             lbListeCompetences.ItemsSource = _listeCompetences;
         }
+        private void refresh()
+        {
+            lbListeCompetences.ItemsSource = null;
+            lbListeCompetences.Items.Clear();
+            lbListeCompetences.ItemsSource = _listeCompetences;
+        }
+        #endregion
 
+        #region evenements
         private void btAnnuler_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
-
         private void btAjouter_Click(object sender, RoutedEventArgs e)
         {
-            AjoutECF_Competence popUp = new AjoutECF_Competence();
-            popUp.ShowDialog();
+            AjoutECF_Competence ajoutCompetence = new AjoutECF_Competence();
+            ajoutCompetence.ShowDialog();
 
             ActualiseAffichage();
         }
-
         private void btSupprimer_Click(object sender, RoutedEventArgs e)
         {
             String message = "";
@@ -97,9 +111,11 @@ namespace ApplicationENI.Vue.PopUp
             {
                 if (selComp.IsChecked)
                 {
-                    message = CompetencesDAL.supprimerCompetence(selComp.Competence);
+                    message = CtrlGestionECF.supprimerCompetence(selComp.Competence);
                 }
             }
+
+            //gestion erreur TODO revoir??
             if (message.Trim() != "")
             {
                 MessageBox.Show(message);
@@ -109,21 +125,21 @@ namespace ApplicationENI.Vue.PopUp
                 ActualiseAffichage();
             }
         }
-
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
-            ECFDAL.supprimerLiens(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant);
+            //On supprime tous les liens avec l'ECF courant
+            CtrlGestionECF.supprimerLiens(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant);
             
+            //On recréé tous les liens avec les compétences sélectionnées
             foreach (SelectionCompetence selComp in _listeCompetences)
             {
                 if (selComp.IsChecked)
                 {
-                    ECFDAL.ajouterLien(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant, selComp.Competence);
+                    CtrlGestionECF.ajouterLien(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant, selComp.Competence);
                 }
             }
             Close();
         }
-
         private void btSelect_Click(object sender, RoutedEventArgs e)
         {
             foreach (SelectionCompetence selComp in _listeCompetences)
@@ -132,7 +148,6 @@ namespace ApplicationENI.Vue.PopUp
             }
             refresh();
         }
-
         private void btDeselect_Click(object sender, RoutedEventArgs e)
         {
             foreach (SelectionCompetence selComp in _listeCompetences)
@@ -141,11 +156,6 @@ namespace ApplicationENI.Vue.PopUp
             }
             refresh();
         }
-        private void refresh()
-        {
-            lbListeCompetences.ItemsSource = null;
-            lbListeCompetences.Items.Clear();
-            lbListeCompetences.ItemsSource = _listeCompetences;
-        }
+        #endregion
     }
 }
