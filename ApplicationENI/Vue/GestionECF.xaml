@@ -9,15 +9,15 @@
     <Grid>
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="141,29,0,0" Name="cbECF" VerticalAlignment="Top" Width="187" Text="" DataContext="{Binding}" SelectionChanged="cbECF_SelectionChanged"></ComboBox>
         <Label Content="ECF :" Height="28" Margin="22,29,0,0" Name="lbECF" VerticalAlignment="Top" HorizontalAlignment="Left" Width="113" HorizontalContentAlignment="Right" />
-        <Button Content="Ajouter ECF" Height="23" HorizontalAlignment="Left" Margin="33,425,0,0" Name="btAdd1" VerticalAlignment="Top" Width="90" Click="btAdd_Click" />
+        <Button Content="Ajouter ECF" Height="23" HorizontalAlignment="Left" Margin="33,425,0,0" Name="btAjoutECF" VerticalAlignment="Top" Width="90" Click="btAjoutECF_Click" />
         <Button Content="Enregistrer" Height="23" Margin="392,425,0,0" Name="btSave" VerticalAlignment="Top" Click="btSave_Click" HorizontalAlignment="Left" Width="90" IsEnabled="False" />
-        <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Left" Margin="129,425,0,0" Name="btDelete" VerticalAlignment="Top" Width="90" Click="btDelete_Click" IsEnabled="False" />
+        <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Right" Margin="0,425,411,0" Name="btSupprECF" VerticalAlignment="Top" Width="90" Click="btSupprECF_Click" IsEnabled="False" />
         <Button Content="Annuler" Height="23" Margin="488,425,0,0" Name="btCancel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="90" Click="btCancel_Click" IsEnabled="False" />
         <GroupBox Header="Compétences :" Height="384" HorizontalAlignment="Left" Margin="344,29,0,0" Name="groupBox1" VerticalAlignment="Top" Width="234">
             <Grid>
                 <ListBox Height="345" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="10,10,0,0" Name="lbCompetences" SelectionMode="Multiple" VerticalAlignment="Top" Width="171" SelectionChanged="lbCompetences_SelectionChanged" />
-                <Button Content="+" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="187,10,0,0" Name="btPlus" VerticalAlignment="Top" Width="27" Click="btPlus_Click" />
-                <Button Content="-" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="187,39,0,0" Name="btMoins" VerticalAlignment="Top" Width="27" Click="btMoins_Click" />
+                <Button Content="+" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="187,10,0,0" Name="btAjoutCompetence" VerticalAlignment="Top" Width="27" Click="btAjoutCompetence_Click" />
+                <Button Content="-" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="187,39,0,0" Name="btSupprCompetence" VerticalAlignment="Top" Width="27" Click="btSupprCompetence_Click" />
             </Grid>
         </GroupBox>
         <GroupBox Header="Propriétés :" Height="357" HorizontalAlignment="Left" Margin="33,56,0,0" Name="groupBox2" VerticalAlignment="Top" Width="295">

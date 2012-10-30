@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 using System.IO;
 using ApplicationENI.Modele;
 using ApplicationENI.Vue.PopUp;
-using ApplicationENI.DAL;
+using ApplicationENI.Controleur;
 
 namespace ApplicationENI.Vue
 {
@@ -23,11 +23,14 @@ namespace ApplicationENI.Vue
     /// </summary>
     public partial class GestionECF : UserControl
     {
+        #region Propriétés
         private List<ECF> _listeECF = null;
         private ECF _ecfCourant = null;        
-        private bool _modif = false;
+        //TODO private bool _modif = false;
         private bool _ecfAdd; //si true on est en train d'ajouter un ECF sinon une Competence
+        #endregion
 
+        #region getter/setter
         public bool EcfAdd
         {
             get { return _ecfAdd; }
@@ -38,26 +41,26 @@ namespace ApplicationENI.Vue
             get { return _ecfCourant; }
             set { _ecfCourant = value; }
         }
+        #endregion
 
+        #region constructeur
         public GestionECF()
         {
             InitializeComponent();
             ActualiseAffichage(null);
         }
+        #endregion
 
+        #region affichage
         private void ActualiseAffichage(ECF pECFCourant){
-            //cbECF.Items.Clear();
-            cbECF.ItemsSource = null;
-
+            //RAZ de la combo
+            cbECF.ItemsSource = null;//cbECF.Items.Clear();
             //recup de la liste d'ECF
-            _listeECF = ECFDAL.getListECFs();
+            _listeECF = CtrlGestionECF.getListECFs();
             //peuplement de la combobox
-            //foreach (ECF ecf in _listeECF)
-            //{
-            //    cbECF.Items.Add(ecf);
-            //}
             cbECF.ItemsSource = _listeECF;
 
+            //ECF courant (selectionné)
             if (pECFCourant != null)
             {
                 foreach (ECF ecf in _listeECF)
@@ -67,59 +70,20 @@ namespace ApplicationENI.Vue
                 cbECF.SelectedItem = pECFCourant;
             }
         }
-        
-        private void slVersion_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            //ActualiseAffichage dans le label correspondant du nombre de version du slider
-            if (this.lbNbVersions!=null)
-            {
-                this.lbNbVersions.Content = slVersion.Value;
-            }    
-        }
-
-        private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            _ecfCourant = (ECF)cbECF.SelectedItem;
-
-
-            if (_ecfCourant != null)
-            {
-                afficheECF(_ecfCourant);
-                btDelete.IsEnabled = true;
-                btSave.IsEnabled = true;
-                btCancel.IsEnabled = true;
-            }
-            else
-            {
-                btDelete.IsEnabled = false;
-                btSave.IsEnabled = false;
-                btCancel.IsEnabled = false;
-            }
-        }
-
-        private void RAZ()
-        {
-            //RAZ
-            tbLibECF.Text = "";
-            rbNumerique.IsChecked = true;
-            slVersion.Value = 1;
-            lbCompetences.ItemsSource = null;
-            tbCommECF.Text = "";
-        }
-
         private void afficheECF(ECF pECF)
         {
             RAZ();
-            
+
             //si pas d'ECF selectionné on ne peut pas ajouter de competence
             if (pECF == null) //pECF.Equals(null))
             {
+                btAjoutCompetence.IsEnabled = false;
                 return;
             }
             else
             {
                 cbECF.SelectedItem = pECF;
-                btPlus.IsEnabled = true;
+                btAjoutCompetence.IsEnabled = true;
             }
 
             //AFFICHAGE
@@ -144,39 +108,94 @@ namespace ApplicationENI.Vue
             lbCompetences.Items.Clear();
             lbCompetences.ItemsSource = pECF.Competences;
         }
-
-        private void btAdd_Click(object sender, RoutedEventArgs e)
+        private void RAZ()
         {
-            _ecfAdd = true; // on va ajouter un ECF
-            AjoutECF_Competence popUp = new AjoutECF_Competence();
-            popUp.ShowDialog();
-
-            if (popUp.ECF != null)
-            {
-                _ecfCourant = popUp.ECF;
-                //_listeECF.Add(_ecfCourant);
-                ActualiseAffichage(_ecfCourant);
-                //cbECF.SelectedItem = _ecfCourant;
-
-                //cbECF.SelectedItem.Equals(_ecfCourant);
-                afficheECF(_ecfCourant);
-            }
+            //RAZ
+            tbLibECF.Text = "";
+            rbNumerique.IsChecked = true;
+            slVersion.Value = 1;
+            lbCompetences.ItemsSource = null;
+            tbCommECF.Text = "";
         }
-        
+        #endregion
+
+        #region evenements
+    
+        #region competences
+        private void btAjoutCompetence_Click(object sender, RoutedEventArgs e)
+        {
+            _ecfAdd = false;// on ne va pas ajouter un ECF (ie on ajoute une Competence)
+            //Affichage de l'écran d'ajout
+            ListeECF_Competences ajoutCompetence = new ListeECF_Competences();
+            ajoutCompetence.ShowDialog();
+
+            //MAJ de l'affichage sur l'ECF courant
+            ActualiseAffichage(_ecfCourant);
+            afficheECF(_ecfCourant);//cbECF.SelectedItem = _ecfCourant;
+        }
+        private void btSupprCompetence_Click(object sender, RoutedEventArgs e)
+        {
+            //Suppression des liens avec les compétences sélectionnées
+            foreach (Competence comp in lbCompetences.SelectedItems)
+            {
+                _ecfCourant.Competences.Remove(comp);
+                CtrlGestionECF.supprimerLien(_ecfCourant, comp);
+            }
+
+            //MAJ de l'affichage de l'ECF courant
+            afficheECF(_ecfCourant);
+        }
         private void lbCompetences_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (lbCompetences.SelectedItems.Count > 0)
             {
-                btMoins.IsEnabled = true;
+                btSupprCompetence.IsEnabled = true;
             }
             else
             {
-                btMoins.IsEnabled = false;
+                btSupprCompetence.IsEnabled = false;
             }
         }
+        #endregion
 
+        #region ecf
+        private void btAjoutECF_Click(object sender, RoutedEventArgs e)
+        {
+            _ecfAdd = true;// on va ajouter un ECF
+            //Affichage de l'écran d'ajout
+            AjoutECF_Competence ajoutECF = new AjoutECF_Competence();
+            ajoutECF.ShowDialog();
+
+            //MAJ de l'affichage sur l'ECF créé
+            if (ajoutECF.ECF != null)
+            {
+                _ecfCourant = ajoutECF.ECF;
+                ActualiseAffichage(_ecfCourant);
+                afficheECF(_ecfCourant);
+            }
+        }
+        private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //MAJ de l'ECF courant
+            _ecfCourant = (ECF)cbECF.SelectedItem;
+
+            if (_ecfCourant != null)
+            {
+                afficheECF(_ecfCourant);
+                btSupprECF.IsEnabled = true;
+                btSave.IsEnabled = true;
+                btCancel.IsEnabled = true;
+            }
+            else
+            {
+                btSupprECF.IsEnabled = false;
+                btSave.IsEnabled = false;
+                btCancel.IsEnabled = false;
+            }
+        }    
         private void btSave_Click(object sender, RoutedEventArgs e)
         {
+            //Récup des propriétés saisies
             _ecfCourant.Libelle = tbLibECF.Text.Trim();
             _ecfCourant.NbreVersion = (int)slVersion.Value;
             _ecfCourant.NotationNumerique = true;
@@ -186,58 +205,49 @@ namespace ApplicationENI.Vue
             }
             _ecfCourant.Commentaire = tbCommECF.Text.Trim();
 
-            ECFDAL.modifierECF(_ecfCourant);
+            //Modification de l'ECF
+            CtrlGestionECF.modifierECF(_ecfCourant);
 
+            //Actualisation de l'affichage
             RAZ();
             ActualiseAffichage(null);
-
-            //List<Competence> lesCompTemp = new List<Competence>();
-            //foreach (Competence compTemp in lbCompetences.Items)
-            //{
-            //    lesCompTemp.Add(compTemp);
-            //}
-            //_ecfCourant.Competences = lesCompTemp;
-            //ECFDAL.modifierECF(_ecfCourant);          
-        }
-
-        private void btPlus_Click(object sender, RoutedEventArgs e)
-        {
-            //TODO Liste avec suppression ou ajout a l ecf
-            _ecfAdd = false;
-            ListeECF_Competences liste = new ListeECF_Competences();
-            liste.ShowDialog();
-
-            ActualiseAffichage(_ecfCourant);
-            //cbECF.SelectedItem = _ecfCourant;
-            afficheECF(_ecfCourant);
-        }
-
-        private void btMoins_Click(object sender, RoutedEventArgs e)
-        {            
-            foreach (Competence comp in lbCompetences.SelectedItems)
-            {
-                _ecfCourant.Competences.Remove(comp);
-                ECFDAL.supprimerLien(_ecfCourant,comp);
-            }
-            afficheECF(_ecfCourant);
-        }
-
-        private void btDelete_Click(object sender, RoutedEventArgs e)
+        }        
+        private void btSupprECF_Click(object sender, RoutedEventArgs e)
         {
             //TODO confirmer la suppression
-            ECFDAL.supprimerECF(_ecfCourant);
+            //Suppression de l'ECF courant
+            CtrlGestionECF.supprimerECF(_ecfCourant);
 
+            //MAJ de l'affichage
             RAZ();
             ActualiseAffichage(null);
         }
+        #endregion
 
+        private void slVersion_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            //ActualiseAffichage dans le label correspondant du nombre de version du slider
+            if (this.lbNbVersions!=null)
+            {
+                this.lbNbVersions.Content = slVersion.Value;
+            }    
+        }        
         private void btCancel_Click(object sender, RoutedEventArgs e)
         {
             //_ecfCourant = ECFDAL.getECF(_ecfCourant);
-
-            RAZ();
-            ActualiseAffichage(_ecfCourant);
+            //MAJ de l'affichage
+            if (_ecfCourant != null)
+            {
+                RAZ();
+                ActualiseAffichage(_ecfCourant);
+            }
+            else
+            {
+                //TODO ?? revenir à l'écran précédent (l'accueil)
+            }
         }
+
+        #endregion
     }
 }
 //FORMATIONS :

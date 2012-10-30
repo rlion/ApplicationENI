@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
 using ApplicationENI.Modele;
-using ApplicationENI.DAL;
+using ApplicationENI.Controleur;
 
 namespace ApplicationENI.Vue
 {
@@ -20,28 +20,32 @@ namespace ApplicationENI.Vue
     /// Logique d'interaction pour SaisieResultats.xaml
     /// </summary>
     public partial class SaisieResultats : UserControl
-    {        
+    {
+        #region Propriétés
         private List<SessionECF> _listeSessionECFs = null;
         private ECF _ecfCourant = null;
         private List<DateTime> _planif = new List<DateTime>();
-        bool _datePlanif = false;
         private SessionECF _sessionECFcourant = null;
-        
+        #endregion
+
+        #region constructeur
         public SaisieResultats()
         {
             InitializeComponent();
 
-            
-            //cbECF.ItemsSource = _listeSessionECFs; redondance
-
+            //Affichage
             ActualiseAffichage();
-
-            calendar1.DisplayDateStart = DateTime.Now;        
+            calendrier.DisplayDateStart = DateTime.Now;        
         }
+        #endregion
 
+        #region Affichage
         private void ActualiseAffichage(){
+            //RAZ combo
             cbECF.ItemsSource = null;
-            _listeSessionECFs = SessionECFDAL.getListSessionsECFs();
+            
+            //MAJ combo
+            _listeSessionECFs = CtrlGestionECF.getListSessionsECFs();
             foreach (SessionECF sessEcf in _listeSessionECFs)
             {
                 if (!cbECF.HasItems)
@@ -54,7 +58,6 @@ namespace ApplicationENI.Vue
                 }
             }
         }
-
         private void afficheSessionECF(ECF Ecfcourant)
         {
             if (Ecfcourant != null)
@@ -63,14 +66,14 @@ namespace ApplicationENI.Vue
                 cbECF.SelectedItem = _ecfCourant;
 
                 _planif = new List<DateTime>();
-                calendar1.SelectedDates.Clear();
+                calendrier.SelectedDates.Clear();
 
                 foreach (SessionECF sessEcf in _listeSessionECFs)
                 {
                     if (sessEcf.Ecf.Equals(_ecfCourant))
                     {
                         _planif.Add(sessEcf.Date);
-                        calendar1.SelectedDates.Add(sessEcf.Date);
+                        calendrier.SelectedDates.Add(sessEcf.Date);
                     }
                 }
 
@@ -85,16 +88,16 @@ namespace ApplicationENI.Vue
                 //??TODO
             }
         }
+        #endregion
 
+        #region Evenements
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            calendar1.IsEnabled = true;
+            calendrier.IsEnabled = true;
 
             afficheSessionECF((ECF)cbECF.SelectedItem);
-            //CalendarDateRange cdr = new CalendarDateRange(DateTime.Now, new DateTime(2030, DateTime.Now.Month, DateTime.Now.Day));
-            calendar1.Visibility = Visibility.Visible;
+            calendrier.Visibility = Visibility.Visible;
         }
-
         private void btnAjouter_Click(object sender, RoutedEventArgs e)
         {
             PopUp.AjoutSessionECF popup = new PopUp.AjoutSessionECF();
@@ -107,46 +110,38 @@ namespace ApplicationENI.Vue
                 afficheSessionECF(_ecfCourant);
             }
         }
-
-        private void calendar1_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        private void calendrier_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            calendar1.SelectedDatesChanged -= calendar1_SelectedDatesChanged;
-
             DateTime dt = new DateTime();
-            Calendar cal=sender as Calendar;
+            Calendar cal = sender as Calendar;
+            
+            //Pour éviter les boucles infinies, on se désabonne momentanément à l'event
+            calendrier.SelectedDatesChanged -= calendrier_SelectedDatesChanged;
 
-            //
+            //S'il n'y pas de valeurs, on se réabonne à l'event et on sort
             if (!cal.SelectedDate.HasValue)
             {
-                calendar1.SelectedDatesChanged += calendar1_SelectedDatesChanged;
+                calendrier.SelectedDatesChanged += calendrier_SelectedDatesChanged;
                 return;
             }
-            
-            dt = (DateTime)cal.SelectedDate.Value; 
-
-            //reinit de l affichage des dates planifiees
-            calendar1.SelectedDates.Clear();
-            foreach (DateTime dateTemp in _planif)
+            else
             {
-                calendar1.SelectedDates.Add(dateTemp);
-            }
-            calendar1.SelectedDatesChanged += calendar1_SelectedDatesChanged;
+                dt = (DateTime)cal.SelectedDate.Value;
 
-            
-            
-            //if (dt == DateTime.MinValue)
-            //{
-            //    calendar1.SelectedDatesChanged += calendar1_SelectedDatesChanged;
-            //    return;
-            //}
-            
+                //MAJ de l'affichage des dates planifiees
+                calendrier.SelectedDates.Clear();
+                foreach (DateTime dateTemp in _planif)
+                {
+                    calendrier.SelectedDates.Add(dateTemp);
+                }
 
-            //if (!dt.Equals(null))
-            //{
+                //On se réabonne à l'event
+                calendrier.SelectedDatesChanged += calendrier_SelectedDatesChanged;
+
+                //L'utilisateur clique sur une date non planifiée
                 if (!_planif.Contains((DateTime)dt))
                 {
                     MessageBox.Show("Cette date n'est pas planifiée pour l'ECF " + _ecfCourant.ToString());
-                    //calendar1.Visibility = Visibility.Hidden;
                     lbCompetences.Visibility = Visibility.Hidden;
                     lbStagiaires.Visibility = Visibility.Hidden;
                     cbVersions.Visibility = Visibility.Hidden;
@@ -154,39 +149,33 @@ namespace ApplicationENI.Vue
                     groupBox1.Visibility = Visibility.Hidden;
                     lbDateSession.Visibility = Visibility.Hidden;
                 }
-                else
+                else //L'utilisateur clique sur une date planifiée
                 {
-                    _datePlanif = true;
-                    _sessionECFcourant = new SessionECF(_ecfCourant,dt);
+                    _sessionECFcourant = new SessionECF(_ecfCourant, dt);
                     //TODO?? modifier aspect date selectionnée
                     lbDateSession.Content = "Epreuve du " + _sessionECFcourant.Date.ToShortDateString();
-                    //calendar1.Visibility = Visibility.Visible;
                     lbCompetences.Visibility = Visibility.Visible;
                     lbStagiaires.Visibility = Visibility.Visible;
                     cbVersions.Visibility = Visibility.Visible;
                     label1.Visibility = Visibility.Visible;
                     groupBox1.Visibility = Visibility.Visible;
                     lbDateSession.Visibility = Visibility.Visible;
-                }
-            //}
 
-            
-            
-            if (_datePlanif)
-            {
-                cbVersions.IsEnabled = true;
-                List<int> versions = new List<int>();
-                for (int i = 1; i <= _ecfCourant.NbreVersion; i++)
-                {
-                    versions.Add(i);
-                }
-                cbVersions.ItemsSource = versions;
+                    cbVersions.IsEnabled = true;
+                    List<int> versions = new List<int>();
+                    for (int i = 1; i <= _ecfCourant.NbreVersion; i++)
+                    {
+                        versions.Add(i);
+                    }
+                    cbVersions.ItemsSource = versions;
 
-                //TODO afficher reste
+                    //TODO afficher reste
+                }
             }
         }
-
         //http://stackoverflow.com/questions/5543119/wpf-button-takes-two-clicks-to-fire-click-event
+        //Permet d'éviter d'avoir à cliquer 2 fois alors que le focus était sur le calendrier
+        // un clic pour sortir et un réel (cf. combobox)
         protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
         {
             base.OnPreviewMouseUp(e);
@@ -195,5 +184,6 @@ namespace ApplicationENI.Vue
                 Mouse.Capture(null);
             }
         }
+        #endregion
     }
 }

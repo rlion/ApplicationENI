@@ -10,7 +10,7 @@
         <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="503,471,0,0" Name="btnAnnu" VerticalAlignment="Top" Width="90" Visibility="Visible" />
         <Button Content="Planifier ECF" Height="23" HorizontalAlignment="Left" Margin="35,471,0,0" Name="btnAjouter" VerticalAlignment="Top" Width="90" Click="btnAjouter_Click" Visibility="Visible" />
         <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Left" Margin="131,471,0,0" Name="btnSupprimer" VerticalAlignment="Top" Width="90" Visibility="Visible" />
-        <Calendar Height="170" HorizontalAlignment="Left" Margin="418,12,0,0" Name="calendar1" VerticalAlignment="Top" Width="184" IsEnabled="False" MaxWidth="Infinity" SelectionMode="MultipleRange" IsTodayHighlighted="False" SelectedDatesChanged="calendar1_SelectedDatesChanged" Visibility="Visible" />
+        <Calendar Height="170" HorizontalAlignment="Left" Margin="418,12,0,0" Name="calendrier" VerticalAlignment="Top" Width="184" IsEnabled="False" MaxWidth="Infinity" SelectionMode="MultipleRange" IsTodayHighlighted="False" SelectedDatesChanged="calendrier_SelectedDatesChanged" Visibility="Visible" />
         <GroupBox Header="Propriétés :" Height="157" HorizontalAlignment="Left" Margin="35,40,0,0" Name="groupBox1" VerticalAlignment="Top" Width="280">
             <Grid>
                 <ComboBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="110,11,0,0" Name="cbVersions" Text="" VerticalAlignment="Top" Visibility="Visible" Width="54" />
