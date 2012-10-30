@@ -11,6 +11,7 @@ namespace ApplicationENI.DAL
     {
         //TODO Mat
         static String SELECT_COMPETENCES = "SELECT * FROM COMPETENCE order by code, libelle";
+        //static String SELECT_COMPETENCES_FILTRE = "SELECT * FROM COMPETENCE WHERE (code like (@filtre) or libelle like (@filtre)) order by code, libelle";
         static String SELECT_CODE = "SELECT * FROM COMPETENCE WHERE code=@code";
         
         static String DELETE_COMPETENCE = "DELETE FROM COMPETENCE WHERE idCompetence=@id";
@@ -23,10 +24,19 @@ namespace ApplicationENI.DAL
         public static List<Competence> getListCompetences()
         {
             List<Competence> lesCompetences = new List<Competence>();
-
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(SELECT_COMPETENCES, connexion);
-            SqlDataReader reader = cmd.ExecuteReader();
+            SqlCommand cmd = null;
+
+            //if (pTexte == "")
+            //{
+                cmd = new SqlCommand(SELECT_COMPETENCES, connexion);
+            //}
+            //else
+            //{
+            //    cmd = new SqlCommand(SELECT_COMPETENCES_FILTRE, connexion);
+            //    cmd.Parameters.AddWithValue("@filtre", "%" + pTexte.Trim() + "%");
+            //}
+            SqlDataReader reader =cmd.ExecuteReader();
 
             while (reader.Read())
             {
