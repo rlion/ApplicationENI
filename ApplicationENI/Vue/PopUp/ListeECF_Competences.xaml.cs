@@ -29,6 +29,7 @@ namespace ApplicationENI.Vue.PopUp
             get { return _listeCompetences; }
             set { _listeCompetences = value; }
         }
+        private bool isInitAutoCompBox;
         #endregion
 
         #region classe spéciale SelectionCompetence
@@ -48,6 +49,11 @@ namespace ApplicationENI.Vue.PopUp
                 get { return _isChecked; }
                 set { _isChecked = value; }
             }
+
+            public override string ToString()
+            {
+                return _competence.Code + " - " + _competence.Libelle;
+            }
         }
         #endregion
 
@@ -56,31 +62,42 @@ namespace ApplicationENI.Vue.PopUp
         {
             InitializeComponent();
 
-            ActualiseAffichage();
+            ActualiseAffichage(null);
+
+            autocbCompetence.ItemsSource = _listeCompetences;
+            isInitAutoCompBox = true;
         }
         #endregion
 
         #region affichage
-        private void ActualiseAffichage()
+        private void ActualiseAffichage(SelectionCompetence pSc)
         {
             //RAZ
             lbListeCompetences.ItemsSource = null;//lbListeCompetences.Items.Clear();
-            
-            //MAJ
             _listeCompetences = new List<SelectionCompetence>();
-            foreach (Competence comp in CtrlGestionECF.getListCompetences())
+            if (pSc == null)
             {
-                SelectionCompetence uneComp = new SelectionCompetence();
-                uneComp.Competence = comp;
-                uneComp.IsChecked = false;
-                if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).lbCompetences.Items.Contains(comp))
+                //MAJ                
+                foreach (Competence comp in CtrlGestionECF.getListCompetences())
                 {
-                    uneComp.IsChecked = true;
-                }
+                    SelectionCompetence uneComp = new SelectionCompetence();
+                    uneComp.Competence = comp;
+                    uneComp.IsChecked = false;
+                    if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).lbCompetences.Items.Contains(comp))
+                    {
+                        uneComp.IsChecked = true;
+                    }
 
-                _listeCompetences.Add(uneComp);
+                    _listeCompetences.Add(uneComp);
+                }
+                lbListeCompetences.ItemsSource = _listeCompetences;
             }
-            lbListeCompetences.ItemsSource = _listeCompetences;
+            else
+            {
+                _listeCompetences.Add(pSc);
+                lbListeCompetences.ItemsSource = _listeCompetences;
+            }
+            
         }
         private void refresh()
         {
@@ -100,7 +117,7 @@ namespace ApplicationENI.Vue.PopUp
             AjoutECF_Competence ajoutCompetence = new AjoutECF_Competence();
             ajoutCompetence.ShowDialog();
 
-            ActualiseAffichage();
+            ActualiseAffichage(null);
         }
         private void btSupprimer_Click(object sender, RoutedEventArgs e)
         {
@@ -122,7 +139,7 @@ namespace ApplicationENI.Vue.PopUp
             }
             else
             {
-                ActualiseAffichage();
+                ActualiseAffichage(null);
             }
         }
         private void btValider_Click(object sender, RoutedEventArgs e)
@@ -156,6 +173,27 @@ namespace ApplicationENI.Vue.PopUp
             }
             refresh();
         }
+
+        private void autocbCompetence_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (isInitAutoCompBox)
+            {
+                autocbCompetence.Text = string.Empty;
+                isInitAutoCompBox = false;
+            }
+        }
         #endregion
+
+        private void autocbCompetence_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            foreach (SelectionCompetence sc in _listeCompetences)
+            {
+                if (sc.Competence.Code == autocbCompetence.Text.Substring(0,autocbCompetence.Text.IndexOf(" - "))
+                    && (sc.Competence.Libelle == autocbCompetence.Text.Substring(autocbCompetence.Text.IndexOf(" - ")))){
+                        ActualiseAffichage(sc);
+                        refresh();
+                }
+            }
+        }
     }
 }
