@@ -8,7 +8,19 @@ namespace ApplicationENI.Modele
     public class Formation
     {
         private Guid _id;
+
+        public Guid Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
         private String _libelle;
+
+        public String Libelle
+        {
+            get { return _libelle; }
+            set { _libelle = value; }
+        }
         private List<ECF> _epreuves;
 
         public Formation()

@@ -7,7 +7,7 @@ namespace ApplicationENI.Modele
 {   
     public class ECF
     {
-        #region Attributs (id, code, libelle, coefficient, notationNumerique, nbreVersion, commentaire, competences)
+        #region Attributs (id, code, libelle, coefficient, notationNumerique, nbreVersion, commentaire, competences, formations)
         private String _id;//Guid _id;
         private String _code;        
         private String _libelle;       
@@ -16,6 +16,7 @@ namespace ApplicationENI.Modele
         private int _nbreVersion;        
         private String _commentaire;
         private List<Competence> _competences;
+        private List<Formation> _formations;        
         #endregion
 
         #region Proprietes
@@ -58,6 +59,11 @@ namespace ApplicationENI.Modele
         {
             get { return _competences; }
             set { _competences = value; }
+        }
+        public List<Formation> Formations
+        {
+            get { return _formations; }
+            set { _formations = value; }
         }
         #endregion
 
@@ -140,6 +146,25 @@ namespace ApplicationENI.Modele
             _commentaire = pCommentaire;
             _competences = pCompetences;
         }
+        public ECF(String pCode, String pLibelle, int pCoeff, Boolean pNotationNumerique, int pNbreVersion, String pCommentaire, List<Competence> pCompetences, List<Formation> pFormations)
+        {
+            _id = "";
+            _code = pCode.Trim();
+            _libelle = pLibelle.Trim();
+            if (pNotationNumerique)
+            {
+                _coefficient = pCoeff;
+            }
+            else
+            {
+                _coefficient = 0;
+            }
+            _notationNumerique = pNotationNumerique;
+            _nbreVersion = pNbreVersion;
+            _commentaire = pCommentaire;
+            _competences = pCompetences;
+            _formations = pFormations;
+        }
         #endregion
 
         public void ajouterCompetence(ECF pECF, Competence pCompetence)
@@ -147,6 +172,10 @@ namespace ApplicationENI.Modele
             pECF._competences.Add(pCompetence);
         }
 
+        public void ajouterFormation(ECF pECF, Formation pForm)
+        {
+            pECF._formations.Add(pForm);
+        }
         //public void ajouterCompetence(ECF pECF, String pLibelleCompetence)
         //{
         //    Competence Cp = new Competence(pLibelleCompetence);
@@ -193,6 +222,15 @@ namespace ApplicationENI.Modele
                 foreach (Competence comp in ((ECF)obj).Competences)
                 {
                     if (!comp.Equals(this.Competences[i])) b=false;
+                    i++;
+                }
+            }
+
+            if (b)
+            {
+                foreach (Formation form in ((ECF)obj).Formations)
+                {
+                    if (!form.Equals(this.Formations[i])) b = false;
                     i++;
                 }
             }
