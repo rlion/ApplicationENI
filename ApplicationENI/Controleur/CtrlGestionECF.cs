@@ -44,17 +44,32 @@ namespace ApplicationENI.Controleur
         #endregion
 
         #region lien ECF-competence
-        public static void ajouterLien(ECF pECF, Competence pComp)
+        public static void ajouterLienCompetence(ECF pECF, Competence pComp)
         {
-            ECFDAL.ajouterLien(pECF, pComp);
+            ECFDAL.ajouterLienCompetence(pECF, pComp);
         }
-        public static void supprimerLien(ECF pECF, Competence pComp)
+        public static void supprimerLienCompetence(ECF pECF, Competence pComp)
         {
-            ECFDAL.supprimerLien(pECF, pComp);
+            ECFDAL.supprimerLienCompetence(pECF, pComp);
         }
-        public static void supprimerLiens(ECF pECF)
+        public static void supprimerLiensCompetences(ECF pECF)
         {
-            ECFDAL.supprimerLiens(pECF);
+            ECFDAL.supprimerLiensCompetences(pECF);
+        }
+        #endregion
+
+        #region lien ECF-formation
+        public static void ajouterLienFormation(ECF pECF, Formation pForm)
+        {
+            ECFDAL.ajouterLienFormation(pECF, pForm);
+        }
+        public static void supprimerLienFormation(ECF pECF, Formation pForm)
+        {
+            ECFDAL.supprimerLienFormation(pECF, pForm);
+        }
+        public static void supprimerLiensFormations(ECF pECF)
+        {
+            ECFDAL.supprimerLiensFormations(pECF);
         }
         #endregion
 
