@@ -148,6 +148,9 @@
     <Compile Include="Vue\GestionPassageTitre.xaml.cs">
       <DependentUpon>GestionPassageTitre.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vue\PopUp\ListeECF_Formations.xaml.cs">
+      <DependentUpon>ListeECF_Formations.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vue\SyntheseECF.xaml.cs">
       <DependentUpon>SyntheseECF.xaml</DependentUpon>
     </Compile>
@@ -218,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vue\GestionPassageTitre.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vue\PopUp\ListeECF_Formations.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
