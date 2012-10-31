@@ -145,14 +145,14 @@ namespace ApplicationENI.Vue.PopUp
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
             //On supprime tous les liens avec l'ECF courant
-            CtrlGestionECF.supprimerLiens(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant);
+            CtrlGestionECF.supprimerLiensCompetences(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant);
             
             //On recréé tous les liens avec les compétences sélectionnées
             foreach (SelectionCompetence selComp in _listeCompetences)
             {
                 if (selComp.IsChecked)
                 {
-                    CtrlGestionECF.ajouterLien(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant, selComp.Competence);
+                    CtrlGestionECF.ajouterLienCompetence(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant, selComp.Competence);
                 }
             }
             Close();
@@ -173,7 +173,6 @@ namespace ApplicationENI.Vue.PopUp
             }
             refresh();
         }
-
         private void autocbCompetence_GotFocus(object sender, RoutedEventArgs e)
         {
             if (isInitAutoCompBox)
@@ -182,18 +181,18 @@ namespace ApplicationENI.Vue.PopUp
                 isInitAutoCompBox = false;
             }
         }
-        #endregion
-
         private void autocbCompetence_MouseUp(object sender, MouseButtonEventArgs e)
         {
             foreach (SelectionCompetence sc in _listeCompetences)
             {
-                if (sc.Competence.Code == autocbCompetence.Text.Substring(0,autocbCompetence.Text.IndexOf(" - "))
-                    && (sc.Competence.Libelle == autocbCompetence.Text.Substring(autocbCompetence.Text.IndexOf(" - ")))){
-                        ActualiseAffichage(sc);
-                        refresh();
+                if (sc.Competence.Code == autocbCompetence.Text.Substring(0, autocbCompetence.Text.IndexOf(" - "))
+                    && (sc.Competence.Libelle == autocbCompetence.Text.Substring(autocbCompetence.Text.IndexOf(" - ") + 3)))
+                {
+                    ActualiseAffichage(sc);
+                    refresh();
                 }
             }
         }
+        #endregion
     }
 }
