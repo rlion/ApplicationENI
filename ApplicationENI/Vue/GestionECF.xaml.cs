@@ -107,6 +107,10 @@ namespace ApplicationENI.Vue
             lbCompetences.ItemsSource = null;
             lbCompetences.Items.Clear();
             lbCompetences.ItemsSource = pECF.Competences;
+            //formations
+            lbFormations.ItemsSource = null;
+            lbFormations.Items.Clear();
+            lbFormations.ItemsSource = pECF.Formations;
         }
         private void RAZ()
         {
@@ -115,6 +119,7 @@ namespace ApplicationENI.Vue
             rbNumerique.IsChecked = true;
             slVersion.Value = 1;
             lbCompetences.ItemsSource = null;
+            lbFormations.ItemsSource = null;
             tbCommECF.Text = "";
         }
         #endregion
@@ -139,7 +144,7 @@ namespace ApplicationENI.Vue
             foreach (Competence comp in lbCompetences.SelectedItems)
             {
                 _ecfCourant.Competences.Remove(comp);
-                CtrlGestionECF.supprimerLien(_ecfCourant, comp);
+                CtrlGestionECF.supprimerLienCompetence(_ecfCourant, comp);
             }
 
             //MAJ de l'affichage de l'ECF courant
@@ -154,6 +159,43 @@ namespace ApplicationENI.Vue
             else
             {
                 btSupprCompetence.IsEnabled = false;
+            }
+        }       
+        #endregion
+
+        #region formations
+        private void btAjoutFormation_Click(object sender, RoutedEventArgs e)
+        {
+            //_ecfAdd = false;// on ne va pas ajouter un ECF (ie on ajoute une Competence)
+            //Affichage de l'écran d'ajout
+            ListeECF_Formations ajoutFormation = new ListeECF_Formations();
+            ajoutFormation.ShowDialog();
+
+            //MAJ de l'affichage sur l'ECF courant
+            ActualiseAffichage(_ecfCourant);
+            afficheECF(_ecfCourant);//cbECF.SelectedItem = _ecfCourant;
+        }
+        private void btSupprFormation_Click(object sender, RoutedEventArgs e)
+        {
+            //Suppression des liens avec les formations sélectionnées
+            foreach (Formation form in lbFormations.SelectedItems)
+            {
+                _ecfCourant.Formations.Remove(form);
+                CtrlGestionECF.supprimerLienFormation(_ecfCourant, form);
+            }
+
+            //MAJ de l'affichage de l'ECF courant
+            afficheECF(_ecfCourant);
+        }
+        private void lbFormations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lbFormations.SelectedItems.Count > 0)
+            {
+                btSupprFormation.IsEnabled = true;
+            }
+            else
+            {
+                btSupprFormation.IsEnabled = false;
             }
         }
         #endregion

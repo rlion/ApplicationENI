@@ -11,11 +11,11 @@
         <Label Content="ECF :" Height="28" Margin="22,29,0,0" Name="lbECF" VerticalAlignment="Top" HorizontalAlignment="Left" Width="113" HorizontalContentAlignment="Right" />
         <Button Content="Ajouter ECF" Height="23" HorizontalAlignment="Left" Margin="33,425,0,0" Name="btAjoutECF" VerticalAlignment="Top" Width="90" Click="btAjoutECF_Click" />
         <Button Content="Enregistrer" Height="23" Margin="392,425,0,0" Name="btSave" VerticalAlignment="Top" Click="btSave_Click" HorizontalAlignment="Left" Width="90" IsEnabled="False" />
-        <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Right" Margin="0,425,411,0" Name="btSupprECF" VerticalAlignment="Top" Width="90" Click="btSupprECF_Click" IsEnabled="False" />
+        <Button Content="Supprimer ECF" Height="23" Margin="129,425,0,0" Name="btSupprECF" VerticalAlignment="Top" Click="btSupprECF_Click" IsEnabled="False" HorizontalAlignment="Left" Width="90" />
         <Button Content="Annuler" Height="23" Margin="488,425,0,0" Name="btCancel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="90" Click="btCancel_Click" IsEnabled="False" />
-        <GroupBox Header="Compétences :" Height="384" HorizontalAlignment="Left" Margin="344,29,0,0" Name="groupBox1" VerticalAlignment="Top" Width="234">
+        <GroupBox Header="Compétences :" Height="221" HorizontalAlignment="Left" Margin="344,192,0,0" Name="groupBox1" VerticalAlignment="Top" Width="234">
             <Grid>
-                <ListBox Height="345" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="10,10,0,0" Name="lbCompetences" SelectionMode="Multiple" VerticalAlignment="Top" Width="171" SelectionChanged="lbCompetences_SelectionChanged" />
+                <ListBox Height="182" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="10,10,0,0" Name="lbCompetences" SelectionMode="Multiple" VerticalAlignment="Top" Width="171" SelectionChanged="lbCompetences_SelectionChanged" />
                 <Button Content="+" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="187,10,0,0" Name="btAjoutCompetence" VerticalAlignment="Top" Width="27" Click="btAjoutCompetence_Click" />
                 <Button Content="-" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="187,39,0,0" Name="btSupprCompetence" VerticalAlignment="Top" Width="27" Click="btSupprCompetence_Click" />
             </Grid>
@@ -35,6 +35,13 @@
                 <Label Content="Nb Version(s) :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="-11,46,0,0" Name="lbNbVersionECF" VerticalAlignment="Top" Width="113" />
                 <Label Content="1" Height="28" HorizontalAlignment="Left" Margin="108,46,0,0" Name="lbNbVersions" VerticalAlignment="Top" />
                 <Label Content="Commentaire :" FlowDirection="LeftToRight" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="13,0,0,131" Name="label1" VerticalAlignment="Bottom" Width="113" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Formations :" Height="157" HorizontalAlignment="Left" Margin="344,29,0,0" Name="groupBox3" VerticalAlignment="Top" Width="234">
+            <Grid>
+                <ListBox Height="120" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="10,10,0,0" Name="lbFormations" SelectionChanged="lbCompetences_SelectionChanged" SelectionMode="Multiple" VerticalAlignment="Top" Width="171" />
+                <Button Click="btAjoutFormation_Click" Content="+" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="187,10,0,0" Name="btAjoutFormation" VerticalAlignment="Top" Width="27" />
+                <Button Click="btSupprFormation_Click" Content="-" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="187,39,0,0" Name="btSupprFormation" VerticalAlignment="Top" Width="27" />
             </Grid>
         </GroupBox>
     </Grid>
