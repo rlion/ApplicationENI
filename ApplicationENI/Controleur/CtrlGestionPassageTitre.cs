@@ -129,5 +129,29 @@ namespace ApplicationENI.Controleur
                 dictTitre.Remove(titreToDelete.CodeTitre);
             }
         }
+
+        public void AjouterEpreuveTitre(int positionTitre, EpreuveTitre epreuveTitre)
+        {
+            if (DAL.TitresDAL.AjouterEpreuveTitre(epreuveTitre) >= 0)
+            {
+                this.listTitres.ElementAt(positionTitre).ListeEpreuves.Add(epreuveTitre);
+            }
+        }
+
+        public void ModifierListeJuryEpreuve(int positionTitre, EpreuveTitre oldEpreuveTitre, EpreuveTitre newEpreuveTitre)
+        {
+            /* Sinon, si List<Jury> a changé : 
+             *     - On supprime dans eptitrejury les lignes avec datePassage = ancienne datePassage
+             *     - On insert dans eptitrejury les données en utilisant list<Jury>...
+             */
+            List<Jury> lj = oldEpreuveTitre.ListeJury;
+
+            foreach(Jury j in lj)
+            {
+                DAL.TitresDAL.SupprimerJuryEpreuveTitre(oldEpreuveTitre, j.IdPersonneJury);
+            }
+
+
+        }
     }
 }

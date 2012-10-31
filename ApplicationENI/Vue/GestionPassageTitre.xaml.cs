@@ -24,6 +24,7 @@ namespace ApplicationENI.Vue
         private CtrlGestionPassageTitre Controleur;
         private Titre titre;
         private EpreuveTitre epreuveTitre;
+        private bool isListJuryChanged;
 
         public GestionPassageTitre()
         {
@@ -155,6 +156,7 @@ namespace ApplicationENI.Vue
         {
             if (dgDatesPassage.Items != null && dgDatesPassage.SelectedIndex != -1)
             {
+                isListJuryChanged = false;
                 this.epreuveTitre = (EpreuveTitre)dgDatesPassage.SelectedValue;
                 DisplayDetailPassage();
                 btSupprPassage.IsEnabled = true;
@@ -174,6 +176,7 @@ namespace ApplicationENI.Vue
                     //TODO: Supprimer cette épreuve si elle existe encore
                     //-> clés : datePassage + codetitre + codesalle. Supprimer avant eptitrejury pour cette date
                     // de passage.
+                    
                 }
             }
         }
@@ -188,6 +191,12 @@ namespace ApplicationENI.Vue
                 {
                     //Modification
 
+                    EpreuveTitre oldEpreuveTitre = new EpreuveTitre();
+                    oldEpreuveTitre.Titre = epreuveTitre.Titre;
+                    oldEpreuveTitre.Salle = epreuveTitre.Salle;
+                    oldEpreuveTitre.DateEpreuve = epreuveTitre.DateEpreuve;
+                    oldEpreuveTitre.ListeJury = epreuveTitre.ListeJury;
+
                     if(dpPassage.SelectedDate.Value != epreuveTitre.DateEpreuve || ((string)cbSalle.SelectedValue) != epreuveTitre.Salle) 
                     {
                         /* TODO : 
@@ -199,18 +208,39 @@ namespace ApplicationENI.Vue
                          *     - On insert dans eptitrejury les données en utilisant list<Jury>...
                          */
                     } 
-                    else 
+
+                    if (isListJuryChanged && dpPassage.SelectedDate.HasValue && oldEpreuveTitre.DateEpreuve==epreuveTitre.DateEpreuve)
                     {
                        /* Sinon, si List<Jury> a changé : 
                         *     - On supprime dans eptitrejury les lignes avec datePassage = ancienne datePassage
                         *     - On insert dans eptitrejury les données en utilisant list<Jury>...
                         */
+                        Controleur.ModifierListeJuryEpreuve(cbChoixTitre.SelectedIndex, oldEpreuveTitre, epreuveTitre);
                     }
 
                 } 
                 else 
                 {
                     //Ajout
+                    if (dpPassage.SelectedDate.HasValue && cbSalle.SelectedIndex != -1 && cbChoixTitre.SelectedIndex != -1)
+                    {
+                        EpreuveTitre epTitre;
+
+                        if (dgJury.HasItems)
+                        {
+                            epTitre = new EpreuveTitre(dpPassage.SelectedDate.Value, (string)cbSalle.SelectedValue,
+                                (string)cbChoixTitre.SelectedValue, (List<Jury>)dgJury.ItemsSource);
+                        }
+                        else
+                        {
+                            epTitre = new EpreuveTitre(dpPassage.SelectedDate.Value, (string)cbSalle.SelectedValue, (string)cbChoixTitre.SelectedValue);
+                        }
+
+                        Controleur.AjouterEpreuveTitre(this.cbChoixTitre.SelectedIndex, epTitre);
+                        this.titre.ListeEpreuves.Add(epTitre);
+                        this.dgDatesPassage.ItemsSource = titre.ListeEpreuves;
+                        this.epreuveTitre = epTitre;
+                    }
                 }
             }
         }

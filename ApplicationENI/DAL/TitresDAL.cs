@@ -119,6 +119,25 @@ namespace ApplicationENI.DAL
             return lj;
         }
 
+        private static List<Jury> GetListeJury()
+        {
+            string req = "select idJury, civilite, nom, prenom from JURY";
+
+            SqlConnection conn = ConnexionSQL.CreationConnexion();
+            SqlCommand commande = conn.CreateCommand();
+            commande.CommandText = req;
+
+            List<Jury> lj = new List<Jury>();
+
+            SqlDataReader reader = commande.ExecuteReader();
+            while (reader.Read())
+            {
+                lj.Add(new Jury(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
+            }
+
+            return lj;
+        }
+
         //THIS IS IT boubou!
         public static int AjouterTitre(Titre titre)
         {
@@ -286,10 +305,26 @@ namespace ApplicationENI.DAL
             }
         }
 
-        //TODO -> requêtes de suppression...
         public static int SupprimerEpreuveTitre(EpreuveTitre epTitre)
         {
-            return 0;
+            try
+            {
+                SqlConnection conn = ConnexionSQL.CreationConnexion();
+                SqlCommand commande = conn.CreateCommand();
+                string req = "delete from EpreuveTitre where CodeTitre=@codeT and CodeSalle=@codeS and dateEpreuve=@date";
+                commande.CommandText = req;
+                commande.Parameters.AddWithValue("@codeT", epTitre.Titre);
+                commande.Parameters.AddWithValue("@codeS", epTitre.Salle);
+                commande.Parameters.AddWithValue("@date", epTitre.DateEpreuve);
+                int retour = commande.ExecuteNonQuery();
+                return retour;
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("La suppression de cette épreuve au titre est impossible :" + e.Message, "Suppression Epreuve Titre",
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return -1;
+            }
         }
 
         public static int SupprimerJuryEpreuveTitre(EpreuveTitre epTitre, int idJury)
@@ -316,9 +351,24 @@ namespace ApplicationENI.DAL
             }
         }
 
-        public static int SupprimerJury(Jury jury)
+        public static int SupprimerJury(int idJury)
         {
-            return 0;
+            try
+            {
+                SqlConnection conn = ConnexionSQL.CreationConnexion();
+                SqlCommand commande = conn.CreateCommand();
+                string req = "delete from Jury where idJury=@jury";
+                commande.CommandText = req;
+                commande.Parameters.AddWithValue("@jury", idJury);
+                int retour = commande.ExecuteNonQuery();
+                return retour;
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("La suppression de ce membre du jury est impossible :" + e.Message, "Suppression Jury",
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return -1;
+            }
         }
     }
 }
