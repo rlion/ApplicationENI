@@ -148,8 +148,14 @@
     <Compile Include="Vue\GestionPassageTitre.xaml.cs">
       <DependentUpon>GestionPassageTitre.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vue\PopUp\GestionJury.xaml.cs">
+      <DependentUpon>GestionJury.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vue\PopUp\ListeECF_Formations.xaml.cs">
       <DependentUpon>ListeECF_Formations.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\PopUp\NewJure.xaml.cs">
+      <DependentUpon>NewJure.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vue\SyntheseECF.xaml.cs">
       <DependentUpon>SyntheseECF.xaml</DependentUpon>
@@ -224,7 +230,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Vue\PopUp\GestionJury.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vue\PopUp\ListeECF_Formations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vue\PopUp\NewJure.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

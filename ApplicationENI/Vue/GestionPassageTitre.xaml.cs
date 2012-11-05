@@ -24,7 +24,9 @@ namespace ApplicationENI.Vue
         private CtrlGestionPassageTitre Controleur;
         private Titre titre;
         private EpreuveTitre epreuveTitre;
+        private EpreuveTitre histoEpreuveTitre;
         private bool isListJuryChanged;
+
 
         public GestionPassageTitre()
         {
@@ -270,7 +272,12 @@ namespace ApplicationENI.Vue
 
         private void dgJury_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //TODO: lancer la fenêtre de choix du jury
+            if(epreuveTitre != null)
+            {
+                PopUp.GestionJury gestionJury = new PopUp.GestionJury(epreuveTitre.ListeJury);
+                gestionJury.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                gestionJury.ShowDialog();
+            }
         }
     }
 }

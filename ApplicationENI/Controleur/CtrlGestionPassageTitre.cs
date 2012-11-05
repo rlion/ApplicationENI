@@ -10,7 +10,7 @@ namespace ApplicationENI.Controleur
     {
         private List<Titre> listTitres;
         private Dictionary<string, string> dictTitre;
-        private Dictionary<int,string> dictNiveau;
+        private Dictionary<string,string> dictNiveau;
         private Titre histoTitre;
 
         public Titre HistoTitre
@@ -43,13 +43,9 @@ namespace ApplicationENI.Controleur
             foreach(Titre t in listTitres.OrderBy(x => x.CodeTitre))
                 dictTitre.Add(t.CodeTitre, t.CodeTitre);
 
-            dictNiveau = new Dictionary<int, string>();
-            int i = 1;
-            foreach(string s in listTitres.OrderBy(x => x.Niveau).Select(x => x.Niveau).Distinct())
-            {
-                dictNiveau.Add(i, s);
-                i++;
-            }
+            dictNiveau = new Dictionary<string, string>();
+
+            foreach(string s in listTitres.OrderBy(x => x.Niveau).Select(x => x.Niveau).Distinct()) dictNiveau.Add(s, s);
         }
 
         public Dictionary<string, string> GetListeCodeTitre()
@@ -57,7 +53,7 @@ namespace ApplicationENI.Controleur
             return dictTitre;
         }
 
-        public Dictionary<int, string> GetListeNiveaux()
+        public Dictionary<string, string> GetListeNiveaux()
         {
             return dictNiveau;
         }

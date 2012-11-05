@@ -1,0 +1,30 @@
+﻿<Window x:Class="ApplicationENI.Vue.PopUp.GestionJury"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Gestion du jury" Height="400" Width="400">
+    <Grid>
+        <GroupBox Header="Liste des jurés pour cette épreuve" Height="206" HorizontalAlignment="Left" Margin="12,9,0,0" Name="groupBox1" VerticalAlignment="Top" Width="354">
+            <Grid>
+                <ListBox Name="lbListeJures">
+                    <ListBox.ItemTemplate>
+                        <HierarchicalDataTemplate>
+                            <CheckBox Content="{Binding Jury}" IsChecked="{Binding IsChecked}"/>
+                        </HierarchicalDataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Ajouter un juré..." Height="100" HorizontalAlignment="Left" Margin="12,221,0,0" Name="groupBox2" VerticalAlignment="Top" Width="354">
+            <Grid>
+                <toolkit:AutoCompleteBox Height="23" HorizontalAlignment="Left" Margin="106,17,0,0" 
+                                             Name="acbNomPrenom" VerticalAlignment="Top" Width="230" Text="Nom &amp; prénom du juré" FilterMode="Contains" GotFocus="acbNomPrenom_GotFocus" />
+                <Label Content="Rechercher :" Height="28" HorizontalAlignment="Left" Margin="12,16,0,0" Name="label1" VerticalAlignment="Top" Width="94" HorizontalContentAlignment="Right" />
+                <Button Content="Nouveau..." Height="23" HorizontalAlignment="Left" Margin="170,49,0,0" Name="btNewJure" VerticalAlignment="Top" Width="80" Click="btNewJure_Click" />
+                <Button Content="Ajouter" Height="23" HorizontalAlignment="Left" Margin="256,49,0,0" Name="btAddJure" VerticalAlignment="Top" Width="80" Click="btAddJure_Click" />
+            </Grid>
+        </GroupBox>
+        <Button Content="Valider" Height="23" HorizontalAlignment="Left" Margin="210,327,0,0" Name="btValider" VerticalAlignment="Top" Width="75" Click="btValider_Click" />
+        <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="291,327,0,0" Name="btAnnuler" VerticalAlignment="Top" Width="75" Click="btAnnuler_Click" />
+    </Grid>
+</Window>

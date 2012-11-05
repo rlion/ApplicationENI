@@ -46,5 +46,10 @@ namespace ApplicationENI.Modele
             this._prenom = prenom;
         }
 
+        public override string ToString()
+        {
+            return _civilite + " " + _nom + " " + _prenom;
+        }
+
     }
 }

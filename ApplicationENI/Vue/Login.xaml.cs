@@ -27,6 +27,7 @@ namespace ApplicationENI.Vue
             this.passwordBox1.Password = "password";
         }
 
+        //Bouton "Valider"
         private void button2_Click(object sender, RoutedEventArgs e)
         {
             Parametres.Instance.login = "jgabillaud";
@@ -37,13 +38,12 @@ namespace ApplicationENI.Vue
                     //initialisation des paramètres
                     Parametres.Instance.login = this.textBox1.Text;
 
-
-
                 }
             }
             this.Close();
         }
 
+        //Bouton "Annuler"
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.MainWindow.Close();

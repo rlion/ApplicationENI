@@ -27,16 +27,16 @@ namespace ApplicationENI.DAL
 
                 while (reader.Read())
                 {
-                    string codT = reader[0] != null ? reader.GetString(0) : string.Empty;
-                    string libC = reader[1] != null ? reader.GetString(1) : string.Empty;
-                    string libL = reader[2] != null ? reader.GetString(2) : string.Empty;
-                    string niv = reader[3] != null ? reader.GetString(3) : string.Empty;
-                    string codR = reader[4] != null ? reader.GetString(4) : string.Empty;
-                    string codN = reader[5] != null ? reader.GetString(5) : string.Empty;
-                    DateTime dateC = reader[6] != null ? reader.GetDateTime(6) : new DateTime();
+                    string codT = !reader.IsDBNull(0) ? reader.GetString(0) : string.Empty;
+                    string libC = !reader.IsDBNull(1) ? reader.GetString(1) : string.Empty;
+                    string libL = !reader.IsDBNull(2) ? reader.GetString(2) : string.Empty;
+                    string niv = !reader.IsDBNull(3) ? reader.GetString(3) : string.Empty;
+                    string codR = !reader.IsDBNull(4) ? reader.GetString(4) : string.Empty;
+                    string codN = !reader.IsDBNull(5) ? reader.GetString(5) : string.Empty;
+                    DateTime dateC = !reader.IsDBNull(6) ? reader.GetDateTime(6) : new DateTime();
                     DateTime dateM = new DateTime(); //dans BDD, donnée de type Byte... inutilisable
-                    bool titreENI = reader[8] != null ? reader.GetBoolean(8) : false;
-                    bool archiver = reader[9] != null ? reader.GetBoolean(9) : false;
+                    bool titreENI = !reader.IsDBNull(8) ? reader.GetBoolean(8) : false;
+                    bool archiver = !reader.IsDBNull(9) ? reader.GetBoolean(9) : false;
 
                     listTitres.Add(new Titre(codT, libC, libL, niv, codR, codN, dateC, dateM, titreENI, archiver, GetEpreuvesTitre(codT)));
                 }
@@ -119,7 +119,7 @@ namespace ApplicationENI.DAL
             return lj;
         }
 
-        private static List<Jury> GetListeJury()
+        public static List<Jury> GetListeJury()
         {
             string req = "select idJury, civilite, nom, prenom from JURY";
 
@@ -136,6 +136,22 @@ namespace ApplicationENI.DAL
             }
 
             return lj;
+        }
+
+        private static int GetJuryId(string civilite, string nom, string prenom)
+        {
+            string req = "select idJury from JURY where civilite=@civ and nom=@nom and prenom=@prenom";
+
+            SqlConnection conn = ConnexionSQL.CreationConnexion();
+            SqlCommand commande = conn.CreateCommand();
+            commande.CommandText = req;
+
+            commande.Parameters.AddWithValue("@civ", civilite);
+            commande.Parameters.AddWithValue("@nom", nom);
+            commande.Parameters.AddWithValue("@prenom", prenom);
+
+            int? i = (int)commande.ExecuteScalar();
+            return i ?? -1;
         }
 
         //THIS IS IT boubou!
