@@ -209,9 +209,13 @@ namespace ApplicationENI
         {
             Contact tuteur = new Contact(1,"Jones", "Indiana", "0202020202", "0602020202", "0202020202", "indianajones@gmail.com", "il est sympa", "", "Melle","UAC");
 
-            Parametres.Instance.stagiaire = new Stagiaire(818, "Mr.", "Denis", "Choniphroa", "36 rue des papillons", "", "", "35000", "Pancé", "0606060606", "0206060606", "toto@toto.fr", DateTime.Now, "", "", "", DateTime.Now, DateTime.Now, "/test/rep", true, "c:/testPhotos/1.jpg", true, "");
-            tvPersonParam.IsEnabled = true;
-            tvPersonParam.IsExpanded = true;
+            if(acbNomPrenom.SelectedItem != null)
+            {
+                Parametres.Instance.stagiaire = (Stagiaire)acbNomPrenom.SelectedItem;
+                tvPersonParam.IsEnabled = true;
+                tvPersonParam.IsExpanded = true;
+            }
+            else MessageBox.Show("Veuillez choisir un stagiaire!");
         }
     }
 }

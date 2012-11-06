@@ -37,6 +37,7 @@ namespace ApplicationENI.Vue.PopUp {
             {
                 Jury jury = new Jury(999, txtCivilite.Text, txtNom.Text, txtPrenom.Text);
                 DAL.TitresDAL.AjouterJury(jury);
+                this.Close();
             }
             catch(Exception ex)
             {

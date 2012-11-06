@@ -272,7 +272,7 @@ namespace ApplicationENI.DAL
                     {
 
                         string req = "insert into EpTitreJury (idJury,CodeSalle,CodeTitre,dateEpreuve) " +
-                 "select @codeS, @codeT, @dateE, @idJury where not exists " +
+                 "select @idJury, @codeS, @codeT, @dateE where not exists " +
                  "(select 0 from EpTitreJury where CodeSalle=@codeS and CodeTitre=@codeT and dateEpreuve=@dateE and idJury=@idJury)";
 
                         SqlConnection conn = ConnexionSQL.CreationConnexion();
@@ -343,27 +343,44 @@ namespace ApplicationENI.DAL
             }
         }
 
-        public static int SupprimerJuryEpreuveTitre(EpreuveTitre epTitre, int idJury)
+        public static int SupprimerJuryEpreuveTitre(EpreuveTitre epTitre)
         {
             try
             {
                 SqlConnection conn = ConnexionSQL.CreationConnexion();
                 SqlCommand commande = conn.CreateCommand();
-                string req = "delete from EpTitreJury where CodeTitre=@codeT and CodeSalle=@codeS and dateEpreuve=@date and idJury=@jury";
+                string req = "delete from EpTitreJury where CodeTitre=@codeT and CodeSalle=@codeS and dateEpreuve=@date";
                 commande.CommandText = req;
                 commande.Parameters.AddWithValue("@codeT", epTitre.Titre);
                 commande.Parameters.AddWithValue("@codeS", epTitre.Salle);
                 commande.Parameters.AddWithValue("@date", epTitre.DateEpreuve);
-                commande.Parameters.AddWithValue("@jury", idJury);
                 int retour = commande.ExecuteNonQuery();
-                if (retour == 1) epTitre.ListeJury.RemoveAt(idJury);
                 return retour;
             }
             catch (Exception e)
             {
-                System.Windows.MessageBox.Show("La suppression de ce membre du jury à cette épreuve est impossible :"+e.Message, "Suppression Jury Epreuve Titre",
+                System.Windows.MessageBox.Show("La suppression de ce jury à cette épreuve est impossible :"+e.Message, "Suppression Jury Epreuve Titre",
                     System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
                 return -1;
+            }
+        }
+
+        private static void SupprimerJuryEpreuveTitre(int idJury)
+        {
+            try
+            {
+                SqlConnection conn = ConnexionSQL.CreationConnexion();
+                SqlCommand commande = conn.CreateCommand();
+                string req = "delete from EpTitreJury where idJury=@id";
+                commande.CommandText = req;
+                commande.Parameters.AddWithValue("@id", idJury);
+                int retour = commande.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                System.Windows.MessageBox.Show("La suppression des épreuves pour ce membre du jury est impossible :" + ex.Message, "Suppression Jury",
+                    System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                throw;
             }
         }
 
@@ -371,6 +388,8 @@ namespace ApplicationENI.DAL
         {
             try
             {
+                SupprimerJuryEpreuveTitre(idJury);
+
                 SqlConnection conn = ConnexionSQL.CreationConnexion();
                 SqlCommand commande = conn.CreateCommand();
                 string req = "delete from Jury where idJury=@jury";

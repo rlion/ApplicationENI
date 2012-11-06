@@ -20,8 +20,9 @@
                 <toolkit:AutoCompleteBox Height="23" HorizontalAlignment="Left" Margin="106,17,0,0" 
                                              Name="acbNomPrenom" VerticalAlignment="Top" Width="230" Text="Nom &amp; prénom du juré" FilterMode="Contains" GotFocus="acbNomPrenom_GotFocus" />
                 <Label Content="Rechercher :" Height="28" HorizontalAlignment="Left" Margin="12,16,0,0" Name="label1" VerticalAlignment="Top" Width="94" HorizontalContentAlignment="Right" />
-                <Button Content="Nouveau..." Height="23" HorizontalAlignment="Left" Margin="170,49,0,0" Name="btNewJure" VerticalAlignment="Top" Width="80" Click="btNewJure_Click" />
-                <Button Content="Ajouter" Height="23" HorizontalAlignment="Left" Margin="256,49,0,0" Name="btAddJure" VerticalAlignment="Top" Width="80" Click="btAddJure_Click" />
+                <Button Content="Nouveau..." Height="23" HorizontalAlignment="Left" Margin="108,52,0,0" Name="btNewJure" VerticalAlignment="Top" Width="72" Click="btNewJure_Click" />
+                <Button Content="Ajouter" Height="23" HorizontalAlignment="Left" Margin="186,52,0,0" Name="btAddJure" VerticalAlignment="Top" Width="72" Click="btAddJure_Click" />
+                <Button Content="Supprimer" Height="23" HorizontalAlignment="Left" Margin="264,52,0,0" Name="btSupprimer" VerticalAlignment="Top" Width="72" Click="btSupprimer_Click" />
             </Grid>
         </GroupBox>
         <Button Content="Valider" Height="23" HorizontalAlignment="Left" Margin="210,327,0,0" Name="btValider" VerticalAlignment="Top" Width="75" Click="btValider_Click" />

@@ -20,16 +20,23 @@ namespace ApplicationENI.Vue.PopUp {
     {
         private List<Jury> listeJury;
         private List<JuryItem> listeJuryItem;
-        private bool isModified;
+        private bool isModified;//Gestion texte de départ AutoCompleteBox
+        private EpreuveTitre epreuveTitre;
+
+        public List<Jury> ListeJury
+        {
+            get { return listeJury; }
+        }
 
         public GestionJury() 
         {
             InitializeComponent();
         }
 
-        public GestionJury(List<Jury> listeJury):this()
+        public GestionJury(EpreuveTitre epreuveTitre):this()
         {
-            this.listeJury = listeJury;
+            this.epreuveTitre = epreuveTitre;
+            this.listeJury = epreuveTitre.ListeJury;
             isModified = false;
             InitData();
         }
@@ -83,7 +90,7 @@ namespace ApplicationENI.Vue.PopUp {
 
         private void btAddJure_Click(object sender, RoutedEventArgs e)
         {
-            if(listeJuryItem.Where(x => x.Jury == ((Jury)acbNomPrenom.SelectedItem)).Count() == 0)
+            if(acbNomPrenom.SelectedItem != null && listeJuryItem.Where(x => x.Jury == ((Jury)acbNomPrenom.SelectedItem)).Count() == 0)
             {
                 listeJuryItem = (List<JuryItem>)lbListeJures.ItemsSource;
                 listeJuryItem.Add(new JuryItem((Jury)acbNomPrenom.SelectedItem));
@@ -91,6 +98,9 @@ namespace ApplicationENI.Vue.PopUp {
                 lbListeJures.ItemsSource = null;
                 lbListeJures.Items.Clear();
                 lbListeJures.ItemsSource = listeJuryItem;
+
+                acbNomPrenom.Text = string.Empty;
+                acbNomPrenom.SelectedItem = null;
             }
         }
 
@@ -103,7 +113,7 @@ namespace ApplicationENI.Vue.PopUp {
         {
             PopUp.NewJure newjure = new NewJure();
             newjure.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
-            newjure.Show();
+            newjure.ShowDialog();
 
             //Après fermeture de la Pop-Up
             acbNomPrenom.ItemsSource = null;
@@ -112,7 +122,44 @@ namespace ApplicationENI.Vue.PopUp {
 
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
+            if(MessageBox.Show("Etes vous sûr(e) de valider cette liste de jurés pour cette date de passage du titre?", "Gestion du jury", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                List<Jury> newListeJury = new List<Jury>();
+                foreach(JuryItem ji in listeJuryItem.Where(x => x.IsChecked)) newListeJury.Add(ji.Jury);
 
+                listeJury = newListeJury;
+                this.Close();
+            }
+        }
+
+        private void btSupprimer_Click(object sender, RoutedEventArgs e)
+        {
+            if(acbNomPrenom.SelectedItem != null)
+            {
+
+                if(MessageBox.Show("Etes vous sûr(e) de vouloir supprimer définitivement ce juré?", "Gestion du jury", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    //Suppression définitive du juré
+                    DAL.TitresDAL.SupprimerJury(((Jury)acbNomPrenom.SelectedItem).IdPersonneJury);
+
+                    //Mise à jour ListBox si besoin
+                    if(listeJuryItem.Where(x => x.Jury == ((Jury)acbNomPrenom.SelectedItem)).Count()==1)
+                    {
+                        listeJuryItem = (List<JuryItem>)lbListeJures.ItemsSource;
+                        listeJuryItem.RemoveAll(x => x.Jury == (Jury)acbNomPrenom.SelectedItem);
+
+                        lbListeJures.ItemsSource = null;
+                        lbListeJures.Items.Clear();
+                        lbListeJures.ItemsSource = listeJuryItem;
+                    }
+
+                    //Mise à jour AutoCompleteBox
+                    acbNomPrenom.Text = string.Empty;
+                    acbNomPrenom.SelectedItem = null;
+                    acbNomPrenom.ItemsSource = null;
+                    acbNomPrenom.ItemsSource = DAL.TitresDAL.GetListeJury();
+                }
+            }
         }
     }
 

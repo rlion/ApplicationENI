@@ -24,7 +24,7 @@ namespace ApplicationENI.Controleur
                 listTitres[i] = new Titre(histoTitre.CodeTitre,histoTitre.LibelleCourt,
                     histoTitre.LibelleLong,histoTitre.Niveau,histoTitre.CodeRome,
                     histoTitre.CodeNSF,histoTitre.DateCreation,histoTitre.DateModif,
-                    histoTitre.TitreENI,histoTitre.Archiver);
+                    histoTitre.TitreENI,histoTitre.Archiver,histoTitre.ListeEpreuves);
 
                 return listTitres[i];
             }
@@ -94,6 +94,7 @@ namespace ApplicationENI.Controleur
             }
         }
 
+        //THIS IS IT boubou!
         public void ModifierTitre(Titre titre)
         {
             if(!string.IsNullOrEmpty(titre.LibelleCourt)) 
@@ -126,28 +127,30 @@ namespace ApplicationENI.Controleur
             }
         }
 
+        //THIS IS IT boubou!
         public void AjouterEpreuveTitre(int positionTitre, EpreuveTitre epreuveTitre)
         {
             if (DAL.TitresDAL.AjouterEpreuveTitre(epreuveTitre) >= 0)
             {
+                if(epreuveTitre.ListeJury != null && epreuveTitre.ListeJury.Count > 0) DAL.TitresDAL.AjouterJuryEpreuveTitre(epreuveTitre);
                 this.listTitres.ElementAt(positionTitre).ListeEpreuves.Add(epreuveTitre);
+                histoTitre = this.listTitres.ElementAt(positionTitre);
             }
         }
 
-        public void ModifierListeJuryEpreuve(int positionTitre, EpreuveTitre oldEpreuveTitre, EpreuveTitre newEpreuveTitre)
+        //THIS IS IT boubou!
+        public void SupprimerEpreuveTitre(int positionTitre, EpreuveTitre HistoEpreuveTitre, EpreuveTitre EpreuveTitre)
         {
-            /* Sinon, si List<Jury> a changé : 
-             *     - On supprime dans eptitrejury les lignes avec datePassage = ancienne datePassage
-             *     - On insert dans eptitrejury les données en utilisant list<Jury>...
-             */
-            List<Jury> lj = oldEpreuveTitre.ListeJury;
-
-            foreach(Jury j in lj)
+            if(EpreuveTitre != null)
             {
-                DAL.TitresDAL.SupprimerJuryEpreuveTitre(oldEpreuveTitre, j.IdPersonneJury);
+                DAL.TitresDAL.SupprimerJuryEpreuveTitre(HistoEpreuveTitre);
+                DAL.TitresDAL.SupprimerEpreuveTitre(HistoEpreuveTitre);
+
+                bool i = this.listTitres.ElementAt(positionTitre).ListeEpreuves.Remove(HistoEpreuveTitre);
+                histoTitre = this.listTitres.ElementAt(positionTitre);
             }
-
-
         }
+
+
     }
 }

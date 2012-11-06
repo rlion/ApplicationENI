@@ -25,7 +25,6 @@ namespace ApplicationENI.Vue
         private Titre titre;
         private EpreuveTitre epreuveTitre;
         private EpreuveTitre histoEpreuveTitre;
-        private bool isListJuryChanged;
 
 
         public GestionPassageTitre()
@@ -61,15 +60,15 @@ namespace ApplicationENI.Vue
             titre = Controleur.GetTitre((string)cbChoixTitre.SelectedValue);
             this.groupBoxTitre.DataContext = titre;
 
-            this.epreuveTitre = null;
+            ResetDetailPassage();
         }
 
         //Affichage d'une épreuve titre à partir du choix du datagrid de liste des passages
         private void DisplayDetailPassage()
         {
-            dpPassage.SelectedDate = ((EpreuveTitre)dgDatesPassage.SelectedValue).DateEpreuve;
-            cbSalle.SelectedValue = ((EpreuveTitre)dgDatesPassage.SelectedValue).Salle;
-            dgJury.ItemsSource = ((EpreuveTitre)dgDatesPassage.SelectedValue).ListeJury;
+            dpPassage.SelectedDate = this.epreuveTitre.DateEpreuve;
+            cbSalle.SelectedValue = this.epreuveTitre.Salle;
+            dgJury.ItemsSource = this.epreuveTitre.ListeJury;
         }
 
         //Vidage des données d'une épreuve titre lorsque aucune ligne du datagrid de liste des passages n'est sélectionnée
@@ -80,9 +79,48 @@ namespace ApplicationENI.Vue
             dpPassage.SelectedDate = null;
             dgJury.ItemsSource = null;
             epreuveTitre = null;
+            histoEpreuveTitre = null;
+            
+            btSupprPassage.IsEnabled = false;
+            dgJury.IsEnabled = false;
+            cbSalle.IsEnabled = false;
+            dpPassage.IsEnabled = false;
         }
 
-        //THIS IS IT boubou!
+        //Méthode appelée depuis btSupprPassage et btModifPassage
+        private void SupprimerEpreuveTitre()
+        {
+            if(this.histoEpreuveTitre != null)
+            {
+                Controleur.SupprimerEpreuveTitre(cbChoixTitre.SelectedIndex, this.histoEpreuveTitre, this.epreuveTitre);
+            }
+        }
+
+        //Initialisation de la variable histo
+        private void InitEpreuveTitre()
+        {
+            this.epreuveTitre = new EpreuveTitre();
+            this.epreuveTitre.DateEpreuve = this.histoEpreuveTitre.DateEpreuve;
+            this.epreuveTitre.ListeJury = this.histoEpreuveTitre.ListeJury;
+            this.epreuveTitre.Salle = this.histoEpreuveTitre.Salle;
+            this.epreuveTitre.Titre = this.histoEpreuveTitre.Titre;
+        }
+
+        //On vérifie qu'une épreuve existante n'est pas en train d'être recréée
+        private bool IsUniqueEpreuve()
+        {
+            foreach(EpreuveTitre epTitre in (List<EpreuveTitre>)dgDatesPassage.ItemsSource)
+            {
+                if(epreuveTitre.DateEpreuve == epTitre.DateEpreuve && epreuveTitre.Salle == epTitre.Salle && epreuveTitre.Titre == epTitre.Titre)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        #region Partie Gestion de la partie haute (Titre)
+
         //Passage du formulaire en mode "Ajout d'un titre"
         private void btCreerTitre_Click(object sender, RoutedEventArgs e)
         {
@@ -92,7 +130,6 @@ namespace ApplicationENI.Vue
             ResetDetailPassage();
         }
 
-        //THIS IS IT boubou!
         private void btModifTitre_Click(object sender, RoutedEventArgs e)
         {
             if(txtCodeTitre.Text == (string)cbChoixTitre.SelectedValue)
@@ -106,7 +143,6 @@ namespace ApplicationENI.Vue
             }
         }
 
-        //THIS IS IT boubou!
         private void btSupprTitre_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Etes-vous sûr(e) de vouloir supprimer ce titre?", "Gestion des titres", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
@@ -117,7 +153,6 @@ namespace ApplicationENI.Vue
             }
         }
 
-        //THIS IS IT boubou!
         private void btAnnulTitre_Click(object sender, RoutedEventArgs e)
         {
             if(this.cbChoixTitre.SelectedIndex != -1)
@@ -132,7 +167,8 @@ namespace ApplicationENI.Vue
             this.groupBoxTitre.DataContext = titre;
         }
 
-        //THIS IS IT boubou!
+        #endregion
+
         private void cbChoixTitre_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (this.cbChoixTitre.SelectedIndex != -1)
@@ -158,10 +194,14 @@ namespace ApplicationENI.Vue
         {
             if (dgDatesPassage.Items != null && dgDatesPassage.SelectedIndex != -1)
             {
-                isListJuryChanged = false;
-                this.epreuveTitre = (EpreuveTitre)dgDatesPassage.SelectedValue;
+                this.histoEpreuveTitre = (EpreuveTitre)dgDatesPassage.SelectedItem;
+                InitEpreuveTitre();
                 DisplayDetailPassage();
+                
                 btSupprPassage.IsEnabled = true;
+                dgJury.IsEnabled = true;
+                cbSalle.IsEnabled = true;
+                dpPassage.IsEnabled = true;
             }
             else ResetDetailPassage();
         }
@@ -175,76 +215,63 @@ namespace ApplicationENI.Vue
 
                 if (mr == MessageBoxResult.Yes)
                 {
-                    //TODO: Supprimer cette épreuve si elle existe encore
-                    //-> clés : datePassage + codetitre + codesalle. Supprimer avant eptitrejury pour cette date
-                    // de passage.
-                    
+                    SupprimerEpreuveTitre();
+
+                    this.dgDatesPassage.ItemsSource = null;
+                    this.dgDatesPassage.Items.Clear();
+                    titre = Controleur.HistoTitre;
+                    this.dgDatesPassage.ItemsSource = titre.ListeEpreuves;
+
+                    ResetDetailPassage();
                 }
             }
         }
 
+        //Validation de l'ajout ou d'une modification d'une épreuve
         private void btModifPassage_Click(object sender, RoutedEventArgs e) 
         {
-            if(titre != null && titre.CodeTitre != null && cbSalle.SelectedIndex != -1 && dpPassage.SelectedDate.HasValue) 
+            try
             {
-                btSupprPassage.IsEnabled = true;
-
-                if(epreuveTitre.Salle != null) 
+                if(titre != null && titre.CodeTitre != null && cbSalle.SelectedIndex != -1 && dpPassage.SelectedDate.HasValue)
                 {
-                    //Modification
+                    btSupprPassage.IsEnabled = true;
+                    btAjoutPassage.IsEnabled = true;
+                    dgDatesPassage.IsEnabled = true;
 
-                    EpreuveTitre oldEpreuveTitre = new EpreuveTitre();
-                    oldEpreuveTitre.Titre = epreuveTitre.Titre;
-                    oldEpreuveTitre.Salle = epreuveTitre.Salle;
-                    oldEpreuveTitre.DateEpreuve = epreuveTitre.DateEpreuve;
-                    oldEpreuveTitre.ListeJury = epreuveTitre.ListeJury;
+                    this.epreuveTitre.DateEpreuve = dpPassage.SelectedDate.Value;
+                    this.epreuveTitre.Salle = (string)cbSalle.SelectedValue;
 
-                    if(dpPassage.SelectedDate.Value != epreuveTitre.DateEpreuve || ((string)cbSalle.SelectedValue) != epreuveTitre.Salle) 
+                    if(IsUniqueEpreuve() || (!IsUniqueEpreuve() && (histoEpreuveTitre!=null && histoEpreuveTitre.ListeJury != epreuveTitre.ListeJury)))
                     {
-                        /* TODO : 
-                         * Si datePassage et/ou codeSalle a changé : 
-                         *     - On conserve en cache : datePassage, codeTitre, codeSalle, list<Jury>
-                         *     - On supprime dans eptitrejury les lignes avec datePassage = ancienne datePassage
-                         *     - On supprime dans epreuvetitre la ligne avec datePassage = ancienne datePassage
-                         *     - On insert dans epreuvetitre avec les données en cache
-                         *     - On insert dans eptitrejury les données en utilisant list<Jury>...
-                         */
-                    } 
+                        if(dgJury.HasItems) this.epreuveTitre.ListeJury = (List<Jury>)dgJury.ItemsSource;
 
-                    if (isListJuryChanged && dpPassage.SelectedDate.HasValue && oldEpreuveTitre.DateEpreuve==epreuveTitre.DateEpreuve)
-                    {
-                       /* Sinon, si List<Jury> a changé : 
-                        *     - On supprime dans eptitrejury les lignes avec datePassage = ancienne datePassage
-                        *     - On insert dans eptitrejury les données en utilisant list<Jury>...
-                        */
-                        Controleur.ModifierListeJuryEpreuve(cbChoixTitre.SelectedIndex, oldEpreuveTitre, epreuveTitre);
-                    }
-
-                } 
-                else 
-                {
-                    //Ajout
-                    if (dpPassage.SelectedDate.HasValue && cbSalle.SelectedIndex != -1 && cbChoixTitre.SelectedIndex != -1)
-                    {
-                        EpreuveTitre epTitre;
-
-                        if (dgJury.HasItems)
+                        //Si on est en modification, on supprime toutes les références de l'ancienne EpreuveTitre
+                        if(histoEpreuveTitre != null)
                         {
-                            epTitre = new EpreuveTitre(dpPassage.SelectedDate.Value, (string)cbSalle.SelectedValue,
-                                (string)cbChoixTitre.SelectedValue, (List<Jury>)dgJury.ItemsSource);
-                        }
-                        else
-                        {
-                            epTitre = new EpreuveTitre(dpPassage.SelectedDate.Value, (string)cbSalle.SelectedValue, (string)cbChoixTitre.SelectedValue);
+                            //Suppression de l'ancienne épreuve -> histoEpreuveTitre
+                            SupprimerEpreuveTitre();
                         }
 
-                        Controleur.AjouterEpreuveTitre(this.cbChoixTitre.SelectedIndex, epTitre);
-                        this.titre.ListeEpreuves.Add(epTitre);
+                        //Ensuite, dans tous les cas, on ajoute toutes les références de la nouvelle EpreuveTitre
+
+                        Controleur.AjouterEpreuveTitre(this.cbChoixTitre.SelectedIndex, this.epreuveTitre);
+
+                        this.dgDatesPassage.ItemsSource = null;
+                        this.dgDatesPassage.Items.Clear();
+                        titre = Controleur.HistoTitre;
                         this.dgDatesPassage.ItemsSource = titre.ListeEpreuves;
-                        this.epreuveTitre = epTitre;
+
+                        this.dgDatesPassage.SelectedValue = this.epreuveTitre;
                     }
+                    else throw new Exception();
                 }
             }
+            catch(Exception)
+            {
+                MessageBox.Show("Cette épreuve existe déjà!", "Gestion Epreuve Titre", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.btAnnulPassage_Click(sender, e);
+            }
+
         }
 
         //Passage du formulaire en mode "ajout d'une épreuve titre"
@@ -253,30 +280,49 @@ namespace ApplicationENI.Vue
             if(titre != null && !string.IsNullOrEmpty(titre.CodeTitre)) 
             {
                 ResetDetailPassage();
-                btSupprPassage.IsEnabled = false;
+                btAjoutPassage.IsEnabled = false;
+                dgDatesPassage.IsEnabled = false;
+                dgJury.IsEnabled = true;
+                cbSalle.IsEnabled = true;
+                dpPassage.IsEnabled = true;
+
                 this.epreuveTitre = new EpreuveTitre();
+                this.epreuveTitre.Titre = (string)cbChoixTitre.SelectedValue;
             }
         }
 
         private void btAnnulPassage_Click(object sender, RoutedEventArgs e) {
 
             btSupprPassage.IsEnabled = true;
+            btAjoutPassage.IsEnabled = true;
+            dgDatesPassage.IsEnabled = true;
 
-            if(this.epreuveTitre != null) 
+            if(this.histoEpreuveTitre != null)
             {
-                dpPassage.SelectedDate = epreuveTitre.DateEpreuve;
-                cbSalle.SelectedValue = epreuveTitre.Salle;
-                dgJury.ItemsSource = epreuveTitre.ListeJury;
+                dpPassage.SelectedDate = this.histoEpreuveTitre.DateEpreuve;
+                cbSalle.SelectedValue = this.histoEpreuveTitre.Salle;
+                dgJury.ItemsSource = this.histoEpreuveTitre.ListeJury;
+            }
+            else
+            {
+                ResetDetailPassage();
             }
         }
 
+        //Gestion du jury
         private void dgJury_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if(epreuveTitre != null)
             {
-                PopUp.GestionJury gestionJury = new PopUp.GestionJury(epreuveTitre.ListeJury);
+
+                PopUp.GestionJury gestionJury = new PopUp.GestionJury(epreuveTitre);
                 gestionJury.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 gestionJury.ShowDialog();
+                epreuveTitre.ListeJury = gestionJury.ListeJury;
+
+                dgJury.ItemsSource = null;
+                dgJury.Items.Clear();
+                dgJury.ItemsSource = epreuveTitre.ListeJury;
             }
         }
     }

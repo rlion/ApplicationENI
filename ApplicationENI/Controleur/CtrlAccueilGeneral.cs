@@ -11,10 +11,10 @@ namespace ApplicationENI.Controleur
 
         public CtrlAccueilGeneral() { }
 
-        public List<string> GetListeStagiaires()
+        public List<Stagiaire> GetListeStagiaires()
         {
-            List<string> ls = new List<string>();
-            ls = DAL.AccueilDAL.GetListeStagiaires().Select(x => x._prenom + " " + x._nom).ToList();
+            List<Stagiaire> ls = new List<Stagiaire>();
+            ls = DAL.AccueilDAL.GetListeStagiaires();
 
             return ls;
         }
