@@ -14,7 +14,7 @@ namespace ApplicationENI.DAL
             "SELECT @raison, @commentaire, @dateDebut, @dateFin, @justifiee, @isAbsence, @num_stagiaire " +
             "WHERE NOT EXISTS (SELECT 0 FROM ABSENCE WHERE RAISON=@raison AND COMMENTAIRE=@commentaire AND DATEDEBUT=@dateDebut AND DATEFIN=@dateFin "+
             "AND JUSTIFIEE=@justifiee AND ISABSENCE=@isAbsence AND ID_STAGIAIRE=@num_stagiaire)";
-        
+        static String INSERT_ABSENCE_TEMPORAIRE = "INSERT INTO ABSENCE (DATEDEBUT, ID_STAGIAIRE) VALUES(@dateDebut, @num_stagiaire)";
         static String DELETE_ABSENCES = "DELETE FROM ABSENCE WHERE ID_ABSENCE=@id_absence";
         static String UPDATE_ABSENCES = "UPDATE ABSENCE SET DATEDEBUT=@dateDebut, DATEFIN=@dateFin, COMMENTAIRE=@commentaire, RAISON=@raison, JUSTIFIEE=@justifiee WHERE ID_ABSENCE=@id_absence";
         static String GET_NUM_ABSENCE = "SELECT @@IDENTITY AS IDENT";
@@ -38,10 +38,15 @@ namespace ApplicationENI.DAL
                     if (!reader.GetSqlDateTime(4).IsNull) { absTemp._dateFin = reader.GetDateTime(4); }
                     absTemp._raison = reader.GetSqlString(1).IsNull ? String.Empty : reader.GetString(1);
                     absTemp._commentaire = reader.GetSqlString(2).IsNull ? String.Empty : reader.GetString(2);
-                    if (reader.GetBoolean(5)) { absTemp._valide = reader.GetBoolean(5); }
-                    if (reader.GetBoolean(6)) { absTemp._isAbsence = reader.GetBoolean(6); }
+                    if (!reader.GetSqlBoolean(5).IsNull) { absTemp._valide = reader.GetBoolean(5); }
+                    if (!reader.GetSqlBoolean(6).IsNull) { absTemp._isAbsence = reader.GetBoolean(6); }
                     try{absTemp._duree = absTemp._dateFin - absTemp._dateDebut;}catch (Exception){absTemp._duree = new TimeSpan(0);}
+                    //TODO: probleme ici
                     absTemp._stagiaire = pS;
+                    if (pS.listeAbsences == null)
+                    {
+                        pS.listeAbsences = new List<Absence>();                    
+                    }
                     pS.listeAbsences.Add(absTemp);
                 }
             }
@@ -110,6 +115,34 @@ namespace ApplicationENI.DAL
                     "Ajout Absence impossible", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
             }
             
+        }
+
+        public static void ajouterAbsenceTemporaire(Absence pA, Stagiaire pStagiaire)
+        {
+
+           // try
+            //{
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+                SqlCommand cmd = new SqlCommand(INSERT_ABSENCE_TEMPORAIRE, connexion);
+                cmd.Parameters.AddWithValue("@dateDebut", pA._dateDebut);
+                cmd.Parameters.AddWithValue("@num_stagiaire", pStagiaire._id);
+                cmd.ExecuteNonQuery();
+
+                // maintenant il faut mettre à jour l'objet Absence en lui assignant son numéro
+                SqlCommand cmd2 = new SqlCommand(GET_NUM_ABSENCE, connexion);
+                int idDernierAbsence = Convert.ToInt32(cmd2.ExecuteScalar());
+                pA._id = Convert.ToInt32(idDernierAbsence);
+                if (pStagiaire.listeAbsences != null) {
+                    pStagiaire.listeAbsences.Add(pA); 
+                }
+                connexion.Close();
+            /*}
+            catch (Exception)
+            {
+                System.Windows.MessageBox.Show("Cette absence ne peut être ajoutée.",
+                    "Ajout Absence impossible", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+            }*/
+
         }
     }
 }

@@ -34,7 +34,10 @@ namespace ApplicationENI.DAL
                     obsTemp._type = reader.GetSqlString(3).IsNull ? string.Empty : reader.GetString(3);
                     obsTemp._titre = reader.GetSqlString(4).IsNull ? string.Empty : reader.GetString(4);
                     obsTemp._texte = reader.GetSqlString(5).IsNull ? string.Empty : reader.GetString(5);
-                    obsTemp._stagiaire = pStg; 
+                    obsTemp._stagiaire = pStg;
+                    if (pStg.listeObservations == null) {
+                        pStg.listeObservations = new List<Observation>();
+                    }
                     pStg.listeObservations.Add(obsTemp);
                 }
                 return pStg.listeObservations;

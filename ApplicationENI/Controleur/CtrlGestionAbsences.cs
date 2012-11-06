@@ -26,6 +26,13 @@ namespace ApplicationENI.Controleur {
             a.ajouterAbsence();
         }
 
+        // Cette méthode permet d'ajouter des absences à la volée afin de répondre au besoin de rapidité le matin. Les absences sont ensuite retouchées et les champs manquants sont précisés.
+        public void AjouterAbsenceTemporaire(Stagiaire pStagiaire)
+        {
+            DateTime dateDebut = DateTime.Now;
+            Absence a = new Absence(dateDebut, pStagiaire);
+            a.ajouterAbsenceTemporaire(pStagiaire);
+        }
 
         public DateTime conversionStringEnDate(String pDate, int pHeure, int pMinute)
         {
@@ -70,5 +77,13 @@ namespace ApplicationENI.Controleur {
             pA._valide = pValide;
             pA.modifierAbsence();
         }
+
+        public List<Stagiaire> GetListeStagiaires()
+        {
+            List<Stagiaire> ls = new List<Stagiaire>();
+            ls = DAL.StagiairesDAL.getListeStagiaire();//.Select(x => x._prenom + " " + x._nom + " " + x._id).ToList();
+
+            return ls;
+        }
     }
-}
+} 

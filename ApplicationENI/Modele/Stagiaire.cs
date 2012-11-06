@@ -112,6 +112,11 @@ namespace ApplicationENI.Modele
             // return DAL.StagiairesDAL.getListeEcfNonCorriges(Stagiaire stg);
             return null;
         }
+
+        public override string ToString()
+        {
+            return this._nom + " " + this._prenom;
+        }
     }   
 
     

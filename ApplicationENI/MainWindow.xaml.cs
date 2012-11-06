@@ -186,6 +186,14 @@ namespace ApplicationENI
 
         }
 
+        private void tviAbsencesRapides_Selected(object sender, RoutedEventArgs e)
+        {
+            this.expandStagiaire.IsExpanded = false;
+            this.MainGrid.Children.RemoveAt(0);
+            this.MainGrid.Children.Add(new Vue.AjoutAbsenceRapide());
+
+        }
+
         #endregion
 
         private void acbNomPrenom_GotFocus(object sender, RoutedEventArgs e)

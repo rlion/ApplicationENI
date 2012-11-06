@@ -34,10 +34,22 @@ namespace ApplicationENI.Modele
             
         }
 
+        public Absence(DateTime pDateDebut, Stagiaire pStg)
+        {
+            this._dateDebut = pDateDebut;
+            this._stagiaire = pStg;
+        }
+
         public void ajouterAbsence()
         {
             DAL.AbsencesDAL.ajouterAbsence(this);
             
+        }
+
+        public void ajouterAbsenceTemporaire(Stagiaire pStg)
+        {
+            DAL.AbsencesDAL.ajouterAbsenceTemporaire(this, pStg);
+
         }
 
         public void supprimerAbsence()
