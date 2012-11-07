@@ -150,9 +150,15 @@ namespace ApplicationENI.Vue
         private void buttonImprimer_Click(object sender, RoutedEventArgs e)
         {
             PrintDialog pD = new PrintDialog();
+            String nom = "";
+
             if (pD.ShowDialog() == true)
             {
-                pD.PrintVisual(gridTrombi, "Trombinoscope");
+                if (cboFormation.SelectedItem != null)
+                {
+                    nom = cboFormation.Text;
+                }
+                pD.PrintVisual(gridTrombi, "Trombinoscope - " + nom);
             }
             //TODO: améliorer le rendu.
             /*ReportViewer rv = new ReportViewer();

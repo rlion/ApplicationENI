@@ -41,7 +41,6 @@ namespace ApplicationENI.DAL
                     if (!reader.GetSqlBoolean(5).IsNull) { absTemp._valide = reader.GetBoolean(5); }
                     if (!reader.GetSqlBoolean(6).IsNull) { absTemp._isAbsence = reader.GetBoolean(6); }
                     try{absTemp._duree = absTemp._dateFin - absTemp._dateDebut;}catch (Exception){absTemp._duree = new TimeSpan(0);}
-                    //TODO: probleme ici
                     absTemp._stagiaire = pS;
                     if (pS.listeAbsences == null)
                     {
