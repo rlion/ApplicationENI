@@ -72,7 +72,7 @@
                     <toolkit:AutoCompleteBox Height="23" HorizontalAlignment="Left" Margin="315,22,0,0" 
                                              Name="acbNomPrenom" VerticalAlignment="Top" Width="158" Text="Nom &amp; prénom du stagiaire" GotFocus="acbNomPrenom_GotFocus" FilterMode="Contains" />
                     <Button Content="Rechercher" Height="23" HorizontalAlignment="Left" Margin="479,21,0,0" Name="btRechercher" VerticalAlignment="Top" Width="75" Click="btRechercher_Click" />
-                    <Button Content="Réinitialiser" Height="23" HorizontalAlignment="Left" Margin="557,21,0,0" Name="btAnnuler" VerticalAlignment="Top" Width="75" />
+                    <Button Content="Réinitialiser" Height="23" HorizontalAlignment="Left" Margin="557,21,0,0" Name="btAnnuler" VerticalAlignment="Top" Width="75" Click="btAnnuler_Click" />
                     <GroupBox Header="Filtres" Height="60" HorizontalAlignment="Left" Margin="6,3,0,0" Name="groupBox1" VerticalAlignment="Top" Width="302">
                         <Grid>
                             <RadioButton Content="Form. Continue" Height="16" HorizontalAlignment="Left" Margin="7,4,0,0" Name="rbFormation" VerticalAlignment="Top" GroupName="grbFiltre" Checked="rbFormation_Checked" />

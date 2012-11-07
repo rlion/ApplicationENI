@@ -49,17 +49,6 @@ namespace ApplicationENI
             tvPersonParam.IsEnabled = false;
         }
 
-        private void InitBandeStagiaire()
-        {
-            cbFiltre.SelectedValuePath="Key";
-            cbFiltre.DisplayMemberPath = "Value";
-            cbFiltre.SelectedIndex = -1;
-
-            acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires();
-            isInitAutoCompBox = true;
-        }
-
-
         #region XAML events
 
         private void expandStagiaire_Collapsed(object sender, RoutedEventArgs e)
@@ -200,6 +189,18 @@ namespace ApplicationENI
 
         #endregion
 
+        #region Bandeau Stagiaire
+
+        private void InitBandeStagiaire()
+        {
+            cbFiltre.SelectedValuePath="Key";
+            cbFiltre.DisplayMemberPath = "Value";
+            cbFiltre.SelectedIndex = -1;
+
+            acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires();
+            isInitAutoCompBox = true;
+        }
+
         private void acbNomPrenom_GotFocus(object sender, RoutedEventArgs e)
         {
             if (isInitAutoCompBox)
@@ -266,5 +267,23 @@ namespace ApplicationENI
                 acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires(filtre);
             }
         }
+
+        private void btAnnuler_Click(object sender, RoutedEventArgs e)
+        {
+            acbNomPrenom.Text = string.Empty;
+            acbNomPrenom.ItemsSource = null;
+            acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires();
+            rbFormation.IsChecked = false;
+            rbPromotion.IsChecked = false;
+            cbFiltre.ItemsSource = null;
+            cbFiltre.Items.Clear();
+            cbFiltre.IsEnabled = false;
+
+            Parametres.Instance.stagiaire = null;
+            tvPersonParam.IsEnabled = false;
+            tvPersonParam.IsExpanded = false;
+        }
+
+        #endregion
     }
 }
