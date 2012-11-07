@@ -93,8 +93,8 @@ namespace ApplicationENI.DAL
                 s._historique = reader.GetSqlString(22).IsNull ? string.Empty : reader.GetString(22);
                 s.listeAbsences = AbsencesDAL.getListeAbsences(s);
                 s.listeObservations = ObservationsDAL.getListObservations(s);
-
-
+                if (s.listeAlertes == null) { s.listeAlertes = new List<ItemAlerte>(); }
+                s._tuteur = ContactDAL.rechercherContact(s._id);
                 listeStagiaires.Add(s);
             }
             return listeStagiaires;

@@ -25,7 +25,7 @@ namespace ApplicationENI.Vue
         public HistoriqueAbsencesRetards()
         {
             InitializeComponent();
-            dataGridListeAbsences.ItemsSource = ctrl.getListAbsences();
+            dataGridListeAbsences.ItemsSource = ctrl.getListAbsences(Parametres.Instance.stagiaire);
             dataGridListeAbsences.IsReadOnly = true;
             gbListeAbsenceRetards.Header = this.dataGridListeAbsences.Items.Count + " Absence(s)/Retard(s) répertorié(s)";
             int compteurAbsences = 0;

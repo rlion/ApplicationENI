@@ -35,7 +35,7 @@ namespace ApplicationENI.DAL
                     absTemp._id = reader.GetInt32(reader.GetOrdinal("id_absence"));
 
                     if (!reader.GetSqlDateTime(3).IsNull) { absTemp._dateDebut = reader.GetDateTime(3); }
-                    if (!reader.GetSqlDateTime(4).IsNull) { absTemp._dateFin = reader.GetDateTime(4); }
+                    if (!reader.GetSqlDateTime(4).IsNull) { absTemp._dateFin = reader.GetDateTime(4); } else { absTemp._dateFin = DateTime.Now; }
                     absTemp._raison = reader.GetSqlString(1).IsNull ? String.Empty : reader.GetString(1);
                     absTemp._commentaire = reader.GetSqlString(2).IsNull ? String.Empty : reader.GetString(2);
                     if (!reader.GetSqlBoolean(5).IsNull) { absTemp._valide = reader.GetBoolean(5); }

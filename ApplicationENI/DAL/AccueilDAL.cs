@@ -10,9 +10,9 @@ namespace ApplicationENI.DAL
     {
         public static List<Stagiaire> GetListeStagiaires()
         {
-           return DAL.JeuDonnees.GetListeStagiaire();
+           //return DAL.JeuDonnees.GetListeStagiaire();
             // Je désactive le jeu de données pour le moment parce que ça met le souillis par la suite.
-            //return DAL.StagiairesDAL.getListeStagiaire();
+            return DAL.StagiairesDAL.getListeStagiaire();
         }
     }
 }

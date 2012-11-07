@@ -26,6 +26,7 @@ namespace ApplicationENI.Vue
             InitializeComponent();
             CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
             Stagiaire stg = Parametres.Instance.stagiaire;
+            BitmapImage img;
 
             //Informations sur le stagiaire
             txtNom.Text = stg._nom;
@@ -38,12 +39,13 @@ namespace ApplicationENI.Vue
             txtDateNaiss.Text = stg._dateNaissance.ToString();
             try
             {
-                BitmapImage img = new BitmapImage(new Uri(stg._photo));
+                img = new BitmapImage(new Uri(stg._photo));
                 imageStagiaire.Source = img;
             }
             catch (Exception)
             {
-                MessageBox.Show("Image non récupérée", "Pas d'image pour ce stagiaire", MessageBoxButton.OK, MessageBoxImage.Warning);
+                img = new BitmapImage(new Uri("pack://application:,,,/ApplicationENI;component/Images/portrait-vide.jpg"));
+                imageStagiaire.Source = img;
             }
             
 

@@ -207,8 +207,7 @@ namespace ApplicationENI
 
         private void btRechercher_Click(object sender, RoutedEventArgs e) 
         {
-            Contact tuteur = new Contact(1,"Jones", "Indiana", "0202020202", "0602020202", "0202020202", "indianajones@gmail.com", "il est sympa", "", "Melle","UAC");
-
+            
             if(acbNomPrenom.SelectedItem != null)
             {
                 Parametres.Instance.stagiaire = (Stagiaire)acbNomPrenom.SelectedItem;

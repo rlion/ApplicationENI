@@ -45,8 +45,8 @@ namespace ApplicationENI.Controleur {
             return date;
         }
 
-        public List<Absence> getListAbsences() {
-            return Parametres.Instance.stagiaire.listeAbsences;
+        public List<Absence> getListAbsences(Stagiaire pStg) {
+            return pStg.refreshListeAbsences();
         }
 
         public void supprimerAbsence(Absence a) {

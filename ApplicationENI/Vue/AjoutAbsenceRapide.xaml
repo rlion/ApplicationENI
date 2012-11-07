@@ -12,7 +12,7 @@
                                              Name="acbNomPrenom" VerticalAlignment="Top" Width="173" Text="Nom &amp; prénom du stagiaire" GotFocus="acbNomPrenom_GotFocus" FilterMode="Contains" KeyUp="acbNomPrenom_KeyUp" />
 
         </GroupBox>
-        <Button Content="Soumettre absence temporaire" Height="23" HorizontalAlignment="Left" Margin="201,29,0,0" Name="btValiderAbsenceTemporaire" VerticalAlignment="Top" Width="175" ClickMode="Release" Click="btValiderAbsenceTemporaire_Click" />
-        <Label Content="" Height="23" HorizontalAlignment="Left" Margin="384,29,0,0" Name="labelResult" VerticalAlignment="Top" Width="177" />
+        <Button Content="Soumettre absence temporaire" Height="23" HorizontalAlignment="Left" Margin="201,25,0,0" Name="btValiderAbsenceTemporaire" VerticalAlignment="Top" Width="175" ClickMode="Release" Click="btValiderAbsenceTemporaire_Click" />
+        <Label Content="" Height="23" HorizontalAlignment="Left" Margin="384,25,0,0" Name="labelResult" VerticalAlignment="Top" Width="177" />
     </Grid>
 </UserControl>

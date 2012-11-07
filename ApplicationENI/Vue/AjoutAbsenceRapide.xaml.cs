@@ -26,7 +26,9 @@ namespace ApplicationENI.Vue
         public AjoutAbsenceRapide()
         {
             InitializeComponent();
-            acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires();
+            if (!isInitAutoCompBox) { 
+                acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires();
+            }
             isInitAutoCompBox = true;
         }
 

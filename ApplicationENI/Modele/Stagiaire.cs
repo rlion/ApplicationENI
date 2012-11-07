@@ -105,6 +105,13 @@ namespace ApplicationENI.Modele
             return DAL.AlerteDAL.nombreRetards(this);
         }
 
+        public List<Absence> refreshListeAbsences() {
+            this.listeAbsences = null;
+            this.listeAbsences = new List<Absence>();
+            return DAL.AbsencesDAL.getListeAbsences(this);
+        }
+
+
         public List<ECF> listeECFNonCorriges() {
             //TODO: Attente Mathias
             //return DAL.ECFDAL.getListeEcfNonCorriges(Stagiaire stg);
