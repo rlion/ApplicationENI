@@ -42,6 +42,7 @@ namespace ApplicationENI.Vue
         }
         private void acbNomPrenom_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            labelResult.Content = "";
             if (e.Key == System.Windows.Input.Key.Enter) {
                 Controleur.AjouterAbsenceTemporaire(((Stagiaire)acbNomPrenom.SelectedItem));
                 labelResult.Content = "absence ajoutée";
