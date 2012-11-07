@@ -52,8 +52,19 @@ namespace ApplicationENI.Vue
 
         public bool authentificationOk(String login, String password)
         {
-            DirectoryEntry Ldap = new DirectoryEntry("LDAP://STAGIAIRE.local", login, password, AuthenticationTypes.Secure);
-            Guid guid = Ldap.Guid;
+            Guid guid;
+            try
+            {
+                //TODO : pour les tests, on utilise le domaine STAGIAIRES, mais les utilisteurs de l'appli utiliseront un autre domaine.
+                DirectoryEntry Ldap = new DirectoryEntry("LDAP://STAGIAIRES.local", login, password, AuthenticationTypes.Secure);
+                guid = Ldap.Guid;
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+            
             if (guid == null) return false;
             return true;
         }
