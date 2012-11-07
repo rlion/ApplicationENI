@@ -51,6 +51,10 @@ namespace ApplicationENI
 
         private void InitBandeStagiaire()
         {
+            cbFiltre.SelectedValuePath="Key";
+            cbFiltre.DisplayMemberPath = "Value";
+            cbFiltre.SelectedIndex = -1;
+
             acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires();
             isInitAutoCompBox = true;
         }
@@ -65,7 +69,7 @@ namespace ApplicationENI
 
         private void expandStagiaire_Expanded(object sender, RoutedEventArgs e)
         {
-            this.expandStagiaire.Height = 100;
+            this.expandStagiaire.Height = 94;
         }
 
         private void expandMenu_Expanded(object sender, RoutedEventArgs e)
@@ -215,6 +219,52 @@ namespace ApplicationENI
                 tvPersonParam.IsExpanded = true;
             }
             else MessageBox.Show("Veuillez choisir un stagiaire!");
+        }
+
+        private void rbFormation_Checked(object sender, RoutedEventArgs e)
+        {
+            labFiltre.Content = "Formation :";
+            string filtre = ", Formation f, PlanningIndividuelFormation p where s.CodeStagiaire=p.CodeStagiaire "+
+                "and p.CodeFormation=f.CodeFormation";
+
+            acbNomPrenom.ItemsSource = null;
+            acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires(filtre);
+            cbFiltre.ItemsSource = Controleur.GetListeFormations();
+            cbFiltre.IsEnabled = true;
+        }
+
+        private void rbPromotion_Checked(object sender, RoutedEventArgs e)
+        {
+            labFiltre.Content = "Promotion :";
+            string filtre = ", Promotion f, PlanningIndividuelFormation p where s.CodeStagiaire=p.CodeStagiaire " +
+    "and p.CodePromotion=f.CodePromotion";
+
+            acbNomPrenom.ItemsSource = null;
+            acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires(filtre);
+            cbFiltre.ItemsSource = Controleur.GetListePromotions();
+            cbFiltre.IsEnabled = true;
+        }
+
+        private void cbFiltre_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if(this.IsInitialized && cbFiltre.IsEnabled && cbFiltre.SelectedIndex != -1)
+            {
+                string filtre;
+
+                if(rbFormation.IsChecked.HasValue && rbFormation.IsChecked.Value)
+                {
+                    filtre = ", Formation f, PlanningIndividuelFormation p where s.CodeStagiaire=p.CodeStagiaire and " +
+                        "p.CodeFormation=f.CodeFormation and f.CodeFormation='"+(string)cbFiltre.SelectedValue+"'";
+                }
+                else
+                {
+                    filtre = ", Promotion f, PlanningIndividuelFormation p where s.CodeStagiaire=p.CodeStagiaire and " +
+    "p.CodePromotion=f.CodePromotion and f.CodePromotion='" + (string)cbFiltre.SelectedValue + "'";
+                }
+
+                acbNomPrenom.ItemsSource = null;
+                acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires(filtre);
+            }
         }
     }
 }

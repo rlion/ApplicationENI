@@ -9,7 +9,7 @@ namespace ApplicationENI.DAL
 {
     public class TitresDAL
     {
-        //THIS IS IT boubou!
+
         public static List<Titre> GetListeTitres()
         {
             List<Titre> listTitres = new List<Titre>();
@@ -48,7 +48,6 @@ namespace ApplicationENI.DAL
             return listTitres;
         }
 
-        //THIS IS IT boubou!
         public static List<Salle> GetListeSalles() 
         {
             List<Salle> listeSalles = new List<Salle>();
@@ -95,7 +94,6 @@ namespace ApplicationENI.DAL
             return let;
         }
 
-        //THIS IS IT boubou!
         private static List<Jury> GetListeJuryParEpreuve(DateTime datePassage, string CodeSalle, string CodeTitre)
         {
             string req = "select idJury, civilite, nom, prenom from JURY where idJury in " +
@@ -154,7 +152,6 @@ namespace ApplicationENI.DAL
             return i ?? -1;
         }
 
-        //THIS IS IT boubou!
         public static int AjouterTitre(Titre titre)
         {
             try 
@@ -215,7 +212,6 @@ namespace ApplicationENI.DAL
             }
         }
 
-        //THIS IS IT boubou!
         public static int SupprimerTitre(string codeTitre)
         {
             // Supprimer le titre en catchant si la suppression est impossible
