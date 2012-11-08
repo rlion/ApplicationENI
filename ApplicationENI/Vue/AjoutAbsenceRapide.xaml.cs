@@ -45,7 +45,7 @@ namespace ApplicationENI.Vue
             labelResult.Content = "";
             if (e.Key == System.Windows.Input.Key.Enter) {
                 Controleur.AjouterAbsenceTemporaire(((Stagiaire)acbNomPrenom.SelectedItem));
-                labelResult.Content = "absence ajoutée";
+                labelResult.Content = "Retard ajouté";
             }
         }
 
@@ -54,7 +54,7 @@ namespace ApplicationENI.Vue
             if ((Stagiaire)acbNomPrenom.SelectedItem != null)
             {
                 Controleur.AjouterAbsenceTemporaire((Stagiaire)acbNomPrenom.SelectedItem);
-                labelResult.Content = "absence ajoutée";
+                labelResult.Content = "Retard ajouté";
             }
         }
     }

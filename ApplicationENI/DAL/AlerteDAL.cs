@@ -15,7 +15,7 @@ namespace ApplicationENI.DAL
 
         static String ABSENCES_COUNT = "select COUNT(*) nb from ABSENCE where id_stagiaire=@num_stagiaire and isAbsence=1";
         static String RETARDS_COUNT = "select COUNT(*) nb from ABSENCE where id_stagiaire=@num_stagiaire and isAbsence=0";
-
+        static String ABSENCES_TEMPORAIRES_COUNT = "select COUNT(*) nb from ABSENCE where id_stagiaire=@num_stagiaire and raison is null";
 
         static String SELECT_ALERTES_PAR_STAGIAIRE = "SELECT * FROM EVENEMENT";
         //static String GET_NUM_ALERTE = "SELECT MAX(CodeEvenement) NbAlertes FROM EVENEMENT";
@@ -86,8 +86,9 @@ namespace ApplicationENI.DAL
             cmd.Parameters.AddWithValue("@num_stagiaire", pStg._id);
             SqlDataReader reader = cmd.ExecuteReader();
             reader.Read();
-            return reader.GetInt32(reader.GetOrdinal("nb"));
-            }
+            int test = reader.GetInt32(reader.GetOrdinal("nb"));
+            return test;    
+        }
         public static int nombreRetards(Stagiaire pStg)
         {
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
@@ -95,7 +96,19 @@ namespace ApplicationENI.DAL
             cmd.Parameters.AddWithValue("@num_stagiaire", pStg._id);
             SqlDataReader reader = cmd.ExecuteReader();
             reader.Read();
-            return reader.GetInt32(reader.GetOrdinal("nb"));
+            int test = reader.GetInt32(reader.GetOrdinal("nb"));
+             return test;
+        }
+
+        public static int nombreAbsencesTemporaires(Stagiaire pStg)
+        {
+            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            SqlCommand cmd = new SqlCommand(ABSENCES_TEMPORAIRES_COUNT, connexion);
+            cmd.Parameters.AddWithValue("@num_stagiaire", pStg._id);
+            SqlDataReader reader = cmd.ExecuteReader();
+            reader.Read();
+            int test = reader.GetInt32(reader.GetOrdinal("nb"));
+            return test;
         }
     }
 

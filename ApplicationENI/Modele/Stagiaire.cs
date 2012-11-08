@@ -36,7 +36,7 @@ namespace ApplicationENI.Modele
         public List<Observation> listeObservations { get; set; }
 		public List<Absence> listeAbsences { get; set; }
         public List<ItemAlerte> listeAlertes { get; set; }
-
+        // TODO: revoir le chargement des listes lors de la création du stagiaire qui est conceptuellement étrange.
         
         public Stagiaire(int pId, String pCivilité, String pNom, String pPrenom, String pAdresse1, String pAdresse2, String pAdresse3,
             String pCp, String pVille, String pTelephonePortable, String pTelephoneFixe, String pEmail, DateTime pDateNaissance,
@@ -103,6 +103,11 @@ namespace ApplicationENI.Modele
         public int nombreRetards()
         {
             return DAL.AlerteDAL.nombreRetards(this);
+        }
+
+        public int nombreAbsencesTemporaires()
+        {
+            return DAL.AlerteDAL.nombreAbsencesTemporaires(this);
         }
 
         public List<Absence> refreshListeAbsences() {

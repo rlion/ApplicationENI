@@ -14,7 +14,7 @@ namespace ApplicationENI.DAL
             "SELECT @raison, @commentaire, @dateDebut, @dateFin, @justifiee, @isAbsence, @num_stagiaire " +
             "WHERE NOT EXISTS (SELECT 0 FROM ABSENCE WHERE RAISON=@raison AND COMMENTAIRE=@commentaire AND DATEDEBUT=@dateDebut AND DATEFIN=@dateFin "+
             "AND JUSTIFIEE=@justifiee AND ISABSENCE=@isAbsence AND ID_STAGIAIRE=@num_stagiaire)";
-        static String INSERT_ABSENCE_TEMPORAIRE = "INSERT INTO ABSENCE (DATEDEBUT, ID_STAGIAIRE) VALUES(@dateDebut, @num_stagiaire)";
+        static String INSERT_ABSENCE_TEMPORAIRE = "INSERT INTO ABSENCE (DATEDEBUT, ID_STAGIAIRE, ISABSENCE) VALUES(@dateDebut, @num_stagiaire, 0)";
         static String DELETE_ABSENCES = "DELETE FROM ABSENCE WHERE ID_ABSENCE=@id_absence";
         static String UPDATE_ABSENCES = "UPDATE ABSENCE SET DATEDEBUT=@dateDebut, DATEFIN=@dateFin, COMMENTAIRE=@commentaire, RAISON=@raison, JUSTIFIEE=@justifiee WHERE ID_ABSENCE=@id_absence";
         static String GET_NUM_ABSENCE = "SELECT @@IDENTITY AS IDENT";

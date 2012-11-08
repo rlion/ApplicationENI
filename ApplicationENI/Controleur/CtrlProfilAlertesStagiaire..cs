@@ -14,8 +14,11 @@ namespace ApplicationENI.Controleur
                 Parametres.Instance.stagiaire.listeAlertes.RemoveRange(0, Parametres.Instance.stagiaire.listeAlertes.Count);
             }
 
+
             GererItemAlerteAbsenceRetard("Absence", Parametres.Instance.stagiaire.nombreAbsences());
             GererItemAlerteAbsenceRetard("Retard", Parametres.Instance.stagiaire.nombreRetards());
+            GererItemAlerteAbsenceRetard("Absences à renseigner", Parametres.Instance.stagiaire.nombreAbsencesTemporaires());
+
             //GererItemAlerte("ECF", DAL.AlerteDAL.nombreRetards(Parametres.Instance.stagiaire));
             //TODO: attente du code de Mathias vérifiant les ECFS non corrigés pour un stagiaire
             /*if (Parametres.Instance.stagiaire.listeECFNonCorriges()!=null) {
