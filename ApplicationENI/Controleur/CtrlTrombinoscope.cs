@@ -7,14 +7,22 @@ using ApplicationENI.Modele;
 namespace ApplicationENI.Controleur {
     class CtrlTrombinoscope     
     {
-        public List<Stagiaire> listeStagiaires(String pNomPromo)
+        public List<Stagiaire> listeStagiaires(String filtre = null)
         {
-            return DAL.PromotionDAL.listeStagiaires(pNomPromo);
+            List<Stagiaire> liste = new List<Stagiaire>();
+            liste = DAL.AccueilDAL.GetListeStagiaires(filtre);
+
+            return liste;
         }
 
-        public List<Formation> listeFormation()
+        public Dictionary<String, String> GetListeFormations()
         {
-            return new Formations().listeFormations;
+            return DAL.AccueilDAL.GetListeFormations();
+        }
+
+        public Dictionary<String, String> GetListePromotions()
+        {
+            return DAL.AccueilDAL.GetListePromotions();
         }
 
         public List<Cours> listeCours(Formation pF)

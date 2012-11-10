@@ -22,38 +22,30 @@ namespace ApplicationENI.Vue
     /// </summary>
     public partial class Trombinoscope : UserControl
     {
+        private static String filtre = "";
+        CtrlTrombinoscope ctrlStagiaire = new CtrlTrombinoscope();
+        
         public Trombinoscope()
         {
+            
             InitializeComponent();
+            cbFiltre.SelectedValuePath = "Key";
+            cbFiltre.DisplayMemberPath = "Value";
+            cbFiltre.SelectedIndex = -1;
             groupBox2.Visibility = Visibility.Hidden;
             groupBox3.Visibility = Visibility.Hidden;
-
-
-            CtrlTrombinoscope ctrlStagiaire = new CtrlTrombinoscope();
-            List<Promotion> lesPromos = ctrlStagiaire.listePromotion();
-
-            foreach (Promotion p in lesPromos)
-            {
-                cboFormation.Items.Add(p);
-            }
+            btnAfficherTrombi.IsEnabled = false;
         }
 
-        private void cboFormation_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            groupBox2.Visibility = Visibility.Hidden;
-            groupBox3.Visibility = Visibility.Hidden;
-        }
+      
 
         private void btnAfficherTrombi_Click(object sender, RoutedEventArgs e)
         {
-            if (groupBox2.Visibility == Visibility.Hidden)
-            {
-                if (cboFormation.SelectedItem != null)
+            if (cbFiltre.SelectedItem != null)
                 {
                     CtrlTrombinoscope ctrlTrombi = new CtrlTrombinoscope();
-
                     
-                    List<Stagiaire> listStagiaire = ctrlTrombi.listeStagiaires(cboFormation.Text);
+                    List<Stagiaire> listStagiaire = ctrlTrombi.listeStagiaires(filtre);
                     if (listStagiaire.Count == 0)
                     {
                         Label lab = new Label();
@@ -62,18 +54,29 @@ namespace ApplicationENI.Vue
                         lab.Content = "Pas de stagiaires disponibles pour cette promotion.";
                         Grid g = new Grid();
                         g.Children.Add(lab);
-                        groupBox3.Visibility = Visibility.Visible;
-                        groupBox3.Header = "Résultat";
-                        groupBox3.Content = g;
+                        groupBox2.Visibility = Visibility.Hidden;
+                        groupBox3.Visibility = Visibility.Hidden;
+                        groupBox4.Visibility = Visibility.Visible;
+                        groupBox4.Content = g;
+                        
                     }
                     else { 
                         groupBox2.Visibility = Visibility.Visible;
+                        groupBox4.Visibility = Visibility.Hidden;
                         groupBox3.Visibility = Visibility.Visible;
                         Grid tableauImages = new Grid();
                         int i = 0;
                         int j = 0;
                         int photo = 1;
                         RowDefinition testRow, testRowNomStagiaire;
+                        if (gridTrombi.RowDefinitions.Count > 0)
+                        {
+                            gridTrombi.RowDefinitions.RemoveRange(0, gridTrombi.RowDefinitions.Count);
+                        }
+                        if (gridTrombi.ColumnDefinitions.Count > 0)
+                        {
+                            gridTrombi.ColumnDefinitions.RemoveRange(0, gridTrombi.ColumnDefinitions.Count);
+                        }
                         foreach (Stagiaire s in listStagiaire)
                         {
                             if (i - 4 == 0)
@@ -141,9 +144,9 @@ namespace ApplicationENI.Vue
                     
                 }
                 else {
-                    MessageBox.Show("Veuillez sélectionner au préalable une formation ET un cours.", "Veuillez renseigner les paramètres", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Veuillez au préalable sélectionner un ou plusieurs critère(s).", "Critère(s) manquant(s)", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            }
+            
         
         }
 
@@ -154,9 +157,9 @@ namespace ApplicationENI.Vue
 
             if (pD.ShowDialog() == true)
             {
-                if (cboFormation.SelectedItem != null)
+                if (cbFiltre.SelectedItem != null)
                 {
-                    nom = cboFormation.Text;
+                    nom = cbFiltre.Text;
                 }
                 pD.PrintVisual(gridTrombi, "Trombinoscope - " + nom);
             }
@@ -189,10 +192,44 @@ namespace ApplicationENI.Vue
             client.Send(msg);*/
         }
 
-        private void cboCours_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private void rbFormation_Checked(object sender, RoutedEventArgs e)
         {
-            groupBox2.Visibility = Visibility.Hidden;
-            groupBox3.Visibility = Visibility.Hidden;
+            labFiltre.Content = "Formation :";
+            filtre = ", Formation f, PlanningIndividuelFormation p where s.CodeStagiaire=p.CodeStagiaire " +
+                "and p.CodeFormation=f.CodeFormation";
+
+            cbFiltre.ItemsSource = ctrlStagiaire.GetListeFormations();
+            cbFiltre.IsEnabled = true;
+        }
+
+        private void rbPromotion_Checked(object sender, RoutedEventArgs e)
+        {
+            labFiltre.Content = "Promotion :";
+            filtre = ", Promotion f, PlanningIndividuelFormation p where s.CodeStagiaire=p.CodeStagiaire " +
+    "and p.CodePromotion=f.CodePromotion";
+
+            cbFiltre.ItemsSource = ctrlStagiaire.GetListePromotions();
+            cbFiltre.IsEnabled = true;
+        }
+
+        private void cbFiltre_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.IsInitialized && cbFiltre.IsEnabled && cbFiltre.SelectedIndex != -1)
+            {
+                btnAfficherTrombi.IsEnabled = true;
+                if (rbFormation.IsChecked.HasValue && rbFormation.IsChecked.Value)
+                {
+                    filtre = ", Formation f, PlanningIndividuelFormation p where s.CodeStagiaire=p.CodeStagiaire and " +
+                        "p.CodeFormation=f.CodeFormation and f.CodeFormation='" + (String)cbFiltre.SelectedValue + "'";
+                }
+                else
+                {
+                    filtre = ", Promotion f, PlanningIndividuelFormation p where s.CodeStagiaire=p.CodeStagiaire and " +
+    "p.CodePromotion=f.CodePromotion and f.CodePromotion='" + (String)cbFiltre.SelectedValue + "'";
+                }
+
+            }
         }
     }
 }

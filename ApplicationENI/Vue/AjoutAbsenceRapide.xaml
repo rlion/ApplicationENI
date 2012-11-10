@@ -14,6 +14,6 @@
         </GroupBox>
         <Button Content="Soumettre absence temporaire" Height="23" HorizontalAlignment="Left" Margin="201,25,0,0" Name="btValiderAbsenceTemporaire" VerticalAlignment="Top" Width="175" ClickMode="Release" Click="btValiderAbsenceTemporaire_Click" />
         <Label Content="" Height="23" HorizontalAlignment="Left" Margin="384,25,0,0" Name="labelResult" VerticalAlignment="Top" Width="177" />
-        <Label Content="Après avoir saisi une absence temporaire, vous devrez y ajouter des détails dans la rubrique Historique." Height="26" HorizontalAlignment="Left" Margin="22,54,0,0" Name="label1" VerticalAlignment="Top" Width="539" />
+        <Label Content="Après avoir saisi une absence temporaire, vous devrez la détailler la rubrique Historique." Height="26" HorizontalAlignment="Left" Margin="22,54,0,0" Name="label1" VerticalAlignment="Top" Width="539" />
     </Grid>
 </UserControl>
