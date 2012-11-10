@@ -19,6 +19,7 @@ namespace ApplicationENI.DAL
         public static List<Observation> getListObservations(Stagiaire pStg) {
             try
             {
+                List<Observation> listeDesObservations = new List<Observation>();
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd = new SqlCommand(SELECT_INFOS_OBSERVATIONS, connexion);
                 cmd.Parameters.AddWithValue("@num_stagiaire", pStg._id);
@@ -35,12 +36,9 @@ namespace ApplicationENI.DAL
                     obsTemp._titre = reader.GetSqlString(4).IsNull ? string.Empty : reader.GetString(4);
                     obsTemp._texte = reader.GetSqlString(5).IsNull ? string.Empty : reader.GetString(5);
                     obsTemp._stagiaire = pStg;
-                    if (pStg.listeObservations == null) {
-                        pStg.listeObservations = new List<Observation>();
-                    }
-                    pStg.listeObservations.Add(obsTemp);
+                    listeDesObservations.Add(obsTemp);
                 }
-                return pStg.listeObservations;
+                return listeDesObservations;
             }
             catch (Exception e)
             {
@@ -67,7 +65,6 @@ namespace ApplicationENI.DAL
             int idDernierObservation = Convert.ToInt32(cmd2.ExecuteScalar());
             o._id = Convert.ToInt32(idDernierObservation);
             connexion.Close();
-            Parametres.Instance.stagiaire.listeObservations.Add(o);
         }
 
         public static void modifierObservation(Observation o)

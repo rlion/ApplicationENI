@@ -32,10 +32,6 @@ namespace ApplicationENI.Modele
         public bool _envoiDocEnCours { get; set; }
         public String _historique { get; set; }
         public Contact _tuteur { get; set; }
-        //public List<Evaluation> _resultats;
-        public List<Observation> listeObservations { get; set; }
-		public List<Absence> listeAbsences { get; set; }
-        public List<ItemAlerte> listeAlertes { get; set; }
         // TODO: revoir le chargement des listes lors de la création du stagiaire qui est conceptuellement étrange.
         
         public Stagiaire(int pId, String pCivilité, String pNom, String pPrenom, String pAdresse1, String pAdresse2, String pAdresse3,
@@ -67,11 +63,6 @@ namespace ApplicationENI.Modele
             this._telephonePortable = pTelephonePortable;
             this._ville = pVille;
             this._tuteur = DAL.ContactDAL.rechercherContact(pId);
-            this.listeObservations = new List<Observation>();
-            this.listeObservations = DAL.ObservationsDAL.getListObservations(this);
-            this.listeAbsences = new List<Absence>();
-            this.listeAbsences = DAL.AbsencesDAL.getListeAbsences(this);
-            this.listeAlertes = new List<ItemAlerte>();
         }
 
         public Stagiaire ()
@@ -96,26 +87,6 @@ namespace ApplicationENI.Modele
             DAL.StagiairesDAL.supprimerStagiaire(this);
         }
 
-        public int nombreAbsences() {
-            return DAL.AlerteDAL.nombreAbsences(this);
-        }
-
-        public int nombreRetards()
-        {
-            return DAL.AlerteDAL.nombreRetards(this);
-        }
-
-        public int nombreAbsencesTemporaires()
-        {
-            return DAL.AlerteDAL.nombreAbsencesTemporaires(this);
-        }
-
-        public List<Absence> refreshListeAbsences() {
-            this.listeAbsences = null;
-            this.listeAbsences = new List<Absence>();
-            return DAL.AbsencesDAL.getListeAbsences(this);
-        }
-
 
         public List<ECF> listeECFNonCorriges() {
             //TODO: Attente Mathias
@@ -125,6 +96,14 @@ namespace ApplicationENI.Modele
             return null;
         }
 
+        public List<Observation> getListeObservations() {
+            return DAL.ObservationsDAL.getListObservations(this);
+        }
+
+        public List<Absence> getListeAbsences() {
+            return DAL.AbsencesDAL.getListeAbsences(this);
+        }
+        
         public override string ToString()
         {
             return this._nom + " " + this._prenom;

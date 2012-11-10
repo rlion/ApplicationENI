@@ -25,6 +25,7 @@ namespace ApplicationENI.DAL
 			SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_INFOS_ABSENCES, connexion);
             cmd.Parameters.AddWithValue("@num_stagiaire", pS._id);
+            List<Absence> listeAbsences = new List<Absence>();
             try
             {
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -42,11 +43,7 @@ namespace ApplicationENI.DAL
                     if (!reader.GetSqlBoolean(6).IsNull) { absTemp._isAbsence = reader.GetBoolean(6); }
                     try{absTemp._duree = absTemp._dateFin - absTemp._dateDebut;}catch (Exception){absTemp._duree = new TimeSpan(0);}
                     absTemp._stagiaire = pS;
-                    if (pS.listeAbsences == null)
-                    {
-                        pS.listeAbsences = new List<Absence>();                    
-                    }
-                    pS.listeAbsences.Add(absTemp);
+                    listeAbsences.Add(absTemp);
                 }
             }
             catch (Exception e)
@@ -56,7 +53,7 @@ namespace ApplicationENI.DAL
                 return null;
             }
             
-            return pS.listeAbsences;
+            return listeAbsences;
         }
 
         public static void supprimerAbsence(Absence pA) 
@@ -67,7 +64,6 @@ namespace ApplicationENI.DAL
 
             cmd.ExecuteReader();
             connexion.Close();
-            Parametres.Instance.stagiaire.listeAbsences.Remove(pA);
 		   
         }
         public static void modifierAbsence(Absence pA)
@@ -105,7 +101,6 @@ namespace ApplicationENI.DAL
                 SqlCommand cmd2 = new SqlCommand(GET_NUM_ABSENCE, connexion);
                 int idDernierAbsence = Convert.ToInt32(cmd2.ExecuteScalar());
                 pA._id = Convert.ToInt32(idDernierAbsence);
-                Parametres.Instance.stagiaire.listeAbsences.Add(pA);
                 connexion.Close();
             }
             catch (Exception)
@@ -131,9 +126,6 @@ namespace ApplicationENI.DAL
                 SqlCommand cmd2 = new SqlCommand(GET_NUM_ABSENCE, connexion);
                 int idDernierAbsence = Convert.ToInt32(cmd2.ExecuteScalar());
                 pA._id = Convert.ToInt32(idDernierAbsence);
-                if (pStagiaire.listeAbsences != null) {
-                    pStagiaire.listeAbsences.Add(pA); 
-                }
                 connexion.Close();
             /*}
             catch (Exception)

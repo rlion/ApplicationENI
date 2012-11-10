@@ -7,7 +7,7 @@ using ApplicationENI.Modele;
 namespace ApplicationENI.Controleur {
     class CtrlGestionObservations {
         public List<Observation> listeObservation(Stagiaire stg){
-            return stg.listeObservations;   
+            return stg.getListeObservations(); 
         }
 
         public void ajouterObservation(String pTypeObs, String pTitre, String pTexte, Stagiaire pStg) {
@@ -17,7 +17,6 @@ namespace ApplicationENI.Controleur {
 
         public void supprimerObservation(Observation pObs, int pIndex) {
             pObs.SupprimerObservation();
-            Parametres.Instance.stagiaire.listeObservations.RemoveAt(pIndex);
         }
 
         public void modifierOperation(Observation pObs, String pTypeObs, String pTitre, String pTexte)

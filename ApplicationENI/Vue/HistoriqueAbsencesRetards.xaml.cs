@@ -159,7 +159,8 @@ namespace ApplicationENI.Vue
                         texteAAfficher += compteurRetards + " retard.";
                     }
 
-                    gbListeAbsenceRetards.Header = texteAAfficher;
+                    this.gbListeAbsenceRetards.Header = texteAAfficher;
+                    this.dataGridListeAbsences.ItemsSource = ctrl.getListAbsences(Parametres.Instance.stagiaire);
                     this.dataGridListeAbsences.Items.Refresh();
                     this.gbDetailAbsenceRetard.Visibility = Visibility.Hidden;
                 }
@@ -185,6 +186,7 @@ namespace ApplicationENI.Vue
                 retard = radioButtonRetard.IsChecked.Value;
 
                 ctrl.modifierAbsence((Absence)dataGridListeAbsences.SelectedItem, dateDebut, dateFin, heureDeb, minuteDeb, heureFin, minuteFin, raison, commentaire, valide, absence);
+                this.dataGridListeAbsences.ItemsSource = ctrl.getListAbsences(Parametres.Instance.stagiaire);
                 this.dataGridListeAbsences.Items.Refresh();
             }
         }

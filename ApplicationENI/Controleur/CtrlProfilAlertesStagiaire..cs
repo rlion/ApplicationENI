@@ -8,16 +8,16 @@ namespace ApplicationENI.Controleur
 {
     class CtrlProfilAlertesStagiaire
     {
+        static List<ItemAlerte> listeDesAlertes;
         public List<ItemAlerte> listeAlertes() {
+            listeDesAlertes = new List<ItemAlerte>();
+            
+            List<Absence> listeAbsences = Parametres.Instance.stagiaire.getListeAbsences();
 
-            if (Parametres.Instance.stagiaire.listeAlertes.Count > 0) {
-                Parametres.Instance.stagiaire.listeAlertes.RemoveRange(0, Parametres.Instance.stagiaire.listeAlertes.Count);
-            }
+            GererItemAlerteAbsenceRetard("Absence", listeAbsences.Count(x => x._isAbsence==true));
+            GererItemAlerteAbsenceRetard("Retard", listeAbsences.Count(x => x._isAbsence == false));
 
-
-            GererItemAlerteAbsenceRetard("Absence", Parametres.Instance.stagiaire.nombreAbsences());
-            GererItemAlerteAbsenceRetard("Retard", Parametres.Instance.stagiaire.nombreRetards());
-            GererItemAlerteAbsenceRetard("Absences à renseigner", Parametres.Instance.stagiaire.nombreAbsencesTemporaires());
+            GererItemAlarmesTemporairesNonCompletees(listeAbsences.Count(x => x._raison == ""));
 
             //GererItemAlerte("ECF", DAL.AlerteDAL.nombreRetards(Parametres.Instance.stagiaire));
             //TODO: attente du code de Mathias vérifiant les ECFS non corrigés pour un stagiaire
@@ -26,7 +26,7 @@ namespace ApplicationENI.Controleur
                     
             }*/
 
-            return Parametres.Instance.stagiaire.listeAlertes;
+            return listeDesAlertes;
         }
 
         public void GererItemAlerteAbsenceRetard(String type, int nb)
@@ -39,19 +39,24 @@ namespace ApplicationENI.Controleur
             switch (indice)
             {
                 case 1:
-                    Parametres.Instance.stagiaire.listeAlertes.Add(new ItemAlerte(0, nb + " " + type + " pour ce stagiaire", 0));
+                    listeDesAlertes.Add(new ItemAlerte(0, nb + " " + type + " pour ce stagiaire", 0));
                     break;
                 case 2:
-                    Parametres.Instance.stagiaire.listeAlertes.Add(new ItemAlerte(1, nb + " " + type + " pour ce stagiaire", 0));
+                    listeDesAlertes.Add(new ItemAlerte(1, nb + " " + type + " pour ce stagiaire", 0));
                     break;
                 case 3:
-                    Parametres.Instance.stagiaire.listeAlertes.Add(new ItemAlerte(2, nb + " " + type + " pour ce stagiaire", 0));
+                    listeDesAlertes.Add(new ItemAlerte(2, nb + " " + type + " pour ce stagiaire", 0));
                     break;
                 default:
                     break;
 
             }
         }
-
+        public void GererItemAlarmesTemporairesNonCompletees(int nb)
+        {
+            if (nb > 0){
+            listeDesAlertes.Add(new ItemAlerte(0, nb + " absence(s)/retard(s) à compléter pour ce stagiaire", 0));
+            }
+        }
     }
 }

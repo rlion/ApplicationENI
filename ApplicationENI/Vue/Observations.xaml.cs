@@ -96,6 +96,8 @@ namespace ApplicationENI.Vue
                         {
                             Observation obsSelectionne = (Observation)this.dataGridListAbsences.SelectedItem;
                             ctrl.modifierOperation(obsSelectionne, typeObs, titre, texte);
+
+                            dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
                         }            
                     }
                 
@@ -117,6 +119,7 @@ namespace ApplicationENI.Vue
                     {
                         ctrl.ajouterObservation(typeObs, titre, texte, stgEnCours);
                         dataGridListAbsences.SelectedItem = dataGridListAbsences.Items[dataGridListAbsences.Items.Count - 1];
+                        dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
                     }
                 }
                 
@@ -143,6 +146,8 @@ namespace ApplicationENI.Vue
                  comboBox1.Items.Add("Entreprise");
                  comboBox1.Text = "Pédagogique";
                  comboBox1.SelectedValue = "Pédagogique";
+                 dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
+                 dataGridListAbsences.Items.Refresh();
                 }
                 
             }
@@ -179,6 +184,7 @@ namespace ApplicationENI.Vue
                     comboBox1.Items.Add("Entreprise");
                     comboBox1.Text = "Pédagogique";
                     comboBox1.SelectedValue = "Pédagogique";
+                    dataGridListAbsences.Items.Refresh();
                 }
                 else {
                     MessageBox.Show("Il n'y a aucune saisie ou modification à annuler.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -189,7 +195,7 @@ namespace ApplicationENI.Vue
         private bool OperationExiste (String pTexte, String pTitre, String pType)
         { 
             bool retour = false;
-            foreach(Observation o in stgEnCours.listeObservations){
+            foreach(Observation o in stgEnCours.getListeObservations()){
                     if (o._texte == pTexte &&
                         o._titre == pTitre &&
                         o._type == pType &&

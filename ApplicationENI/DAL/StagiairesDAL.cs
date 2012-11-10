@@ -91,9 +91,6 @@ namespace ApplicationENI.DAL
                 s._photo = reader.GetSqlString(20).IsNull ? string.Empty : reader.GetString(20);
                 if (reader.GetBoolean(21)) { s._envoiDocEnCours = reader.GetBoolean(21); }
                 s._historique = reader.GetSqlString(22).IsNull ? string.Empty : reader.GetString(22);
-                s.listeAbsences = AbsencesDAL.getListeAbsences(s);
-                s.listeObservations = ObservationsDAL.getListObservations(s);
-                if (s.listeAlertes == null) { s.listeAlertes = new List<ItemAlerte>(); }
                 s._tuteur = ContactDAL.rechercherContact(s._id);
                 listeStagiaires.Add(s);
             }
