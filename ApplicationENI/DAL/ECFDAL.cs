@@ -19,14 +19,14 @@ namespace ApplicationENI.DAL
 
         static String INSERT_ECF= "INSERT INTO ECF (idECF, code, libelle) VALUES (@id, @code, @libelle)";
         static String INSERT_LIEN_COMPETENCE = "INSERT INTO COMPETENCESECF (idECF, idCompetence) VALUES (@idECF, @idCompetence)";
-        static String INSERT_LIEN_FORMATION = "INSERT INTO FORMATIONSECF (idECF, idFormation) VALUES (@idECF, @idFormation)";
+        static String INSERT_LIEN_FORMATION = "INSERT INTO FORMATIONSECF (idECF, idFormation) VALUES (@idECF, @codeFormation)";
         
         static String UPDATE_ECF = "UPDATE ECF SET libelle=@libelleECF,coefficient=@coefficient,typeNotation=@typeNotation,nbreVersions=@nbreVersions,commentaire=@commentaire WHERE idECF=@idECF";
         
         static String DELETE_LIENS_COMPETENCES = "DELETE FROM COMPETENCESECF WHERE idECF=@idECF";
         static String DELETE_LIEN_COMPETENCE = "DELETE FROM COMPETENCESECF WHERE idECF=@idECF AND idCompetence=@idCompetence";
         static String DELETE_LIENS_FORMATIONS = "DELETE FROM FORMATIONSECF WHERE idECF=@idECF";
-        static String DELETE_LIEN_FORMATION = "DELETE FROM FORMATIONSECF WHERE idECF=@idECF AND idFormation=@idFormation";
+        static String DELETE_LIEN_FORMATION = "DELETE FROM FORMATIONSECF WHERE idECF=@idECF AND idFormation=@codeFormation";
         static String DELETE_ECF = "DELETE FROM ECF WHERE idECF=@id";
 
         public static ECF getECF(ECF ecf)
@@ -83,7 +83,7 @@ namespace ApplicationENI.DAL
                 while (reader3.Read())
                 {
                     Formation formTemp = new Formation();
-                    formTemp.Id = reader3.GetGuid(reader3.GetOrdinal("CodeFormation"));
+                    formTemp.Code = reader3.GetString(reader3.GetOrdinal("CodeFormation"));
                     formTemp.Libelle = reader3.GetString(reader3.GetOrdinal("LibelleCourt")).Trim();
                     lesFormations.Add(formTemp);
                 }
@@ -149,7 +149,7 @@ namespace ApplicationENI.DAL
                 while (reader3.Read())
                 {
                     Formation formTemp = new Formation();
-                    formTemp.Id = reader3.GetGuid(reader3.GetOrdinal("CodeFormation"));
+                    formTemp.Code = reader3.GetString(reader3.GetOrdinal("CodeFormation"));
                     formTemp.Libelle = reader3.GetString(reader3.GetOrdinal("LibelleCourt")).Trim();
                     lesFormations.Add(formTemp);
                 }
@@ -261,7 +261,7 @@ namespace ApplicationENI.DAL
             SqlCommand cmd = new SqlCommand(INSERT_LIEN_FORMATION, connexion);
 
             cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());
-            cmd.Parameters.AddWithValue("@idFormation", form.Id);
+            cmd.Parameters.AddWithValue("@codeFormation", form.Code);
 
             cmd.ExecuteReader();
             connexion.Close();
@@ -284,7 +284,7 @@ namespace ApplicationENI.DAL
             SqlCommand cmd = new SqlCommand(DELETE_LIEN_FORMATION, connexion);
 
             cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());
-            cmd.Parameters.AddWithValue("@idFormation", form.Id);
+            cmd.Parameters.AddWithValue("@codeFormation", form.Code);
 
             cmd.ExecuteReader();
             connexion.Close();

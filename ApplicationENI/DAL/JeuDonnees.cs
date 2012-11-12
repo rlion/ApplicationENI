@@ -213,10 +213,10 @@ namespace ApplicationENI.DAL
         public static List<Formation> GetListeFormation()
         {
             List<Formation> lesFormations = new List<Formation>();
-            Formation form1 = new Formation("Architecte Logiciel");
-            Formation form2 = new Formation("Concepteur Développeur Informatique");
-            Formation form3 = new Formation("Développeur Logiciel");
-            Formation form4 = new Formation("Informaticien Micro");
+            Formation form1 = new Formation("AL","Architecte Logiciel");
+            Formation form2 = new Formation("CDI","Concepteur Développeur Informatique");
+            Formation form3 = new Formation("DL","Développeur Logiciel");
+            Formation form4 = new Formation("IM","Informaticien Micro");
             lesFormations.Add(form1);
             lesFormations.Add(form2);
             lesFormations.Add(form3);

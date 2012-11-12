@@ -20,7 +20,7 @@ namespace ApplicationENI.DAL
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                Formation f = new Formation(reader.GetString(reader.GetOrdinal("LibelleCourt")));
+                Formation f = new Formation(reader.GetString(reader.GetOrdinal("CodeFormation")),reader.GetString(reader.GetOrdinal("LibelleCourt")));
                 listeFormations.Add(f);
             }
             return listeFormations;
