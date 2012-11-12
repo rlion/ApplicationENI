@@ -196,6 +196,7 @@ namespace ApplicationENI.Modele
         {
             bool b = false;
             int i = 0;
+            int j = 0;
 
             if (this == null || obj == null)
             {
@@ -230,8 +231,8 @@ namespace ApplicationENI.Modele
             {
                 foreach (Formation form in ((ECF)obj).Formations)
                 {
-                    if (!form.Equals(this.Formations[i])) b = false;
-                    i++;
+                    if (!form.Equals(this.Formations[j])) b = false;
+                    j++;
                 }
             }
 

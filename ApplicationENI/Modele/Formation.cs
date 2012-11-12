@@ -7,13 +7,21 @@ namespace ApplicationENI.Modele
 {
     public class Formation
     {
-        private Guid _id;
+        /*Commenté par Mathias, je ne vois pas l'interet d un Guid si il y a déjà un champ codeFormation dans la BDD
+         * private Guid _id;
 
         public Guid Id
         {
             get { return _id; }
             set { _id = value; }
+        }*/
+        private String _code;
+        public String Code
+        {
+            get { return _code; }
+            set { _code = value; }
         }
+
         private String _libelle;
 
         public String Libelle
@@ -25,21 +33,24 @@ namespace ApplicationENI.Modele
 
         public Formation()
         {
-            _id=new Guid();
+            //_id=new Guid();
+            _code = "";
             _libelle = "";
             _epreuves = null;
         }
 
-        public Formation(String pLibelle)
+        public Formation(String pCode, String pLibelle)
         {
-            _id = new Guid();
+            //_id = new Guid();
+            _code = pCode;
             _libelle = pLibelle;
             _epreuves = null;
         }
 
-        public Formation(String pLibelle,List<ECF> pEpreuves)
+        public Formation(String pCode, String pLibelle, List<ECF> pEpreuves)
         {
-            _id = new Guid();
+            //_id = new Guid();
+            _code = pCode;
             _libelle = pLibelle;
             _epreuves = pEpreuves;
         }
@@ -57,6 +68,16 @@ namespace ApplicationENI.Modele
 
         public override String ToString() {
             return this._libelle;
+        }
+
+        public override bool Equals(object obj)
+        {
+            bool b = false;
+            if (this.Code == ((Formation)obj).Code && this.Libelle == ((Formation)obj).Libelle)
+            {
+                b = true;
+            }
+            return b;
         }
    }
 }
