@@ -43,6 +43,13 @@ namespace ApplicationENI.Controleur
         }
         #endregion
 
+        #region formation
+        public static List<Formation> getListFormations()
+        {
+            return FormationDAL.listeFormations();
+        }
+        #endregion
+
         #region lien ECF-competence
         public static void ajouterLienCompetence(ECF pECF, Competence pComp)
         {
