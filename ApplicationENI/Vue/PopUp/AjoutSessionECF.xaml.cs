@@ -65,5 +65,6 @@ namespace ApplicationENI.Vue.PopUp
             }
         }
         #endregion
+
     }
 }
