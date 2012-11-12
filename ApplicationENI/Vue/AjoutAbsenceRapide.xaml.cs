@@ -56,6 +56,9 @@ namespace ApplicationENI.Vue
                 Controleur.AjouterAbsenceTemporaire((Stagiaire)acbNomPrenom.SelectedItem);
                 labelResult.Content = "Retard ajouté";
             }
+            else {
+                MessageBox.Show("Veuillez sélectionner un stagiaire.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }

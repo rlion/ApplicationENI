@@ -51,13 +51,7 @@ namespace ApplicationENI.Vue
 
 
             //informations sur le tuteur du stagiaire
-            txtEntrepriseTuteur.Text = stg._tuteur._nomEntreprise;
-            txtMailTuteur.Text = stg._tuteur._email;
-            txtNomTuteur.Text = stg._tuteur._nom;
-            txtPortableTuteur.Text = stg._tuteur._telMobile;
-            txtPrénomTuteur.Text = stg._tuteur._prenom;
-            txtTelTuteur.Text = stg._tuteur._telFixe;
-
+            dataGridListContacts.ItemsSource = stg.getListeContacts();
             this.listViewAlerte.ItemsSource = ctrlStagiaires.listeAlertes();
             this.listViewAlerte.Items.Refresh();
         }
@@ -80,6 +74,11 @@ namespace ApplicationENI.Vue
         {
 
         }
+
+        
+
+
+        
 
     }
 }

@@ -40,21 +40,20 @@
                 <Image DataContext="{Binding}" Height="100" HorizontalAlignment="Left" Margin="116,6,0,0" Name="imageStagiaire" Source="/ApplicationENI;component/Images/portrait-vide.jpg" Stretch="Uniform" VerticalAlignment="Top" Width="120" ImageFailed="imageStagiaire_ImageFailed" />
             </Grid>
         </GroupBox>
-        <GroupBox Header="Informations tuteur" HorizontalAlignment="Left" Name="gbInfosTuteur" VerticalAlignment="Top" Width="586" Margin="6,184,0,0" Height="92">
+        <GroupBox Header="Contact(s) en entreprise" HorizontalAlignment="Left" Name="gbInfosTuteur" VerticalAlignment="Top" Width="586" Margin="6,184,0,0" MaxHeight="88">
             <Grid>
-            <Label Content="Nom : " Height="28" HorizontalAlignment="Right" Margin="0,6,461,0" Name="label10" VerticalAlignment="Top" />
-                <TextBox Height="19" HorizontalAlignment="Right" Margin="0,8,338,0" Name="txtNomTuteur" VerticalAlignment="Top" Width="120" FontSize="11" />
-            <Label Content="Prénom : " Height="28" HorizontalAlignment="Right" Margin="0,27,461,0" Name="label11" VerticalAlignment="Top" />
-                <TextBox Height="19" HorizontalAlignment="Right" Margin="0,29,338,0" Name="txtPrénomTuteur" VerticalAlignment="Top" Width="120" FontSize="11" />
-            <Label Content="Entreprise : " Height="28" HorizontalAlignment="Right" Margin="0,47,461,0" Name="label12" VerticalAlignment="Top" />
-                <TextBox Height="19" HorizontalAlignment="Right" Margin="0,50,338,0" Name="txtEntrepriseTuteur" VerticalAlignment="Top" Width="120" FontSize="11" />
-            <Label Content="Mail : " Height="28" HorizontalAlignment="Right" Margin="0,6,235,0" Name="label13" VerticalAlignment="Top" />
-                <TextBox Height="19" HorizontalAlignment="Right" Margin="0,8,115,0" Name="txtMailTuteur" VerticalAlignment="Top" Width="120" FontSize="11" />
-            <Label Content="Téléphone : " Height="28" HorizontalAlignment="Right" Margin="0,27,235,0" Name="label14" VerticalAlignment="Top" />
-                <TextBox Height="19" HorizontalAlignment="Right" Margin="0,29,115,0" Name="txtTelTuteur" VerticalAlignment="Top" Width="120" FontSize="11" />
-            <Label Content="Portable : " Height="28" HorizontalAlignment="Right" Margin="0,47,235,0" Name="label15" VerticalAlignment="Top" />
-                <TextBox Height="19" HorizontalAlignment="Right" Margin="0,50,115,0" Name="txtPortableTuteur" VerticalAlignment="Top" Width="120" FontSize="11" />
-            </Grid>
+                <DataGrid AutoGenerateColumns="False" Name="dataGridListContacts" CanUserAddRows="False" MaxHeight="200" SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nom" Binding="{Binding _nom}" Width="20*" />
+                        <DataGridTextColumn Header="Prénom" Binding="{Binding _prenom}" Width="20*" />
+                        <DataGridTextColumn Header="Entreprise" Binding="{Binding _nomEntreprise}" Width="20*" />
+                        <DataGridTextColumn Header="Mail" Binding="{Binding _email}" Width="20*" />
+                        <DataGridTextColumn Header="Téléphone" Binding="{Binding _telMobile}" Width="25*" />
+                        <DataGridTextColumn Header="Portable" Binding="{Binding _telFixe}" Width="25*" />
+                    </DataGrid.Columns>
+
+                </DataGrid>           
+         </Grid>
         </GroupBox>
         <GroupBox Header="Alertes" HorizontalAlignment="Left" Name="gbAlertes" VerticalAlignment="Top" Width="586" Margin="6,276,0,0" DataContext="{Binding}">
             <Grid>

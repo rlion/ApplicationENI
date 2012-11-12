@@ -31,7 +31,7 @@ namespace ApplicationENI.Modele
         public String _photo { get; set; }
         public bool _envoiDocEnCours { get; set; }
         public String _historique { get; set; }
-        public Contact _tuteur { get; set; }
+        public List<Contact> _contacts { get; set; }
         // TODO: revoir le chargement des listes lors de la création du stagiaire qui est conceptuellement étrange.
         
         public Stagiaire(int pId, String pCivilité, String pNom, String pPrenom, String pAdresse1, String pAdresse2, String pAdresse3,
@@ -62,7 +62,6 @@ namespace ApplicationENI.Modele
             this._telephoneFixe = pTelephoneFixe;
             this._telephonePortable = pTelephonePortable;
             this._ville = pVille;
-            this._tuteur = DAL.ContactDAL.rechercherContact(pId);
         }
 
         public Stagiaire ()
@@ -103,7 +102,11 @@ namespace ApplicationENI.Modele
         public List<Absence> getListeAbsences() {
             return DAL.AbsencesDAL.getListeAbsences(this);
         }
-        
+
+        public List<Contact> getListeContacts() {
+            return DAL.ContactDAL.rechercherContacts(this._id);
+        }
+
         public override string ToString()
         {
             return this._nom + " " + this._prenom;
