@@ -77,6 +77,7 @@ namespace ApplicationENI.Vue
             //si pas d'ECF selectionné on ne peut pas ajouter de competence
             if (pECF == null) //pECF.Equals(null))
             {
+                btAjoutFormation.IsEnabled = false;
                 btAjoutCompetence.IsEnabled = false;
                 return;
             }
@@ -84,6 +85,7 @@ namespace ApplicationENI.Vue
             {
                 cbECF.SelectedItem = pECF;
                 btAjoutCompetence.IsEnabled = true;
+                btAjoutFormation.IsEnabled = true;
             }
 
             //AFFICHAGE

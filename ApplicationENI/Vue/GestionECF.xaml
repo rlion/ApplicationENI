@@ -39,7 +39,7 @@
         </GroupBox>
         <GroupBox Header="Formations :" Height="157" HorizontalAlignment="Left" Margin="344,29,0,0" Name="groupBox3" VerticalAlignment="Top" Width="234">
             <Grid>
-                <ListBox Height="120" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="10,10,0,0" Name="lbFormations" SelectionChanged="lbCompetences_SelectionChanged" SelectionMode="Multiple" VerticalAlignment="Top" Width="171" />
+                <ListBox Height="120" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="10,10,0,0" Name="lbFormations" SelectionChanged="lbFormations_SelectionChanged" SelectionMode="Multiple" VerticalAlignment="Top" Width="171" />
                 <Button Click="btAjoutFormation_Click" Content="+" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="187,10,0,0" Name="btAjoutFormation" VerticalAlignment="Top" Width="27" />
                 <Button Click="btSupprFormation_Click" Content="-" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="187,39,0,0" Name="btSupprFormation" VerticalAlignment="Top" Width="27" />
             </Grid>
