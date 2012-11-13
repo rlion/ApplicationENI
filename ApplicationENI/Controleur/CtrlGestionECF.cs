@@ -78,6 +78,10 @@ namespace ApplicationENI.Controleur
         {
             ECFDAL.supprimerLiensFormations(pECF);
         }
+        //public static List<Formation> getListFormationsECF(ECF pECF)
+        //{
+        //    ECFDAL.getListFormationsECF(pECF);
+        //}
         #endregion
 
         #region sessionECF
@@ -85,10 +89,21 @@ namespace ApplicationENI.Controleur
         {
             return SessionECFDAL.getListSessionsECFs();
         }
-        public static void ajouterSessionECF(SessionECF pSessionECF)
+        public static List<SessionECF> getListSessionsECF(ECF pECF)
         {
-            SessionECFDAL.ajouterSessionECF(pSessionECF);
+            return SessionECFDAL.getListSessionsECF(pECF);
+        }
+        public static void ajouterSessionECF(SessionECF pSessionECF, List<Stagiaire> pParticipants)
+        {
+            SessionECFDAL.ajouterSessionECF(pSessionECF, pParticipants);
         }
         #endregion
+
+
+        //participants
+        public static List<Stagiaire> getListeStagiaires() 
+        {
+            return StagiairesDAL.getListeStagiaires();
+        }
     }
 }

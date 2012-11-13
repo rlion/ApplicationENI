@@ -81,7 +81,7 @@ namespace ApplicationENI.Controleur {
         public List<Stagiaire> GetListeStagiaires()
         {
             List<Stagiaire> ls = new List<Stagiaire>();
-            ls = DAL.StagiairesDAL.getListeStagiaire();//.Select(x => x._prenom + " " + x._nom + " " + x._id).ToList();
+            ls = DAL.StagiairesDAL.getListeStagiaires();//.Select(x => x._prenom + " " + x._nom + " " + x._id).ToList();
 
             return ls;
         }
