@@ -52,13 +52,15 @@ namespace ApplicationENI.Vue
                 txtBoxAuteur.Text = obsSelectionne._nomAuteur;
                 txtBoxDate.Text = obsSelectionne._date.ToString();
                 txtBoxTexte.Text = obsSelectionne._texte;
+                comboBox1.Items.Clear();
+                comboBox1.Items.Add("Pédagogique");
+                comboBox1.Items.Add("Entreprise");
+                comboBox1.Text = obsSelectionne._type;
+                comboBox1.SelectedValue = obsSelectionne._type;
             }
             
-            comboBox1.Items.Clear();
-            comboBox1.Items.Add("Pédagogique");
-            comboBox1.Items.Add("Entreprise");
-            comboBox1.Text = "Pédagogique";
-            comboBox1.SelectedValue = "Pédagogique";
+            
+            
             
 
         }
@@ -98,6 +100,7 @@ namespace ApplicationENI.Vue
                             ctrl.modifierOperation(obsSelectionne, typeObs, titre, texte);
 
                             dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
+                            dataGridListAbsences.SelectedItem = dataGridListAbsences.Items[dataGridListAbsences.Items.Count - 1];
                         }            
                     }
                 
@@ -118,8 +121,9 @@ namespace ApplicationENI.Vue
                     else
                     {
                         ctrl.ajouterObservation(typeObs, titre, texte, stgEnCours);
-                        dataGridListAbsences.SelectedItem = dataGridListAbsences.Items[dataGridListAbsences.Items.Count - 1];
+                        
                         dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
+                        dataGridListAbsences.SelectedItem = dataGridListAbsences.Items[dataGridListAbsences.Items.Count - 1];
                     }
                 }
                 

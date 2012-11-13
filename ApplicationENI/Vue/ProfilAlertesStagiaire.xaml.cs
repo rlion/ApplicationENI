@@ -62,12 +62,16 @@ namespace ApplicationENI.Vue
         }
         private void listViewAlerte_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Grid test = (Grid)this.Parent;
-            DockPanel testDP = (DockPanel)test.Parent;
-            Grid testG = (Grid)testDP.Parent;
-            ((MainWindow)testG.Parent).MainGrid.Children.RemoveAt(0);
-            ((MainWindow)testG.Parent).MainGrid.Children.Add(new Vue.HistoriqueAbsencesRetards());
-            ((MainWindow)testG.Parent).tviHistorique.IsSelected = true;
+            // filtrage sur le type d'évènement pour cerner l'action à appliquer
+            if (((ItemAlerte)listViewAlerte.SelectedItem).TYPE.ToString() == "Absences") 
+            {
+                Grid test = (Grid)this.Parent;
+                DockPanel testDP = (DockPanel)test.Parent;
+                Grid testG = (Grid)testDP.Parent;
+                ((MainWindow)testG.Parent).MainGrid.Children.RemoveAt(0);
+                ((MainWindow)testG.Parent).MainGrid.Children.Add(new Vue.HistoriqueAbsencesRetards());
+                ((MainWindow)testG.Parent).tviHistorique.IsSelected = true;
+            }
         }
 
         private void imageStagiaire_ImageFailed(object sender, ExceptionRoutedEventArgs e)

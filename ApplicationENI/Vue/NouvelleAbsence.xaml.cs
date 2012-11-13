@@ -94,19 +94,19 @@ namespace ApplicationENI.Vue
                 int heureDeb, minuteDeb, heureFin, minuteFin;
                 bool valide, absence, retard;
                 dateDebut = datePickerDateDebut.Text;
-                dateFin = datePickerDateDebut.Text;
+                dateFin = datePickerDateFin.Text;
                 raison = textBoxRaison.Text;
                 commentaire = textBoxCommentaire.Text;
-                heureDeb = int.Parse(txtHeureDeb.Text);
-                heureFin = int.Parse(txtHeureFin.Text);
-                minuteDeb = int.Parse(txtMinuteDeb.Text);
-                minuteFin = int.Parse(txtMinuteFin.Text);
                 valide = checkBoxValide.IsChecked.Value;
                 absence = radioButtonAbsence.IsChecked.Value;
                 retard = radioButtonRetard.IsChecked.Value;
-
-                ctrl.AjouterAbsence(dateDebut, dateFin, heureDeb, minuteDeb, heureFin, minuteFin, raison, commentaire, valide, absence, retard);
-
+                
+                    heureDeb = int.Parse(txtHeureDeb.Text);
+                    heureFin = int.Parse(txtHeureFin.Text);
+                    minuteDeb = int.Parse(txtMinuteDeb.Text);
+                    minuteFin = int.Parse(txtMinuteFin.Text);
+                    ctrl.AjouterAbsence(dateDebut, dateFin, heureDeb, minuteDeb, heureFin, minuteFin, raison, commentaire, valide, absence, retard);
+                    MessageBox.Show("Observation ajoutée", "Ajout effectué", MessageBoxButton.OK, MessageBoxImage.Information);               
             }
         }
 
@@ -119,18 +119,18 @@ namespace ApplicationENI.Vue
             if ((txtHeureDeb.Text == null || txtHeureDeb.Text == "") || (txtHeureFin.Text == null || txtHeureFin.Text == ""))
             {
                 MessageBox.Show("Veuillez vérifier les horaires saisis", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
+                retour = false;
             }
 
             if ((datePickerDateDebut.Text == null || datePickerDateDebut.Text == "") || (datePickerDateFin.Text == null || datePickerDateFin.Text == ""))
             {
                 MessageBox.Show("Veuillez vérifier les dates saisies", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
+                retour = false;
             }
 
             if (textBoxRaison.Text == null || textBoxRaison.Text == "") {
                 MessageBox.Show("Veuillez saisir une raison.", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
+                retour = false;
             }
     
 
@@ -147,16 +147,24 @@ namespace ApplicationENI.Vue
             DateTime dateFin = new DateTime(an, mois, jour);
             
             if(dateFin-dateDebut < new TimeSpan(0)){
-                MessageBox.Show("La date de fin est antérieure à la date de début.", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
+                MessageBox.Show("La date de fin est antérieure ou équivalente à la date de début.", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
+                retour = false;
             }
 
-            // On vérifie que l'heure de fin est postérieur à l'heure de début uniquement si la date de début est la même que la date de fin.
+            // On vérifie que l'heure de fin est postérieure à l'heure de début uniquement si la date de début est la même que la date de fin.
             if (dateDebut == dateFin)
             {
-                if (int.Parse(txtHeureDeb.Text + txtMinuteDeb.Text) >= int.Parse(txtHeureFin.Text + txtMinuteFin.Text))
+                try
                 {
-                    MessageBox.Show("L'heure fin est antérieure à la date de début.", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
+                    if (int.Parse(txtHeureDeb.Text + txtMinuteDeb.Text) >= int.Parse(txtHeureFin.Text + txtMinuteFin.Text))
+                    {
+                        MessageBox.Show("L'heure fin est antérieure ou équivalente à la date de début.", "Saisie erronée", MessageBoxButton.OK, MessageBoxImage.Error);
+                        retour = false;
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Veillez à saisir des nombres pour les champs concernant les horaires.", "Erreur de saisie", MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
             }
