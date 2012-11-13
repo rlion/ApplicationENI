@@ -11,7 +11,8 @@ namespace ApplicationENI.DAL
 {
     class StagiairesDAL
     {
-        static String SELECT_LISTE_STAGIAIRES = "SELECT * FROM STAGIAIRE ";
+        static String SELECT_LISTE_STAGIAIRES = "SELECT * FROM STAGIAIRE ORDER BY nom, prenom";
+        static String SELECT_STAGIAIRE = "SELECT * FROM STAGIAIRE WHERE CodeStagiaire=@id";
         static String SELECT_INFOS_STAGIAIRE = "SELECT * FROM STAGIAIRE WHERE NOM=@nom";
         static String DELETE_STAGIAIRE = "DELETE FROM STAGIAIRE WHERE NOM=@nom";
         static String UPDATE_STAGIAIRE = "UPDATE STAGIAIRE SET NOM=@nouveauNom WHERE NOM=@nom";
@@ -37,6 +38,7 @@ namespace ApplicationENI.DAL
             connexion.Close();
         }
 
+        //Quel est l'interet de cette fonction?
         public static Stagiaire getInfosStagiaire(String pNom) {
             
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
@@ -56,7 +58,28 @@ namespace ApplicationENI.DAL
             return stgRetour;
         }
 
-        public static List<Stagiaire> getListeStagiaire()
+        public static Stagiaire getStagiaire(int pCodeStagiaire)
+        {
+
+            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            SqlCommand cmd = new SqlCommand(SELECT_STAGIAIRE, connexion);
+            cmd.Parameters.AddWithValue("@id", pCodeStagiaire);
+
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            Stagiaire stgRetour = new Stagiaire();
+
+            if (reader.Read())
+            {
+                stgRetour._nom = reader.GetSqlString(2).IsNull ? String.Empty : reader.GetString(2);
+                stgRetour._prenom = reader.GetSqlString(3).IsNull ? String.Empty : reader.GetString(3);
+                //TODO toutes les propriétés
+            }
+            connexion.Close();
+            return stgRetour;
+        }
+
+        public static List<Stagiaire> getListeStagiaires()
         {
 
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
