@@ -8,31 +8,54 @@ namespace ApplicationENI.Modele
 {
     public class SessionECF
     {
+        private String _id;              
         private ECF _ecf;
+        private DateTime _date;
+        private List<Stagiaire> _participants;
 
+        public String Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }  
         public ECF Ecf
         {
             get { return _ecf; }
             set { _ecf = value; }
-        }
-        private DateTime _date;
-
+        }       
         public DateTime Date
         {
             get { return _date; }
             set { _date = value; }
         }
+        public List<Stagiaire> Participants
+        {
+            get { return _participants; }
+            set { _participants = value; }
+        }
 
         public SessionECF()
         {
+            _id = "";
             _ecf = null;
             _date = DateTime.MinValue;
         }
-
-        public SessionECF(ECF ecf, DateTime date)
+        public SessionECF(String id, ECF ecf, DateTime date)
         {
+            _id = id;
             _ecf = ecf;
             _date = date;
+        }
+        public SessionECF(ECF ecf, DateTime date)
+        {
+            _id = "";
+            _ecf = ecf;
+            _date = date;
+        }
+
+        public override string ToString()
+        {
+            return "épreuve " + _ecf.ToString() + " du " + _date.ToShortDateString();
         }
     }
 }

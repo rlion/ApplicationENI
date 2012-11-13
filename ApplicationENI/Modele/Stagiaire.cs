@@ -8,6 +8,7 @@ namespace ApplicationENI.Modele
     public class Stagiaire
     {
         // utilisation des propriétés simplifiées 
+        //POURQUOI EN PUBLIC??? (ou sont les GET/SET??)
         public int _id { get; set; }
         public String _civilité { get; set; }
         public String _nom { get; set; }
@@ -109,8 +110,11 @@ namespace ApplicationENI.Modele
 
         public override string ToString()
         {
-            return this._nom + " " + this._prenom;
+            return this._nom.ToUpper() + " " + this._prenom;
         }
+
+        
+
     }   
 
     
