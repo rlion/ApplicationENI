@@ -76,18 +76,7 @@ namespace ApplicationENI.Modele
             this._nom = pNom;
             this._prenom = pPrenom;
 	    }
-
-        public void modifierStagiaire()
-        {
-            DAL.StagiairesDAL.modifierStagiaire(this);
-        }
-
-        public void supprimerStagiaire()
-        {
-            DAL.StagiairesDAL.supprimerStagiaire(this);
-        }
-
-
+        
         public List<ECF> listeECFNonCorriges() {
             //TODO: Attente Mathias
             //return DAL.ECFDAL.getListeEcfNonCorriges(Stagiaire stg);

@@ -13,51 +13,6 @@ namespace ApplicationENI.DAL
     {
         static String SELECT_LISTE_STAGIAIRES = "SELECT * FROM Stagiaire ORDER BY Nom, Prenom";
         static String SELECT_STAGIAIRE = "SELECT * FROM Stagiaire WHERE CodeStagiaire=@id";
-        static String SELECT_INFOS_STAGIAIRE = "SELECT * FROM Stagiaire WHERE Nom=@nom";
-        static String DELETE_STAGIAIRE = "DELETE FROM Stagiaire WHERE Nom=@nom";
-        static String UPDATE_STAGIAIRE = "UPDATE Stagiaire SET Nom=@nouveauNom WHERE Nom=@nom";
-        
-        public static void modifierStagiaire(Stagiaire s)
-        {
-            SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(UPDATE_STAGIAIRE, connexion);
-            cmd.Parameters.AddWithValue("@nom", s._nom); 
-            cmd.Parameters.AddWithValue("@nouveauNom", "lenouveauNom");
-
-            cmd.ExecuteReader();
-            connexion.Close();
-        }
-
-        public static void supprimerStagiaire(Stagiaire s)
-        {
-            SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(DELETE_STAGIAIRE, connexion);
-            cmd.Parameters.AddWithValue("@nom", s._nom);  
-
-            cmd.ExecuteReader();
-            connexion.Close();
-        }
-
-        //Quel est l'interet de cette fonction?
-        public static Stagiaire getInfosStagiaire(String pNom) {
-            
-            SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(SELECT_INFOS_STAGIAIRE, connexion);
-            cmd.Parameters.AddWithValue("@nom", pNom);
-
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            Stagiaire stgRetour = new Stagiaire();
-            
-            if(reader.Read()) 
-            {
-                String nom = reader.GetSqlString(2).IsNull ? String.Empty : reader.GetString(2);
-                stgRetour._nom = nom;
-            }
-            connexion.Close();
-            return stgRetour;
-        }
-
         public static Stagiaire getStagiaire(int pCodeStagiaire)
         {
 
