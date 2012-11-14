@@ -1,36 +1,36 @@
 ﻿<Window x:Class="ApplicationENI.Vue.PopUp.AjoutSessionECF"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AjoutSessionECF" Height="661" Width="597" WindowStartupLocation="CenterScreen" xmlns:my="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit">
+        Title="AjoutSessionECF" Height="717" Width="597" WindowStartupLocation="CenterScreen" xmlns:my="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit">
     <Grid>
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="92,5,0,0" Name="cbECF" Text="" VerticalAlignment="Top" Width="218" SelectionChanged="cbECF_SelectionChanged" />
         <Label Content="ECF :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Name="lbECF" VerticalAlignment="Top" Width="86" />
-        <Label Content="Date :" Height="28" HorizontalAlignment="Left" Margin="45,34,0,0" Name="label2" VerticalAlignment="Top" />
-        <Button Content="Valider" Height="23" HorizontalAlignment="Left" IsDefault="True" Margin="406,588,0,0" Name="btValider" VerticalAlignment="Top" Width="75" Click="btValider_Click" />
-        <Button Content="Annuler" Height="23" HorizontalAlignment="Left" IsCancel="True" Margin="493,588,0,0" Name="btAnnuler" VerticalAlignment="Top" Width="75" Click="btAnnuler_Click" />
-        <GroupBox Header="Stagiaires :" Height="401" HorizontalAlignment="Left" Margin="17,181,0,0" Name="gbStagiaires" VerticalAlignment="Top" Width="551" IsEnabled="False">
+        <Label Content="Date :" Height="28" HorizontalAlignment="Left" Margin="45,37,0,0" Name="label2" VerticalAlignment="Top" />
+        <Button Content="Valider" Height="23" HorizontalAlignment="Left" IsDefault="True" Margin="406,643,0,0" Name="btValider" VerticalAlignment="Top" Width="75" Click="btValider_Click" IsEnabled="False" />
+        <Button Content="Annuler" Height="23" HorizontalAlignment="Left" IsCancel="True" Margin="493,643,0,0" Name="btAnnuler" VerticalAlignment="Top" Width="75" Click="btAnnuler_Click" />
+        <GroupBox Header="Stagiaires :" Height="456" HorizontalAlignment="Left" Margin="17,181,0,0" Name="gbStagiaires" VerticalAlignment="Top" Width="551" IsEnabled="False">
             <Grid>
-                <ListBox Height="234" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="6,138,0,0" Name="lbStagiaires" SelectionMode="Multiple" VerticalAlignment="Top" Visibility="Visible" Width="240" />
-                <ListBox Height="234" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="293,138,0,0" Name="lbParticipants" SelectionMode="Multiple" VerticalAlignment="Top" Visibility="Visible" Width="240" />
-                <GroupBox Header="Filtres" Height="103" HorizontalAlignment="Left" Margin="6,8,0,0" Name="groupBox1" VerticalAlignment="Top" Width="526">
+                <ListBox Height="234" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="6,174,0,0" Name="lbStagiaires" SelectionMode="Single" VerticalAlignment="Top" Visibility="Visible" Width="240" />
+                <ListBox Height="234" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="293,174,0,0" Name="lbParticipants" SelectionMode="Single" VerticalAlignment="Top" Visibility="Visible" Width="240" />
+                <GroupBox Header="Filtres" Height="128" HorizontalAlignment="Left" Margin="6,8,0,0" Name="groupBox1" VerticalAlignment="Top" Width="526">
                     <Grid>
-                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="98,10,0,0" Name="cbFormation" Text="" VerticalAlignment="Top" Width="218" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="98,10,0,0" Name="cbFormation" Text="" VerticalAlignment="Top" Width="218" SelectionChanged="cbFormation_SelectionChanged" />
                         <Label Content="Formation :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="6,10,0,0" Name="label1" VerticalAlignment="Top" Width="86" />
-                        <my:AutoCompleteBox FilterMode="Contains" Height="23" HorizontalAlignment="Left" Margin="98,43,0,0" Name="acbNomPrenom" Text="Nom &amp; prénom du stagiaire" VerticalAlignment="Top" Width="177" />
+                        <TextBox Height="23" HorizontalAlignment="Left" Margin="98,43,0,0" Name="acbNomPrenom" VerticalAlignment="Top" Width="218" />
                         <GroupBox Header="Type de formation :" Height="70" HorizontalAlignment="Left" Margin="323,1,0,0" Name="groupBox2" VerticalAlignment="Top" Width="185">
                             <Grid>
-                                <RadioButton Content="Form. Continue" GroupName="grbFiltre" Height="16" HorizontalAlignment="Left" Margin="10,6,0,0" Name="rbFC" VerticalAlignment="Top" Checked="rbFC_Checked" />
-                                <RadioButton Content="Contrat Pro." GroupName="grbFiltre" Height="16" HorizontalAlignment="Left" Margin="10,28,0,0" Name="rbCP" VerticalAlignment="Top" Checked="rbCP_Checked" />
+                                <CheckBox Content="Formation continue" Height="17" HorizontalAlignment="Left" Margin="16,6,0,0" Name="chkFC" VerticalAlignment="Top" Width="145" Checked="chkFC_Checked" IsChecked="True" />
+                                <CheckBox Content="Contrat pro." Height="17" HorizontalAlignment="Left" Margin="16,24,0,0" Name="chkCP" VerticalAlignment="Top" Width="145" Checked="chkCP_Checked" IsChecked="True" />
                             </Grid>
                         </GroupBox>
                         <Label Content="Nom/prénom :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="4,43,0,0" Name="label6" VerticalAlignment="Top" Width="88" />
-                        <Button Height="23" HorizontalAlignment="Left" Margin="281,43,0,0" Name="btRefresh" VerticalAlignment="Top" Width="35" FontFamily="Webdings" Content="q" FontSize="20" />
+                        <Button Height="23" HorizontalAlignment="Left" Margin="240,76,0,0" Name="btRefresh" VerticalAlignment="Top" Width="35" FontFamily="Webdings" Content="q" FontSize="20" Click="btRefresh_Click" />
                     </Grid>
                 </GroupBox>
-                <Label Content="Liste :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="6,117,0,0" Name="label4" VerticalAlignment="Top" Width="86" />
-                <Label Content="Participants :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="293,117,0,0" Name="label5" VerticalAlignment="Top" Width="86" />
-                <Button Content="8" Height="32" HorizontalAlignment="Left" Margin="252,214,0,0" Name="btAjouter" VerticalAlignment="Top" Width="35" FontWeight="Normal" FontFamily="Webdings" FontSize="20" Click="btAjouter_Click" />
-                <Button Content="7" Height="32" HorizontalAlignment="Left" Margin="252,0,0,94" Name="btEnlever" VerticalAlignment="Bottom" Width="35" FontWeight="Normal" FontFamily="Webdings" FontSize="20" Click="btEnlever_Click" />
+                <Label Content="Liste :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="6,153,0,0" Name="label4" VerticalAlignment="Top" Width="86" />
+                <Label Content="Participants :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Left" Margin="293,153,0,0" Name="label5" VerticalAlignment="Top" Width="86" />
+                <Button Content="8" Height="32" HorizontalAlignment="Left" Margin="252,250,0,0" Name="btAjouter" VerticalAlignment="Top" Width="35" FontWeight="Normal" FontFamily="Webdings" FontSize="20" Click="btAjouter_Click" />
+                <Button Content="7" Height="32" HorizontalAlignment="Left" Margin="252,307,0,0" Name="btEnlever" VerticalAlignment="Top" Width="35" FontWeight="Normal" FontFamily="Webdings" FontSize="20" Click="btEnlever_Click" />
             </Grid>
         </GroupBox>
         <Label FontSize="16" FontWeight="Bold" Height="29" HorizontalAlignment="Left" Margin="92,34,0,0" Name="lbDateSession" VerticalAlignment="Top" Visibility="Visible" Width="255" />

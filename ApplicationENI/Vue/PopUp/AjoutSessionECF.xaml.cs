@@ -67,17 +67,32 @@ namespace ApplicationENI.Vue.PopUp
 
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
-            //SessionECF sessionECFTemp = new SessionECF();
-            //sessionECFTemp.Ecf = (ECF)cbECF.SelectedItem;
-            //sessionECFTemp.Date = (DateTime)datePicker1.SelectedDate;
+            //Nouvelle sessionECF
+            if (_sessionECF.Id == "")
+            {
+                SessionECF sessionECFTemp = new SessionECF((ECF)cbECF.SelectedItem, (DateTime)_sessionECF.Date);
+                if (lbParticipants.HasItems)
+                {
+                    _listeParticipants = new List<Stagiaire>();
+                    foreach (Stagiaire stag in lbParticipants.Items)
+                    {
+                        _listeParticipants.Add(stag);
+                    }
+                    sessionECFTemp.Participants = _listeParticipants;
+                }
+                CtrlGestionECF.ajouterSessionECF(sessionECFTemp);
+            }
+            else
+            //Modification sessionECF
+            {
 
-            //if (sessionECFTemp.Date != DateTime.MinValue && sessionECFTemp.Ecf != null)
-            //{
-            //    _sessionECF = sessionECFTemp;
-            //    CtrlGestionECF.ajouterSessionECF(sessionECFTemp);
-            //    Close();
-            //}
+            }
+            
+            
+
+
+            Close();
+            
         }
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -85,14 +100,17 @@ namespace ApplicationENI.Vue.PopUp
             _listeECFPlanif = CtrlGestionECF.getListSessionsECF(_sessionECF.Ecf);
             _planif = new List<DateTime>();
             calendrier.SelectedDates.Clear();
-            
+            lbDateSession.Content = "";
+            //TODO RAZ
             foreach (SessionECF sessECF in _listeECFPlanif)
 	        {
 		        _planif.Add(sessECF.Date);
+                calendrier.SelectedDates.Add(sessECF.Date);
 	        }
 
             List<Formation> lesForms = new List<Formation>();
             cbFormation.ItemsSource = null;
+            lesForms.Add(new Formation("0","Toutes"));
             foreach (Formation form in _sessionECF.Ecf.Formations)
             {
                 lesForms.Add(form);
@@ -100,11 +118,7 @@ namespace ApplicationENI.Vue.PopUp
             cbFormation.ItemsSource = lesForms;
 
             calendrier.IsEnabled = true;
-            gbStagiaires.IsEnabled = true;
-
-            lbStagiaires.ItemsSource = null;
-            _listeStagiaires = CtrlGestionECF.getListeStagiaires();
-            lbStagiaires.ItemsSource = _listeStagiaires;
+            
         }
         #endregion
 
@@ -136,44 +150,28 @@ namespace ApplicationENI.Vue.PopUp
                 //On se réabonne à l'event
                 calendrier.SelectedDatesChanged += calendrier_SelectedDatesChanged;
 
+                _sessionECF.Date = dt;
                 //L'utilisateur clique sur une date non planifiée
                 if (!_planif.Contains((DateTime)dt))
                 {
-                    _sessionECF.Date = dt;
                     MessageBox.Show("Création de la planification de l'ECF " + _sessionECF.ToString());
-                    lbDateSession.Content = _sessionECF.Date.ToShortDateString();
-
                     
                 }
                 else //L'utilisateur clique sur une date planifiée
-                {
-                    _sessionECF.Date = dt;
+                {                    
                     MessageBox.Show("Modification de la planification de l'ECF " + _sessionECF.ToString());
-                    lbDateSession.Content = _sessionECF.Date.ToShortDateString();
                 }
+                lbDateSession.Content = _sessionECF.Date.ToShortDateString();
+                gbStagiaires.IsEnabled = true;
+                btValider.IsEnabled = true;
+
+                lbStagiaires.ItemsSource = null;
+                _listeStagiaires = CtrlGestionECF.getListeStagiaires();
+                lbStagiaires.ItemsSource = _listeStagiaires;
             }
         }
 
-        private void rbFC_Checked(object sender, RoutedEventArgs e)
-        {
-            if (rbFC.IsChecked == true) {
-                rbFC.IsChecked=false;
-                rbCP.IsChecked=false;
-            }
-        }
-        private void rbCP_Checked(object sender, RoutedEventArgs e)
-        {
-            if (rbCP.IsChecked == true)
-            {
-                rbFC.IsChecked = false;
-                rbCP.IsChecked = false;
-            }
-        }
-
-        private void cbFormation_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+        
 
         private void btAjouter_Click(object sender, RoutedEventArgs e)
         {
@@ -195,8 +193,7 @@ namespace ApplicationENI.Vue.PopUp
             });
             
             lbParticipants.ItemsSource = null;
-            lbParticipants.ItemsSource = _listeParticipants;
-            
+            lbParticipants.ItemsSource = _listeParticipants;            
         }
 
         private void btEnlever_Click(object sender, RoutedEventArgs e)
@@ -209,6 +206,65 @@ namespace ApplicationENI.Vue.PopUp
             lbParticipants.ItemsSource = _listeParticipants;
         }
 
+        #region Filtres
+        private void cbFormation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //afficherListeFiltree();
+        }
+        private void chkFC_Checked(object sender, RoutedEventArgs e)
+        {
+            //on force la coche des 2 types de formation car on ne peut pas etre ni lun ni lautre
+            //if (chkCP.IsChecked == false && chkFC.IsChecked == false)
+            //{
+            //    chkCP.IsChecked = true;
+            //    chkFC.IsChecked = true;
+            //}
+        }
+        private void chkCP_Checked(object sender, RoutedEventArgs e)
+        {
+            //on force la coche des 2 types de formation car on ne peut pas etre ni lun ni lautre
+            if (chkCP.IsChecked == false && chkFC.IsChecked == false)
+            {
+                chkCP.IsChecked = true;
+                chkFC.IsChecked = true;
+            }
+        }
+        private void btRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            label4.Content = "Liste (filtrée) :";
+            //on force la coche des 2 types de formation car on ne peut pas etre ni lun ni lautre
+            if (chkCP.IsChecked == false && chkFC.IsChecked == false)
+            {
+                chkCP.IsChecked = true;
+                chkFC.IsChecked = true;
+            }
+            
+            afficherListeFiltree();
+        }
+        private void afficherListeFiltree()
+        {
+            lbStagiaires.ItemsSource = null;
+            if(chkCP.IsChecked==true && chkFC.IsChecked==true){
+                _listeStagiaires = CtrlGestionECF.getListeStagiaires((Formation)cbFormation.SelectedItem, Ressources.CONSTANTES.TYPE_FORMATION_TOUS, acbNomPrenom.Text);
+            }
+            else if (chkCP.IsChecked == true && chkFC.IsChecked == false)
+            {
+                _listeStagiaires = CtrlGestionECF.getListeStagiaires((Formation)cbFormation.SelectedItem, Ressources.CONSTANTES.TYPE_FORMATION_CP, acbNomPrenom.Text);
+            }
+            else if (chkCP.IsChecked==false && chkFC.IsChecked==true)
+            {
+                _listeStagiaires = CtrlGestionECF.getListeStagiaires((Formation)cbFormation.SelectedItem, Ressources.CONSTANTES.TYPE_FORMATION_FC, acbNomPrenom.Text);
+            }
+            //else if (chkCP.IsChecked==false && chkFC.IsChecked==false)
+            //{
+                
+            //    _listeStagiaires = CtrlGestionECF.getListeStagiaires((Formation)cbFormation.SelectedItem, Ressources.CONSTANTES.TYPE_FORMATION_TOUS, acbNomPrenom.Text);
+            //}
+            
+            lbStagiaires.ItemsSource = _listeStagiaires;
+        }
+        #endregion
 
+        
     }        
 }
