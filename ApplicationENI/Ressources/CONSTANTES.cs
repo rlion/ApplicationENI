@@ -12,6 +12,7 @@ namespace ApplicationENI.Ressources
         public static int TYPE_FORMATION_TOUS = 0;
         public static int TYPE_FORMATION_FC = 1;
         public static int TYPE_FORMATION_CP = 2;
+        public static String PREFIXE_PHOTO = "c:/testPhotos/";
 
     }
 }

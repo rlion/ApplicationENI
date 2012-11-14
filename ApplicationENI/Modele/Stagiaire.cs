@@ -57,7 +57,7 @@ namespace ApplicationENI.Modele
             this._historique = pHistorique;
              this._nom = pNom;
             this._permis = pPermis;
-            this._photo = pPhoto;
+            this._photo = Ressources.CONSTANTES.PREFIXE_PHOTO + pPhoto;
             this._prenom = pPrenom;
             this._repertoire = pRepertoire;
             this._telephoneFixe = pTelephoneFixe;

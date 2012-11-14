@@ -162,6 +162,7 @@ namespace ApplicationENI.Vue
                     this.gbListeAbsenceRetards.Header = texteAAfficher;
                     this.dataGridListeAbsences.ItemsSource = ctrl.getListAbsences(Parametres.Instance.stagiaire);
                     this.dataGridListeAbsences.Items.Refresh();
+                    this.dataGridListeAbsences.SelectedItem = this.dataGridListeAbsences.Items[dataGridListeAbsences.Items.Count - 1];
                     this.gbDetailAbsenceRetard.Visibility = Visibility.Hidden;
                 }
         }
@@ -188,6 +189,7 @@ namespace ApplicationENI.Vue
                 ctrl.modifierAbsence((Absence)dataGridListeAbsences.SelectedItem, dateDebut, dateFin, heureDeb, minuteDeb, heureFin, minuteFin, raison, commentaire, valide, absence);
                 this.dataGridListeAbsences.ItemsSource = ctrl.getListAbsences(Parametres.Instance.stagiaire);
                 this.dataGridListeAbsences.Items.Refresh();
+                this.dataGridListeAbsences.SelectedItem = this.dataGridListeAbsences.Items[dataGridListeAbsences.Items.Count - 1];
             }
         }
 
