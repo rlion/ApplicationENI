@@ -93,9 +93,9 @@ namespace ApplicationENI.Controleur
         {
             return SessionECFDAL.getListSessionsECF(pECF);
         }
-        public static void ajouterSessionECF(SessionECF pSessionECF, List<Stagiaire> pParticipants)
+        public static void ajouterSessionECF(SessionECF pSessionECF)
         {
-            SessionECFDAL.ajouterSessionECF(pSessionECF, pParticipants);
+            SessionECFDAL.ajouterSessionECF(pSessionECF);
         }
         #endregion
 
@@ -104,6 +104,11 @@ namespace ApplicationENI.Controleur
         public static List<Stagiaire> getListeStagiaires() 
         {
             return StagiairesDAL.getListeStagiaires();
+        }
+
+        public static List<Stagiaire> getListeStagiaires(Formation pFormation, int pTypeFormation, String pFiltreNomPrenom)
+        {
+            return StagiairesDAL.getListeStagiaires(pFormation, pTypeFormation, pFiltreNomPrenom);
         }
     }
 }
