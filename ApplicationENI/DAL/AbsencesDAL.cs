@@ -61,7 +61,7 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_ABSENCES, connexion);
             cmd.Parameters.AddWithValue("@id_absence", pA._id); 
-
+            //TODO: ajouter des try catch dans ce type de cas.
             cmd.ExecuteReader();
             connexion.Close();
 		   

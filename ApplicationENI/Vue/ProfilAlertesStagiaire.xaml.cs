@@ -56,10 +56,6 @@ namespace ApplicationENI.Vue
             this.listViewAlerte.Items.Refresh();
         }
 
-        private void listViewAlerte_Initialized(object sender, EventArgs e)
-        {
-            
-        }
         private void listViewAlerte_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // filtrage sur le type d'évènement pour cerner l'action à appliquer
@@ -74,10 +70,36 @@ namespace ApplicationENI.Vue
             }
         }
 
-        private void imageStagiaire_ImageFailed(object sender, ExceptionRoutedEventArgs e)
-        {
 
+        private void dataGridListContacts_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+            if (e.EditAction == DataGridEditAction.Commit && dataGridListContacts.SelectedItem != null) {
+                CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
+                //if(((Contact)dataGridListContacts.SelectedItem).
+                //ctrlStagiaires.modifierContact((Contact)dataGridListContacts.SelectedItem);
+            }
+            //TODO:fin de l'édition
+            //MessageBox.Show("fin de l'édition");
         }
+
+        private void dataGridListContacts_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete && dataGridListContacts.SelectedItem!=null)
+            {
+                if (MessageBox.Show("Etes-vous CERTAIN de vouloir supprimer ce contact ?", "Confirmation avant suppression", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    DAL.ContactDAL.supprimerContact(    
+                                                    ((Contact) dataGridListContacts.SelectedItem)._codeContact
+                                                    );
+                    MessageBox.Show("Suppression effectuée", "Suppression effectuée", MessageBoxButton.OK, MessageBoxImage.Information);   
+                    CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
+                    dataGridListContacts.ItemsSource = Parametres.Instance.stagiaire.getListeContacts();
+                    dataGridListContacts.Items.Refresh();
+                }
+            }
+        }
+
+
 
         
 

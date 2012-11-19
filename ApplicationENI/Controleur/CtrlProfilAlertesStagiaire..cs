@@ -58,5 +58,13 @@ namespace ApplicationENI.Controleur
             listeDesAlertes.Add(new ItemAlerte(0, nb + " absence(s)/retard(s) à compléter pour ce stagiaire", 0));
             }
         }
+
+        public void supprimerContact(int pCodeContact) {
+            DAL.ContactDAL.supprimerContact(pCodeContact);
+        }
+
+        public void modifierContact(Contact pC) {
+            DAL.ContactDAL.modifierContact(pC);
+        }
     }
 }

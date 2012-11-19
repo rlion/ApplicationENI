@@ -37,23 +37,24 @@
                 <TextBox Height="19" HorizontalAlignment="Left" Margin="339,62,0,0" Name="txtDateNaiss" VerticalAlignment="Top" Width="120" FontSize="11" />
                 <Label Content="Répertoire : " Height="28" HorizontalAlignment="Right" Margin="0,111,235,0" Name="label9" VerticalAlignment="Top" />
                 <TextBox Height="19" HorizontalAlignment="Left" Margin="339,113,0,0" Name="txtRep" VerticalAlignment="Top" Width="120" FontSize="11" />
-                <Image DataContext="{Binding}" Height="100" HorizontalAlignment="Left" Margin="116,6,0,0" Name="imageStagiaire" Source="/ApplicationENI;component/Images/portrait-vide.jpg" Stretch="Uniform" VerticalAlignment="Top" Width="120" ImageFailed="imageStagiaire_ImageFailed" />
+                <Image DataContext="{Binding}" Height="100" HorizontalAlignment="Left" Margin="116,6,0,0" Name="imageStagiaire" Source="/ApplicationENI;component/Images/portrait-vide.jpg" Stretch="Uniform" VerticalAlignment="Top" Width="120" />
             </Grid>
         </GroupBox>
         <GroupBox Header="Contact(s) en entreprise" HorizontalAlignment="Left" Name="gbInfosTuteur" VerticalAlignment="Top" Width="586" Margin="6,184,0,0" MaxHeight="88">
             <Grid>
-                <DataGrid AutoGenerateColumns="False" Name="dataGridListContacts" CanUserAddRows="False" MaxHeight="200" SelectionMode="Single">
+                <DataGrid AutoGenerateColumns="False" Name="dataGridListContacts" MaxHeight="200" SelectionMode="Single" Margin="2,0,96,0" CanUserAddRows="False" RowEditEnding="dataGridListContacts_RowEditEnding" CanUserDeleteRows="False" KeyUp="dataGridListContacts_KeyUp">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Nom" Binding="{Binding _nom}" Width="20*" />
-                        <DataGridTextColumn Header="Prénom" Binding="{Binding _prenom}" Width="20*" />
-                        <DataGridTextColumn Header="Entreprise" Binding="{Binding _nomEntreprise}" Width="20*" />
-                        <DataGridTextColumn Header="Mail" Binding="{Binding _email}" Width="20*" />
-                        <DataGridTextColumn Header="Téléphone" Binding="{Binding _telMobile}" Width="25*" />
-                        <DataGridTextColumn Header="Portable" Binding="{Binding _telFixe}" Width="25*" />
+                        <DataGridTextColumn Header="Nom" Binding="{Binding _nom, UpdateSourceTrigger=PropertyChanged}" Width="20*" />
+                        <DataGridTextColumn Header="Prénom" Binding="{Binding _prenom, UpdateSourceTrigger=PropertyChanged}" Width="20*" />
+                        <DataGridTextColumn Header="Entreprise" Binding="{Binding _nomEntreprise}" Width="20*" IsReadOnly="True" />
+                        <DataGridTextColumn Header="Mail" Binding="{Binding _email, UpdateSourceTrigger=PropertyChanged}" Width="20*" />
+                        <DataGridTextColumn Header="Téléphone" Binding="{Binding _telMobile, UpdateSourceTrigger=PropertyChanged}" Width="25*" />
+                        <DataGridTextColumn Header="Portable" Binding="{Binding _telFixe, UpdateSourceTrigger=PropertyChanged}" Width="25*" />
                     </DataGrid.Columns>
 
-                </DataGrid>           
-         </Grid>
+                </DataGrid>
+                <Button Content="Ajouter" Height="23" HorizontalAlignment="Right" Margin="0,1,14,0" Name="btnAjouterContacts" VerticalAlignment="Top" Width="75" />
+            </Grid>
         </GroupBox>
         <GroupBox Header="Alertes" HorizontalAlignment="Left" Name="gbAlertes" VerticalAlignment="Top" Width="586" Margin="6,276,0,0" DataContext="{Binding}">
             <Grid>
@@ -62,8 +63,7 @@
                     <ColumnDefinition Width="60*" />
                     <ColumnDefinition Width="15*" />
                 </Grid.ColumnDefinitions>
-                <ListView Name="listViewAlerte" Initialized="listViewAlerte_Initialized" 
-                  ItemTemplate="{StaticResource listAlertes}" SelectionChanged="listViewAlerte_SelectionChanged" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,6,0,7" Grid.ColumnSpan="3">
+                <ListView Name="listViewAlerte" ItemTemplate="{StaticResource listAlertes}" SelectionChanged="listViewAlerte_SelectionChanged" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,6,0,7" Grid.ColumnSpan="3">
                     
                 </ListView>
             </Grid>

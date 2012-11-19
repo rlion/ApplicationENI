@@ -160,6 +160,9 @@
     <Compile Include="Vue\PopUp\NewJure.xaml.cs">
       <DependentUpon>NewJure.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vue\PopUp\Contact.xaml.cs">
+      <DependentUpon>Contact.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vue\SyntheseECF.xaml.cs">
       <DependentUpon>SyntheseECF.xaml</DependentUpon>
     </Compile>
@@ -246,6 +249,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vue\PopUp\NewJure.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vue\PopUp\Contact.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
