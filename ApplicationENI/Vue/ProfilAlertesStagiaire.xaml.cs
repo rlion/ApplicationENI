@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ApplicationENI.Modele;
 using ApplicationENI.Controleur;
+using ApplicationENI.Vue.PopUp;
 
 namespace ApplicationENI.Vue
 {
@@ -75,11 +76,8 @@ namespace ApplicationENI.Vue
         {
             if (e.EditAction == DataGridEditAction.Commit && dataGridListContacts.SelectedItem != null) {
                 CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
-                //if(((Contact)dataGridListContacts.SelectedItem).
-                //ctrlStagiaires.modifierContact((Contact)dataGridListContacts.SelectedItem);
+                ctrlStagiaires.modifierContact((Contact)dataGridListContacts.SelectedItem);
             }
-            //TODO:fin de l'édition
-            //MessageBox.Show("fin de l'édition");
         }
 
         private void dataGridListContacts_KeyUp(object sender, KeyEventArgs e)
@@ -97,6 +95,12 @@ namespace ApplicationENI.Vue
                     dataGridListContacts.Items.Refresh();
                 }
             }
+        }
+
+        private void btnAjouterContacts_Click(object sender, RoutedEventArgs e)
+        {
+            AjoutContact formAjoutContact = new AjoutContact();
+            formAjoutContact.ShowDialog();
         }
 
 

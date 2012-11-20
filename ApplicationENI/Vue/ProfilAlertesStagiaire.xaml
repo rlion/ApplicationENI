@@ -53,7 +53,7 @@
                     </DataGrid.Columns>
 
                 </DataGrid>
-                <Button Content="Ajouter" Height="23" HorizontalAlignment="Right" Margin="0,1,14,0" Name="btnAjouterContacts" VerticalAlignment="Top" Width="75" />
+                <Button Content="Ajouter" Height="23" HorizontalAlignment="Right" Margin="0,1,14,0" Name="btnAjouterContacts" VerticalAlignment="Top" Width="75" Click="btnAjouterContacts_Click" />
             </Grid>
         </GroupBox>
         <GroupBox Header="Alertes" HorizontalAlignment="Left" Name="gbAlertes" VerticalAlignment="Top" Width="586" Margin="6,276,0,0" DataContext="{Binding}">

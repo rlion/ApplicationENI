@@ -91,6 +91,7 @@
     <Compile Include="DAL\ContactDAL.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DAL\EntrepriseDAL.cs" />
     <Compile Include="DAL\PromotionDAL.cs" />
     <Compile Include="DAL\CoursDAL.cs" />
     <Compile Include="DAL\ECFDAL.cs">
@@ -121,6 +122,7 @@
     <Compile Include="Modele\Contact.cs" />
     <Compile Include="Modele\Cours.cs" />
     <Compile Include="Modele\ECF.cs" />
+    <Compile Include="Modele\Entreprise.cs" />
     <Compile Include="Modele\EpreuveTitre.cs" />
     <Compile Include="Modele\Evaluation.cs" />
     <Compile Include="Modele\Formation.cs" />
@@ -151,6 +153,9 @@
     <Compile Include="Vue\GestionPassageTitre.xaml.cs">
       <DependentUpon>GestionPassageTitre.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vue\PopUp\AjoutContact.xaml.cs">
+      <DependentUpon>AjoutContact.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vue\PopUp\GestionJury.xaml.cs">
       <DependentUpon>GestionJury.xaml</DependentUpon>
     </Compile>
@@ -159,9 +164,6 @@
     </Compile>
     <Compile Include="Vue\PopUp\NewJure.xaml.cs">
       <DependentUpon>NewJure.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Vue\PopUp\Contact.xaml.cs">
-      <DependentUpon>Contact.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vue\SyntheseECF.xaml.cs">
       <DependentUpon>SyntheseECF.xaml</DependentUpon>
@@ -240,6 +242,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Vue\PopUp\AjoutContact.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vue\PopUp\GestionJury.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -249,10 +255,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vue\PopUp\NewJure.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Vue\PopUp\Contact.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

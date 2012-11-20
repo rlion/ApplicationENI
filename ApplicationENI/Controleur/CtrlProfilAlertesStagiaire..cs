@@ -66,5 +66,10 @@ namespace ApplicationENI.Controleur
         public void modifierContact(Contact pC) {
             DAL.ContactDAL.modifierContact(pC);
         }
+
+        public List<Entreprise> listeEntreprises() {
+            return DAL.EntrepriseDAL.getListeEntreprises();
+        }
+
     }
 }
