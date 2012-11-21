@@ -12,6 +12,7 @@ namespace ApplicationENI.DAL
         static String SELECT_CONTACT_PAR_STAGIAIRE = "SELECT CONTACT.CODECONTACT, Contact.NOM, Contact.PRENOM, Contact.TELFIXE, Contact.TelMobile, Contact.Email, Entreprise.RaisonSociale FROM CONTACT, Fonction, StagiaireParEntreprise, Entreprise WHERE Contact.CodeFonction = Fonction.CodeFonction AND StagiaireParEntreprise.CodeEntreprise=Entreprise.CodeEntreprise AND StagiaireParEntreprise.CodeStagiaire=@num_stagiaire";
         static String DELETE_CONTACT = "DELETE FROM CONTACT WHERE CodeContact=@codeContact";
         static String UPDATE_CONTACT = "UPDATE CONTACT SET Nom=@nom, Prenom=@prenom, TelFixe=@telFixe, TelMobile=@telPortable, Email=@email WHERE CODECONTACT=@codeContact";
+        static String INSERT_CONTACT = "insert into Contact(Nom, Prenom, CodeFonction, CodeImportance, Archive, TelMobile) Values('test', 'test', 'AL', 1, 0, '0202020202')";
 
         public static List<Contact> rechercherContacts(int pNumStagiaire){
 
@@ -21,6 +22,7 @@ namespace ApplicationENI.DAL
             List<Contact> listeContacts = new List<Contact>();
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read()) {
+                //TODO:vérification null
                 Contact contact = new Contact();
                 contact._nomEntreprise = reader.GetString(reader.GetOrdinal("RaisonSociale"));
                 contact._codeContact = reader.GetInt32(reader.GetOrdinal("CODECONTACT"));

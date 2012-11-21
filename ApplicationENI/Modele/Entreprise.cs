@@ -19,5 +19,19 @@ namespace ApplicationENI.Modele
             return _raisonSociale.ToUpper();
         }
 
+        public Entreprise()
+        {
+
+        }
+
+        public Entreprise(String pNom, String pCp, String pVille, String pTel, String pMail)
+        {
+            this._codePostal = pCp;
+            this._mail = pMail;
+            this._raisonSociale = pNom;
+            this._tel = pTel;
+            this._ville = pVille;
+        }
+
     }
 }

@@ -10,6 +10,8 @@ namespace ApplicationENI.DAL
     class EntrepriseDAL
     {
         static String SELECT_LISTE_ENTREPRISES = "SELECT * FROM ENTREPRISE ORDER BY RAISONSOCIALE";
+        static String INSERT_ENTREPRISE = "INSERT INTO ENTREPRISE (RAISONSOCIALE, CODEPOSTAL, VILLE, TELEPHONE, EMAIL) VALUES(@raisonSociale, @cp, @ville, @tel, @mail)";
+        static String GET_NUM_ENTREPRISE = "SELECT @@IDENTITY AS IDENT";
         //TODO: du coup revoir comment est gérée l'entreprise propre au contact...
         public static List<Entreprise> getListeEntreprises()
         {
@@ -43,5 +45,32 @@ namespace ApplicationENI.DAL
             return listeEntreprises;
         }
 
+        //    @raisonSociale, @cp, @ville, @tel, @mail
+        public static void ajouterEntreprise(Entreprise pE)
+        {
+            //try
+            //{
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+                SqlCommand cmd = new SqlCommand(INSERT_ENTREPRISE, connexion);
+                cmd.Parameters.AddWithValue("@raisonSociale", pE._raisonSociale);
+                cmd.Parameters.AddWithValue("@cp", pE._codePostal);
+                cmd.Parameters.AddWithValue("@ville", pE._ville);
+                cmd.Parameters.AddWithValue("@tel", pE._tel);
+                cmd.Parameters.AddWithValue("@mail", pE._mail);
+                cmd.ExecuteNonQuery();
+
+                // maintenant il faut mettre à jour l'objet Absence en lui assignant son numéro
+                SqlCommand cmd2 = new SqlCommand(GET_NUM_ENTREPRISE, connexion);
+                int idDerniereEntreprise = Convert.ToInt32(cmd2.ExecuteScalar());
+                pE._codeEntreprise = idDerniereEntreprise;
+                connexion.Close();
+           /* }
+            catch (Exception)
+            {
+                System.Windows.MessageBox.Show("Cette entreprise ne peut être ajoutée.",
+                    "Ajout Entreprise impossible", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+            }*/
+
+        }
     }
 }

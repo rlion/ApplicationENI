@@ -18,8 +18,9 @@ namespace ApplicationENI.Modele
         public String _archive { get; set; }
         public String _civilite { get; set; }
         public String _nomEntreprise { get; set; }
+        public String _codeFonction { get; set; }
 
-        public Contact(int pCodeContact, String pNom, String pPrenom, String pTelFixe, String pTelMobile, String pFax, String pEmail, String pObs, String pArchive, String pCivilite, String pEntreprise)
+        public Contact(int pCodeContact, String pNom, String pPrenom, String pTelFixe, String pTelMobile, String pFax, String pEmail, String pObs, String pArchive, String pCivilite, String pEntreprise, String pCodeFonction)
         {
             this._archive = pArchive;
             this._civilite = pCivilite;
@@ -32,6 +33,7 @@ namespace ApplicationENI.Modele
             this._telFixe = pTelFixe;
             this._telMobile = pTelMobile;
             this._nomEntreprise = pEntreprise;
+            this._codeFonction = pCodeFonction;
         }
 
         public Contact()

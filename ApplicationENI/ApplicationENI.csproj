@@ -92,6 +92,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DAL\EntrepriseDAL.cs" />
+    <Compile Include="DAL\FonctionDAL.cs" />
     <Compile Include="DAL\PromotionDAL.cs" />
     <Compile Include="DAL\CoursDAL.cs" />
     <Compile Include="DAL\ECFDAL.cs">
@@ -125,6 +126,7 @@
     <Compile Include="Modele\Entreprise.cs" />
     <Compile Include="Modele\EpreuveTitre.cs" />
     <Compile Include="Modele\Evaluation.cs" />
+    <Compile Include="Modele\Fonction.cs" />
     <Compile Include="Modele\Formation.cs" />
     <Compile Include="Modele\Formations.cs" />
     <Compile Include="Modele\ItemAlerte.cs" />
@@ -155,6 +157,9 @@
     </Compile>
     <Compile Include="Vue\PopUp\AjoutContact.xaml.cs">
       <DependentUpon>AjoutContact.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\PopUp\AjoutEntreprise.xaml.cs">
+      <DependentUpon>AjoutEntreprise.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vue\PopUp\GestionJury.xaml.cs">
       <DependentUpon>GestionJury.xaml</DependentUpon>
@@ -243,6 +248,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vue\PopUp\AjoutContact.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vue\PopUp\AjoutEntreprise.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

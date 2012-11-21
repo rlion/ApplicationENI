@@ -59,6 +59,10 @@ namespace ApplicationENI.Controleur
             }
         }
 
+        public void ajouterContact(Contact pC) { 
+            //TODO :DAL.ContactDAL.
+        }
+
         public void supprimerContact(int pCodeContact) {
             DAL.ContactDAL.supprimerContact(pCodeContact);
         }
@@ -71,5 +75,12 @@ namespace ApplicationENI.Controleur
             return DAL.EntrepriseDAL.getListeEntreprises();
         }
 
+        public void ajouterEntreprise(Entreprise pE) {
+            DAL.EntrepriseDAL.ajouterEntreprise(pE);
+        }
+
+        public List<Fonction> listeFonctions() {
+            return DAL.FonctionDAL.listeFonctions();
+        }
     }
 }
