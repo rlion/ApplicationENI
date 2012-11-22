@@ -8,17 +8,17 @@ namespace ApplicationENI.Modele
     public class Evaluation
     {
         #region Attributs (id, ecf, competence, stagiaire, version, note, date)
-        private Guid _id;
+        private String _id;
         private ECF _ecf;
         private Competence _competence;
         private Stagiaire _stagiaire;
         private int _version;
-        private int _note; //si numerique entre 0 et 20 - sinom 0 non acquis, 1 en cours, 2 acquis
+        private float _note; //si numerique entre 0 et 20 - sinom 0 non acquis, 1 en cours, 2 acquis
         private DateTime _date;
         #endregion
 
         #region Proprietes
-        public Guid Id
+        public String Id
         {
             get { return _id; }
             set { _id = value; }
@@ -43,7 +43,7 @@ namespace ApplicationENI.Modele
             get { return _version; }
             set { _version = value; }
         }
-        public int Note
+        public float Note
         {
             get { return _note; }
             set { _note = value; }
@@ -58,7 +58,7 @@ namespace ApplicationENI.Modele
         #region Constructeurs
         public Evaluation()
         {
-            _id = new Guid();
+            _id = "";
             _ecf = new ECF();
             _competence = new Competence();
             _stagiaire = new Stagiaire();
@@ -66,12 +66,33 @@ namespace ApplicationENI.Modele
             _note = 0;
             _date = new DateTime();
         }
+        public Evaluation(String pId, ECF pEcf, Competence pComp, Stagiaire pStag, int pVersion, int pNote, DateTime pDate)
+        {
+            _id = pId;
+            _ecf = pEcf;
+            _competence = pComp;
+            _stagiaire = pStag;
+            _version = pVersion;
+            _note = pNote;
+            _date = pDate;
+        }
         public Evaluation(ECF pEcf, Competence pComp, Stagiaire pStag, int pVersion, int pNote, DateTime pDate)
         {
-            _id = new Guid();
-            _ecf = new ECF();
-            _competence = new Competence();
-            _stagiaire = new Stagiaire();
+            _id = "";
+            _ecf =pEcf;
+            _competence = pComp;
+            _stagiaire = pStag;
+            _version = pVersion;
+            _note = pNote;
+            _date = pDate;
+        }
+
+        public Evaluation(ECF pEcf, Competence pComp, Stagiaire pStag)
+        {
+            _id = "";
+            _ecf = pEcf;
+            _competence = pComp;
+            _stagiaire = pStag;
             _version = 0;
             _note = 0;
             _date = new DateTime();
