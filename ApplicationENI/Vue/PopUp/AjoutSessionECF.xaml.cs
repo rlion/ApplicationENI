@@ -70,7 +70,7 @@ namespace ApplicationENI.Vue.PopUp
             //Nouvelle sessionECF
             if (_sessionECF.Id == "")
             {
-                SessionECF sessionECFTemp = new SessionECF((ECF)cbECF.SelectedItem, (DateTime)_sessionECF.Date);
+                //SessionECF sessionECFTemp = new SessionECF((ECF)cbECF.SelectedItem, (DateTime)_sessionECF.Date);
                 if (lbParticipants.HasItems)
                 {
                     _listeParticipants = new List<Stagiaire>();
@@ -78,14 +78,24 @@ namespace ApplicationENI.Vue.PopUp
                     {
                         _listeParticipants.Add(stag);
                     }
-                    sessionECFTemp.Participants = _listeParticipants;
+                    //sessionECFTemp.Participants = _listeParticipants;
+                    _sessionECF.Participants = _listeParticipants;
                 }
-                CtrlGestionECF.ajouterSessionECF(sessionECFTemp);
+                CtrlGestionECF.ajouterSessionECF(_sessionECF);
             }
             else
             //Modification sessionECF
             {
-
+                if (lbParticipants.HasItems)
+                {
+                    _listeParticipants = new List<Stagiaire>();
+                    foreach (Stagiaire stag in lbParticipants.Items)
+                    {
+                        _listeParticipants.Add(stag);
+                    }
+                    _sessionECF.Participants = _listeParticipants;
+                }
+                CtrlGestionECF.ajouterParticipants(_sessionECF);
             }
             
             
@@ -97,27 +107,15 @@ namespace ApplicationENI.Vue.PopUp
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _sessionECF.Ecf = (ECF)cbECF.SelectedItem;
-            _listeECFPlanif = CtrlGestionECF.getListSessionsECF(_sessionECF.Ecf);
-            _planif = new List<DateTime>();
-            calendrier.SelectedDates.Clear();
-            lbDateSession.Content = "";
-            //TODO RAZ
-            foreach (SessionECF sessECF in _listeECFPlanif)
-	        {
-		        _planif.Add(sessECF.Date);
-                calendrier.SelectedDates.Add(sessECF.Date);
-	        }
-
-            List<Formation> lesForms = new List<Formation>();
-            cbFormation.ItemsSource = null;
-            lesForms.Add(new Formation("0","Toutes"));
-            foreach (Formation form in _sessionECF.Ecf.Formations)
+            
+            //Versions
+            cbVersions.IsEnabled = true;
+            List<int> versions = new List<int>();
+            for (int i = 1; i <= _sessionECF.Ecf.NbreVersion; i++)
             {
-                lesForms.Add(form);
+                versions.Add(i);
             }
-            cbFormation.ItemsSource = lesForms;
-
-            calendrier.IsEnabled = true;
+            cbVersions.ItemsSource = versions;
             
         }
         #endregion
@@ -154,12 +152,17 @@ namespace ApplicationENI.Vue.PopUp
                 //L'utilisateur clique sur une date non planifiée
                 if (!_planif.Contains((DateTime)dt))
                 {
-                    MessageBox.Show("Création de la planification de l'ECF " + _sessionECF.ToString());
-                    
+                    //MessageBox.Show("Création de la planification de l'ECF " + _sessionECF.ToString());
+                    label3.Content = "Création de la planification de l'ECF";
                 }
                 else //L'utilisateur clique sur une date planifiée
                 {                    
-                    MessageBox.Show("Modification de la planification de l'ECF " + _sessionECF.ToString());
+                    //MessageBox.Show("Modification de la planification de l'ECF " + _sessionECF.ToString());
+                    label3.Content = "Modification de la planification de l'ECF";
+                    _sessionECF.Id = CtrlGestionECF.donneIdSessionECF(_sessionECF.Ecf, _sessionECF.Date, SessionECF.Version);
+                    lbParticipants.ItemsSource = null;
+                    _listeParticipants = CtrlGestionECF.getListParticipants(_sessionECF);
+                    lbParticipants.ItemsSource = _listeParticipants;
                 }
                 lbDateSession.Content = _sessionECF.Date.ToShortDateString();
                 gbStagiaires.IsEnabled = true;
@@ -264,6 +267,32 @@ namespace ApplicationENI.Vue.PopUp
             lbStagiaires.ItemsSource = _listeStagiaires;
         }
         #endregion
+
+        private void cbVersions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            _sessionECF.Version = (int)cbVersions.SelectedItem;
+            _listeECFPlanif = CtrlGestionECF.getListSessionsECF(_sessionECF.Ecf, _sessionECF.Version);
+            _planif = new List<DateTime>();
+            calendrier.SelectedDates.Clear();
+            lbDateSession.Content = "";
+            //TODO RAZ
+            foreach (SessionECF sessECF in _listeECFPlanif)
+            {
+                _planif.Add(sessECF.Date);
+                calendrier.SelectedDates.Add(sessECF.Date);
+            }
+
+            List<Formation> lesForms = new List<Formation>();
+            cbFormation.ItemsSource = null;
+            lesForms.Add(new Formation("0", "Toutes"));
+            foreach (Formation form in _sessionECF.Ecf.Formations)
+            {
+                lesForms.Add(form);
+            }
+            cbFormation.ItemsSource = lesForms;
+
+            calendrier.IsEnabled = true;
+        }
 
         
     }        
