@@ -89,13 +89,17 @@ namespace ApplicationENI.Controleur
         {
             return SessionECFDAL.getListSessionsECFs();
         }
-        public static List<SessionECF> getListSessionsECF(ECF pECF)
+        public static List<SessionECF> getListSessionsECF(ECF pECF, int pVersion)
         {
-            return SessionECFDAL.getListSessionsECF(pECF);
+            return SessionECFDAL.getListSessionsECF(pECF, pVersion);
         }
         public static void ajouterSessionECF(SessionECF pSessionECF)
         {
             SessionECFDAL.ajouterSessionECF(pSessionECF);
+        }
+        public static String donneIdSessionECF(ECF pECF, DateTime pDate, int pVersion)
+        {
+            return SessionECFDAL.donneIdSessionECF(pECF, pDate, pVersion);
         }
         #endregion
 
@@ -109,6 +113,31 @@ namespace ApplicationENI.Controleur
         public static List<Stagiaire> getListeStagiaires(Formation pFormation, int pTypeFormation, String pFiltreNomPrenom)
         {
             return StagiairesDAL.getListeStagiaires(pFormation, pTypeFormation, pFiltreNomPrenom);
+        }
+
+        public static List<SessionECF> donneSessionsECFJour(ECF pECF, DateTime pDate)
+        {
+            return SessionECFDAL.donneSessionsECFJour(pECF, pDate);
+        }
+
+        public static List<Stagiaire> getListParticipants(SessionECF pSessionECF)
+        {
+            return SessionECFDAL.getListParticipants(pSessionECF);
+        }
+
+        public static void ajouterParticipants(SessionECF pSessionECF)
+        {
+            SessionECFDAL.ajouterParticipants(pSessionECF);
+        }
+
+        //evaluations
+        public static void ajouterEvaluation(Evaluation pEval)
+        {
+            EvaluationsDAL.ajouterEvaluation(pEval);
+        }
+
+        public static Evaluation donneEvaluation(Evaluation pEval){
+            return EvaluationsDAL.donneEvaluation(pEval);
         }
     }
 }
