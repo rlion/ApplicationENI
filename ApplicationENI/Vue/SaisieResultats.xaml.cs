@@ -94,8 +94,7 @@ namespace ApplicationENI.Vue
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             calendrier.IsEnabled = true;
-
-            afficheSessionECF((ECF)cbECF.SelectedItem);
+                        
             calendrier.Visibility = Visibility.Visible;
         }
         private void btnAjouter_Click(object sender, RoutedEventArgs e)
@@ -103,12 +102,14 @@ namespace ApplicationENI.Vue
             PopUp.AjoutSessionECF popup = new PopUp.AjoutSessionECF();
             popup.ShowDialog();
 
-            if (popup.SessionECF != null)
-            {
-                _ecfCourant = popup.SessionECF.Ecf;
-                ActualiseAffichage();
-                afficheSessionECF(_ecfCourant);
-            }
+            //if (popup.SessionECF != null)
+            //{
+            //    _ecfCourant = popup.SessionECF.Ecf;
+            //    ActualiseAffichage();
+            //    afficheSessionECF(_ecfCourant);
+            //}
+
+            //TODO RAZ
         }
         private void calendrier_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -152,6 +153,7 @@ namespace ApplicationENI.Vue
                 else //L'utilisateur clique sur une date planifiée
                 {
                     _sessionECFcourant = new SessionECF(_ecfCourant, dt);
+                    List<SessionECF> sessionsECFJour = CtrlGestionECF.donneSessionsECFJour(_sessionECFcourant.Ecf, _sessionECFcourant.Date);
                     //TODO?? modifier aspect date selectionnée
                     lbDateSession.Content = "Epreuve du " + _sessionECFcourant.Date.ToShortDateString();
                     lbCompetences.Visibility = Visibility.Visible;
@@ -163,13 +165,12 @@ namespace ApplicationENI.Vue
 
                     cbVersions.IsEnabled = true;
                     List<int> versions = new List<int>();
-                    for (int i = 1; i <= _ecfCourant.NbreVersion; i++)
+                    foreach (SessionECF sessJ in sessionsECFJour)
                     {
-                        versions.Add(i);
+                        versions.Add(sessJ.Version);
                     }
                     cbVersions.ItemsSource = versions;
-
-                    //TODO afficher reste
+                                       
                 }
             }
         }
@@ -185,5 +186,125 @@ namespace ApplicationENI.Vue
             }
         }
         #endregion
+
+        private void lbCompetences_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            noteStagiaire();
+        }
+
+        private void lbStagiaires_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            noteStagiaire();
+        }
+
+        private void noteStagiaire()
+        {
+            if (lbCompetences.SelectedItem != null && lbStagiaires.SelectedItem != null)
+            {
+                if (_sessionECFcourant.Ecf.NotationNumerique)
+                {
+                    lbNote.Visibility = Visibility.Visible;
+                    tbNote.Visibility = Visibility.Visible;
+                    rbAcquis.Visibility = Visibility.Hidden;
+                    rbEnCours.Visibility = Visibility.Hidden;
+                    rbNonAcquis.Visibility = Visibility.Hidden;
+                    gbNote.IsEnabled = true;
+                    lbNote.IsEnabled = true;
+                    tbNote.IsEnabled = true;
+                    rbAcquis.IsEnabled = false;
+                    rbEnCours.IsEnabled = false;
+                    rbNonAcquis.IsEnabled = false;
+                    btnEnregistrer.IsEnabled = true;
+                }
+                else
+                {
+                    lbNote.Visibility = Visibility.Hidden;
+                    tbNote.Visibility = Visibility.Hidden;
+                    rbAcquis.Visibility = Visibility.Visible;
+                    rbEnCours.Visibility = Visibility.Visible;
+                    rbNonAcquis.Visibility = Visibility.Visible;
+                    gbNote.IsEnabled = true;
+                    lbNote.IsEnabled = false;
+                    tbNote.IsEnabled = false;
+                    rbAcquis.IsEnabled = true;
+                    rbEnCours.IsEnabled = true;
+                    rbNonAcquis.IsEnabled = true;
+                    btnEnregistrer.IsEnabled = true;
+                }
+
+                Evaluation eval = CtrlGestionECF.donneEvaluation(new Evaluation(_ecfCourant,(Competence) lbCompetences.SelectedItem,(Stagiaire) lbStagiaires.SelectedItem));
+                if (eval != null)
+                {
+                    if (!_ecfCourant.NotationNumerique)
+                    {
+                        if (eval.Note == Ressources.CONSTANTES.NOTE_ACQUIS)
+                        {
+                            rbAcquis.IsChecked = true;
+                        }
+                        else if (eval.Note == Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION)
+                        {
+                            rbEnCours.IsChecked = true;
+                        }
+                        else if (eval.Note == Ressources.CONSTANTES.NOTE_NON_ACQUIS)
+                        {
+                            rbNonAcquis.IsChecked = true;
+                        }
+                    }
+                    else
+                    {
+                        tbNote.Text = eval.Note.ToString();
+                    }
+                }
+                else
+                {
+                    rbAcquis.IsChecked = false;
+                    rbEnCours.IsChecked = false;
+                    rbNonAcquis.IsChecked = false;
+                    tbNote.Text="";
+                }
+            }
+            else
+            {
+                lbNote.Visibility = Visibility.Hidden;
+                tbNote.Visibility = Visibility.Hidden;
+                rbAcquis.Visibility = Visibility.Hidden;
+                rbEnCours.Visibility = Visibility.Hidden;
+                rbNonAcquis.Visibility = Visibility.Hidden;
+                btnEnregistrer.IsEnabled = false;
+            }
+        }
+
+        private void btnEnregistrer_Click(object sender, RoutedEventArgs e)
+        {
+            int note=-1;
+            //TODO verif valeur numerique entre 0 et 20
+            if (!_ecfCourant.NotationNumerique)
+	        {	        
+	            if (rbAcquis.IsChecked==true)
+	            {
+		            note=Ressources.CONSTANTES.NOTE_ACQUIS;
+	            }else if (rbEnCours.IsChecked==true)
+	            {
+                    note=Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION;
+                }else if (rbNonAcquis.IsChecked==true)
+	            {
+		            note=Ressources.CONSTANTES.NOTE_NON_ACQUIS;
+	            }
+            }else{
+                note=Convert.ToInt32(tbNote.Text);
+            }
+            Evaluation eval = new Evaluation(_ecfCourant, (Competence)lbCompetences.SelectedItem, (Stagiaire)lbStagiaires.SelectedItem, Convert.ToInt32(cbVersions.SelectedItem), note, _sessionECFcourant.Date);
+            CtrlGestionECF.ajouterEvaluation(eval);
+        }
+
+        private void cbVersions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            afficheSessionECF((ECF)cbECF.SelectedItem);
+
+            //participants
+            lbStagiaires.ItemsSource = CtrlGestionECF.getListParticipants(_sessionECFcourant);
+
+            //TODO afficher reste
+        }
     }
 }

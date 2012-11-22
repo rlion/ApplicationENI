@@ -9,22 +9,22 @@
     <Grid>
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="140,11,0,0" Name="cbECF" VerticalAlignment="Top" Width="162" Text="" SelectionChanged="cbECF_SelectionChanged" Visibility="Visible" />
         <Label Content="ECF :" Height="28" HorizontalAlignment="Left" Margin="35,11,0,0" Name="lbECF" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right" Visibility="Visible" />
-        <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="407,471,0,0" Name="btnEnregistrer" VerticalAlignment="Top" Width="90" Visibility="Visible" />
-        <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="503,471,0,0" Name="btnAnnu" VerticalAlignment="Top" Width="90" Visibility="Visible" />
+        <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="407,471,0,0" Name="btnEnregistrer" VerticalAlignment="Top" Width="90" Visibility="Visible" IsEnabled="False" Click="btnEnregistrer_Click" />
+        <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="503,471,0,0" Name="btnAnnu" VerticalAlignment="Top" Width="90" Visibility="Visible" IsEnabled="False" />
         <Button Content="Planifier /Modifier ECF" Height="23" HorizontalAlignment="Left" Margin="35,471,0,0" Name="btnAjouter" VerticalAlignment="Top" Width="128" Click="btnAjouter_Click" Visibility="Visible" />
-        <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Left" Margin="169,471,0,0" Name="btnSupprimer" VerticalAlignment="Top" Width="90" Visibility="Visible" />
+        <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Left" Margin="169,471,0,0" Name="btnSupprimer" VerticalAlignment="Top" Width="90" Visibility="Visible" IsEnabled="False" />
         <Calendar Height="170" HorizontalAlignment="Left" Margin="418,12,0,0" Name="calendrier" VerticalAlignment="Top" Width="184" IsEnabled="False" MaxWidth="Infinity" SelectionMode="MultipleRange" IsTodayHighlighted="False" SelectedDatesChanged="calendrier_SelectedDatesChanged" Visibility="Visible" />
         <GroupBox Header="Propriétés :" Height="157" HorizontalAlignment="Left" Margin="35,40,0,0" Name="groupBox1" VerticalAlignment="Top" Width="280">
             <Grid>
-                <ComboBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="110,11,0,0" Name="cbVersions" Text="" VerticalAlignment="Top" Visibility="Visible" Width="54" />
+                <ComboBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="110,11,0,0" Name="cbVersions" Text="" VerticalAlignment="Top" Visibility="Visible" Width="54" SelectionChanged="cbVersions_SelectionChanged" />
                 <Label Content="Version :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" IsEnabled="True" Margin="18,6,0,0" Name="label1" VerticalAlignment="Top" Visibility="Visible" Width="86" />
-                <GroupBox Header="Note" Height="50" HorizontalAlignment="Left" IsEnabled="False" Margin="6,75,0,0" Name="groupBox2" VerticalAlignment="Top" Visibility="Visible" Width="255">
+                <GroupBox Header="Note" Height="50" HorizontalAlignment="Left" Margin="6,75,0,0" Name="gbNote" VerticalAlignment="Top" Visibility="Visible" Width="255">
                     <Grid>
-                        <RadioButton Content="Acquis" Height="15" HorizontalAlignment="Left" Margin="6,5,0,0" Name="radioButton2" VerticalAlignment="Top" Visibility="Visible" Width="64" />
-                        <RadioButton Content="En cours" Height="15" HorizontalAlignment="Left" Margin="78,5,0,0" Name="radioButton3" VerticalAlignment="Top" Visibility="Visible" />
-                        <RadioButton Content="Non acquis" Height="15" Margin="160,5,0,0" Name="radioButton4" VerticalAlignment="Top" Visibility="Visible" HorizontalAlignment="Left" Width="76" />
-                        <TextBox Height="20" HorizontalAlignment="Left" Margin="82,3,0,0" Name="textBox1" VerticalAlignment="Top" Visibility="Hidden" Width="163" />
-                        <Label Content="Note :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="-24,0,0,0" Name="label3" VerticalAlignment="Top" Visibility="Hidden" Width="86" />
+                        <RadioButton Content="Acquis" Height="15" HorizontalAlignment="Left" Margin="6,5,0,0" Name="rbAcquis" VerticalAlignment="Top" Visibility="Hidden" Width="64" />
+                        <RadioButton Content="En cours" Height="15" HorizontalAlignment="Left" Margin="78,5,0,0" Name="rbEnCours" VerticalAlignment="Top" Visibility="Hidden" />
+                        <RadioButton Content="Non acquis" Height="15" Margin="160,5,0,0" Name="rbNonAcquis" VerticalAlignment="Top" Visibility="Hidden" HorizontalAlignment="Left" Width="76" />
+                        <TextBox Height="20" HorizontalAlignment="Left" Margin="82,3,0,0" Name="tbNote" VerticalAlignment="Top" Visibility="Hidden" Width="147" />
+                        <Label Content="Note :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="-24,0,0,0" Name="lbNote" VerticalAlignment="Top" Visibility="Hidden" Width="86" />
                     </Grid>
                 </GroupBox>
                 <Label FontSize="16" FontWeight="Bold" Height="29" HorizontalAlignment="Left" Margin="6,40,0,0" Name="lbDateSession" VerticalAlignment="Top" Visibility="Visible" Width="255" />
@@ -32,12 +32,12 @@
         </GroupBox>
         <GroupBox Header="Compétences :" Height="250" HorizontalAlignment="Left" Margin="35,203,0,0" Name="groupBox3" VerticalAlignment="Top" Width="280">
             <Grid>
-                <ListBox Focusable="True" Height="215" HorizontalAlignment="Left" IsEnabled="False" ItemsSource="{Binding}" Margin="6,6,0,0" Name="lbCompetences" SelectionMode="Single" VerticalAlignment="Top" Visibility="Visible" Width="255" />
+                <ListBox Focusable="True" Height="215" HorizontalAlignment="Left" IsEnabled="False" ItemsSource="{Binding}" Margin="6,6,0,0" Name="lbCompetences" SelectionMode="Single" VerticalAlignment="Top" Visibility="Visible" Width="255" SelectionChanged="lbCompetences_SelectionChanged" />
             </Grid>
         </GroupBox>
         <GroupBox Header="Stagiaires :" Height="250" HorizontalAlignment="Left" Margin="321,203,0,0" Name="groupBox4" VerticalAlignment="Top" Width="281">
             <Grid>
-                <ListBox Height="215" HorizontalAlignment="Left" IsEnabled="False" ItemsSource="{Binding}" Margin="6,6,0,0" Name="lbStagiaires" SelectionMode="Single" VerticalAlignment="Top" Visibility="Visible" Width="257" />
+                <ListBox Height="215" HorizontalAlignment="Left" IsEnabled="False" ItemsSource="{Binding}" Margin="6,6,0,0" Name="lbStagiaires" SelectionMode="Single" VerticalAlignment="Top" Visibility="Visible" Width="257" SelectionChanged="lbStagiaires_SelectionChanged" />
             </Grid>
         </GroupBox>
     </Grid>
