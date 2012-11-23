@@ -122,5 +122,35 @@ namespace ApplicationENI.DAL
 
             return pEval;
         }
+
+        public static List<ECF> getListeECFsNonCorriges(Stagiaire pStag)
+        {
+            //recup la liste des ECF planifies pour un stagiaire
+            List<SessionECF> lesSessionsECFStag = SessionECFDAL.getListSessionsECFStagiaire(pStag);
+
+            //dans cette liste on récupère les ECFs déjà passés (date de passage<aujourd'hui)
+            List<SessionECF> lesSessionsECFPassees = null;
+            foreach (SessionECF sess in lesSessionsECFStag)
+            {
+                if (sess.Date<DateTime.Now)  
+                {
+                    if (lesSessionsECFPassees == null) lesSessionsECFPassees = new List<SessionECF>();
+                    lesSessionsECFPassees.Add(sess);
+                }
+            }
+            
+            //pour ceux dont la date est passée il faut vérifier si toutes les compétences ont été évaluées
+            List<ECF> lesECFsNonCorriges = null;
+            foreach (SessionECF sessionEcfPassee in lesSessionsECFPassees)
+            {
+                if (!SessionECFDAL.SessionECFCorrigee(sessionEcfPassee,pStag))
+                {
+                    if (lesECFsNonCorriges == null) lesECFsNonCorriges = new List<ECF>();
+                    lesECFsNonCorriges.Add(sessionEcfPassee.Ecf);
+                }
+            }
+
+            return lesECFsNonCorriges;
+        }
     }
 }
