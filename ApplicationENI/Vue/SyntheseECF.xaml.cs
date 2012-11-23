@@ -52,7 +52,7 @@ namespace ApplicationENI.Vue
             }
             foreach (TreeViewItem tvi in tvSynthese.Items)
             {
-                SessionECF session = (SessionECF)tvi.Item;
+                //SessionECF session = (SessionECF)tvi.Item;
 
             }
         }
