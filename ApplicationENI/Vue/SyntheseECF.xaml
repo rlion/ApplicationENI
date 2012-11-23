@@ -10,7 +10,7 @@
         <Button Content="Modifier note" Height="23" HorizontalAlignment="Left" Margin="518,425,0,0" Name="btModNote" VerticalAlignment="Top" Width="94" />
         <GroupBox Header="Synthèse des ECF" Height="407" HorizontalAlignment="Left" Margin="12,12,0,0" Name="groupBox1" VerticalAlignment="Top" Width="606">
             <Grid>
-                <ListBox Height="372" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="6,6,0,0" Name="listBox1" SelectionMode="Multiple" VerticalAlignment="Top" Width="582" />
+                <TreeView Height="373" HorizontalAlignment="Left" Margin="6,5,0,0" Name="tvSynthese" VerticalAlignment="Top" Width="582" />
             </Grid>
         </GroupBox>
     </Grid>

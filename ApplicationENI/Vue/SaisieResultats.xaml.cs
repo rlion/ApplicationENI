@@ -24,7 +24,7 @@ namespace ApplicationENI.Vue
         #region Propriétés
         private List<SessionECF> _listeSessionECFs = null;
         private ECF _ecfCourant = null;
-        private List<DateTime> _planif = new List<DateTime>();
+        private List<DateTime> _planif = null;
         private SessionECF _sessionECFcourant = null;
         #endregion
 
@@ -35,7 +35,7 @@ namespace ApplicationENI.Vue
 
             //Affichage
             ActualiseAffichage();
-            calendrier.DisplayDateStart = DateTime.Now;        
+            //calendrier.DisplayDateStart = DateTime.Now;        
         }
         #endregion
 
@@ -94,7 +94,30 @@ namespace ApplicationENI.Vue
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             calendrier.IsEnabled = true;
-                        
+
+            //ECF courant
+            _ecfCourant = new ECF();
+            _ecfCourant=(ECF)cbECF.SelectedItem;
+            //session ECFCourant
+            _sessionECFcourant=new SessionECF();
+            _sessionECFcourant.Ecf= _ecfCourant;
+            //liste de sessions ECF (correspondant à l'ecf)
+            _listeSessionECFs = new List<SessionECF>();
+            _listeSessionECFs = CtrlGestionECF.getListSessionsECF(_ecfCourant);
+            //date planifiées
+            _planif = new List<DateTime>();
+            foreach (SessionECF sess in _listeSessionECFs)
+            {
+                _planif.Add(sess.Date);
+            }
+            //calendrier
+            calendrier.SelectedDates.Clear();
+            foreach (DateTime date in _planif)
+            {
+                calendrier.SelectedDates.Add(date);
+            }
+
+     
             calendrier.Visibility = Visibility.Visible;
         }
         private void btnAjouter_Click(object sender, RoutedEventArgs e)
@@ -152,7 +175,7 @@ namespace ApplicationENI.Vue
                 }
                 else //L'utilisateur clique sur une date planifiée
                 {
-                    _sessionECFcourant = new SessionECF(_ecfCourant, dt);
+                    _sessionECFcourant.Date = dt;
                     List<SessionECF> sessionsECFJour = CtrlGestionECF.donneSessionsECFJour(_sessionECFcourant.Ecf, _sessionECFcourant.Date);
                     //TODO?? modifier aspect date selectionnée
                     lbDateSession.Content = "Epreuve du " + _sessionECFcourant.Date.ToShortDateString();
@@ -169,11 +192,11 @@ namespace ApplicationENI.Vue
                     {
                         versions.Add(sessJ.Version);
                     }
-                    cbVersions.ItemsSource = versions;
-                                       
+                    cbVersions.ItemsSource = versions;                                       
                 }
             }
         }
+
         //http://stackoverflow.com/questions/5543119/wpf-button-takes-two-clicks-to-fire-click-event
         //Permet d'éviter d'avoir à cliquer 2 fois alors que le focus était sur le calendrier
         // un clic pour sortir et un réel (cf. combobox)
