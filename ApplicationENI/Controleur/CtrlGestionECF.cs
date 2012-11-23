@@ -89,9 +89,17 @@ namespace ApplicationENI.Controleur
         {
             return SessionECFDAL.getListSessionsECFs();
         }
-        public static List<SessionECF> getListSessionsECF(ECF pECF, int pVersion)
+        public static List<SessionECF> getListSessionsECFVersion(ECF pECF, int pVersion)
         {
-            return SessionECFDAL.getListSessionsECF(pECF, pVersion);
+            return SessionECFDAL.getListSessionsECFVersion(pECF, pVersion);
+        }
+        public static List<SessionECF> getListSessionsECFStagiaire(Stagiaire pStag)
+        {
+            return SessionECFDAL.getListSessionsECFStagiaire(pStag);
+        }
+        public static List<SessionECF> getListSessionsECF(ECF pECF)
+        {
+            return SessionECFDAL.getListSessionsECF(pECF);
         }
         public static void ajouterSessionECF(SessionECF pSessionECF)
         {
