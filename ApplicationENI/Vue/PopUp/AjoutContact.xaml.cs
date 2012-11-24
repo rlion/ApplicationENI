@@ -45,13 +45,30 @@ namespace ApplicationENI.Vue.PopUp
 
         private void btnEnregistrerContact_Click(object sender, RoutedEventArgs e)
         {
-            Contact con = new Contact();
-            con._nom = txtNom.Text;
-            con._prenom = txtPrenom.Text;
-            con._telFixe = txtTel.Text;
-            con._telMobile = txtPortable.Text;
-            con._email = txtMail.Text;
-            con._codeFonction = ((Fonction)cboFonctions.SelectedItem)._codeFonction;
+            if (txtNom.Text != "" && cboFonctions.SelectedItem != null && cboListeEntreprises.SelectedItem != null)
+            {
+                if (txtPortable.Text != "" || txtTel.Text != "")
+                {
+                    Contact con = new Contact();
+                    con._nom = txtNom.Text;
+                    con._prenom = txtPrenom.Text;
+                    con._telFixe = txtTel.Text;
+                    con._telMobile = txtPortable.Text;
+                    con._email = txtMail.Text;
+                    con._fax = txtFax.Text;
+                    con._codeFonction = ((Fonction)cboFonctions.SelectedItem)._codeFonction;
+                    con._codeEntreprise = ((Entreprise)cboListeEntreprises.SelectedItem)._codeEntreprise;
+                    DAL.ContactDAL.ajouterContact(con);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Veuillez saisir au moins un numéro de téléphone", "Saisie d'un numéro de téléphone obligatoire", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else {
+                MessageBox.Show("Veuillez saisir au minimum un nom, une fonction et une entreprise SVP.", "Erreur de saisie", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

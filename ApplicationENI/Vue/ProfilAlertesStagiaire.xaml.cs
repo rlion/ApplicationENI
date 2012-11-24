@@ -22,11 +22,13 @@ namespace ApplicationENI.Vue
     /// </summary>
     public partial class ProfilAlertesStagiaire : UserControl
     {
+        CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
+        Stagiaire stg = Parametres.Instance.stagiaire;
         public ProfilAlertesStagiaire()
         {
             InitializeComponent();
-            CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
-            Stagiaire stg = Parametres.Instance.stagiaire;
+            
+            
             BitmapImage img;
 
             //Informations sur le stagiaire
@@ -101,6 +103,7 @@ namespace ApplicationENI.Vue
         {
             AjoutContact formAjoutContact = new AjoutContact();
             formAjoutContact.ShowDialog();
+            dataGridListContacts.ItemsSource = stg.getListeContacts();
         }
 
 

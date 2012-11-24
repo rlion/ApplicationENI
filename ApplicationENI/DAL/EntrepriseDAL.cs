@@ -45,11 +45,10 @@ namespace ApplicationENI.DAL
             return listeEntreprises;
         }
 
-        //    @raisonSociale, @cp, @ville, @tel, @mail
         public static void ajouterEntreprise(Entreprise pE)
         {
-            //try
-            //{
+            try
+            {
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd = new SqlCommand(INSERT_ENTREPRISE, connexion);
                 cmd.Parameters.AddWithValue("@raisonSociale", pE._raisonSociale);
@@ -64,12 +63,12 @@ namespace ApplicationENI.DAL
                 int idDerniereEntreprise = Convert.ToInt32(cmd2.ExecuteScalar());
                 pE._codeEntreprise = idDerniereEntreprise;
                 connexion.Close();
-           /* }
+            }
             catch (Exception)
             {
                 System.Windows.MessageBox.Show("Cette entreprise ne peut être ajoutée.",
                     "Ajout Entreprise impossible", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
-            }*/
+            }
 
         }
     }
