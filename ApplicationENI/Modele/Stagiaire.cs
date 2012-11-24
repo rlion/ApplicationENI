@@ -78,11 +78,7 @@ namespace ApplicationENI.Modele
 	    }
         
         public List<ECF> listeECFNonCorriges() {
-            //TODO: Attente Mathias
-            //return DAL.ECFDAL.getListeEcfNonCorriges(Stagiaire stg);
-            //    ou
-            // return DAL.StagiairesDAL.getListeEcfNonCorriges(Stagiaire stg);
-            return null;
+            return DAL.EvaluationsDAL.getListeECFsNonCorriges(this);
         }
 
         public List<Observation> getListeObservations() {
