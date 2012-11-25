@@ -9,7 +9,8 @@ namespace ApplicationENI.DAL
 {
     class ContactDAL
     {
-        static String SELECT_CONTACT_PAR_STAGIAIRE = "SELECT CONTACT.CODECONTACT, Contact.NOM, Contact.PRENOM, Contact.TELFIXE, Contact.TelMobile, Contact.Email, Entreprise.CodeEntreprise FROM CONTACT, Fonction, StagiaireParEntreprise, Entreprise WHERE Contact.CodeFonction = Fonction.CodeFonction AND StagiaireParEntreprise.CodeEntreprise=Entreprise.CodeEntreprise AND StagiaireParEntreprise.CodeStagiaire=@num_stagiaire";
+        // Gestion des contacts assez souple
+        static String SELECT_CONTACT_PAR_STAGIAIRE = "SELECT CONTACT.CODECONTACT, Contact.NOM, Contact.PRENOM, Contact.TELFIXE, Contact.TelMobile, Contact.Email, Contact.CodeFonction, Entreprise.RaisonSociale FROM CONTACT, Entreprise WHERE Contact.CodeEntreprise=Entreprise.CodeEntreprise AND Entreprise.CodeEntreprise IN(select CodeEntreprise FROM StagiaireParEntreprise where CodeStagiaire=@num_stagiaire)";
         static String DELETE_CONTACT = "DELETE FROM CONTACT WHERE CodeContact=@codeContact";
         static String UPDATE_CONTACT = "UPDATE CONTACT SET Nom=@nom, Prenom=@prenom, TelFixe=@telFixe, TelMobile=@telPortable, Email=@email WHERE CODECONTACT=@codeContact";
         static String INSERT_CONTACT = "insert into Contact(Nom, Prenom, CodeFonction, CodeImportance, Archive, TelMobile, TelFixe, Fax, Email, CodeEntreprise) Values(@nom, @prenom, @codeFonction, 1, 0, @portable, @fixe, @fax, @mail, @codeEntreprise)";
@@ -23,33 +24,37 @@ namespace ApplicationENI.DAL
             List<Contact> listeContacts = new List<Contact>();
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read()) {
-                //TODO:vérification null
                 Contact contact = new Contact();
-                contact._codeEntreprise = reader.GetInt32(reader.GetOrdinal("CodeEntreprise"));
+                Entreprise ent = new Entreprise();
                 contact._codeContact = reader.GetInt32(reader.GetOrdinal("CODECONTACT"));
-                contact._email = reader.GetString(reader.GetOrdinal("Email"));
-                contact._nom = reader.GetString(reader.GetOrdinal("NOM"));
-                contact._prenom = reader.GetString(reader.GetOrdinal("PRENOM"));
-                contact._telFixe = reader.GetString(reader.GetOrdinal("TELFIXE"));
-                contact._telMobile = reader.GetString(reader.GetOrdinal("TelMobile"));
+                contact._nom = reader.GetSqlString(1).IsNull ? String.Empty : reader.GetString(1);
+                contact._prenom = reader.GetSqlString(2).IsNull ? String.Empty : reader.GetString(2);
+                contact._telFixe = reader.GetSqlString(3).IsNull ? String.Empty : reader.GetString(3);
+                contact._telMobile = reader.GetSqlString(4).IsNull ? String.Empty : reader.GetString(4);
+                contact._email = reader.GetSqlString(5).IsNull ? String.Empty : reader.GetString(5);
+                contact._codeFonction = reader.GetSqlString(6).IsNull ? String.Empty : reader.GetString(6);
+                ent._raisonSociale = reader.GetSqlString(7).IsNull ? String.Empty : reader.GetString(7);
+                contact._Entreprise = ent;
                 listeContacts.Add(contact);
             }
             return listeContacts;
         }
 
-        public static void supprimerContact(int pCodeContact) {
+        public static bool supprimerContact(int pCodeContact) {
             try
             {
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd = new SqlCommand(DELETE_CONTACT, connexion);
                 cmd.Parameters.AddWithValue("@codeContact", pCodeContact);
                 cmd.ExecuteReader();
+                return true;
 
             }
             catch (Exception e)
             {
-                System.Windows.MessageBox.Show("Impossible d'éxécuter la requête : " + e.Message, "Echec de la requête",
+                System.Windows.MessageBox.Show("Impossible d'éxécuter la requête, veuillez au préalable supprimer les évènements lier à ce contact. Détail de l'erreur : " + e.Message, "Echec de la requête",
                       System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
             }
             
         }
@@ -81,8 +86,8 @@ namespace ApplicationENI.DAL
 
         public static void ajouterContact(Contact pC)
         {
-            //try
-            //{
+            try
+            {
 
                 //  @nom, @prenom, @codeFonction, 1, 0, @portable, @fixe, @fax, @mail, @codeEntreprise
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
@@ -94,7 +99,7 @@ namespace ApplicationENI.DAL
                 cmd.Parameters.AddWithValue("@fixe", pC._telMobile);
                 cmd.Parameters.AddWithValue("@fax", pC._fax);
                 cmd.Parameters.AddWithValue("@mail", pC._email);
-                cmd.Parameters.AddWithValue("@codeEntreprise", pC._codeEntreprise);
+                cmd.Parameters.AddWithValue("@codeEntreprise", pC._Entreprise._codeEntreprise);
                 cmd.ExecuteNonQuery();
 
                 // maintenant il faut mettre à jour l'objet Absence en lui assignant son numéro
@@ -102,12 +107,12 @@ namespace ApplicationENI.DAL
                 int idDernierContact = Convert.ToInt32(cmd2.ExecuteScalar());
                 pC._codeContact = idDernierContact;
                 connexion.Close();
-            /*}
+           }
             catch (Exception)
             {
                 System.Windows.MessageBox.Show("Ce contact ne peut être ajouté.",
                     "Ajout Contact impossible", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
-            }*/
+            }
 
         }
 

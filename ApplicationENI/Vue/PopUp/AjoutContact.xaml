@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ApplicationENI.Vue.PopUp.AjoutContact"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AjoutContact" Height="320" Width="500" Name="AjouterContact">
+        Title="AjoutContact" Height="320" Width="500" Name="AjouterContact" WindowStartupLocation="CenterScreen">
     <Grid>
         <Label Content="Entreprise : " Height="28" HorizontalAlignment="Left" Margin="24,214,0,0" Name="label1" VerticalAlignment="Top" />
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="109,217,0,0" Name="cboListeEntreprises" VerticalAlignment="Top" Width="200" SelectionChanged="cboListeEntreprises_SelectionChanged" />

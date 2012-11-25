@@ -57,7 +57,7 @@ namespace ApplicationENI.Vue.PopUp
                     con._email = txtMail.Text;
                     con._fax = txtFax.Text;
                     con._codeFonction = ((Fonction)cboFonctions.SelectedItem)._codeFonction;
-                    con._codeEntreprise = ((Entreprise)cboListeEntreprises.SelectedItem)._codeEntreprise;
+                    con._Entreprise = ((Entreprise)cboListeEntreprises.SelectedItem);
                     DAL.ContactDAL.ajouterContact(con);
                     this.Close();
                 }

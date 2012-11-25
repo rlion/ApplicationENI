@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ApplicationENI.Vue.PopUp.AjoutEntreprise"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="AjoutEntreprise" Height="200" Width="300">
+        Title="AjoutEntreprise" Height="200" Width="300" WindowStartupLocation="CenterScreen">
     <Grid>
         <Label Content="Raison sociale : " Height="28" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Top" />
         <TextBox Height="23" HorizontalAlignment="Left" Margin="91,3,0,0" Name="txtRaisonSociale" VerticalAlignment="Top" Width="175" />

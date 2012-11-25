@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ApplicationENI.Modele
 {
-    class Entreprise
+    public class Entreprise
     {
         public int _codeEntreprise { get; set; }
         public String _raisonSociale { get; set; }

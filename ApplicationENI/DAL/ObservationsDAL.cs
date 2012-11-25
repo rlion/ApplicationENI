@@ -84,12 +84,21 @@ namespace ApplicationENI.DAL
 
         public static void supprimerObservation(Observation o)
         {
-            SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(DELETE_OBSERVATION, connexion);
-            cmd.Parameters.AddWithValue("@num_observation", o._id); 
+            try
+            {
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+                SqlCommand cmd = new SqlCommand(DELETE_OBSERVATION, connexion);
+                cmd.Parameters.AddWithValue("@num_observation", o._id); 
 
-            cmd.ExecuteReader();
-            connexion.Close();
+                cmd.ExecuteReader();
+                connexion.Close();
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible de supprimer l'observation : " + e.Message, "Echec de la requête",
+                      System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+            
         }
 
     }

@@ -26,14 +26,10 @@ namespace ApplicationENI.Vue.PopUp
 
         private void btnEnregistrer_Click(object sender, RoutedEventArgs e)
         {
-            if (txtRaisonSociale.Text != null)
+            if (txtRaisonSociale.Text != "")
             {
                 Controleur.CtrlProfilAlertesStagiaire ctrl = new Controleur.CtrlProfilAlertesStagiaire();
                 ctrl.ajouterEntreprise(new Entreprise(txtRaisonSociale.Text, txtCP.Text, txtVille.Text, txtTel.Text, txtMail.Text));
-//                App.Current.Windows.ToString
-                //MessageBox.Show(App.Current.Windows.);
-
-                //formParent.cboListeEntreprises.ItemsSource = ctrl.listeEntreprises();
                 this.Close();
             }
             else {

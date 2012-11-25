@@ -46,9 +46,9 @@ namespace ApplicationENI.Modele
             
         }
 
-        public void ajouterAbsenceTemporaire(Stagiaire pStg)
+        public bool ajouterAbsenceTemporaire(Stagiaire pStg)
         {
-            DAL.AbsencesDAL.ajouterAbsenceTemporaire(this, pStg);
+            return DAL.AbsencesDAL.ajouterAbsenceTemporaire(this, pStg);
 
         }
 

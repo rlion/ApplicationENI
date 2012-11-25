@@ -27,11 +27,11 @@ namespace ApplicationENI.Controleur {
         }
 
         // Cette méthode permet d'ajouter des absences à la volée afin de répondre au besoin de rapidité le matin. Les absences sont ensuite retouchées et les champs manquants sont précisés.
-        public void AjouterAbsenceTemporaire(Stagiaire pStagiaire)
+        public bool AjouterAbsenceTemporaire(Stagiaire pStagiaire)
         {
             DateTime dateDebut = DateTime.Now;
             Absence a = new Absence(dateDebut, pStagiaire);
-            a.ajouterAbsenceTemporaire(pStagiaire);
+            return a.ajouterAbsenceTemporaire(pStagiaire);
         }
 
         public DateTime conversionStringEnDate(String pDate, int pHeure, int pMinute)

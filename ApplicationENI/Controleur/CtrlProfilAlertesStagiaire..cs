@@ -68,12 +68,12 @@ namespace ApplicationENI.Controleur
             }
         }
 
-        public void ajouterContact(Contact pC) { 
-            //TODO :DAL.ContactDAL.
+        public void ajouterContact(Contact pC) {
+            DAL.ContactDAL.ajouterContact(pC);
         }
 
-        public void supprimerContact(int pCodeContact) {
-            DAL.ContactDAL.supprimerContact(pCodeContact);
+        public bool supprimerContact(int pCodeContact) {
+            return DAL.ContactDAL.supprimerContact(pCodeContact);
         }
 
         public void modifierContact(Contact pC) {

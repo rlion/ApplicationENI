@@ -44,8 +44,17 @@ namespace ApplicationENI.Vue
         {
             labelResult.Content = "";
             if (e.Key == System.Windows.Input.Key.Enter) {
-                Controleur.AjouterAbsenceTemporaire(((Stagiaire)acbNomPrenom.SelectedItem));
-                labelResult.Content = "Retard ajouté";
+                if (Controleur.AjouterAbsenceTemporaire(((Stagiaire)acbNomPrenom.SelectedItem)))
+                {
+                    labelResult.Content = "Absence ajoutée";
+                    labelResult.Foreground = new SolidColorBrush(Colors.Green);
+                }
+                else {
+                    labelResult.Content = "Erreur, absence non ajoutée";
+                    labelResult.Foreground = new SolidColorBrush(Colors.Red);
+                }
+
+                
             }
         }
 

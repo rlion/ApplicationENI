@@ -77,8 +77,15 @@ namespace ApplicationENI.Vue
         private void dataGridListContacts_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
             if (e.EditAction == DataGridEditAction.Commit && dataGridListContacts.SelectedItem != null) {
-                CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
-                ctrlStagiaires.modifierContact((Contact)dataGridListContacts.SelectedItem);
+                if (((Contact)dataGridListContacts.SelectedItem)._telFixe != "" && ((Contact)dataGridListContacts.SelectedItem)._telMobile != "")
+                {
+                    CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
+                    ctrlStagiaires.modifierContact((Contact)dataGridListContacts.SelectedItem);
+                }
+                else {
+                    MessageBox.Show("Veuillez entrer au moins un numéro de téléphone", "Erreur de saisie", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                
             }
         }
 
@@ -88,13 +95,18 @@ namespace ApplicationENI.Vue
             {
                 if (MessageBox.Show("Etes-vous CERTAIN de vouloir supprimer ce contact ?", "Confirmation avant suppression", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    DAL.ContactDAL.supprimerContact(    
+                    bool retour = DAL.ContactDAL.supprimerContact(    
                                                     ((Contact) dataGridListContacts.SelectedItem)._codeContact
                                                     );
-                    MessageBox.Show("Suppression effectuée", "Suppression effectuée", MessageBoxButton.OK, MessageBoxImage.Information);   
-                    CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
-                    dataGridListContacts.ItemsSource = Parametres.Instance.stagiaire.getListeContacts();
-                    dataGridListContacts.Items.Refresh();
+                    if (retour == true)
+                    {
+                        MessageBox.Show("Suppression effectuée", "Suppression effectuée", MessageBoxButton.OK, MessageBoxImage.Information);
+                        CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
+                        dataGridListContacts.ItemsSource = Parametres.Instance.stagiaire.getListeContacts();
+                        dataGridListContacts.Items.Refresh();
+                    } 
+                    
+                    
                 }
             }
         }

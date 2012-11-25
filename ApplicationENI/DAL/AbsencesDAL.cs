@@ -57,13 +57,21 @@ namespace ApplicationENI.DAL
         }
 
         public static void supprimerAbsence(Absence pA) 
-        { 
-            SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(DELETE_ABSENCES, connexion);
-            cmd.Parameters.AddWithValue("@id_absence", pA._id); 
-            //TODO: ajouter des try catch dans ce type de cas.
-            cmd.ExecuteReader();
-            connexion.Close();
+        {
+            try
+            {
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+                SqlCommand cmd = new SqlCommand(DELETE_ABSENCES, connexion);
+                cmd.Parameters.AddWithValue("@id_absence", pA._id); 
+                cmd.ExecuteReader();
+                connexion.Close();
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible d'éxécuter la requête : " + e.Message, "Echec de la requête",
+                      System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+            
 		   
         }
         public static void modifierAbsence(Absence pA)
@@ -111,11 +119,11 @@ namespace ApplicationENI.DAL
             
         }
 
-        public static void ajouterAbsenceTemporaire(Absence pA, Stagiaire pStagiaire)
+        public static bool ajouterAbsenceTemporaire(Absence pA, Stagiaire pStagiaire)
         {
 
-           // try
-            //{
+           try
+            {
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd = new SqlCommand(INSERT_ABSENCE_TEMPORAIRE, connexion);
                 cmd.Parameters.AddWithValue("@dateDebut", pA._dateDebut);
@@ -127,12 +135,14 @@ namespace ApplicationENI.DAL
                 int idDernierAbsence = Convert.ToInt32(cmd2.ExecuteScalar());
                 pA._id = Convert.ToInt32(idDernierAbsence);
                 connexion.Close();
-            /*}
+                return true;
+            }
             catch (Exception)
             {
                 System.Windows.MessageBox.Show("Cette absence ne peut être ajoutée.",
                     "Ajout Absence impossible", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
-            }*/
+                return false;
+            }
 
         }
     }
