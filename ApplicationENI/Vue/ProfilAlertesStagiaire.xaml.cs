@@ -71,6 +71,15 @@ namespace ApplicationENI.Vue
                 ((MainWindow)testG.Parent).MainGrid.Children.Add(new Vue.HistoriqueAbsencesRetards());
                 ((MainWindow)testG.Parent).tviHistorique.IsSelected = true;
             }
+            if (((ItemAlerte)listViewAlerte.SelectedItem).TYPE.ToString() == "ECF")
+            {
+                Grid test = (Grid)this.Parent;
+                DockPanel testDP = (DockPanel)test.Parent;
+                Grid testG = (Grid)testDP.Parent;
+                ((MainWindow)testG.Parent).MainGrid.Children.RemoveAt(0);
+                ((MainWindow)testG.Parent).MainGrid.Children.Add(new Vue.GestionECF());
+                ((MainWindow)testG.Parent).tviHistorique.IsSelected = true;
+            }
         }
 
 

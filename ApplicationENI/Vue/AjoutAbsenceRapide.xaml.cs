@@ -62,8 +62,16 @@ namespace ApplicationENI.Vue
         {
             if ((Stagiaire)acbNomPrenom.SelectedItem != null)
             {
-                Controleur.AjouterAbsenceTemporaire((Stagiaire)acbNomPrenom.SelectedItem);
-                labelResult.Content = "Retard ajouté";
+                if (Controleur.AjouterAbsenceTemporaire(((Stagiaire)acbNomPrenom.SelectedItem)))
+                {
+                    labelResult.Content = "Absence ajoutée";
+                    labelResult.Foreground = new SolidColorBrush(Colors.Green);
+                }
+                else
+                {
+                    labelResult.Content = "Erreur, absence non ajoutée";
+                    labelResult.Foreground = new SolidColorBrush(Colors.Red);
+                }
             }
             else {
                 MessageBox.Show("Veuillez sélectionner un stagiaire.", "Erreur", MessageBoxButton.OK, MessageBoxImage.Warning);

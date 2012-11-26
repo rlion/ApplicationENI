@@ -20,12 +20,6 @@ namespace ApplicationENI.Controleur
             GererItemAlarmesTemporairesNonCompletees(listeAbsences.Count(x => x._raison == ""));
 
             GererItemAlarmesECFNonCorrigé(Parametres.Instance.stagiaire.listeECFNonCorriges().Count);
-            //GererItemAlerte("ECF", DAL.AlerteDAL.nombreRetards(Parametres.Instance.stagiaire));
-            //TODO: attente du code de Mathias vérifiant les ECFS non corrigés pour un stagiaire
-            /*if (Parametres.Instance.stagiaire.listeECFNonCorriges()!=null) {
-                Parametres.Instance.stagiaire.listeAlertes.Add(new ItemAlerte(0, "ECF blablabla (mettre le numéro et l'intitulé)", 0));
-                    
-            }*/
 
             return listeDesAlertes;
         }
