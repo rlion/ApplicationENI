@@ -14,6 +14,10 @@ namespace ApplicationENI.DAL
         static String DELETE_CONTACT = "DELETE FROM CONTACT WHERE CodeContact=@codeContact";
         static String UPDATE_CONTACT = "UPDATE CONTACT SET Nom=@nom, Prenom=@prenom, TelFixe=@telFixe, TelMobile=@telPortable, Email=@email WHERE CODECONTACT=@codeContact";
         static String INSERT_CONTACT = "insert into Contact(Nom, Prenom, CodeFonction, CodeImportance, Archive, TelMobile, TelFixe, Fax, Email, CodeEntreprise) Values(@nom, @prenom, @codeFonction, 1, 0, @portable, @fixe, @fax, @mail, @codeEntreprise)";
+        static String INSERT_STAGIAIREPARENTREPRISE = "insert into StagiaireParEntreprise(CodeStagiaire, CodeEntreprise, DateLien, CodeTypeLien, CodeFonction)" +
+            "select @codeStagiaire, @codeEntreprise, @dateLien, 'PP', 'AL'" +
+            "where not exists (select 0 from StagiaireParEntreprise where CodeEntreprise=@codeEntreprise and CodeStagiaire=@codeStagiaire)";
+
         static String GET_NUM_CONTACT = "SELECT @@IDENTITY AS IDENT";
 
         public static List<Contact> rechercherContacts(int pNumStagiaire){
@@ -86,10 +90,9 @@ namespace ApplicationENI.DAL
 
         public static void ajouterContact(Contact pC)
         {
-            try
-            {
-
-                //  @nom, @prenom, @codeFonction, 1, 0, @portable, @fixe, @fax, @mail, @codeEntreprise
+           // try
+           // {
+                // ajout du contact en lui même
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd = new SqlCommand(INSERT_CONTACT, connexion);
                 cmd.Parameters.AddWithValue("@nom", pC._nom);
@@ -102,17 +105,26 @@ namespace ApplicationENI.DAL
                 cmd.Parameters.AddWithValue("@codeEntreprise", pC._Entreprise._codeEntreprise);
                 cmd.ExecuteNonQuery();
 
-                // maintenant il faut mettre à jour l'objet Absence en lui assignant son numéro
+                // maintenant il faut mettre à jour l'objet Contact en lui assignant son numéro
                 SqlCommand cmd2 = new SqlCommand(GET_NUM_CONTACT, connexion);
                 int idDernierContact = Convert.ToInt32(cmd2.ExecuteScalar());
                 pC._codeContact = idDernierContact;
+
+                //   TODO: mettre un insert select pour pas pourrir la table stagiaireparentreprise.
+                // maintenant, on fait la liason entre la nouvelle entreprise et le stagiaire courant, si ce n'est pas déjà fait.
+                SqlCommand cmd3 = new SqlCommand(INSERT_STAGIAIREPARENTREPRISE, connexion);
+                cmd3.Parameters.AddWithValue("@codeStagiaire", Parametres.Instance.stagiaire._id);
+                cmd3.Parameters.AddWithValue("@dateLien", DateTime.Now);
+                cmd3.Parameters.AddWithValue("@codeEntreprise", pC._Entreprise._codeEntreprise);
+                cmd3.ExecuteNonQuery();
+
                 connexion.Close();
-           }
+           /*}
             catch (Exception)
             {
                 System.Windows.MessageBox.Show("Ce contact ne peut être ajouté.",
                     "Ajout Contact impossible", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
-            }
+            }*/
 
         }
 
