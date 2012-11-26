@@ -166,6 +166,7 @@ namespace ApplicationENI.Vue.PopUp
                 {
                     //MessageBox.Show("Création de la planification de l'ECF " + _sessionECF.ToString());
                     label3.Content = "Création de la planification de l'ECF";
+                    _sessionECF.Id = "";
                 }
                 else //L'utilisateur clique sur une date planifiée
                 {                    
@@ -192,6 +193,8 @@ namespace ApplicationENI.Vue.PopUp
         {
             foreach (Stagiaire stag in lbStagiaires.SelectedItems)
             {
+                if (_listeParticipants == null) _listeParticipants = new List<Stagiaire>();
+
                 if(!_listeParticipants.Contains(stag)){
                     _listeParticipants.Add(stag);
                 }
@@ -283,6 +286,7 @@ namespace ApplicationENI.Vue.PopUp
         private void cbVersions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _sessionECF.Version = (int)cbVersions.SelectedItem;
+            
 
             //sessions
             _listeECFPlanif = CtrlGestionECF.getListSessionsECFVersion(_sessionECF.Ecf, _sessionECF.Version);
