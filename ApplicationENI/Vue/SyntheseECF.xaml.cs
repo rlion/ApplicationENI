@@ -48,12 +48,17 @@ namespace ApplicationENI.Vue
 
             foreach (SessionECF sess in _lesSessionsECFsStag)
             {
-                tvSynthese.Items.Add(sess);
+                TreeViewItem tviSessionECF = new TreeViewItem();
+                tviSessionECF.Header = sess;
+                tvSynthese.Items.Add(tviSessionECF);
+                foreach (Competence comp in sess.Ecf.Competences)
+                {
+                    TreeViewItem tviCompetenceNote = new TreeViewItem();
+                    tviCompetenceNote.Header = comp; //TODO + note
+                    tviSessionECF.Items.Add(tviCompetenceNote);
+                }
             }
-            foreach (TreeViewItem tvi in tvSynthese.Items)
-            {
-                //TODO
-            }
+
         }
 
 

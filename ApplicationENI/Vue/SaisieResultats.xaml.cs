@@ -33,18 +33,7 @@ namespace ApplicationENI.Vue
         {
             InitializeComponent();
 
-            //Affichage
-            ActualiseAffichage();
-            //calendrier.DisplayDateStart = DateTime.Now;        
-        }
-        #endregion
-
-        #region Affichage
-        private void ActualiseAffichage(){
-            //RAZ combo
-            cbECF.ItemsSource = null;
-            
-            //MAJ combo
+            //cbECF
             _listeSessionECFs = CtrlGestionECF.getListSessionsECFs();
             foreach (SessionECF sessEcf in _listeSessionECFs)
             {
@@ -58,49 +47,21 @@ namespace ApplicationENI.Vue
                 }
             }
         }
-        private void afficheSessionECF(ECF Ecfcourant)
-        {
-            if (Ecfcourant != null)
-            {
-                _ecfCourant = Ecfcourant;
-                cbECF.SelectedItem = _ecfCourant;
-
-                _planif = new List<DateTime>();
-                calendrier.SelectedDates.Clear();
-
-                foreach (SessionECF sessEcf in _listeSessionECFs)
-                {
-                    if (sessEcf.Ecf.Equals(_ecfCourant))
-                    {
-                        _planif.Add(sessEcf.Date);
-                        calendrier.SelectedDates.Add(sessEcf.Date);
-                    }
-                }
-
-                lbCompetences.ItemsSource=_ecfCourant.Competences;
-
-                lbCompetences.IsEnabled = true;
-                lbStagiaires.IsEnabled = true;
-                
-            }
-            else
-            {
-                //??TODO
-            }
-        }
         #endregion
 
         #region Evenements
+
+        //1 Selection de l'ECF
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             calendrier.IsEnabled = true;
 
             //ECF courant
             _ecfCourant = new ECF();
-            _ecfCourant=(ECF)cbECF.SelectedItem;
+            _ecfCourant = (ECF)cbECF.SelectedItem;
             //session ECFCourant
-            _sessionECFcourant=new SessionECF();
-            _sessionECFcourant.Ecf= _ecfCourant;
+            _sessionECFcourant = new SessionECF();
+            _sessionECFcourant.Ecf = _ecfCourant;
             //liste de sessions ECF (correspondant à l'ecf)
             _listeSessionECFs = new List<SessionECF>();
             _listeSessionECFs = CtrlGestionECF.getListSessionsECF(_ecfCourant);
@@ -116,29 +77,25 @@ namespace ApplicationENI.Vue
             {
                 calendrier.SelectedDates.Add(date);
             }
+            //compétences
+            lbCompetences.ItemsSource = null;
+            lbCompetences.ItemsSource = _ecfCourant.Competences;
 
-     
+
             calendrier.Visibility = Visibility.Visible;
         }
-        private void btnAjouter_Click(object sender, RoutedEventArgs e)
-        {
-            PopUp.AjoutSessionECF popup = new PopUp.AjoutSessionECF();
-            popup.ShowDialog();
-
-            //if (popup.SessionECF != null)
-            //{
-            //    _ecfCourant = popup.SessionECF.Ecf;
-            //    ActualiseAffichage();
-            //    afficheSessionECF(_ecfCourant);
-            //}
-
-            //TODO RAZ
-        }
+        //2 Choix de la date
         private void calendrier_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
+            lbCompetences.IsEnabled = false;
+            lbStagiaires.IsEnabled = false;
+
+            lbStagiaires.ItemsSource = null;
+            cbVersions.ItemsSource = null;
+
             DateTime dt = new DateTime();
             Calendar cal = sender as Calendar;
-            
+
             //Pour éviter les boucles infinies, on se désabonne momentanément à l'event
             calendrier.SelectedDatesChanged -= calendrier_SelectedDatesChanged;
 
@@ -166,12 +123,14 @@ namespace ApplicationENI.Vue
                 if (!_planif.Contains((DateTime)dt))
                 {
                     MessageBox.Show("Cette date n'est pas planifiée pour l'ECF " + _ecfCourant.ToString());
-                    lbCompetences.Visibility = Visibility.Hidden;
-                    lbStagiaires.Visibility = Visibility.Hidden;
-                    cbVersions.Visibility = Visibility.Hidden;
-                    label1.Visibility = Visibility.Hidden;
-                    groupBox1.Visibility = Visibility.Hidden;
-                    lbDateSession.Visibility = Visibility.Hidden;
+                    lbDateSession.Content = "";
+                    gbProprietes.IsEnabled = false;
+                    gbStagiaires.IsEnabled = false;
+                    gbCompetences.IsEnabled = false;
+                    lbStagiaires.ItemsSource = null;
+                    lbCompetences.ItemsSource = null;
+                    cbVersions.ItemsSource = null;
+                    
                 }
                 else //L'utilisateur clique sur une date planifiée
                 {
@@ -179,12 +138,7 @@ namespace ApplicationENI.Vue
                     List<SessionECF> sessionsECFJour = CtrlGestionECF.donneSessionsECFJour(_sessionECFcourant.Ecf, _sessionECFcourant.Date);
                     //TODO?? modifier aspect date selectionnée
                     lbDateSession.Content = "Epreuve du " + _sessionECFcourant.Date.ToShortDateString();
-                    lbCompetences.Visibility = Visibility.Visible;
-                    lbStagiaires.Visibility = Visibility.Visible;
-                    cbVersions.Visibility = Visibility.Visible;
-                    label1.Visibility = Visibility.Visible;
-                    groupBox1.Visibility = Visibility.Visible;
-                    lbDateSession.Visibility = Visibility.Visible;
+                    gbProprietes.IsEnabled = true;
 
                     cbVersions.IsEnabled = true;
                     List<int> versions = new List<int>();
@@ -192,24 +146,48 @@ namespace ApplicationENI.Vue
                     {
                         versions.Add(sessJ.Version);
                     }
-                    cbVersions.ItemsSource = versions;                                       
+                    cbVersions.ItemsSource = versions;
+                    if (cbVersions.Items.Count == 1) cbVersions.SelectedItem = cbVersions.Items[0];
+                }
+
+                if (_sessionECFcourant.Date != null && _sessionECFcourant.Version != 0)
+                {
+                    lbCompetences.ItemsSource = _sessionECFcourant.Ecf.Competences;
+                    lbCompetences.IsEnabled = true;
+                    lbStagiaires.ItemsSource = CtrlGestionECF.getListParticipants(_sessionECFcourant);
+                    lbStagiaires.IsEnabled = true;
                 }
             }
         }
-
-        //http://stackoverflow.com/questions/5543119/wpf-button-takes-two-clicks-to-fire-click-event
-        //Permet d'éviter d'avoir à cliquer 2 fois alors que le focus était sur le calendrier
-        // un clic pour sortir et un réel (cf. combobox)
-        protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
+        //3 Choix de la version
+        private void cbVersions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            base.OnPreviewMouseUp(e);
-            if (Mouse.Captured is Calendar || Mouse.Captured is System.Windows.Controls.Primitives.CalendarItem)
-            {
-                Mouse.Capture(null);
-            }
-        }
-        #endregion
+            lbCompetences.IsEnabled = false;
+            lbStagiaires.IsEnabled = false;
 
+            if (cbVersions.SelectedItem != null)
+            {
+                //afficheSessionECF((ECF)cbECF.SelectedItem);
+
+                _sessionECFcourant.Version = (int)cbVersions.SelectedItem;
+                _sessionECFcourant.Id = CtrlGestionECF.donneIdSessionECF(_sessionECFcourant.Ecf, _sessionECFcourant.Date, _sessionECFcourant.Version);
+
+                //participants
+                _sessionECFcourant.Participants = CtrlGestionECF.getListParticipants(_sessionECFcourant);
+                lbStagiaires.ItemsSource = _sessionECFcourant.Participants;
+                //TODO afficher reste
+            }
+
+            if (_sessionECFcourant.Date != null && _sessionECFcourant.Version != 0)
+            {
+                lbCompetences.ItemsSource = _sessionECFcourant.Ecf.Competences;
+                lbCompetences.IsEnabled = true;
+                lbStagiaires.ItemsSource = CtrlGestionECF.getListParticipants(_sessionECFcourant);
+                lbStagiaires.IsEnabled = true;
+            }
+
+        }
+        //4 Choix du stagiaire/de le compétence
         private void lbCompetences_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             noteStagiaire();
@@ -232,11 +210,11 @@ namespace ApplicationENI.Vue
                     rbEnCours.Visibility = Visibility.Hidden;
                     rbNonAcquis.Visibility = Visibility.Hidden;
                     gbNote.IsEnabled = true;
-                    lbNote.IsEnabled = true;
-                    tbNote.IsEnabled = true;
-                    rbAcquis.IsEnabled = false;
-                    rbEnCours.IsEnabled = false;
-                    rbNonAcquis.IsEnabled = false;
+                    //lbNote.IsEnabled = true;
+                    //tbNote.IsEnabled = true;
+                    //rbAcquis.IsEnabled = false;
+                    //rbEnCours.IsEnabled = false;
+                    //rbNonAcquis.IsEnabled = false;
                     btnEnregistrer.IsEnabled = true;
                 }
                 else
@@ -247,15 +225,15 @@ namespace ApplicationENI.Vue
                     rbEnCours.Visibility = Visibility.Visible;
                     rbNonAcquis.Visibility = Visibility.Visible;
                     gbNote.IsEnabled = true;
-                    lbNote.IsEnabled = false;
-                    tbNote.IsEnabled = false;
-                    rbAcquis.IsEnabled = true;
-                    rbEnCours.IsEnabled = true;
-                    rbNonAcquis.IsEnabled = true;
+                    //lbNote.IsEnabled = false;
+                    //tbNote.IsEnabled = false;
+                    //rbAcquis.IsEnabled = true;
+                    //rbEnCours.IsEnabled = true;
+                    //rbNonAcquis.IsEnabled = true;
                     btnEnregistrer.IsEnabled = true;
                 }
 
-                Evaluation eval = CtrlGestionECF.donneEvaluation(new Evaluation(_ecfCourant,(Competence) lbCompetences.SelectedItem,(Stagiaire) lbStagiaires.SelectedItem));
+                Evaluation eval = CtrlGestionECF.donneEvaluation(new Evaluation(_ecfCourant, (Competence)lbCompetences.SelectedItem, (Stagiaire)lbStagiaires.SelectedItem));
                 if (eval != null)
                 {
                     if (!_ecfCourant.NotationNumerique)
@@ -283,7 +261,7 @@ namespace ApplicationENI.Vue
                     rbAcquis.IsChecked = false;
                     rbEnCours.IsChecked = false;
                     rbNonAcquis.IsChecked = false;
-                    tbNote.Text="";
+                    tbNote.Text = "";
                 }
             }
             else
@@ -293,41 +271,65 @@ namespace ApplicationENI.Vue
                 rbAcquis.Visibility = Visibility.Hidden;
                 rbEnCours.Visibility = Visibility.Hidden;
                 rbNonAcquis.Visibility = Visibility.Hidden;
+                gbNote.IsEnabled = false;
                 btnEnregistrer.IsEnabled = false;
             }
         }
-
+        //5 Enregistrer
         private void btnEnregistrer_Click(object sender, RoutedEventArgs e)
         {
-            int note=-1;
+            int note = -1;
             //TODO verif valeur numerique entre 0 et 20
             if (!_ecfCourant.NotationNumerique)
-	        {	        
-	            if (rbAcquis.IsChecked==true)
-	            {
-		            note=Ressources.CONSTANTES.NOTE_ACQUIS;
-	            }else if (rbEnCours.IsChecked==true)
-	            {
-                    note=Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION;
-                }else if (rbNonAcquis.IsChecked==true)
-	            {
-		            note=Ressources.CONSTANTES.NOTE_NON_ACQUIS;
-	            }
-            }else{
-                note=Convert.ToInt32(tbNote.Text);
+            {
+                if (rbAcquis.IsChecked == true)
+                {
+                    note = Ressources.CONSTANTES.NOTE_ACQUIS;
+                }
+                else if (rbEnCours.IsChecked == true)
+                {
+                    note = Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION;
+                }
+                else if (rbNonAcquis.IsChecked == true)
+                {
+                    note = Ressources.CONSTANTES.NOTE_NON_ACQUIS;
+                }
+            }
+            else
+            {
+                note = Convert.ToInt32(tbNote.Text);
             }
             Evaluation eval = new Evaluation(_ecfCourant, (Competence)lbCompetences.SelectedItem, (Stagiaire)lbStagiaires.SelectedItem, Convert.ToInt32(cbVersions.SelectedItem), note, _sessionECFcourant.Date);
             CtrlGestionECF.ajouterEvaluation(eval);
         }
 
-        private void cbVersions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void btnAjouter_Click(object sender, RoutedEventArgs e)
         {
-            afficheSessionECF((ECF)cbECF.SelectedItem);
+            PopUp.AjoutSessionECF popup = new PopUp.AjoutSessionECF();
+            popup.ShowDialog();
 
-            //participants
-            lbStagiaires.ItemsSource = CtrlGestionECF.getListParticipants(_sessionECFcourant);
+            //if (popup.SessionECF != null)
+            //{
+            //    _ecfCourant = popup.SessionECF.Ecf;
+            //    ActualiseAffichage();
+            //    afficheSessionECF(_ecfCourant);
+            //}
 
-            //TODO afficher reste
+            //TODO RAZ
         }
+
+
+        //http://stackoverflow.com/questions/5543119/wpf-button-takes-two-clicks-to-fire-click-event
+        //Permet d'éviter d'avoir à cliquer 2 fois alors que le focus était sur le calendrier
+        // un clic pour sortir et un réel (cf. combobox)
+        protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseUp(e);
+            if (Mouse.Captured is Calendar || Mouse.Captured is System.Windows.Controls.Primitives.CalendarItem)
+            {
+                Mouse.Capture(null);
+            }
+        }
+        #endregion
     }
 }
