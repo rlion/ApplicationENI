@@ -42,7 +42,7 @@
                         </TreeViewItem>
                         <TreeViewItem Header="Paramètres individuels" Name="tvPersonParam" IsExpanded="True" IsEnabled="True">
                             <TreeViewItem Header="Profil &amp; alertes" Name="tviProfil" Selected="tviProfil_Selected" />
-                            <TreeViewItem Header="Planning" Name="tviPlanning" Selected="tviPlanning_Selected" Foreground="Red" />
+                            <!--TreeViewItem Header="Planning" Name="tviPlanning" Selected="tviPlanning_Selected" Foreground="Red" /-->
                             <TreeViewItem Header="ECF" IsExpanded="True">
                                 <TreeViewItem Header="Synthèse" Name="tviGestionResultat" Selected="tviGestionResultat_Selected" Foreground="Blue" />
                                 <!--TreeViewItem Header="Modification dates (CP)" Name="tviModifDate" Selected="tviModifDate_Selected" Foreground="Blue" /-->

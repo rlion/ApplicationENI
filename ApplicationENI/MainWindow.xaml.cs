@@ -172,12 +172,12 @@ namespace ApplicationENI
             this.MainGrid.Children.Add(new Vue.GestionPassageTitre());
         }
 
-        private void tviPlanning_Selected(object sender, RoutedEventArgs e) {
-            this.expandStagiaire.IsExpanded = true;
-            this.MainGrid.Children.RemoveAt(0);
-            this.MainGrid.Children.Add(new Vue.Planning());
+        //private void tviPlanning_Selected(object sender, RoutedEventArgs e) {
+        //    this.expandStagiaire.IsExpanded = true;
+        //    this.MainGrid.Children.RemoveAt(0);
+        //    this.MainGrid.Children.Add(new Vue.Planning());
 
-        }
+        //}
 
         private void tviAbsencesRapides_Selected(object sender, RoutedEventArgs e)
         {
