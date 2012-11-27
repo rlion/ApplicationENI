@@ -144,8 +144,12 @@ namespace ApplicationENI.Controleur
             EvaluationsDAL.ajouterEvaluation(pEval);
         }
 
-        public static Evaluation donneEvaluation(Evaluation pEval){
-            return EvaluationsDAL.donneEvaluation(pEval);
+        //public static Evaluation donneEvaluation(Evaluation pEval){
+        //    return EvaluationsDAL.donneEvaluation(pEval);
+        //}
+        public static Evaluation donneNote(SessionECF pSession, Stagiaire pStag, Competence pComp)
+        {
+            return EvaluationsDAL.donneNote(pSession, pStag, pComp);
         }
     }
 }
