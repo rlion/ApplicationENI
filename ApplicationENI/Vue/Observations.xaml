@@ -27,7 +27,7 @@
         <GroupBox Header="Liste des observations" Height="auto" HorizontalAlignment="Left" Margin="22,0,0,0" Name="gbListeRemarques" VerticalAlignment="Top" Width="559">
             <DataGrid AutoGenerateColumns="False" Name="dataGridListAbsences" SelectionChanged="dataGridListAbsences_SelectionChanged" CanUserAddRows="False" MaxHeight="200" Background="Black" SelectionMode="Single">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Date" Binding="{Binding _date}" Width="25*" />
+                    <DataGridTextColumn Header="Date" Binding="{Binding _date, StringFormat={}{0:dd/MM/yyyy}}" Width="25*" />
                     <DataGridTextColumn Header="Auteur" Binding="{Binding _nomAuteur}" Width="15*" />
                     <DataGridTextColumn Header="Titre" Binding="{Binding _titre}" Width="60*" />
                 </DataGrid.Columns>

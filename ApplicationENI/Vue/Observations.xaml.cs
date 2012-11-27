@@ -51,7 +51,7 @@ namespace ApplicationENI.Vue
                 Observation obsSelectionne = (Observation)this.dataGridListAbsences.SelectedItem;
                 txtBoxTitre.Text = obsSelectionne._titre;
                 txtBoxAuteur.Text = obsSelectionne._nomAuteur;
-                txtBoxDate.Text = obsSelectionne._date.ToString();
+                txtBoxDate.Text = obsSelectionne._date.ToString("dd/MM/yyyy");
                 txtBoxTexte.Text = obsSelectionne._texte;
                 comboBox1.Items.Clear();
                 comboBox1.Items.Add("Pédagogique");
@@ -182,7 +182,7 @@ namespace ApplicationENI.Vue
                     Observation obsSelectionne = (Observation)this.dataGridListAbsences.SelectedItem;
                     txtBoxTitre.Text = obsSelectionne._titre;
                     txtBoxAuteur.Text = obsSelectionne._nomAuteur;
-                    txtBoxDate.Text = obsSelectionne._date.ToString();
+                    txtBoxDate.Text = obsSelectionne._date.ToString("dd/MM/yyyy");
                     txtBoxTexte.Text = obsSelectionne._texte;
                     comboBox1.Items.Clear();
                     comboBox1.Items.Add("Pédagogique");
