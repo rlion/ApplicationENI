@@ -99,6 +99,18 @@ namespace ApplicationENI.Modele
             return this._nom.ToUpper() + " " + this._prenom;
         }
 
+        public override bool Equals(object obj)
+        {
+            bool b=false;
+
+            if (((Stagiaire)obj)._id==this._id)
+            {
+                b = true;
+            }
+
+            return b;
+        }
+
         
 
     }   

@@ -63,7 +63,7 @@ namespace ApplicationENI.Modele
             _competence = new Competence();
             _stagiaire = new Stagiaire();
             _version = 0;
-            _note = 0;
+            _note = -1;
             _date = new DateTime();
         }
         public Evaluation(String pId, ECF pEcf, Competence pComp, Stagiaire pStag, int pVersion, int pNote, DateTime pDate)
@@ -87,17 +87,52 @@ namespace ApplicationENI.Modele
             _date = pDate;
         }
 
-        public Evaluation(ECF pEcf, Competence pComp, Stagiaire pStag)
-        {
-            _id = "";
-            _ecf = pEcf;
-            _competence = pComp;
-            _stagiaire = pStag;
-            _version = 0;
-            _note = 0;
-            _date = new DateTime();
-        }
+        //public Evaluation(ECF pEcf, Competence pComp, Stagiaire pStag)
+        //{
+        //    _id = "";
+        //    _ecf = pEcf;
+        //    _competence = pComp;
+        //    _stagiaire = pStag;
+        //    _version = 0;
+        //    _note = -1;
+        //    _date = new DateTime();
+        //}
         #endregion
+
+        public override string ToString()
+        {
+            String competence = "";
+            competence = this.Competence.ToString();
+
+            if (this.Note != -1)
+            {
+                if (this.Ecf.NotationNumerique)
+                {
+                    competence += " - " + this.Note + "/20";
+                }
+                else
+                {
+                    if (this.Note == Ressources.CONSTANTES.NOTE_ACQUIS)
+                    {
+                        competence += " - ACQUIS";
+                    }
+                    else if (this.Note == Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION)
+                    {
+                        competence += " - EN COURS D'ACQUISITION";
+                    }
+                    else if (this.Note == Ressources.CONSTANTES.NOTE_NON_ACQUIS)
+                    {
+                        competence += " - NON ACQUIS";
+                    }
+                }
+            }
+            else
+            {
+                competence += " - NON NOTE";
+            }
+            return competence;
+
+        }
 
     }
 }

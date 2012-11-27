@@ -68,7 +68,7 @@ namespace ApplicationENI.Modele
 
         public override string ToString()
         {
-            return "épreuve " + _ecf.ToString() + " du " + _date.ToShortDateString();
+            return "épreuve " + _ecf.ToString() + " du " + _date.ToShortDateString() + " (version " + _version + ")";
         }
     }
 }
