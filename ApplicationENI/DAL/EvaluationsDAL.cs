@@ -10,7 +10,7 @@ namespace ApplicationENI.DAL
     class EvaluationsDAL
     {
         //TODO Mat
-        static String SELECT_EVALUATION = "SELECT * FROM  EVALUATION WHERE idECF=@idECF AND idStagiaire=@idStagiaire AND idCompetence=@idCompetence";
+        //static String SELECT_EVALUATION = "SELECT * FROM  EVALUATION WHERE idECF=@idECF AND idStagiaire=@idStagiaire AND idCompetence=@idCompetence";
         static String INSERT_EVALUATION = "INSERT INTO EVALUATION (idEvaluation, idECF, idStagiaire, idCompetence, note, version, date) VALUES (@idEvaluation, @idECf, @idStagiaire, @idCompetence, @note, @version, @date)";
         static String DELETE_EVALUATION = "DELETE FROM WHERE FROM  EVALUATION WHERE idECF=@idECF AND idStagiaire=@idStagiaire AND idCompetence=@idCompetence";
         static String UPDATE_EVALUATION = "UPDATE EVALUATION SET note=@note WHERE idEvaluation=@idEvaluation";
@@ -95,32 +95,63 @@ namespace ApplicationENI.DAL
             connexion.Close();*/
         }
 
-        public static Evaluation donneEvaluation(Evaluation pEval)
-        {            
-            List<Competence> lesCompetences = new List<Competence>();
+        //public static Evaluation donneEvaluation(Evaluation pEval)
+        //{            
+        //    SqlConnection connexion = ConnexionSQL.CreationConnexion();
+        //    SqlCommand cmd = new SqlCommand(SELECT_EVALUATION, connexion);
+
+        //    cmd.Parameters.AddWithValue("@idECF", pEval.Ecf.Id.Trim());
+        //    cmd.Parameters.AddWithValue("@idStagiaire", pEval.Stagiaire._id);
+        //    cmd.Parameters.AddWithValue("@idCompetence", pEval.Competence.Id.Trim());
+
+        //    SqlDataReader reader = cmd.ExecuteReader();
+
+        //    if (reader.Read())
+        //    {
+        //        pEval.Id = reader.GetString(reader.GetOrdinal("idEvaluation")).Trim();
+        //        pEval.Note = (float)reader.GetDouble(reader.GetOrdinal("note"));
+        //        pEval.Version = reader.GetInt32(reader.GetOrdinal("version"));
+        //        pEval.Date = reader.GetDateTime(reader.GetOrdinal("date"));
+        //    }
+        //    else
+        //    {
+        //        pEval = null;
+        //    }
+        //    connexion.Close();
+
+        //    return pEval;
+        //}
+        public static Evaluation donneNote(SessionECF pSession, Stagiaire pStag, Competence pComp)
+        {
+            Evaluation eval = new Evaluation(pSession.Ecf, pComp, pStag, pSession.Version, -1, pSession.Date);
+
+            String requete = "SELECT * from EVALUATION " +
+                "WHERE idECF=@idECF AND version=@version AND date=@date AND idStagiaire=@idStagiaire AND idCompetence=@idCompetence";
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(SELECT_EVALUATION, connexion);
+            SqlCommand cmd = new SqlCommand(requete, connexion);
 
-            cmd.Parameters.AddWithValue("@idECF", pEval.Ecf.Id.Trim());
-            cmd.Parameters.AddWithValue("@idStagiaire", pEval.Stagiaire._id);
-            cmd.Parameters.AddWithValue("@idCompetence", pEval.Competence.Id.Trim());
-
+            cmd.Parameters.AddWithValue("@idECF", pSession.Ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@version", pSession.Version);
+            cmd.Parameters.AddWithValue("@date", pSession.Date);
+            cmd.Parameters.AddWithValue("@idStagiaire", pStag._id);
+            cmd.Parameters.AddWithValue("@idCompetence", pComp.Id.Trim());
             SqlDataReader reader = cmd.ExecuteReader();
 
             if (reader.Read())
             {
-                pEval.Id = reader.GetString(reader.GetOrdinal("idEvaluation")).Trim();
-                pEval.Note = (float)reader.GetDouble(reader.GetOrdinal("note"));
-                pEval.Version = reader.GetInt32(reader.GetOrdinal("version"));
-                pEval.Date = reader.GetDateTime(reader.GetOrdinal("date"));
-            }
-            else
-            {
-                pEval = null;
+                eval = new Evaluation();
+
+                eval.Id = reader.GetString(reader.GetOrdinal("idEvaluation")).Trim();
+                eval.Ecf = pSession.Ecf;
+                eval.Stagiaire = pStag;
+                eval.Competence = pComp;
+                eval.Note = (float)reader.GetDouble(reader.GetOrdinal("note"));
+                eval.Version = reader.GetInt32(reader.GetOrdinal("version"));
+                eval.Date = reader.GetDateTime(reader.GetOrdinal("date"));
             }
             connexion.Close();
 
-            return pEval;
+            return eval;
         }
 
         public static List<ECF> getListeECFsNonCorriges(Stagiaire pStag)

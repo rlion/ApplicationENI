@@ -35,7 +35,7 @@ namespace ApplicationENI.DAL
                 ecfTemp.Id = reader.GetString(reader.GetOrdinal("idECF")).Trim();
 
                 sessionECFTemp.Id = reader.GetString(reader.GetOrdinal("idSessionECF"));
-                sessionECFTemp.Ecf = ECFDAL.getECF(ecfTemp);
+                sessionECFTemp.Ecf = ECFDAL.getECF(ecfTemp.Id);
                 sessionECFTemp.Date = reader.GetDateTime(reader.GetOrdinal("date"));
                 sessionECFTemp.Version = reader.GetInt32(reader.GetOrdinal("version"));
 
@@ -78,7 +78,7 @@ namespace ApplicationENI.DAL
                 ecfTemp.Id = reader.GetString(reader.GetOrdinal("idECF")).Trim();
 
                 sessionECFTemp.Id = reader.GetString(reader.GetOrdinal("idSessionECF"));
-                sessionECFTemp.Ecf = ECFDAL.getECF(ecfTemp);
+                sessionECFTemp.Ecf = ECFDAL.getECF(ecfTemp.Id);
                 sessionECFTemp.Date = reader.GetDateTime(reader.GetOrdinal("date"));
                 sessionECFTemp.Version = reader.GetInt32(reader.GetOrdinal("version"));
 
@@ -119,7 +119,7 @@ namespace ApplicationENI.DAL
                 ecfTemp.Id = reader.GetString(reader.GetOrdinal("idECF")).Trim();
 
                 sessionECFTemp.Id = reader.GetString(reader.GetOrdinal("idSessionECF"));
-                sessionECFTemp.Ecf = ECFDAL.getECF(ecfTemp);
+                sessionECFTemp.Ecf = ECFDAL.getECF(ecfTemp.Id);
                 sessionECFTemp.Date = reader.GetDateTime(reader.GetOrdinal("date"));
                 sessionECFTemp.Version = reader.GetInt32(reader.GetOrdinal("version"));
 
@@ -151,30 +151,32 @@ namespace ApplicationENI.DAL
             List<SessionECF> lesECFsPlanifiesStagiaire = null;
             
             //recup la liste des ECFs planifies pour un stagiaire
-            String requete = "SELECT * FROM PARTICIPANTSSESSIONECF,SESSIONECF " +
-                " WHERE SESSIONECF.idSessionECF=PARTICIPANTSSESSIONECF.idSessionECF " +
-                " AND PARTICIPANTSSESSIONECF.idStagiaire=@idStagiaire ";
+            String requete = "SELECT * FROM PARTICIPANTSSESSIONECF,SESSIONSECF " +
+                " WHERE SESSIONSECF.idSessionECF=PARTICIPANTSSESSIONECF.idSessionECF " +
+                " AND PARTICIPANTSSESSIONECF.idStagiaire=@idStagiaire order by SESSIONSECF.date";
 
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(requete, connexion);
             cmd.Parameters.AddWithValue("@idStagiaire", pStag._id);
             SqlDataReader reader = cmd.ExecuteReader();
 
-            if (reader.Read())
+                
+            while (reader.Read())
             {
-                lesECFsPlanifiesStagiaire = new List<SessionECF>();
-                while (reader.Read())
-                {
-                    SessionECF sessionECFTemp = new SessionECF();
-                    ECF ecfTemp = new ECF();
-                    ecfTemp.Id = reader.GetString(reader.GetOrdinal("idECF")).Trim();
+                if (lesECFsPlanifiesStagiaire == null) lesECFsPlanifiesStagiaire = new List<SessionECF>();
+                
+                SessionECF sessionECFTemp = new SessionECF();
+                ECF ecfTemp = new ECF();
+                ecfTemp.Id = reader.GetString(reader.GetOrdinal("idECF")).Trim();
 
-                    sessionECFTemp.Id = reader.GetString(reader.GetOrdinal("idSessionECF"));
-                    sessionECFTemp.Ecf = ECFDAL.getECF(ecfTemp);
-                    sessionECFTemp.Date = reader.GetDateTime(reader.GetOrdinal("date"));
-                    sessionECFTemp.Version = reader.GetInt32(reader.GetOrdinal("version"));
-                }
+                sessionECFTemp.Id = reader.GetString(reader.GetOrdinal("idSessionECF"));
+                sessionECFTemp.Ecf = ECFDAL.getECF(ecfTemp.Id);
+                sessionECFTemp.Date = reader.GetDateTime(reader.GetOrdinal("date"));
+                sessionECFTemp.Version = reader.GetInt32(reader.GetOrdinal("version"));
+
+                lesECFsPlanifiesStagiaire.Add(sessionECFTemp);
             }
+
             connexion.Close();
 
 
@@ -258,7 +260,7 @@ namespace ApplicationENI.DAL
 
                 //TODO gerer ID? utile,
                 cmd.Parameters.AddWithValue("@id", idMax);
-                cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Ecf.Id.Trim());
+                cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id.Trim());
                 cmd.Parameters.AddWithValue("@idStagiaire", stag._id);
 
                 cmd.ExecuteReader();
@@ -286,7 +288,7 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_PARTICIPANTS, connexion);
 
-            cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id);
+            cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id.Trim());
 
             cmd.ExecuteReader();
             connexion.Close();
@@ -334,7 +336,7 @@ namespace ApplicationENI.DAL
                 SessionECF sess = new SessionECF();
 
                 sess.Id = reader.GetString(reader.GetOrdinal("idSessionECF"));
-                sess.Ecf = ECFDAL.getECF(ecfTemp);
+                sess.Ecf = ECFDAL.getECF(ecfTemp.Id);
                 sess.Date = reader.GetDateTime(reader.GetOrdinal("date"));
                 sess.Version = reader.GetInt32(reader.GetOrdinal("version"));
 
@@ -363,7 +365,7 @@ namespace ApplicationENI.DAL
 
         public static List<Stagiaire> getListParticipants(SessionECF pSessionECF)
         {
-            String requete = " SELECT Stagiaire.CodeStagiaire, Stagiaire.Nom, Stagiaire.Prenom FROM Stagiaire, PARTICIPANTSSESSIONECF " +
+            String requete = " SELECT Stagiaire.CodeStagiaire FROM Stagiaire, PARTICIPANTSSESSIONECF " +
                 " WHERE Stagiaire.CodeStagiaire=PARTICIPANTSSESSIONECF.idStagiaire AND PARTICIPANTSSESSIONECF.idSessionECF=@idSessionECF";
 
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
@@ -377,28 +379,9 @@ namespace ApplicationENI.DAL
             {
                 Stagiaire s = new Stagiaire();
                 s._id = reader.GetInt32(reader.GetOrdinal("CodeStagiaire"));
-                //s._civilité = reader.GetSqlString(1).IsNull ? string.Empty : reader.GetString(1);
-                s._nom = reader.GetSqlString(1).IsNull ? string.Empty : reader.GetString(1);
-                s._prenom = reader.GetSqlString(2).IsNull ? string.Empty : reader.GetString(2);
-                //s._adresse1 = reader.GetSqlString(4).IsNull ? string.Empty : reader.GetString(4);
-                //s._adresse2 = reader.GetSqlString(5).IsNull ? string.Empty : reader.GetString(5);
-                //s._adresse3 = reader.GetSqlString(6).IsNull ? string.Empty : reader.GetString(6);
-                //s._cp = reader.GetSqlString(7).IsNull ? string.Empty : reader.GetString(7);
-                //s._ville = reader.GetSqlString(8).IsNull ? string.Empty : reader.GetString(8);
-                //s._telephoneFixe = reader.GetSqlString(9).IsNull ? string.Empty : reader.GetString(9);
-                //s._telephonePortable = reader.GetSqlString(10).IsNull ? string.Empty : reader.GetString(10);
-                //s._email = reader.GetSqlString(11).IsNull ? string.Empty : reader.GetString(11);
-                //if (!reader.GetSqlDateTime(12).IsNull) { s._dateNaissance = reader.GetDateTime(12); }
-                //s._codeRegion = reader.GetSqlString(13).IsNull ? string.Empty : reader.GetString(13);
-                //s._codeNationalité = reader.GetSqlString(14).IsNull ? string.Empty : reader.GetString(14);
-                //s._codeOrigineMedia = reader.GetSqlString(15).IsNull ? string.Empty : reader.GetString(15);
-                //if (!reader.GetSqlDateTime(16).IsNull) { s._datePremierEnvoiDoc = reader.GetDateTime(16); }
-                //if (!reader.GetSqlDateTime(17).IsNull) { s._dateCreation = reader.GetDateTime(17); }
-                //s._repertoire = reader.GetSqlString(18).IsNull ? string.Empty : reader.GetString(18);
-                //if (reader.GetBoolean(19)) { s._permis = reader.GetBoolean(19); }
-                //s._photo = reader.GetSqlString(20).IsNull ? string.Empty : reader.GetString(20);
-                //if (reader.GetBoolean(21)) { s._envoiDocEnCours = reader.GetBoolean(21); }
-                //s._historique = reader.GetSqlString(22).IsNull ? string.Empty : reader.GetString(22);
+
+                s = StagiairesDAL.getStagiaire(s._id);
+
                 listeStagiaires.Add(s);
             }
             return listeStagiaires;

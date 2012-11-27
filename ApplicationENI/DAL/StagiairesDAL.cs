@@ -26,9 +26,32 @@ namespace ApplicationENI.DAL
 
             if (reader.Read())
             {
-                stgRetour._nom = reader.GetSqlString(2).IsNull ? String.Empty : reader.GetString(2);
-                stgRetour._prenom = reader.GetSqlString(3).IsNull ? String.Empty : reader.GetString(3);
+                //stgRetour._nom = reader.GetSqlString(2).IsNull ? String.Empty : reader.GetString(2);
+                //stgRetour._prenom = reader.GetSqlString(3).IsNull ? String.Empty : reader.GetString(3);
                 //TODO toutes les propriétés
+                stgRetour._id = reader.GetInt32(reader.GetOrdinal("CodeStagiaire"));
+                stgRetour._civilité = reader.GetSqlString(1).IsNull ? string.Empty : reader.GetString(1);
+                stgRetour._nom = reader.GetSqlString(2).IsNull ? string.Empty : reader.GetString(2);
+                stgRetour._prenom = reader.GetSqlString(3).IsNull ? string.Empty : reader.GetString(3);
+                stgRetour._adresse1 = reader.GetSqlString(4).IsNull ? string.Empty : reader.GetString(4);
+                stgRetour._adresse2 = reader.GetSqlString(5).IsNull ? string.Empty : reader.GetString(5);
+                stgRetour._adresse3 = reader.GetSqlString(6).IsNull ? string.Empty : reader.GetString(6);
+                stgRetour._cp = reader.GetSqlString(7).IsNull ? string.Empty : reader.GetString(7);
+                stgRetour._ville = reader.GetSqlString(8).IsNull ? string.Empty : reader.GetString(8);
+                stgRetour._telephoneFixe = reader.GetSqlString(9).IsNull ? string.Empty : reader.GetString(9);
+                stgRetour._telephonePortable = reader.GetSqlString(10).IsNull ? string.Empty : reader.GetString(10);
+                stgRetour._email = reader.GetSqlString(11).IsNull ? string.Empty : reader.GetString(11);
+                if (!reader.GetSqlDateTime(12).IsNull) { stgRetour._dateNaissance = reader.GetDateTime(12); }
+                stgRetour._codeRegion = reader.GetSqlString(13).IsNull ? string.Empty : reader.GetString(13);
+                stgRetour._codeNationalité = reader.GetSqlString(14).IsNull ? string.Empty : reader.GetString(14);
+                stgRetour._codeOrigineMedia = reader.GetSqlString(15).IsNull ? string.Empty : reader.GetString(15);
+                if (!reader.GetSqlDateTime(16).IsNull) { stgRetour._datePremierEnvoiDoc = reader.GetDateTime(16); }
+                if (!reader.GetSqlDateTime(17).IsNull) { stgRetour._dateCreation = reader.GetDateTime(17); }
+                stgRetour._repertoire = reader.GetSqlString(18).IsNull ? string.Empty : reader.GetString(18);
+                if (reader.GetBoolean(19)) { stgRetour._permis = reader.GetBoolean(19); }
+                stgRetour._photo = reader.GetSqlString(20).IsNull ? string.Empty : reader.GetString(20);
+                if (reader.GetBoolean(21)) { stgRetour._envoiDocEnCours = reader.GetBoolean(21); }
+                stgRetour._historique = reader.GetSqlString(22).IsNull ? string.Empty : reader.GetString(22);
             }
             connexion.Close();
             return stgRetour;
@@ -76,10 +99,10 @@ namespace ApplicationENI.DAL
 
         public static List<Stagiaire> getListeStagiaires(Formation pFormation, int pTypeFormation, String pFiltreNomPrenom)
         {
-            String requete = "SELECT Stagiaire.CodeStagiaire, Stagiaire.Nom, Stagiaire.Prenom FROM Stagiaire, PlanningIndividuelFormation ";
+            String requete = "SELECT Stagiaire.CodeStagiaire FROM Stagiaire, PlanningIndividuelFormation ";
             requete += " WHERE Stagiaire.CodeStagiaire=PlanningIndividuelFormation.CodeStagiaire ";    
             //filtre formation
-            if (pFormation != null || (pFormation.Code=="0" && pFormation.Libelle=="Toutes"))
+            if (pFormation != null && (pFormation.Code!="0" && pFormation.Libelle!="Toutes"))
             {
                 requete += " AND PlanningIndividuelFormation.CodeFormation=@CodeFormation ";
             }
@@ -115,28 +138,9 @@ namespace ApplicationENI.DAL
             {
                 Stagiaire s = new Stagiaire();
                 s._id = reader.GetInt32(reader.GetOrdinal("CodeStagiaire"));
-                //s._civilité = reader.GetSqlString(1).IsNull ? string.Empty : reader.GetString(1);
-                s._nom = reader.GetSqlString(1).IsNull ? string.Empty : reader.GetString(1);
-                s._prenom = reader.GetSqlString(2).IsNull ? string.Empty : reader.GetString(2);
-                //s._adresse1 = reader.GetSqlString(4).IsNull ? string.Empty : reader.GetString(4);
-                //s._adresse2 = reader.GetSqlString(5).IsNull ? string.Empty : reader.GetString(5);
-                //s._adresse3 = reader.GetSqlString(6).IsNull ? string.Empty : reader.GetString(6);
-                //s._cp = reader.GetSqlString(7).IsNull ? string.Empty : reader.GetString(7);
-                //s._ville = reader.GetSqlString(8).IsNull ? string.Empty : reader.GetString(8);
-                //s._telephoneFixe = reader.GetSqlString(9).IsNull ? string.Empty : reader.GetString(9);
-                //s._telephonePortable = reader.GetSqlString(10).IsNull ? string.Empty : reader.GetString(10);
-                //s._email = reader.GetSqlString(11).IsNull ? string.Empty : reader.GetString(11);
-                //if (!reader.GetSqlDateTime(12).IsNull) { s._dateNaissance = reader.GetDateTime(12); }
-                //s._codeRegion = reader.GetSqlString(13).IsNull ? string.Empty : reader.GetString(13);
-                //s._codeNationalité = reader.GetSqlString(14).IsNull ? string.Empty : reader.GetString(14);
-                //s._codeOrigineMedia = reader.GetSqlString(15).IsNull ? string.Empty : reader.GetString(15);
-                //if (!reader.GetSqlDateTime(16).IsNull) { s._datePremierEnvoiDoc = reader.GetDateTime(16); }
-                //if (!reader.GetSqlDateTime(17).IsNull) { s._dateCreation = reader.GetDateTime(17); }
-                //s._repertoire = reader.GetSqlString(18).IsNull ? string.Empty : reader.GetString(18);
-                //if (reader.GetBoolean(19)) { s._permis = reader.GetBoolean(19); }
-                //s._photo = reader.GetSqlString(20).IsNull ? string.Empty : reader.GetString(20);
-                //if (reader.GetBoolean(21)) { s._envoiDocEnCours = reader.GetBoolean(21); }
-                //s._historique = reader.GetSqlString(22).IsNull ? string.Empty : reader.GetString(22);
+
+                s = getStagiaire(s._id);
+
                 listeStagiaires.Add(s);
             }
             return listeStagiaires;

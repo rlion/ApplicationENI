@@ -29,13 +29,13 @@ namespace ApplicationENI.DAL
         static String DELETE_LIEN_FORMATION = "DELETE FROM FORMATIONSECF WHERE idECF=@idECF AND idFormation=@codeFormation";
         static String DELETE_ECF = "DELETE FROM ECF WHERE idECF=@id";
 
-        public static ECF getECF(ECF ecf)
+        public static ECF getECF(String idECF)
         {
             ECF ecfTemp = new ECF();
 
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_ECF, connexion);
-            cmd.Parameters.AddWithValue("@id", ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@id", idECF.Trim());
             SqlDataReader reader = cmd.ExecuteReader();
 
             if (reader.Read())
@@ -92,8 +92,7 @@ namespace ApplicationENI.DAL
             }
             connexion.Close();
 
-            ecf = ecfTemp;
-            return ecf;
+            return ecfTemp;
                     
         }
 
