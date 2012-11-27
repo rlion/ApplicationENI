@@ -124,6 +124,8 @@ namespace ApplicationENI.Vue
                 if (MessageBox.Show("Etes-vous CERTAIN de vouloir supprimer cette absence ?", "Confirmation avant suppression", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     ctrl.supprimerAbsence((Absence)dataGridListeAbsences.SelectedItem);
+                    this.dataGridListeAbsences.ItemsSource = ctrl.getListAbsences(Parametres.Instance.stagiaire);
+                    this.dataGridListeAbsences.Items.Refresh();
                     gbListeAbsenceRetards.Header = this.dataGridListeAbsences.Items.Count + " Absence(s)/Retard(s) répertorié(s)";
                     int compteurAbsences = 0;
                     int compteurRetards = 0;
@@ -160,8 +162,6 @@ namespace ApplicationENI.Vue
                     }
 
                     this.gbListeAbsenceRetards.Header = texteAAfficher;
-                    this.dataGridListeAbsences.ItemsSource = ctrl.getListAbsences(Parametres.Instance.stagiaire);
-                    this.dataGridListeAbsences.Items.Refresh();
                     this.dataGridListeAbsences.SelectedItem = this.dataGridListeAbsences.Items[dataGridListeAbsences.Items.Count - 1];
                     this.gbDetailAbsenceRetard.Visibility = Visibility.Hidden;
                 }

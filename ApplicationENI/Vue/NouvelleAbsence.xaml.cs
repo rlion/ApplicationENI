@@ -65,8 +65,8 @@ namespace ApplicationENI.Vue
             radioButtonRetard.IsChecked = false;
             textBoxRaison.Text = "";
             textBoxCommentaire.Text = "";
-            datePickerDateDebut.Text = "";
-            datePickerDateFin.Text = "";
+            datePickerDateDebut.SelectedDate = DateTime.Now;
+            datePickerDateFin.SelectedDate = DateTime.Now;
         }
 
         private void btnEnregistrer_Click(object sender, RoutedEventArgs e)
@@ -106,7 +106,7 @@ namespace ApplicationENI.Vue
                     minuteDeb = int.Parse(txtMinuteDeb.Text);
                     minuteFin = int.Parse(txtMinuteFin.Text);
                     ctrl.AjouterAbsence(dateDebut, dateFin, heureDeb, minuteDeb, heureFin, minuteFin, raison, commentaire, valide, absence, retard);
-                    MessageBox.Show("Observation ajoutée", "Ajout effectué", MessageBoxButton.OK, MessageBoxImage.Information);               
+                    MessageBox.Show("Absence / retard ajouté(e)", "Ajout effectué", MessageBoxButton.OK, MessageBoxImage.Information);               
             }
         }
 
@@ -175,15 +175,12 @@ namespace ApplicationENI.Vue
         private void radioButtonRetard_Checked(object sender, RoutedEventArgs e)
         {
             datePickerDateFin.IsEnabled = false;
-            txtHeureDeb.IsEnabled = false;
-            txtMinuteDeb.IsEnabled = false;
+            datePickerDateFin.SelectedDate = DateTime.Now;
         }
 
         private void radioButtonAbsence_Checked(object sender, RoutedEventArgs e)
         {
             datePickerDateFin.IsEnabled = true;
-            txtHeureDeb.IsEnabled = true;
-            txtMinuteDeb.IsEnabled = true;
         }
     }
 }
