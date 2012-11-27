@@ -55,7 +55,6 @@ namespace ApplicationENI.Vue.PopUp
                     con._telFixe = txtTel.Text;
                     con._telMobile = txtPortable.Text;
                     con._email = txtMail.Text;
-                    con._fax = txtFax.Text;
                     con._codeFonction = ((Fonction)cboFonctions.SelectedItem)._codeFonction;
                     con._Entreprise = ((Entreprise)cboListeEntreprises.SelectedItem);
                     DAL.ContactDAL.ajouterContact(con);

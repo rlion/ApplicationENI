@@ -13,7 +13,7 @@ namespace ApplicationENI.DAL
         static String SELECT_CONTACT_PAR_STAGIAIRE = "SELECT CONTACT.CODECONTACT, Contact.NOM, Contact.PRENOM, Contact.TELFIXE, Contact.TelMobile, Contact.Email, Contact.CodeFonction, Entreprise.RaisonSociale FROM CONTACT, Entreprise WHERE Contact.CodeEntreprise=Entreprise.CodeEntreprise AND Entreprise.CodeEntreprise IN(select CodeEntreprise FROM StagiaireParEntreprise where CodeStagiaire=@num_stagiaire)";
         static String DELETE_CONTACT = "DELETE FROM CONTACT WHERE CodeContact=@codeContact";
         static String UPDATE_CONTACT = "UPDATE CONTACT SET Nom=@nom, Prenom=@prenom, TelFixe=@telFixe, TelMobile=@telPortable, Email=@email WHERE CODECONTACT=@codeContact";
-        static String INSERT_CONTACT = "insert into Contact(Nom, Prenom, CodeFonction, CodeImportance, Archive, TelMobile, TelFixe, Fax, Email, CodeEntreprise) Values(@nom, @prenom, @codeFonction, 1, 0, @portable, @fixe, @fax, @mail, @codeEntreprise)";
+        static String INSERT_CONTACT = "insert into Contact(Nom, Prenom, CodeFonction, CodeImportance, Archive, TelMobile, TelFixe, Email, CodeEntreprise) Values(@nom, @prenom, @codeFonction, 1, 0, @portable, @fixe, @mail, @codeEntreprise)";
         static String INSERT_STAGIAIREPARENTREPRISE = "insert into StagiaireParEntreprise(CodeStagiaire, CodeEntreprise, DateLien, CodeTypeLien, CodeFonction)" +
             "select @codeStagiaire, @codeEntreprise, @dateLien, 'PP', 'AL'" +
             "where not exists (select 0 from StagiaireParEntreprise where CodeEntreprise=@codeEntreprise and CodeStagiaire=@codeStagiaire)";
@@ -100,7 +100,6 @@ namespace ApplicationENI.DAL
                 cmd.Parameters.AddWithValue("@codeFonction", pC._codeFonction);
                 cmd.Parameters.AddWithValue("@portable", pC._telFixe);
                 cmd.Parameters.AddWithValue("@fixe", pC._telMobile);
-                cmd.Parameters.AddWithValue("@fax", pC._fax);
                 cmd.Parameters.AddWithValue("@mail", pC._email);
                 cmd.Parameters.AddWithValue("@codeEntreprise", pC._Entreprise._codeEntreprise);
                 cmd.ExecuteNonQuery();
