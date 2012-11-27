@@ -5,7 +5,6 @@
     <Grid>
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="92,5,0,0" Name="cbECF" Text="" VerticalAlignment="Top" Width="218" SelectionChanged="cbECF_SelectionChanged" />
         <Label Content="ECF :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Name="lbECF" VerticalAlignment="Top" Width="86" />
-        <Label Content="Date :" Height="28" HorizontalAlignment="Left" Margin="45,105,0,0" Name="label2" VerticalAlignment="Top" />
         <Button Content="Valider" Height="23" HorizontalAlignment="Left" IsDefault="True" Margin="406,643,0,0" Name="btValider" VerticalAlignment="Top" Width="75" Click="btValider_Click" IsEnabled="False" />
         <Button Content="Annuler" Height="23" HorizontalAlignment="Left" IsCancel="True" Margin="493,643,0,0" Name="btAnnuler" VerticalAlignment="Top" Width="75" Click="btAnnuler_Click" />
         <GroupBox Header="Stagiaires :" Height="456" HorizontalAlignment="Left" Margin="17,181,0,0" Name="gbStagiaires" VerticalAlignment="Top" Width="551" IsEnabled="False">
@@ -14,13 +13,13 @@
                 <ListBox Height="234" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="293,174,0,0" Name="lbParticipants" SelectionMode="Single" VerticalAlignment="Top" Visibility="Visible" Width="240" />
                 <GroupBox Header="Filtres" Height="128" HorizontalAlignment="Left" Margin="6,8,0,0" Name="groupBox1" VerticalAlignment="Top" Width="526">
                     <Grid>
-                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="98,10,0,0" Name="cbFormation" Text="" VerticalAlignment="Top" Width="218" SelectionChanged="cbFormation_SelectionChanged" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="98,10,0,0" Name="cbFormation" Text="" VerticalAlignment="Top" Width="218" />
                         <Label Content="Formation :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="6,10,0,0" Name="label1" VerticalAlignment="Top" Width="86" />
-                        <TextBox Height="23" HorizontalAlignment="Left" Margin="98,43,0,0" Name="acbNomPrenom" VerticalAlignment="Top" Width="218" />
+                        <TextBox Height="23" HorizontalAlignment="Left" Margin="98,43,0,0" Name="tbNomPrenom" VerticalAlignment="Top" Width="218" />
                         <GroupBox Header="Type de formation :" Height="70" HorizontalAlignment="Left" Margin="323,1,0,0" Name="groupBox2" VerticalAlignment="Top" Width="185">
                             <Grid>
-                                <CheckBox Content="Formation continue" Height="17" HorizontalAlignment="Left" Margin="16,6,0,0" Name="chkFC" VerticalAlignment="Top" Width="145" Checked="chkFC_Checked" IsChecked="True" />
-                                <CheckBox Content="Contrat pro." Height="17" HorizontalAlignment="Left" Margin="16,24,0,0" Name="chkCP" VerticalAlignment="Top" Width="145" Checked="chkCP_Checked" IsChecked="True" />
+                                <CheckBox Content="Formation continue" Height="17" HorizontalAlignment="Left" Margin="16,6,0,0" Name="chkFC" VerticalAlignment="Top" Width="145" IsChecked="True" />
+                                <CheckBox Content="Contrat pro." Height="17" HorizontalAlignment="Left" Margin="16,24,0,0" Name="chkCP" VerticalAlignment="Top" Width="145" IsChecked="True" />
                             </Grid>
                         </GroupBox>
                         <Label Content="Nom/prénom :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="4,43,0,0" Name="label6" VerticalAlignment="Top" Width="88" />
@@ -33,7 +32,7 @@
                 <Button Content="7" Height="32" HorizontalAlignment="Left" Margin="252,307,0,0" Name="btEnlever" VerticalAlignment="Top" Width="35" FontWeight="Normal" FontFamily="Webdings" FontSize="20" Click="btEnlever_Click" />
             </Grid>
         </GroupBox>
-        <Label FontSize="16" FontWeight="Bold" Height="29" HorizontalAlignment="Left" Margin="92,102,0,0" Name="lbDateSession" VerticalAlignment="Top" Visibility="Visible" Width="255" />
+        <Label FontSize="16" FontWeight="Bold" Height="29" HorizontalAlignment="Left" Margin="45,102,0,0" Name="lbDateSession" VerticalAlignment="Top" Visibility="Visible" Width="302" />
         <Calendar Height="170" HorizontalAlignment="Left" IsEnabled="False" IsTodayHighlighted="False" Margin="379,5,0,0" MaxWidth="Infinity" Name="calendrier" SelectionMode="MultipleRange" VerticalAlignment="Top" Visibility="Visible" Width="184" SelectedDatesChanged="calendrier_SelectedDatesChanged" />
         <Label Height="28" HorizontalAlignment="Left" Margin="45,139,0,0" Name="label3" VerticalAlignment="Top" Width="302" />
         <ComboBox Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="92,39,0,0" Name="cbVersions" Text="" VerticalAlignment="Top" Visibility="Visible" Width="54" SelectionChanged="cbVersions_SelectionChanged" />
