@@ -5,12 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="460" d:DesignWidth="630">
-    <Grid Loaded="Grid_Loaded">
-        <Button Content="Modifier date" Height="23" HorizontalAlignment="Left" Margin="418,425,0,0" Name="btModDate" VerticalAlignment="Top" Width="94" />
-        <Button Content="Modifier note" Height="23" HorizontalAlignment="Left" Margin="518,425,0,0" Name="btModNote" VerticalAlignment="Top" Width="94" />
+    <Grid>
+        <Button Content="Modifier date" Height="23" HorizontalAlignment="Left" Margin="418,425,0,0" Name="btModDate" VerticalAlignment="Top" Width="94" IsEnabled="False" Click="btModDate_Click" />
+        <Button Content="Modifier note" Height="23" HorizontalAlignment="Left" Margin="518,425,0,0" Name="btModNote" VerticalAlignment="Top" Width="94" IsEnabled="False" Click="btModNote_Click" />
         <GroupBox Header="Synthèse des ECF" Height="407" HorizontalAlignment="Left" Margin="12,12,0,0" Name="groupBox1" VerticalAlignment="Top" Width="606">
             <Grid>
-                <TreeView Height="373" HorizontalAlignment="Left" Margin="6,5,0,0" Name="tvSynthese" VerticalAlignment="Top" Width="582" />
+                <TreeView Height="373" HorizontalAlignment="Left" Margin="6,5,0,0" Name="tvSynthese" VerticalAlignment="Top" Width="582" SelectedItemChanged="tvSynthese_SelectedItemChanged" />
             </Grid>
         </GroupBox>
     </Grid>

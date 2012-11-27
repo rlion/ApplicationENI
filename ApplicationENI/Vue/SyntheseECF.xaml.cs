@@ -29,20 +29,12 @@ namespace ApplicationENI.Vue
         public SyntheseECF()
         {
             InitializeComponent();
+
+            affichage();
         }
 
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        private void affichage()
         {
-            //StreamReader fileReader = new StreamReader(System.IO.Path.Combine(Environment.CurrentDirectory, @"..\..\ressources\resultats.txt"));
-            //String stringReader = "";
-
-            //while (!(fileReader.EndOfStream))
-            //{
-            //    stringReader = fileReader.ReadLine();
-            //    listBox1.Items.Add(stringReader);
-            //}
-            //fileReader.Close();
-
             _stagiaireEncours = Parametres.Instance.stagiaire;
             _lesSessionsECFsStag = CtrlGestionECF.getListSessionsECFStagiaire(_stagiaireEncours);
 
@@ -54,11 +46,41 @@ namespace ApplicationENI.Vue
                 foreach (Competence comp in sess.Ecf.Competences)
                 {
                     TreeViewItem tviCompetenceNote = new TreeViewItem();
-                    tviCompetenceNote.Header = comp; //TODO + note
+                    Evaluation eval = CtrlGestionECF.donneNote(sess, _stagiaireEncours, comp);
+                                        
+                    tviCompetenceNote.Header = eval;
                     tviSessionECF.Items.Add(tviCompetenceNote);
                 }
             }
+            foreach (TreeViewItem item in tvSynthese.Items)
+            {
+                item.IsExpanded = true;
+            }
 
+        }
+
+        private void tvSynthese_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (tvSynthese.SelectedItem.GetType()==typeof(SessionECF))
+            {
+                btModDate.IsEnabled = true;
+                btModNote.IsEnabled = false;
+            }
+            else if (tvSynthese.SelectedItem.GetType()==typeof(Evaluation))
+            {
+                btModDate.IsEnabled = false;
+                btModNote.IsEnabled = true;
+            }
+        }
+
+        private void btModDate_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
+        }
+
+        private void btModNote_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO
         }
 
 
