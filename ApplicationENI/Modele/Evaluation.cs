@@ -67,7 +67,7 @@ namespace ApplicationENI.Modele
             _note = -1;
             _date = new DateTime();
         }
-        public Evaluation(int pId, ECF pEcf, Competence pComp, Stagiaire pStag, int pVersion, int pNote, DateTime pDate)
+        public Evaluation(int pId, ECF pEcf, Competence pComp, Stagiaire pStag, int pVersion, float pNote, DateTime pDate)
         {
             _id = pId;
             _ecf = pEcf;
@@ -77,7 +77,7 @@ namespace ApplicationENI.Modele
             _note = pNote;
             _date = pDate;
         }
-        public Evaluation(ECF pEcf, Competence pComp, Stagiaire pStag, int pVersion, int pNote, DateTime pDate)
+        public Evaluation(ECF pEcf, Competence pComp, Stagiaire pStag, int pVersion, float pNote, DateTime pDate)
         {
             _id = 0;
             _ecf =pEcf;
@@ -103,34 +103,36 @@ namespace ApplicationENI.Modele
         public override string ToString()
         {
             String competence = "";
-            competence = this.Competence.ToString();
-
+            
             if (this.Note != -1)
             {
                 if (this.Ecf.NotationNumerique)
                 {
-                    competence += " - " + this.Note + "/20";
+                    competence += this.Note + "/20";
                 }
                 else
                 {
                     if (this.Note == Ressources.CONSTANTES.NOTE_ACQUIS)
                     {
-                        competence += " - ACQUIS";
+                        competence += "ACQUIS";
                     }
                     else if (this.Note == Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION)
                     {
-                        competence += " - EN COURS D'ACQUISITION";
+                        competence += "EN COURS D'ACQUISITION";
                     }
                     else if (this.Note == Ressources.CONSTANTES.NOTE_NON_ACQUIS)
                     {
-                        competence += " - NON ACQUIS";
+                        competence += "NON ACQUIS";
                     }
                 }
             }
             else
             {
-                competence += " - NON NOTE";
+                competence += "NON NOTE";
             }
+
+            competence += " - " + this.Competence.Libelle + " (" + this.Competence.Code + ")";
+            
             return competence;
 
         }
