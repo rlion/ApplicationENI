@@ -105,7 +105,7 @@ namespace ApplicationENI.Controleur
         {
             SessionECFDAL.ajouterSessionECF(pSessionECF);
         }
-        public static String donneIdSessionECF(ECF pECF, DateTime pDate, int pVersion)
+        public static int donneIdSessionECF(ECF pECF, DateTime pDate, int pVersion)
         {
             return SessionECFDAL.donneIdSessionECF(pECF, pDate, pVersion);
         }
