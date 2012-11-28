@@ -8,13 +8,13 @@ namespace ApplicationENI.Modele
 {
     public class SessionECF
     {
-        private String _id;              
+        private int _id;
         private ECF _ecf;
         private DateTime _date;
         private List<Stagiaire> _participants;
         private int _version;
 
-        public String Id
+        public int Id
         {
             get { return _id; }
             set { _id = value; }
@@ -43,13 +43,13 @@ namespace ApplicationENI.Modele
 
         public SessionECF()
         {
-            _id = "";
+            _id = 0;
             _ecf = null;
             _date = DateTime.MinValue;
             _participants = new List<Stagiaire>();
             _version = 0;
         }
-        public SessionECF(String id, ECF ecf, DateTime date)
+        public SessionECF(int id, ECF ecf, DateTime date)
         {
             _id = id;
             _ecf = ecf;
@@ -59,7 +59,7 @@ namespace ApplicationENI.Modele
         }
         public SessionECF(ECF ecf, DateTime date)
         {
-            _id = "";
+            _id = 0;
             _ecf = ecf;
             _date = date;
             _version = 0;
