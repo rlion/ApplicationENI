@@ -23,8 +23,8 @@
         <Button Content="Tout désélectionner" Height="25" HorizontalAlignment="Left" Margin="407,43,0,0" Name="btDeselect" VerticalAlignment="Top" Width="113" Click="btDeselect_Click" />
         <GroupBox Header="Filtre" Height="66" HorizontalAlignment="Left" Margin="5,0,0,0" Name="groupBox1" VerticalAlignment="Top" Width="385">
             <Grid>
-                <toolkit:AutoCompleteBox Text="Code &amp; libellé de la compétence" Height="25" HorizontalAlignment="Left" Margin="6,9,0,0" Name="autocbCompetence" VerticalAlignment="Top" Width="320" FilterMode="Contains" GotFocus="autocbCompetence_GotFocus" MouseUp="autocbCompetence_MouseUp"/>
-                <Button Content="q" FontFamily="Webdings" FontSize="20" Height="25" HorizontalAlignment="Left" Margin="332,9,0,0" Name="button3" VerticalAlignment="Top" Width="35" Click="button3_Click" />
+                <toolkit:AutoCompleteBox Text="Code &amp; libellé de la compétence" Height="25" HorizontalAlignment="Left" Margin="6,9,0,0" Name="acbCompetence" VerticalAlignment="Top" Width="320" FilterMode="Contains" GotFocus="autocbCompetence_GotFocus" MouseUp="autocbCompetence_MouseUp"/>
+                <Button Content="q" FontFamily="Webdings" FontSize="20" Height="25" HorizontalAlignment="Left" Margin="332,9,0,0" Name="btFiltre" VerticalAlignment="Top" Width="35" Click="btFiltre_Click" IsEnabled="False" />
             </Grid>
         </GroupBox>
     </Grid>

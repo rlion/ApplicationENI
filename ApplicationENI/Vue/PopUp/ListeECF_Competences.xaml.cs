@@ -64,7 +64,7 @@ namespace ApplicationENI.Vue.PopUp
 
             ActualiseAffichage(null);
 
-            autocbCompetence.ItemsSource = _listeCompetences;
+            acbCompetence.ItemsSource = _listeCompetences;
             isInitAutoCompBox = true;
         }
         #endregion
@@ -177,7 +177,7 @@ namespace ApplicationENI.Vue.PopUp
         {
             if (isInitAutoCompBox)
             {
-                autocbCompetence.Text = string.Empty;
+                acbCompetence.Text = string.Empty;
                 isInitAutoCompBox = false;
             }
         }
@@ -185,19 +185,25 @@ namespace ApplicationENI.Vue.PopUp
         {
             foreach (SelectionCompetence sc in _listeCompetences)
             {
-                if (sc.Competence.Code == autocbCompetence.Text.Substring(0, autocbCompetence.Text.IndexOf(" - "))
-                    && (sc.Competence.Libelle == autocbCompetence.Text.Substring(autocbCompetence.Text.IndexOf(" - ") + 3)))
+                if (sc.Competence.Code == acbCompetence.Text.Substring(0, acbCompetence.Text.IndexOf(" - "))
+                    && (sc.Competence.Libelle == acbCompetence.Text.Substring(acbCompetence.Text.IndexOf(" - ") + 3)))
                 {
                     ActualiseAffichage(sc);
                     refresh();
                 }
             }
+            acbCompetence.Text = "";
+            btFiltre.IsEnabled = true;
+            acbCompetence.IsEnabled = false;
         }
         #endregion
 
-        private void button3_Click(object sender, RoutedEventArgs e)
+        private void btFiltre_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            ActualiseAffichage(null);
+            refresh();
+            btFiltre.IsEnabled = false;
+            acbCompetence.IsEnabled = true;
         }
     }
 }
