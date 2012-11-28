@@ -403,8 +403,6 @@ namespace ApplicationENI.Vue
     //TP                                                    1s      ECF4B2
 
 
-// je ne comprends rien...
-
 
 
 
