@@ -59,7 +59,7 @@ namespace ApplicationENI.Vue.PopUp
             {
                 chargerStagiaires();
 
-                if (_sessionECF.Id == "")
+                if (_sessionECF.Id == 0)
                 {
                     lbDateSession.Content = "Création épreuve du " + _sessionECF.Date.ToShortDateString();
                     lbParticipants.ItemsSource = null;
@@ -172,7 +172,7 @@ namespace ApplicationENI.Vue.PopUp
             if (!_planif.Contains(dateSel))
             {
                 //création d'une planif
-                _sessionECF.Id = "";
+                _sessionECF.Id = 0;
                 _sessionECF.Date = dateSel;
             }
             else
@@ -193,7 +193,7 @@ namespace ApplicationENI.Vue.PopUp
             List<Stagiaire> listeParticipants = null;
             
             //Nouvelle sessionECF
-            if (_sessionECF.Id == "")
+            if (_sessionECF.Id == 0)
             {
                 if (lbParticipants.HasItems)
                 {
