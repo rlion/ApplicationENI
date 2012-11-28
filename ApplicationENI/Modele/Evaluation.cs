@@ -8,7 +8,8 @@ namespace ApplicationENI.Modele
     public class Evaluation
     {
         #region Attributs (id, ecf, competence, stagiaire, version, note, date)
-        private String _id;
+        private int _id;
+        //private SessionECF _sessionECF;
         private ECF _ecf;
         private Competence _competence;
         private Stagiaire _stagiaire;
@@ -18,7 +19,7 @@ namespace ApplicationENI.Modele
         #endregion
 
         #region Proprietes
-        public String Id
+        public int Id
         {
             get { return _id; }
             set { _id = value; }
@@ -58,7 +59,7 @@ namespace ApplicationENI.Modele
         #region Constructeurs
         public Evaluation()
         {
-            _id = "";
+            _id = 0;
             _ecf = new ECF();
             _competence = new Competence();
             _stagiaire = new Stagiaire();
@@ -66,7 +67,7 @@ namespace ApplicationENI.Modele
             _note = -1;
             _date = new DateTime();
         }
-        public Evaluation(String pId, ECF pEcf, Competence pComp, Stagiaire pStag, int pVersion, int pNote, DateTime pDate)
+        public Evaluation(int pId, ECF pEcf, Competence pComp, Stagiaire pStag, int pVersion, int pNote, DateTime pDate)
         {
             _id = pId;
             _ecf = pEcf;
@@ -78,7 +79,7 @@ namespace ApplicationENI.Modele
         }
         public Evaluation(ECF pEcf, Competence pComp, Stagiaire pStag, int pVersion, int pNote, DateTime pDate)
         {
-            _id = "";
+            _id = 0;
             _ecf =pEcf;
             _competence = pComp;
             _stagiaire = pStag;

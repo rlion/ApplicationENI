@@ -8,7 +8,7 @@ namespace ApplicationENI.Modele
     public class ECF
     {
         #region Attributs (id, code, libelle, coefficient, notationNumerique, nbreVersion, commentaire, competences, formations)
-        private String _id;//Guid _id;
+        private int _id;//Guid _id;
         private String _code;        
         private String _libelle;       
         private double _coefficient;        
@@ -20,7 +20,7 @@ namespace ApplicationENI.Modele
         #endregion
 
         #region Proprietes
-        public String Id//Guid Id       
+        public int Id//Guid Id       
         {
             get { return _id; }
             set { _id = value; }
@@ -70,7 +70,7 @@ namespace ApplicationENI.Modele
         #region Constructeurs
         public ECF()
         {
-            _id = "";
+            _id = 0;
             _code = "";
             _libelle = "";
             _coefficient = 1;
@@ -82,7 +82,7 @@ namespace ApplicationENI.Modele
 
         public ECF(String pCode, String pLibelle)
         {
-            _id = "";
+            _id = 0;
             _code = pCode.Trim();
             _libelle = pLibelle.Trim();
             _coefficient = 1;
@@ -130,7 +130,7 @@ namespace ApplicationENI.Modele
 
         public ECF(String pCode, String pLibelle, int pCoeff, Boolean pNotationNumerique, int pNbreVersion, String pCommentaire, List<Competence> pCompetences)
         {
-            _id = "";
+            _id = 0;
             _code = pCode.Trim();
             _libelle = pLibelle.Trim();
             if (pNotationNumerique)
@@ -148,7 +148,7 @@ namespace ApplicationENI.Modele
         }
         public ECF(String pCode, String pLibelle, int pCoeff, Boolean pNotationNumerique, int pNbreVersion, String pCommentaire, List<Competence> pCompetences, List<Formation> pFormations)
         {
-            _id = "";
+            _id = 0;
             _code = pCode.Trim();
             _libelle = pLibelle.Trim();
             if (pNotationNumerique)

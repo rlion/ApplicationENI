@@ -8,13 +8,13 @@ namespace ApplicationENI.Modele
     public class Competence
     {
         #region Attributs(id, libelle)
-        private String _id;
+        private int _id;
         private String _code;        
         private String _libelle;        
         #endregion
 
         #region Proprietes
-        public String Id
+        public int Id
         {
             get { return _id; }
             set { _id = value; }
@@ -34,13 +34,13 @@ namespace ApplicationENI.Modele
         #region Constructeurs
         public Competence()
         {
-            _id = "";
+            _id = 0;
             _code = "";
             _libelle = "";
         }
         public Competence(String pCode, String pLibelle)
         {
-            _id = "";
+            _id = 0;
             _code = pCode;
             _libelle = pLibelle;
         }
