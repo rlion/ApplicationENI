@@ -23,8 +23,9 @@
                         <RadioButton Content="Acquis" Height="15" HorizontalAlignment="Left" Margin="6,5,0,0" Name="rbAcquis" VerticalAlignment="Top" Visibility="Hidden" Width="64" />
                         <RadioButton Content="En cours" Height="15" HorizontalAlignment="Left" Margin="78,5,0,0" Name="rbEnCours" VerticalAlignment="Top" Visibility="Hidden" />
                         <RadioButton Content="Non acquis" Height="15" Margin="160,5,0,0" Name="rbNonAcquis" VerticalAlignment="Top" Visibility="Hidden" HorizontalAlignment="Left" Width="76" />
-                        <TextBox Height="20" HorizontalAlignment="Left" Margin="82,3,0,0" Name="tbNote" VerticalAlignment="Top" Visibility="Hidden" Width="147" GotFocus="tbNote_GotFocus" />
+                        <TextBox Height="20" HorizontalAlignment="Left" Margin="82,3,0,0" Name="tbNote" VerticalAlignment="Top" Visibility="Hidden" Width="98" GotFocus="tbNote_GotFocus" />
                         <Label Content="Note :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="-24,0,0,0" Name="lbNote" VerticalAlignment="Top" Visibility="Hidden" Width="86" />
+                        <Label Content="/20" Height="28" HorizontalAlignment="Left" Margin="186,0,0,0" Name="lbSurVingt" Visibility="Hidden" VerticalAlignment="Top" />
                     </Grid>
                 </GroupBox>
                 <Label FontSize="16" FontWeight="Normal" Height="35" HorizontalAlignment="Left" Margin="6,40,0,0" Name="lbDateSession" VerticalAlignment="Top" Visibility="Visible" Width="255" IsEnabled="True" />

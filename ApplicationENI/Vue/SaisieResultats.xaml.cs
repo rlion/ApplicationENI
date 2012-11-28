@@ -133,7 +133,8 @@ namespace ApplicationENI.Vue
                 if (_sessionECFcourant.Ecf.NotationNumerique)
                 {
                     lbNote.Visibility = Visibility.Visible;
-                    tbNote.Visibility = Visibility.Visible;                    
+                    tbNote.Visibility = Visibility.Visible;
+                    lbSurVingt.Visibility = Visibility.Visible;
                     rbAcquis.Visibility = Visibility.Hidden;
                     rbEnCours.Visibility = Visibility.Hidden;
                     rbNonAcquis.Visibility = Visibility.Hidden;
@@ -142,6 +143,7 @@ namespace ApplicationENI.Vue
                 {                    
                     lbNote.Visibility = Visibility.Hidden;
                     tbNote.Visibility = Visibility.Hidden;
+                    lbSurVingt.Visibility = Visibility.Hidden;
                     rbAcquis.Visibility = Visibility.Visible;
                     rbEnCours.Visibility = Visibility.Visible;
                     rbNonAcquis.Visibility = Visibility.Visible;                    
@@ -187,6 +189,7 @@ namespace ApplicationENI.Vue
                 gbNote.Visibility = Visibility.Hidden;
                 lbNote.Visibility = Visibility.Hidden;
                 tbNote.Visibility = Visibility.Hidden;
+                lbSurVingt.Visibility = Visibility.Hidden;
                 rbAcquis.Visibility = Visibility.Hidden;
                 rbEnCours.Visibility = Visibility.Hidden;
                 rbNonAcquis.Visibility = Visibility.Hidden;                
@@ -195,7 +198,7 @@ namespace ApplicationENI.Vue
         //5 Enregistrer
         private void btnEnregistrer_Click(object sender, RoutedEventArgs e)
         {
-            int note = -1;
+            float note = -1;
             //TODO verif valeur numerique entre 0 et 20
             if (!_sessionECFcourant.Ecf.NotationNumerique)
             {
@@ -214,7 +217,7 @@ namespace ApplicationENI.Vue
             }
             else
             {
-                note = Convert.ToInt32(tbNote.Text);
+                note = (float)Convert.ToDecimal(tbNote.Text);
             }
             Evaluation eval = new Evaluation(_sessionECFcourant.Ecf, (Competence)lbCompetences.SelectedItem, (Stagiaire)lbStagiaires.SelectedItem, Convert.ToInt32(cbVersions.SelectedItem), note, _sessionECFcourant.Date);
             CtrlGestionECF.ajouterEvaluation(eval);

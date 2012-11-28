@@ -61,12 +61,12 @@ namespace ApplicationENI.Vue
 
         private void tvSynthese_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (tvSynthese.SelectedItem.GetType()==typeof(SessionECF))
+            if (((TreeViewItem)tvSynthese.SelectedItem).Header.GetType()==typeof(SessionECF))
             {
                 btModDate.IsEnabled = true;
                 btModNote.IsEnabled = false;
             }
-            else if (tvSynthese.SelectedItem.GetType()==typeof(Evaluation))
+            else if (((TreeViewItem)tvSynthese.SelectedItem).Header.GetType() == typeof(Evaluation))
             {
                 btModDate.IsEnabled = false;
                 btModNote.IsEnabled = true;
