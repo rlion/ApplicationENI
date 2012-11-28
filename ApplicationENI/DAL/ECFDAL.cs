@@ -17,7 +17,7 @@ namespace ApplicationENI.DAL
         static String SELECT_MAX = "SELECT MAX(idECF) FROM ECF";
         static String SELECT_CODE = "SELECT * FROM ECF where code=@code";
 
-        static String INSERT_ECF= "INSERT INTO ECF (idECF, code, libelle) VALUES (@id, @code, @libelle)";
+        static String INSERT_ECF= "INSERT INTO ECF (idECF, code, libelle,coefficient,typeNotation,nbreVersions) VALUES (@idECF, @code, @libelle,@coefficient,@typeNotation,@nbreVersions)";
         static String INSERT_LIEN_COMPETENCE = "INSERT INTO COMPETENCESECF (idECF, idCompetence) VALUES (@idECF, @idCompetence)";
         static String INSERT_LIEN_FORMATION = "INSERT INTO FORMATIONSECF (idECF, idFormation) VALUES (@idECF, @codeFormation)";
         
@@ -29,19 +29,19 @@ namespace ApplicationENI.DAL
         static String DELETE_LIEN_FORMATION = "DELETE FROM FORMATIONSECF WHERE idECF=@idECF AND idFormation=@codeFormation";
         static String DELETE_ECF = "DELETE FROM ECF WHERE idECF=@id";
 
-        public static ECF getECF(String idECF)
+        public static ECF getECF(int idECF)
         {
             ECF ecfTemp = new ECF();
 
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_ECF, connexion);
-            cmd.Parameters.AddWithValue("@id", idECF.Trim());
+            cmd.Parameters.AddWithValue("@id", idECF);
             SqlDataReader reader = cmd.ExecuteReader();
 
             if (reader.Read())
             {
                 ecfTemp = new ECF();
-                ecfTemp.Id = reader.GetString(reader.GetOrdinal("idECF")).Trim();
+                ecfTemp.Id = reader.GetInt32(reader.GetOrdinal("idECF"));
                 ecfTemp.Code = reader.GetString(reader.GetOrdinal("code")).Trim();
                 ecfTemp.Libelle = reader.GetString(reader.GetOrdinal("libelle")).Trim();
 
@@ -59,13 +59,13 @@ namespace ApplicationENI.DAL
                 SqlConnection c2 = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd2 = new SqlCommand(SELECT_COMPS, c2);
                 //cmd2.Parameters.AddWithValue("@lienECFComp", ecfTemp.Id.Trim());
-                cmd2.Parameters.Add(new SqlParameter("@lienECFComp", ecfTemp.Id.Trim()));
+                cmd2.Parameters.Add(new SqlParameter("@lienECFComp", ecfTemp.Id));
                 SqlDataReader reader2 = cmd2.ExecuteReader();
                 List<Competence> lesComp = new List<Competence>();
                 while (reader2.Read())
                 {
                     Competence compTemp = new Competence();
-                    compTemp.Id = reader2.GetString(reader2.GetOrdinal("idCompetence")).Trim();
+                    compTemp.Id = reader2.GetInt32(reader2.GetOrdinal("idCompetence"));
                     compTemp.Code = reader2.GetString(reader2.GetOrdinal("code")).Trim();
                     compTemp.Libelle = reader2.GetString(reader2.GetOrdinal("libelle")).Trim();
                     lesComp.Add(compTemp);
@@ -77,7 +77,7 @@ namespace ApplicationENI.DAL
                 SqlConnection c3 = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd3 = new SqlCommand(SELECT_FORMS, c3);
                 //cmd2.Parameters.AddWithValue("@lienECFComp", ecfTemp.Id.Trim());
-                cmd3.Parameters.Add(new SqlParameter("@lienECFForm", ecfTemp.Id.Trim()));
+                cmd3.Parameters.Add(new SqlParameter("@lienECFForm", ecfTemp.Id));
                 SqlDataReader reader3 = cmd3.ExecuteReader();
                 List<Formation> lesFormations = new List<Formation>();
                 while (reader3.Read())
@@ -107,7 +107,7 @@ namespace ApplicationENI.DAL
             while (reader.Read())
             {
                 ECF ecfTemp = new ECF();
-                ecfTemp.Id = reader.GetString(reader.GetOrdinal("idECF")).Trim();
+                ecfTemp.Id = reader.GetInt32(reader.GetOrdinal("idECF"));
                 ecfTemp.Code = reader.GetString(reader.GetOrdinal("code")).Trim();
                 ecfTemp.Libelle = reader.GetString(reader.GetOrdinal("libelle")).Trim();
                 
@@ -124,13 +124,13 @@ namespace ApplicationENI.DAL
                 SqlConnection c2 = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd2 = new SqlCommand(SELECT_COMPS, c2);
                 //cmd2.Parameters.AddWithValue("@lienECFComp", ecfTemp.Id.Trim());
-                cmd2.Parameters.Add(new SqlParameter("@lienECFComp",ecfTemp.Id.Trim()));
+                cmd2.Parameters.Add(new SqlParameter("@lienECFComp",ecfTemp.Id));
                 SqlDataReader reader2 = cmd2.ExecuteReader();
                 List<Competence> lesComp = new List<Competence>();      
                 while (reader2.Read())
                 {
                     Competence compTemp = new Competence();
-                    compTemp.Id = reader2.GetString(reader2.GetOrdinal("idCompetence")).Trim();
+                    compTemp.Id = reader2.GetInt32(reader2.GetOrdinal("idCompetence"));
                     compTemp.Code = reader2.GetString(reader2.GetOrdinal("code")).Trim();
                     compTemp.Libelle = reader2.GetString(reader2.GetOrdinal("libelle")).Trim();
                     lesComp.Add(compTemp);
@@ -142,7 +142,7 @@ namespace ApplicationENI.DAL
                 SqlConnection c3 = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd3 = new SqlCommand(SELECT_FORMS, c3);
                 //cmd2.Parameters.AddWithValue("@lienECFComp", ecfTemp.Id.Trim());
-                cmd3.Parameters.Add(new SqlParameter("@lienECFForm", ecfTemp.Id.Trim()));
+                cmd3.Parameters.Add(new SqlParameter("@lienECFForm", ecfTemp.Id));
                 SqlDataReader reader3 = cmd3.ExecuteReader();
                 List<Formation> lesFormations = new List<Formation>();
                 while (reader3.Read())
@@ -181,23 +181,26 @@ namespace ApplicationENI.DAL
             connexion = ConnexionSQL.CreationConnexion();
             cmd = new SqlCommand(SELECT_MAX, connexion);
             reader = cmd.ExecuteReader();
-            String idMaxECF="0";
+            int idMaxECF=0;
             if (reader.Read())
             {
                 if (reader[0] != DBNull.Value) {
-                    idMaxECF = reader.GetString(0).Trim();
+                    idMaxECF = reader.GetInt32(0);
                 }
             }
-            ecf.Id = (Convert.ToInt32(idMaxECF) + 1).ToString().Trim();
+            ecf.Id = idMaxECF + 1;
             connexion.Close();
 
             //Création de l'ECF
             connexion = ConnexionSQL.CreationConnexion();
             cmd = new SqlCommand(INSERT_ECF, connexion);
 
-            cmd.Parameters.AddWithValue("@id", ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@idECF", ecf.Id);
             cmd.Parameters.AddWithValue("@code", ecf.Code.Trim());
             cmd.Parameters.AddWithValue("@libelle", ecf.Libelle.Trim());
+            cmd.Parameters.AddWithValue("@coefficient", 1);
+            cmd.Parameters.AddWithValue("@typeNotation", 0);
+            cmd.Parameters.AddWithValue("@nbreVersions", 1);
 
             cmd.ExecuteReader();
             connexion.Close();
@@ -211,7 +214,7 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(UPDATE_ECF, connexion);
 
-            cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());  
+            cmd.Parameters.AddWithValue("@idECF", ecf.Id);  
             cmd.Parameters.AddWithValue("@libelleECF", ecf.Libelle);
 			cmd.Parameters.AddWithValue("@coefficient", ecf.Coefficient);
             int typeNotation = Ressources.CONSTANTES.NOTATION_ACQUISITION;
@@ -247,8 +250,8 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(INSERT_LIEN_COMPETENCE, connexion);
 
-            cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());
-            cmd.Parameters.AddWithValue("@idCompetence", comp.Id.Trim());
+            cmd.Parameters.AddWithValue("@idECF", ecf.Id);
+            cmd.Parameters.AddWithValue("@idCompetence", comp.Id);
 
             cmd.ExecuteReader();
             connexion.Close();
@@ -259,7 +262,7 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(INSERT_LIEN_FORMATION, connexion);
 
-            cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@idECF", ecf.Id);
             cmd.Parameters.AddWithValue("@codeFormation", form.Code);
 
             cmd.ExecuteReader();
@@ -271,8 +274,8 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_LIEN_COMPETENCE, connexion);
 
-            cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());
-            cmd.Parameters.AddWithValue("@idCompetence", comp.Id.Trim());
+            cmd.Parameters.AddWithValue("@idECF", ecf.Id);
+            cmd.Parameters.AddWithValue("@idCompetence", comp.Id);
 
             cmd.ExecuteReader();
             connexion.Close();
@@ -282,7 +285,7 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_LIEN_FORMATION, connexion);
 
-            cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@idECF", ecf.Id);
             cmd.Parameters.AddWithValue("@codeFormation", form.Code);
 
             cmd.ExecuteReader();
@@ -294,7 +297,7 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_LIENS_COMPETENCES, connexion);
 
-            cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@idECF", ecf.Id);
 
             cmd.ExecuteReader();
             connexion.Close();
@@ -305,7 +308,7 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_LIENS_FORMATIONS, connexion);
 
-            cmd.Parameters.AddWithValue("@idECF", ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@idECF", ecf.Id);
 
             cmd.ExecuteReader();
             connexion.Close();
@@ -322,7 +325,7 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_ECF, connexion);
 
-            cmd.Parameters.AddWithValue("@id", ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@id", ecf.Id);
 
             cmd.ExecuteReader();
             connexion.Close();

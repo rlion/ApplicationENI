@@ -17,9 +17,9 @@ namespace ApplicationENI.DAL
         static String SELECT_MAX_SESSIONECF = "SELECT MAX(idSessionECF) FROM SESSIONSECF";
 
         static String SELECT_PARTICIPANTS = "SELECT * FROM PARTICIPANTSSESSIONECF WHERE idSessionECF=@idSessionECF";
-        static String INSERT_PARTICIPANT = "INSERT INTO PARTICIPANTSSESSIONECF (id, idSessionECF, idStagiaire) VALUES (@id, @idSessionECF, @idStagiaire)";
+        static String INSERT_PARTICIPANT = "INSERT INTO PARTICIPANTSSESSIONECF (idSessionECF, idStagiaire) VALUES (@idSessionECF, @idStagiaire)";
         static String DELETE_PARTICIPANTS = "DELETE FROM PARTICIPANTSSESSIONECF WHERE idSessionECF=@idSessionECF";
-        static String SELECT_MAX = "SELECT MAX(id) FROM PARTICIPANTSSESSIONECF";
+        //static String SELECT_MAX = "SELECT MAX(id) FROM PARTICIPANTSSESSIONECF";
 
         public static List<SessionECF> getListSessionsECFs()
         {
@@ -32,9 +32,9 @@ namespace ApplicationENI.DAL
             {
                 SessionECF sessionECFTemp = new SessionECF();
                 ECF ecfTemp=new ECF();
-                ecfTemp.Id = reader.GetString(reader.GetOrdinal("idECF")).Trim();
+                ecfTemp.Id = reader.GetInt32(reader.GetOrdinal("idECF"));
 
-                sessionECFTemp.Id = reader.GetString(reader.GetOrdinal("idSessionECF"));
+                sessionECFTemp.Id = reader.GetInt32(reader.GetOrdinal("idSessionECF"));
                 sessionECFTemp.Ecf = ECFDAL.getECF(ecfTemp.Id);
                 sessionECFTemp.Date = reader.GetDateTime(reader.GetOrdinal("date"));
                 sessionECFTemp.Version = reader.GetInt32(reader.GetOrdinal("version"));
@@ -43,7 +43,7 @@ namespace ApplicationENI.DAL
                 List<Stagiaire> lesParticipants= new List<Stagiaire>();
                 SqlConnection c2= ConnexionSQL.CreationConnexion();
                 SqlCommand cmd2 = new SqlCommand(SELECT_PARTICIPANTS, c2);
-                cmd2.Parameters.AddWithValue("@idSessionECF", sessionECFTemp.Id.Trim());
+                cmd2.Parameters.AddWithValue("@idSessionECF", sessionECFTemp.Id);
                 SqlDataReader reader2 = cmd2.ExecuteReader();
 
                 while (reader2.Read())
@@ -67,7 +67,7 @@ namespace ApplicationENI.DAL
             List<SessionECF> lesSessionsECFs = new List<SessionECF>();
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_SESSIONSECFVERSION, connexion);
-            cmd.Parameters.AddWithValue("@idECF", pECF.Id.Trim());
+            cmd.Parameters.AddWithValue("@idECF", pECF.Id);
             cmd.Parameters.AddWithValue("@version", pVersion);
             SqlDataReader reader = cmd.ExecuteReader();
 
@@ -75,9 +75,9 @@ namespace ApplicationENI.DAL
             {
                 SessionECF sessionECFTemp = new SessionECF();
                 ECF ecfTemp = new ECF();
-                ecfTemp.Id = reader.GetString(reader.GetOrdinal("idECF")).Trim();
+                ecfTemp.Id = reader.GetInt32(reader.GetOrdinal("idECF"));
 
-                sessionECFTemp.Id = reader.GetString(reader.GetOrdinal("idSessionECF"));
+                sessionECFTemp.Id = reader.GetInt32(reader.GetOrdinal("idSessionECF"));
                 sessionECFTemp.Ecf = ECFDAL.getECF(ecfTemp.Id);
                 sessionECFTemp.Date = reader.GetDateTime(reader.GetOrdinal("date"));
                 sessionECFTemp.Version = reader.GetInt32(reader.GetOrdinal("version"));
@@ -86,7 +86,7 @@ namespace ApplicationENI.DAL
                 List<Stagiaire> lesParticipants = new List<Stagiaire>();
                 SqlConnection c2 = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd2 = new SqlCommand(SELECT_PARTICIPANTS, c2);
-                cmd2.Parameters.AddWithValue("@idSessionECF", sessionECFTemp.Id.Trim());
+                cmd2.Parameters.AddWithValue("@idSessionECF", sessionECFTemp.Id);
                 SqlDataReader reader2 = cmd2.ExecuteReader();
 
                 while (reader2.Read())
@@ -109,16 +109,16 @@ namespace ApplicationENI.DAL
             List<SessionECF> lesSessionsECFs = new List<SessionECF>();
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_SESSIONSECF, connexion);
-            cmd.Parameters.AddWithValue("@idECF", pECF.Id.Trim());
+            cmd.Parameters.AddWithValue("@idECF", pECF.Id);
             SqlDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {
                 SessionECF sessionECFTemp = new SessionECF();
                 ECF ecfTemp = new ECF();
-                ecfTemp.Id = reader.GetString(reader.GetOrdinal("idECF")).Trim();
+                ecfTemp.Id = reader.GetInt32(reader.GetOrdinal("idECF"));
 
-                sessionECFTemp.Id = reader.GetString(reader.GetOrdinal("idSessionECF"));
+                sessionECFTemp.Id = reader.GetInt32(reader.GetOrdinal("idSessionECF"));
                 sessionECFTemp.Ecf = ECFDAL.getECF(ecfTemp.Id);
                 sessionECFTemp.Date = reader.GetDateTime(reader.GetOrdinal("date"));
                 sessionECFTemp.Version = reader.GetInt32(reader.GetOrdinal("version"));
@@ -127,7 +127,7 @@ namespace ApplicationENI.DAL
                 List<Stagiaire> lesParticipants = new List<Stagiaire>();
                 SqlConnection c2 = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd2 = new SqlCommand(SELECT_PARTICIPANTS, c2);
-                cmd2.Parameters.AddWithValue("@idSessionECF", sessionECFTemp.Id.Trim());
+                cmd2.Parameters.AddWithValue("@idSessionECF", sessionECFTemp.Id);
                 SqlDataReader reader2 = cmd2.ExecuteReader();
 
                 while (reader2.Read())
@@ -167,9 +167,9 @@ namespace ApplicationENI.DAL
                 
                 SessionECF sessionECFTemp = new SessionECF();
                 ECF ecfTemp = new ECF();
-                ecfTemp.Id = reader.GetString(reader.GetOrdinal("idECF")).Trim();
+                ecfTemp.Id = reader.GetInt32(reader.GetOrdinal("idECF"));
 
-                sessionECFTemp.Id = reader.GetString(reader.GetOrdinal("idSessionECF"));
+                sessionECFTemp.Id = reader.GetInt32(reader.GetOrdinal("idSessionECF"));
                 sessionECFTemp.Ecf = ECFDAL.getECF(ecfTemp.Id);
                 sessionECFTemp.Date = reader.GetDateTime(reader.GetOrdinal("date"));
                 sessionECFTemp.Version = reader.GetInt32(reader.GetOrdinal("version"));
@@ -184,40 +184,28 @@ namespace ApplicationENI.DAL
         }
 
         public static void ajouterSessionECF(SessionECF sessionEcf)
-        {
-            //Verifier que ce code n'existe pas deja dans la base
-            //SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            //SqlCommand cmd = new SqlCommand(SELECT_CODE, connexion);
-            //cmd.Parameters.AddWithValue("@code", ecf.Code.Trim());
-            //SqlDataReader reader = cmd.ExecuteReader();
-            //if (reader.Read())
-            //{
-            //    connexion.Close();
-            //    return "Ce code et déjà utilisé par un autre ECF";
-            //}
-            //connexion.Close();
-            
+        {            
             //Récup de l'id max dans la table SESSIONSECF
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_MAX_SESSIONECF, connexion);
             SqlDataReader reader = cmd.ExecuteReader();
-            String idMaxSessionECF = "0";
+            int idMaxSessionECF = 0;
             if (reader.Read())
             {
                 if (reader[0] != DBNull.Value)
                 {
-                    idMaxSessionECF = reader.GetString(0).Trim();
+                    idMaxSessionECF = reader.GetInt32(0);
                 }
             }
-            sessionEcf.Id=(Convert.ToInt32(idMaxSessionECF) + 1).ToString();
+            sessionEcf.Id=idMaxSessionECF + 1;
             connexion.Close();
 
             //Création de l'ECF
             connexion = ConnexionSQL.CreationConnexion();
             cmd = new SqlCommand(INSERT_SESSIONECF, connexion);
 
-            cmd.Parameters.AddWithValue("@idSessionECF", sessionEcf.Id.Trim());
-            cmd.Parameters.AddWithValue("@idECF", sessionEcf.Ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@idSessionECF", sessionEcf.Id);
+            cmd.Parameters.AddWithValue("@idECF", sessionEcf.Ecf.Id);
             cmd.Parameters.AddWithValue("@date", sessionEcf.Date);
             cmd.Parameters.AddWithValue("@version", sessionEcf.Version);
 
@@ -240,27 +228,26 @@ namespace ApplicationENI.DAL
             foreach (Stagiaire stag in pSessionECF.Participants)
             {
                 //Récup de l'id max dans la table PARTICIPANTSSESSIONECF
+                //SqlConnection connexion = ConnexionSQL.CreationConnexion();
+                //SqlCommand cmd = new SqlCommand(SELECT_MAX, connexion);
+                //SqlDataReader reader = cmd.ExecuteReader();
+                //String idMax = "0";
+                //if (reader.Read())
+                //{
+                //    if (reader[0] != DBNull.Value)
+                //    {
+                //        idMax = reader.GetString(0).Trim();
+                //    }
+                //}
+                //idMax = (Convert.ToInt32(idMax) + 1).ToString();
+                //connexion.Close();
+
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
-                SqlCommand cmd = new SqlCommand(SELECT_MAX, connexion);
-                SqlDataReader reader = cmd.ExecuteReader();
-                String idMax = "0";
-                if (reader.Read())
-                {
-                    if (reader[0] != DBNull.Value)
-                    {
-                        idMax = reader.GetString(0).Trim();
-                    }
-                }
-                idMax = (Convert.ToInt32(idMax) + 1).ToString();
-                connexion.Close();
-                
-                
-                connexion = ConnexionSQL.CreationConnexion();
-                cmd = new SqlCommand(INSERT_PARTICIPANT, connexion);
+                SqlCommand cmd = new SqlCommand(INSERT_PARTICIPANT, connexion);
 
                 //TODO gerer ID? utile,
-                cmd.Parameters.AddWithValue("@id", idMax);
-                cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id.Trim());
+                //cmd.Parameters.AddWithValue("@id", idMax);
+                cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id);
                 cmd.Parameters.AddWithValue("@idStagiaire", stag._id);
 
                 cmd.ExecuteReader();
@@ -277,7 +264,7 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_SESSIONECF, connexion);
 
-            cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id);
 
             cmd.ExecuteReader();
             connexion.Close();
@@ -288,13 +275,13 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_PARTICIPANTS, connexion);
 
-            cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id.Trim());
+            cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id);
 
             cmd.ExecuteReader();
             connexion.Close();
         }
 
-        public static String donneIdSessionECF(ECF pEcf, DateTime pDate, int pVersion)
+        public static int donneIdSessionECF(ECF pEcf, DateTime pDate, int pVersion)
         {
             String requete = "SELECT idSessionECF from SESSIONSECF where idECF=@idECF and date=@date and version=@version";
 
@@ -305,12 +292,12 @@ namespace ApplicationENI.DAL
             cmd.Parameters.AddWithValue("@version", pVersion);
             SqlDataReader reader = cmd.ExecuteReader();
 
-            String idSessionECF = "0";
+            int idSessionECF = 0;
             if (reader.Read())
             {
                 if (reader[0] != DBNull.Value)
                 {
-                    idSessionECF = reader.GetString(0).Trim();
+                    idSessionECF = reader.GetInt32(0);
                 }
             }
             connexion.Close();
@@ -332,10 +319,10 @@ namespace ApplicationENI.DAL
             while (reader.Read())
             {
                 ECF ecfTemp = new ECF();
-                ecfTemp.Id= reader.GetString(reader.GetOrdinal("idECF")).Trim();
+                ecfTemp.Id= reader.GetInt32(reader.GetOrdinal("idECF"));
                 SessionECF sess = new SessionECF();
 
-                sess.Id = reader.GetString(reader.GetOrdinal("idSessionECF"));
+                sess.Id = reader.GetInt32(reader.GetOrdinal("idSessionECF"));
                 sess.Ecf = ECFDAL.getECF(ecfTemp.Id);
                 sess.Date = reader.GetDateTime(reader.GetOrdinal("date"));
                 sess.Version = reader.GetInt32(reader.GetOrdinal("version"));
@@ -344,7 +331,7 @@ namespace ApplicationENI.DAL
                 List<Stagiaire> lesParticipants = new List<Stagiaire>();
                 SqlConnection c2 = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd2 = new SqlCommand(SELECT_PARTICIPANTS, c2);
-                cmd2.Parameters.AddWithValue("@idSessionECF", sess.Id.Trim());
+                cmd2.Parameters.AddWithValue("@idSessionECF", sess.Id);
                 SqlDataReader reader2 = cmd2.ExecuteReader();
 
                 while (reader2.Read())
@@ -370,7 +357,7 @@ namespace ApplicationENI.DAL
 
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(requete, connexion);
-            cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id.Trim());
+            cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id);
             //if (pFiltreNomPrenom != "") cmd.Parameters.AddWithValue("@filtreNP", pFiltreNomPrenom.Trim());
             SqlDataReader reader = cmd.ExecuteReader();
 
@@ -400,9 +387,9 @@ namespace ApplicationENI.DAL
                     "AND date=@date";
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd = new SqlCommand(requete, connexion);
-                cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id.Trim());
+                cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id);
                 cmd.Parameters.AddWithValue("@idStagiaire", pStag._id);
-                cmd.Parameters.AddWithValue("@idCompetence", comp.Id.Trim());
+                cmd.Parameters.AddWithValue("@idCompetence", comp.Id);
                 cmd.Parameters.AddWithValue("@date", pSessionECF.Date);
                 SqlDataReader reader = cmd.ExecuteReader();
 

@@ -41,7 +41,7 @@ namespace ApplicationENI.DAL
             while (reader.Read())
             {
                 Competence compTemp = new Competence();
-                compTemp.Id = reader.GetString(reader.GetOrdinal("idCompetence")).Trim();
+                compTemp.Id = reader.GetInt32(reader.GetOrdinal("idCompetence"));
                 compTemp.Code = reader.GetString(reader.GetOrdinal("code")).Trim();
                 compTemp.Libelle = reader.GetString(reader.GetOrdinal("libelle")).Trim();
                                
@@ -71,15 +71,15 @@ namespace ApplicationENI.DAL
             connexion = ConnexionSQL.CreationConnexion();
             cmd = new SqlCommand(SELECT_MAX, connexion);
             reader = cmd.ExecuteReader();
-            String idMaxCompetence = "0";
+            int idMaxCompetence = 0;
             if (reader.Read())
             {
                 if (reader[0] != DBNull.Value)
                 {
-                    idMaxCompetence = reader.GetString(0).Trim();
+                    idMaxCompetence = reader.GetInt32(0);
                 }
             }
-            comp.Id=(Convert.ToInt32(idMaxCompetence) + 1).ToString();
+            comp.Id=idMaxCompetence + 1;
             connexion.Close();
 
             //Création de la competence

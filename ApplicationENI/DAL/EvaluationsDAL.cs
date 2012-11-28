@@ -44,15 +44,15 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_MAX, connexion);
             SqlDataReader reader = cmd.ExecuteReader();
-            String idMaxEvaluation = "0";
+            int idMaxEvaluation = 0;
             if (reader.Read())
             {
                 if (reader[0] != DBNull.Value)
                 {
-                    idMaxEvaluation = reader.GetString(0).Trim();
+                    idMaxEvaluation = reader.GetInt32(0);
                 }
             }
-            eval.Id = (Convert.ToInt32(idMaxEvaluation) + 1).ToString();
+            eval.Id = idMaxEvaluation + 1;
             connexion.Close();
 
             //Création de la competence
@@ -130,18 +130,18 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(requete, connexion);
 
-            cmd.Parameters.AddWithValue("@idECF", pSession.Ecf.Id.Trim());
+            cmd.Parameters.AddWithValue("@idECF", pSession.Ecf.Id);
             cmd.Parameters.AddWithValue("@version", pSession.Version);
             cmd.Parameters.AddWithValue("@date", pSession.Date);
             cmd.Parameters.AddWithValue("@idStagiaire", pStag._id);
-            cmd.Parameters.AddWithValue("@idCompetence", pComp.Id.Trim());
+            cmd.Parameters.AddWithValue("@idCompetence", pComp.Id);
             SqlDataReader reader = cmd.ExecuteReader();
 
             if (reader.Read())
             {
                 eval = new Evaluation();
 
-                eval.Id = reader.GetString(reader.GetOrdinal("idEvaluation")).Trim();
+                eval.Id = reader.GetInt32(reader.GetOrdinal("idEvaluation"));
                 eval.Ecf = pSession.Ecf;
                 eval.Stagiaire = pStag;
                 eval.Competence = pComp;
