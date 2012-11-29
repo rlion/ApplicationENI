@@ -194,6 +194,8 @@ namespace ApplicationENI.Modele
 
         public override bool Equals(object obj)
         {
+            if (obj == null || GetType() != obj.GetType()) return false;
+
             bool b = false;
             int i = 0;
             int j = 0;
@@ -237,6 +239,12 @@ namespace ApplicationENI.Modele
             }
 
             return b;
+        }
+        //Pour éviter le warning (lorsque l'on surcharge Equals() il faut surcharger GetHashCode)
+        //utile pour les HashTable que nous n'utilisons pas
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

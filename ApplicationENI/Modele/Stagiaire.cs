@@ -101,7 +101,9 @@ namespace ApplicationENI.Modele
 
         public override bool Equals(object obj)
         {
-            bool b=false;
+            if (obj == null || GetType() != obj.GetType()) return false; 
+            
+            bool b = false;
 
             if (((Stagiaire)obj)._id==this._id)
             {
@@ -111,7 +113,12 @@ namespace ApplicationENI.Modele
             return b;
         }
 
-        
+        //Pour éviter le warning (lorsque l'on surcharge Equals() il faut surcharger GetHashCode)
+        //utile pour les HashTable que nous n'utilisons pas
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 
     }   
 
