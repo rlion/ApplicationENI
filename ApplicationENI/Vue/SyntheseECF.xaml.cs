@@ -54,31 +54,34 @@ namespace ApplicationENI.Vue
 
             tvSynthese.Items.Clear();
 
-            foreach (SessionECF sess in _lesSessionsECFsStag)
+            if (_lesSessionsECFsStag!=null)
             {
-                TreeViewItem tviSessionECF = new TreeViewItem();
-                tviSessionECF.Header = sess;
-                tvSynthese.Items.Add(tviSessionECF);
-                foreach (Competence comp in sess.Ecf.Competences)
+                foreach (SessionECF sess in _lesSessionsECFsStag)
                 {
-                    TreeViewItem tviCompetenceNote = new TreeViewItem();
-                    Evaluation eval = CtrlGestionECF.donneNote(sess, _stagiaireEncours, comp);
-                                        
-                    tviCompetenceNote.Header = eval;
-                    tviSessionECF.Items.Add(tviCompetenceNote);
-                    if (eval.Note!=-1)
+                    TreeViewItem tviSessionECF = new TreeViewItem();
+                    tviSessionECF.Header = sess;
+                    tvSynthese.Items.Add(tviSessionECF);
+                    foreach (Competence comp in sess.Ecf.Competences)
                     {
-                        tviSessionECF.IsExpanded = true;
+                        TreeViewItem tviCompetenceNote = new TreeViewItem();
+                        Evaluation eval = CtrlGestionECF.donneNote(sess, _stagiaireEncours, comp);
+
+                        tviCompetenceNote.Header = eval;
+                        tviSessionECF.Items.Add(tviCompetenceNote);
+                        if (eval.Note != -1)
+                        {
+                            tviSessionECF.IsExpanded = true;
+                        }
                     }
+                    tvSynthese.Items.Add(null);//espacer les ECFs
                 }
-                tvSynthese.Items.Add(null);//espacer les ECFs
-            }
-            //foreach (TreeViewItem item in tvSynthese.Items)
-            //{
-            //    item.IsExpanded = true;
-            //}
-            btModDate.IsEnabled = false;
-            btModNote.IsEnabled = false;
+                //foreach (TreeViewItem item in tvSynthese.Items)
+                //{
+                //    item.IsExpanded = true;
+                //}
+                btModDate.IsEnabled = false;
+                btModNote.IsEnabled = false;
+            }            
         }
 
         private void tvSynthese_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
