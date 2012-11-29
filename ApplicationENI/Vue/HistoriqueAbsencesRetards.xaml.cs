@@ -162,8 +162,11 @@ namespace ApplicationENI.Vue
                     }
 
                     this.gbListeAbsenceRetards.Header = texteAAfficher;
-                    this.dataGridListeAbsences.SelectedItem = this.dataGridListeAbsences.Items[dataGridListeAbsences.Items.Count - 1];
-                    this.gbDetailAbsenceRetard.Visibility = Visibility.Hidden;
+                    if (dataGridListeAbsences.Items.Count > 0)
+                    {
+                        this.dataGridListeAbsences.SelectedItem = this.dataGridListeAbsences.Items[dataGridListeAbsences.Items.Count - 1];
+                    }
+                        this.gbDetailAbsenceRetard.Visibility = Visibility.Hidden;
                 }
         }
 

@@ -23,7 +23,7 @@ namespace ApplicationENI.Vue
     public partial class ProfilAlertesStagiaire : UserControl
     {
         CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
-        Stagiaire stg = Parametres.Instance.stagiaire;
+        Stagiaire stg = new Stagiaire() ;//Parametres.Instance.stagiaire;
         public ProfilAlertesStagiaire()
         {
             InitializeComponent();
@@ -56,7 +56,15 @@ namespace ApplicationENI.Vue
             //informations sur le tuteur du stagiaire
             dataGridListContacts.ItemsSource = stg.getListeContacts();
             this.listViewAlerte.ItemsSource = ctrlStagiaires.listeAlertes();
-            this.listViewAlerte.Items.Refresh();
+            if (listViewAlerte.Items.Count == 0)
+            {
+                gbAlertes.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                gbAlertes.Visibility = Visibility.Visible;
+                this.listViewAlerte.Items.Refresh();
+            }
         }
 
         private void listViewAlerte_SelectionChanged(object sender, SelectionChangedEventArgs e)
