@@ -25,6 +25,20 @@ namespace ApplicationENI.Vue
     {
         private Stagiaire _stagiaireEncours=null;
         private List<SessionECF> _lesSessionsECFsStag=null;
+        private SessionECF _sessionSelectionnee = null;
+
+        public SessionECF SessionSelectionnee
+        {
+            get { return _sessionSelectionnee; }
+            set { _sessionSelectionnee = value; }
+        }
+        private Evaluation _evaluationSelectionnee = null;
+
+        public Evaluation EvaluationSelectionnee
+        {
+            get { return _evaluationSelectionnee; }
+            set { _evaluationSelectionnee = value; }
+        }
         
         public SyntheseECF()
         {
@@ -38,6 +52,8 @@ namespace ApplicationENI.Vue
             _stagiaireEncours = Parametres.Instance.stagiaire;
             _lesSessionsECFsStag = CtrlGestionECF.getListSessionsECFStagiaire(_stagiaireEncours);
 
+            tvSynthese.Items.Clear();
+
             foreach (SessionECF sess in _lesSessionsECFsStag)
             {
                 TreeViewItem tviSessionECF = new TreeViewItem();
@@ -50,37 +66,70 @@ namespace ApplicationENI.Vue
                                         
                     tviCompetenceNote.Header = eval;
                     tviSessionECF.Items.Add(tviCompetenceNote);
+                    if (eval.Note!=-1)
+                    {
+                        tviSessionECF.IsExpanded = true;
+                    }
                 }
+                tvSynthese.Items.Add(null);//espacer les ECFs
             }
-            foreach (TreeViewItem item in tvSynthese.Items)
-            {
-                item.IsExpanded = true;
-            }
-
+            //foreach (TreeViewItem item in tvSynthese.Items)
+            //{
+            //    item.IsExpanded = true;
+            //}
+            btModDate.IsEnabled = false;
+            btModNote.IsEnabled = false;
         }
 
         private void tvSynthese_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (((TreeViewItem)tvSynthese.SelectedItem).Header.GetType()==typeof(SessionECF))
+            if (tvSynthese.SelectedItem!=null)
             {
-                btModDate.IsEnabled = true;
-                btModNote.IsEnabled = false;
-            }
-            else if (((TreeViewItem)tvSynthese.SelectedItem).Header.GetType() == typeof(Evaluation))
-            {
-                btModDate.IsEnabled = false;
-                btModNote.IsEnabled = true;
-            }
+                if (((TreeViewItem)tvSynthese.SelectedItem).Header.GetType() == typeof(SessionECF))
+                {
+                    if (((SessionECF)((TreeViewItem)tvSynthese.SelectedItem).Header).Date > DateTime.Now)
+                    {
+                        btModDate.IsEnabled = true;
+                        btModNote.IsEnabled = false;
+                    }
+                    else
+                    {
+                        btModDate.IsEnabled = false;
+                        btModNote.IsEnabled = false;
+                    }
+                }
+                else if (((TreeViewItem)tvSynthese.SelectedItem).Header.GetType() == typeof(Evaluation))
+                {
+                    if (((Evaluation)((TreeViewItem)tvSynthese.SelectedItem).Header).Date < DateTime.Now)
+                    {
+                        btModDate.IsEnabled = false;
+                        btModNote.IsEnabled = true;
+                    }
+                    else
+                    {
+                        btModDate.IsEnabled = false;
+                        btModNote.IsEnabled = false;
+                    }
+                }
+            }            
         }
 
         private void btModDate_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            _sessionSelectionnee = (SessionECF)((TreeViewItem)tvSynthese.SelectedItem).Header;
+            PopUp.ModifDateECF popUp = new PopUp.ModifDateECF();
+            popUp.ShowDialog();
+            _sessionSelectionnee = null;
+            affichage();
         }
 
         private void btModNote_Click(object sender, RoutedEventArgs e)
         {
-            //TODO
+            _evaluationSelectionnee = (Evaluation)((TreeViewItem)tvSynthese.SelectedItem).Header;
+            PopUp.ModifNoteECF popUp = new PopUp.ModifNoteECF();
+            popUp.ShowDialog();
+            _evaluationSelectionnee = null;
+            affichage();
         }
 
 

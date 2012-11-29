@@ -26,6 +26,7 @@ namespace ApplicationENI.Vue
         //private ECF _ecfCourant = null;
         private List<DateTime> _planif = null;
         private SessionECF _sessionECFcourant = null;
+        private Evaluation _evaluationEnCours = null;
         #endregion
 
         #region constructeur
@@ -72,6 +73,8 @@ namespace ApplicationENI.Vue
             //session ECFCourant
             _sessionECFcourant = new SessionECF();
             _sessionECFcourant.Ecf = (ECF)cbECF.SelectedItem; //_ecfCourant;
+            _sessionECFcourant.Date = DateTime.MinValue;
+            _sessionECFcourant.Version = 0;
             //liste de sessions ECF (correspondant à l'ecf)
             _listeSessionECFs = new List<SessionECF>();
             _listeSessionECFs = CtrlGestionECF.getListSessionsECF(_sessionECFcourant.Ecf);//_ecfCourant);
@@ -86,6 +89,8 @@ namespace ApplicationENI.Vue
         {
             if (!calendrier.SelectedDate.HasValue) return;
 
+            _sessionECFcourant.Date = DateTime.MinValue;
+            _sessionECFcourant.Version=0;
             DateTime dateSel = calendrier.SelectedDate.Value;
             
             //On remet les dates planifiées
@@ -93,8 +98,7 @@ namespace ApplicationENI.Vue
 
             if (!_planif.Contains(dateSel))
             {
-                MessageBox.Show("Cette date n'est pas planifiée pour l'ECF " + _sessionECFcourant.Ecf.ToString());
-                _sessionECFcourant.Date = DateTime.MinValue;                
+                MessageBox.Show("Cette date n'est pas planifiée pour l'ECF " + _sessionECFcourant.Ecf.ToString());                
             }
             else
             {
@@ -124,6 +128,8 @@ namespace ApplicationENI.Vue
         }
         private void noteStagiaire()
         {
+            btnAnnu.IsEnabled = true;
+            
             if (lbCompetences.SelectedItem != null && lbStagiaires.SelectedItem != null)
             {
                 gbNote.IsEnabled = true;
@@ -135,6 +141,7 @@ namespace ApplicationENI.Vue
                     lbNote.Visibility = Visibility.Visible;
                     tbNote.Visibility = Visibility.Visible;
                     lbSurVingt.Visibility = Visibility.Visible;
+                    tbNote.Background = Brushes.White;
                     rbAcquis.Visibility = Visibility.Hidden;
                     rbEnCours.Visibility = Visibility.Hidden;
                     rbNonAcquis.Visibility = Visibility.Hidden;
@@ -149,27 +156,27 @@ namespace ApplicationENI.Vue
                     rbNonAcquis.Visibility = Visibility.Visible;                    
                 }
 
-                Evaluation eval = CtrlGestionECF.donneNote(_sessionECFcourant, (Stagiaire)lbStagiaires.SelectedItem, (Competence)lbCompetences.SelectedItem);//Evaluation(new Evaluation(_sessionECFcourant.Ecf, (Competence)lbCompetences.SelectedItem, (Stagiaire)lbStagiaires.SelectedItem));
-                if (eval != null && eval.Note!=-1)
+                _evaluationEnCours = CtrlGestionECF.donneNote(_sessionECFcourant, (Stagiaire)lbStagiaires.SelectedItem, (Competence)lbCompetences.SelectedItem);//Evaluation(new Evaluation(_sessionECFcourant.Ecf, (Competence)lbCompetences.SelectedItem, (Stagiaire)lbStagiaires.SelectedItem));
+                if (_evaluationEnCours != null && _evaluationEnCours.Note != -1)
                 {
                     if (!_sessionECFcourant.Ecf.NotationNumerique)
                     {
-                        if (eval.Note == Ressources.CONSTANTES.NOTE_ACQUIS)
+                        if (_evaluationEnCours.Note == Ressources.CONSTANTES.NOTE_ACQUIS)
                         {
                             rbAcquis.IsChecked = true;
                         }
-                        else if (eval.Note == Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION)
+                        else if (_evaluationEnCours.Note == Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION)
                         {
                             rbEnCours.IsChecked = true;
                         }
-                        else if (eval.Note == Ressources.CONSTANTES.NOTE_NON_ACQUIS)
+                        else if (_evaluationEnCours.Note == Ressources.CONSTANTES.NOTE_NON_ACQUIS)
                         {
                             rbNonAcquis.IsChecked = true;
                         }
                     }
                     else
                     {
-                        tbNote.Text = eval.Note.ToString();
+                        tbNote.Text = _evaluationEnCours.Note.ToString();
                         tbNote.Focus();
                     }
                 }
@@ -199,7 +206,7 @@ namespace ApplicationENI.Vue
         private void btnEnregistrer_Click(object sender, RoutedEventArgs e)
         {
             float note = -1;
-            //TODO verif valeur numerique entre 0 et 20
+
             if (!_sessionECFcourant.Ecf.NotationNumerique)
             {
                 if (rbAcquis.IsChecked == true)
@@ -217,10 +224,33 @@ namespace ApplicationENI.Vue
             }
             else
             {
-                note = (float)Convert.ToDecimal(tbNote.Text);
+                float noteSaisie;
+
+                tbNote.Text = tbNote.Text.Replace('.', ',');
+                bool estNumerique = float.TryParse(tbNote.Text, out noteSaisie);
+
+                if (noteSaisie >= 0 && noteSaisie <= 20 && estNumerique)
+                {
+                    note = noteSaisie;
+                    tbNote.Background = Brushes.White;
+                }
+                else
+                {
+                    tbNote.Background = Brushes.Red;
+                    tbNote.Focus();
+                }
             }
-            Evaluation eval = new Evaluation(_sessionECFcourant.Ecf, (Competence)lbCompetences.SelectedItem, (Stagiaire)lbStagiaires.SelectedItem, Convert.ToInt32(cbVersions.SelectedItem), note, _sessionECFcourant.Date);
-            CtrlGestionECF.ajouterEvaluation(eval);
+            if (note!=-1)
+            {
+                _evaluationEnCours.Note = note;
+                CtrlGestionECF.modifierNoteEvaluation(_evaluationEnCours,_evaluationEnCours.Note);
+                btnAnnu.IsEnabled = false;
+                //_evaluationEnCours = null;
+                //_listeSessionECFs = null;
+                //_planif = null;
+                //_sessionECFcourant = null;
+                //affichage();
+            }            
         }
         private void btnAjouter_Click(object sender, RoutedEventArgs e)
         {
@@ -265,6 +295,7 @@ namespace ApplicationENI.Vue
 
         private void affichage()
         {
+            btnAnnu.IsEnabled = false;
             if (_sessionECFcourant==null)
             {
                 //cbECF
@@ -319,8 +350,6 @@ namespace ApplicationENI.Vue
             {
                 chargerVersions();
 
-                _sessionECFcourant.Version = 0;
-
                 lbDateSession.Content = "";
                 lbCompetences.ItemsSource = null;
                 gbCompetences.IsEnabled = false;
@@ -330,9 +359,6 @@ namespace ApplicationENI.Vue
             //Ni la date ni la version sont choisies
             else
             {
-                _sessionECFcourant.Date = DateTime.MinValue;
-                _sessionECFcourant.Version = 0;
-
                 lbDateSession.Content = "";
                 cbVersions.Items.Clear();
                 gbProprietes.IsEnabled = false;
@@ -346,9 +372,9 @@ namespace ApplicationENI.Vue
         private void chargerVersions()
         {
             gbProprietes.IsEnabled = true;
-            _listeSessionECFs = CtrlGestionECF.donneSessionsECFJour(_sessionECFcourant.Ecf, _sessionECFcourant.Date);
+            //_listeSessionECFs = CtrlGestionECF.donneSessionsECFJour(_sessionECFcourant.Ecf, _sessionECFcourant.Date);
             cbVersions.Items.Clear();
-            foreach (SessionECF session in _listeSessionECFs)
+            foreach (SessionECF session in CtrlGestionECF.donneSessionsECFJour(_sessionECFcourant.Ecf, _sessionECFcourant.Date))
             {
                 cbVersions.Items.Add(session.Version);
             }
@@ -370,6 +396,45 @@ namespace ApplicationENI.Vue
             //tbNote.SelectionStart = 0;
             //tbNote.SelectionLength = tbNote.Text.Length;
             tbNote.SelectAll();
+        }
+
+        private void btnAnnu_Click(object sender, RoutedEventArgs e)
+        {
+            tbNote.Background = Brushes.White;
+            Evaluation eval = CtrlGestionECF.donneNote(_sessionECFcourant, (Stagiaire)lbStagiaires.SelectedItem, (Competence)lbCompetences.SelectedItem);
+            float noteSaisie; 
+            bool b = float.TryParse(tbNote.Text,out noteSaisie);
+            if (eval.Note!=noteSaisie)
+            {
+                if (!_sessionECFcourant.Ecf.NotationNumerique)
+                {
+                    if (eval.Note == Ressources.CONSTANTES.NOTE_ACQUIS)
+                    {
+                        rbAcquis.IsChecked = true;
+                    }
+                    else if (eval.Note == Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION)
+                    {
+                        rbEnCours.IsChecked = true;
+                    }
+                    else if (eval.Note == Ressources.CONSTANTES.NOTE_NON_ACQUIS)
+                    {
+                        rbNonAcquis.IsChecked = true;
+                    }
+                }
+                else
+                {
+                    tbNote.Text = eval.Note.ToString();
+                    tbNote.Focus();
+                }
+            }
+            //else
+            //{
+            //    _evaluationEnCours = null;
+            //    _listeSessionECFs = null;
+            //    _planif = null;
+            //    _sessionECFcourant = null;
+            //    affichage();
+            //}
         }
     }
 }

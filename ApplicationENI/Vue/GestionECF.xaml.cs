@@ -26,7 +26,7 @@ namespace ApplicationENI.Vue
         #region Propriétés
         private List<ECF> _listeECF = null;
         private ECF _ecfCourant = null;        
-        //TODO private bool _modif = false;
+        //TODO? private bool _modif = false;
         private bool _ecfAdd; //si true on est en train d'ajouter un ECF sinon une Competence
         #endregion
 
@@ -91,7 +91,7 @@ namespace ApplicationENI.Vue
             //AFFICHAGE
             //libelle
             tbLibECF.Text = pECF.Libelle;
-            //TODO MAT coeff
+            //TODO? MAT coeff
             //type de notation
             if (pECF.NotationNumerique)
             {
@@ -284,10 +284,6 @@ namespace ApplicationENI.Vue
             {
                 RAZ();
                 ActualiseAffichage(_ecfCourant);
-            }
-            else
-            {
-                //TODO ?? revenir à l'écran précédent (l'accueil)
             }
         }
 
