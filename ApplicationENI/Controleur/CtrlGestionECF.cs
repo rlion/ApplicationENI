@@ -105,6 +105,10 @@ namespace ApplicationENI.Controleur
         {
             SessionECFDAL.ajouterSessionECF(pSessionECF);
         }
+        public static void modifierDateSessionECF(SessionECF pSessionECF, DateTime pDate)
+        {
+            SessionECFDAL.modifierDateSessionECF(pSessionECF,pDate);
+        }
         public static int donneIdSessionECF(ECF pECF, DateTime pDate, int pVersion)
         {
             return SessionECFDAL.donneIdSessionECF(pECF, pDate, pVersion);
@@ -143,7 +147,10 @@ namespace ApplicationENI.Controleur
         {
             EvaluationsDAL.ajouterEvaluation(pEval);
         }
-
+        public static void modifierNoteEvaluation(Evaluation pEvaluation, float pNote)
+        {
+            EvaluationsDAL.modifierNoteEvaluation(pEvaluation, pNote);
+        }
         //public static Evaluation donneEvaluation(Evaluation pEval){
         //    return EvaluationsDAL.donneEvaluation(pEval);
         //}
