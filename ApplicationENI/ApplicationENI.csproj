@@ -169,6 +169,12 @@
     <Compile Include="Vue\PopUp\ListeECF_Formations.xaml.cs">
       <DependentUpon>ListeECF_Formations.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vue\PopUp\ModifDateECF.xaml.cs">
+      <DependentUpon>ModifDateECF.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vue\PopUp\ModifNoteECF.xaml.cs">
+      <DependentUpon>ModifNoteECF.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vue\PopUp\NewJure.xaml.cs">
       <DependentUpon>NewJure.xaml</DependentUpon>
     </Compile>
@@ -262,6 +268,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vue\PopUp\ListeECF_Formations.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vue\PopUp\ModifDateECF.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vue\PopUp\ModifNoteECF.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
