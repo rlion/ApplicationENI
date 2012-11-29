@@ -9,7 +9,6 @@ namespace ApplicationENI.DAL
 {
     class CompetencesDAL
     {
-        //TODO Mat
         static String SELECT_COMPETENCES = "SELECT * FROM COMPETENCE order by code, libelle";
         //static String SELECT_COMPETENCES_FILTRE = "SELECT * FROM COMPETENCE WHERE (code like (@filtre) or libelle like (@filtre)) order by code, libelle";
         static String SELECT_CODE = "SELECT * FROM COMPETENCE WHERE code=@code";
@@ -103,7 +102,9 @@ namespace ApplicationENI.DAL
 
         public static String supprimerCompetence(Competence comp)
         {
-            //TODO verifier qu il n y a pas de lien existant sinon message d erreur
+            //TODO verif s'il ya des liens competence-evaluations si oui suppr pas possible
+            
+            //Vérif s'il y a des liens ECF-Competence
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_LIENS, connexion);
             cmd.Parameters.AddWithValue("@idCompetence", comp.Id);

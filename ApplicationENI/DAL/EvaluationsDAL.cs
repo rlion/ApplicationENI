@@ -9,10 +9,9 @@ namespace ApplicationENI.DAL
 {
     class EvaluationsDAL
     {
-        //TODO Mat
         //static String SELECT_EVALUATION = "SELECT * FROM  EVALUATION WHERE idECF=@idECF AND idStagiaire=@idStagiaire AND idCompetence=@idCompetence";
         static String INSERT_EVALUATION = "INSERT INTO EVALUATION (idEvaluation, idECF, idStagiaire, idCompetence, note, version, date) VALUES (@idEvaluation, @idECf, @idStagiaire, @idCompetence, @note, @version, @date)";
-        static String DELETE_EVALUATION = "DELETE FROM WHERE FROM  EVALUATION WHERE idECF=@idECF AND idStagiaire=@idStagiaire AND idCompetence=@idCompetence";
+        //static String DELETE_EVALUATION = "DELETE FROM WHERE FROM  EVALUATION WHERE idECF=@idECF AND idStagiaire=@idStagiaire AND idCompetence=@idCompetence";
         static String UPDATE_EVALUATION = "UPDATE EVALUATION SET note=@note WHERE idEvaluation=@idEvaluation";
         static String SELECT_MAX = "SELECT MAX(idEvaluation) FROM EVALUATION";
 
@@ -39,7 +38,7 @@ namespace ApplicationENI.DAL
         }
 
         public static void ajouterEvaluation(Evaluation eval)
-        {
+        {           
             //Récup de l'id max dans la table EVALUATIONS
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_MAX, connexion);
@@ -71,28 +70,43 @@ namespace ApplicationENI.DAL
             connexion.Close();
         }
 
-        public static void modifierEvaluation(Evaluation eval)
+        //public static void modifierEvaluation(Evaluation eval)
+        //{
+        //    //Modification de la note
+        //    SqlConnection connexion = ConnexionSQL.CreationConnexion();
+        //    SqlCommand cmd = new SqlCommand(UPDATE_EVALUATION, connexion);
+
+        //    cmd.Parameters.AddWithValue("@idEvaluation", eval.Id);
+        //    cmd.Parameters.AddWithValue("@note", eval.Note);
+
+        //    cmd.ExecuteReader();
+        //    connexion.Close();
+        //}
+        public static void modifierNoteEvaluation(Evaluation pEvaluation, float pNote)
         {
-            //Création de la competence
-            SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(UPDATE_EVALUATION, connexion);
+            if (pEvaluation.Id != 0)
+            {
+                //Modification de la note
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+                SqlCommand cmd = new SqlCommand(UPDATE_EVALUATION, connexion);
 
-            cmd.Parameters.AddWithValue("@idEvaluation", eval.Id);
-            cmd.Parameters.AddWithValue("@note", eval.Note);
+                cmd.Parameters.AddWithValue("@idEvaluation", pEvaluation.Id);
+                cmd.Parameters.AddWithValue("@note", pNote);
 
-            cmd.ExecuteReader();
-            connexion.Close();
+                cmd.ExecuteReader();
+                connexion.Close();
+            }
+            else
+            {
+                pEvaluation.Note = pNote;
+                ajouterEvaluation(pEvaluation);
+            }
+            
         }
 
         public static void supprimerEvaluation(Evaluation eval)
         {
-            // test de suppression dans la base de données bidon
-            /*SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(DELETE_OBSERVATION, connexion);
-            cmd.Parameters.AddWithValue("@num_observation", o._id);  // il faut modifier tout ça
-
-            cmd.ExecuteReader();
-            connexion.Close();*/
+            //TODO?
         }
 
         //public static Evaluation donneEvaluation(Evaluation pEval)

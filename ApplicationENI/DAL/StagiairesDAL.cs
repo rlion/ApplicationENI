@@ -28,7 +28,6 @@ namespace ApplicationENI.DAL
             {
                 //stgRetour._nom = reader.GetSqlString(2).IsNull ? String.Empty : reader.GetString(2);
                 //stgRetour._prenom = reader.GetSqlString(3).IsNull ? String.Empty : reader.GetString(3);
-                //TODO toutes les propriétés
                 stgRetour._id = reader.GetInt32(reader.GetOrdinal("CodeStagiaire"));
                 stgRetour._civilité = reader.GetSqlString(1).IsNull ? string.Empty : reader.GetString(1);
                 stgRetour._nom = reader.GetSqlString(2).IsNull ? string.Empty : reader.GetString(2);

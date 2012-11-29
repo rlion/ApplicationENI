@@ -15,6 +15,7 @@ namespace ApplicationENI.DAL
         static String INSERT_SESSIONECF = "INSERT INTO SESSIONSECF (idSessionECF, idECF, date, version) VALUES (@idSessionECF, @idECF,@date, @version)";
         static String DELETE_SESSIONECF = "DELETE FROM SESSIONSECF WHERE idECF=@idECF";
         static String SELECT_MAX_SESSIONECF = "SELECT MAX(idSessionECF) FROM SESSIONSECF";
+        static String UPDATE_DATE_SESSIONECF = "UPDATE SESSIONSECF SET date=@date WHERE idSessionECF=@idSessionECF";
 
         static String SELECT_PARTICIPANTS = "SELECT * FROM PARTICIPANTSSESSIONECF WHERE idSessionECF=@idSessionECF";
         static String INSERT_PARTICIPANT = "INSERT INTO PARTICIPANTSSESSIONECF (idSessionECF, idStagiaire) VALUES (@idSessionECF, @idStagiaire)";
@@ -184,7 +185,7 @@ namespace ApplicationENI.DAL
         }
 
         public static void ajouterSessionECF(SessionECF sessionEcf)
-        {            
+        {                                     
             //Récup de l'id max dans la table SESSIONSECF
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_MAX_SESSIONECF, connexion);
@@ -212,7 +213,7 @@ namespace ApplicationENI.DAL
             cmd.ExecuteReader();
             connexion.Close();
 
-            //participants
+            //participants            
             if (sessionEcf.Participants!=null)
             {
                 ajouterParticipants(sessionEcf);
@@ -220,33 +221,31 @@ namespace ApplicationENI.DAL
             
         }
 
+        public static void modifierDateSessionECF(SessionECF sessionEcf,DateTime pDate)
+        {
+            //Modif de la date de la sessionECF dans la table SESSIONSECF
+            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            SqlCommand cmd = new SqlCommand(UPDATE_DATE_SESSIONECF, connexion);            
+            cmd.Parameters.AddWithValue("@idSessionECF", sessionEcf.Id);
+            cmd.Parameters.AddWithValue("@date", pDate);
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            connexion.Close();
+        }
+
         public static void ajouterParticipants(SessionECF pSessionECF)
         {
+            //TODO verifier que le stagiaire n'a pas déjà effectué cette version d'ECF
+            //TODO verifier que le stagiaire n'a pas deja un ECF à cette date (si oui proposer le choix de créer le lien)
+
             //Suppr des participants
             supprimerParticipants(pSessionECF);
 
             foreach (Stagiaire stag in pSessionECF.Participants)
             {
-                //Récup de l'id max dans la table PARTICIPANTSSESSIONECF
-                //SqlConnection connexion = ConnexionSQL.CreationConnexion();
-                //SqlCommand cmd = new SqlCommand(SELECT_MAX, connexion);
-                //SqlDataReader reader = cmd.ExecuteReader();
-                //String idMax = "0";
-                //if (reader.Read())
-                //{
-                //    if (reader[0] != DBNull.Value)
-                //    {
-                //        idMax = reader.GetString(0).Trim();
-                //    }
-                //}
-                //idMax = (Convert.ToInt32(idMax) + 1).ToString();
-                //connexion.Close();
-
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd = new SqlCommand(INSERT_PARTICIPANT, connexion);
 
-                //TODO gerer ID? utile,
-                //cmd.Parameters.AddWithValue("@id", idMax);
                 cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id);
                 cmd.Parameters.AddWithValue("@idStagiaire", stag._id);
 
@@ -272,6 +271,9 @@ namespace ApplicationENI.DAL
 
         public static void supprimerParticipants(SessionECF pSessionECF)
         {
+            //TODO Si c'est le dernier proposer de supprimer la session??
+
+            //TODO verifier qu'il na pas été déjà noté
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_PARTICIPANTS, connexion);
 

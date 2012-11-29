@@ -9,7 +9,6 @@ namespace ApplicationENI.DAL
 {
     class ECFDAL
     {
-        //TODO Mat
         static String SELECT_ECF = "SELECT * FROM ECF WHERE idECF=@id";//, Competences, CompetenceECFS as lien WHERE lien.idECF=ECFs=idECF and lien.idCompetence=Competences.idCompetence order by ECFs.idECF";
         static String SELECT_ECFS = "SELECT * FROM ECF order by code, libelle";//, Competences, CompetenceECFS as lien WHERE lien.idECF=ECFs=idECF and lien.idCompetence=Competences.idCompetence order by ECFs.idECF";
         static String SELECT_COMPS = "SELECT COMPETENCE.idCompetence, COMPETENCE.code, COMPETENCE.libelle FROM COMPETENCE, COMPETENCESECF WHERE COMPETENCE.idCompetence=COMPETENCESECF.idCompetence and COMPETENCESECF.idECF=@lienECFComp order by COMPETENCE.code, COMPETENCE.libelle";
@@ -316,10 +315,11 @@ namespace ApplicationENI.DAL
 
         public static void supprimerECF(ECF ecf)
         {
+            //TODO verif liens ECF-SessionECF ECF-evaluation si oui pas possible de supprimer
             //Suppr des liens ECF-Competences
             supprimerLiensCompetences(ecf);
             //Suppr des liens ECF-Formations
-            supprimerLiensFormations(ecf);
+            supprimerLiensFormations(ecf);            
 
             //Suppr d'un ECF
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
