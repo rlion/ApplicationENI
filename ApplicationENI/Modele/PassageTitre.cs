@@ -53,7 +53,7 @@ namespace ApplicationENI.Modele
         {
             this.codeStagiaire = codeStagiaire;
             this.codeTitre = codeTitre;
-            this.datePassage = new DateTime();
+            this.datePassage = DateTime.Now;
             this.estObtenu = false;
             this.estValide = false;
         }
