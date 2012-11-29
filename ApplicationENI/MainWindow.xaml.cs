@@ -107,7 +107,9 @@ namespace ApplicationENI
         {
             this.expandStagiaire.IsExpanded = true; 
             this.MainGrid.Children.RemoveAt(0);
-            this.MainGrid.Children.Add(new Vue.SyntheseECF());
+            Vue.SyntheseECF syntheseECF = new Vue.SyntheseECF();
+            instanceFenetre.InstanceFenetreEnCours = syntheseECF;
+            this.MainGrid.Children.Add(syntheseECF);
         }
 
         private void tviModifDate_Selected(object sender, RoutedEventArgs e)
