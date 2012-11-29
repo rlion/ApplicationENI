@@ -25,7 +25,7 @@
 
     <Grid>
         <DockPanel Name="dockPanel1">
-            <Expander DockPanel.Dock="Left"  Name="expandMenu" Width="240" ExpandDirection="Right" IsExpanded="True" Expanded="expandMenu_Expanded" Collapsed="expandMenu_Collapsed" BorderBrush="Black" BorderThickness="2">
+            <Expander DockPanel.Dock="Left"  Name="expandMenu" Width="240" ExpandDirection="Right" IsExpanded="True" Expanded="expandMenu_Expanded" Collapsed="expandMenu_Collapsed" BorderBrush="Silver" BorderThickness="1.5">
                 <Expander.Background>
                     <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
                         <GradientStop Color="AliceBlue" Offset="1" />
@@ -91,7 +91,7 @@
                     </Button>
                 </Grid>
             </Expander>
-            <Expander Height="94" DockPanel.Dock="Top" Name="expandStagiaire" Collapsed="expandStagiaire_Collapsed" Expanded="expandStagiaire_Expanded" IsExpanded="True" BorderBrush="Black" BorderThickness="2">
+            <Expander Height="94" DockPanel.Dock="Top" Name="expandStagiaire" Collapsed="expandStagiaire_Collapsed" Expanded="expandStagiaire_Expanded" IsExpanded="True" BorderBrush="Silver" BorderThickness="1.5">
                 <Expander.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="AliceBlue" Offset="1" />
@@ -107,7 +107,7 @@
                                              Name="acbNomPrenom" VerticalAlignment="Top" Width="162" Text="Nom &amp; prénom du stagiaire" GotFocus="acbNomPrenom_GotFocus" FilterMode="Contains" />
                     <Button Content="Valider" Height="23" HorizontalAlignment="Left" Margin="499,21,0,0" Name="btRechercher" VerticalAlignment="Top" Width="65" Click="btRechercher_Click" />
                     <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="566,21,0,0" Name="btAnnuler" VerticalAlignment="Top" Width="65" Click="btAnnuler_Click" />
-                    <GroupBox Header="Filtres" Height="58" HorizontalAlignment="Left" Margin="6,2,0,0" Name="groupBox1" VerticalAlignment="Top" Width="321">
+                    <GroupBox Header="Filtres" Height="58" HorizontalAlignment="Left" Margin="6,3,0,0" Name="groupBox1" VerticalAlignment="Top" Width="321">
                         <Grid>
                             <RadioButton Content="FC" Height="16" HorizontalAlignment="Left" Margin="2,13,0,0" Name="rbFC" VerticalAlignment="Top" GroupName="grbFiltre" Checked="rbFC_Checked" />
                             <RadioButton Content="CP" Height="16" HorizontalAlignment="Left" Margin="40,13,0,0" Name="rbCP" VerticalAlignment="Top" GroupName="grbFiltre" Checked="rbCP_Checked" />

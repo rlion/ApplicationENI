@@ -15,7 +15,7 @@ namespace ApplicationENI.DAL
             try
             {
                 List<Stagiaire> listeStagiaires = new List<Stagiaire>();
-                if(string.IsNullOrEmpty(filtre)) filtre = string.Empty;
+                if(string.IsNullOrEmpty(filtre)) filtre = " where s.CodeStagiaire = i.CodeStagiaire";
 
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
 
