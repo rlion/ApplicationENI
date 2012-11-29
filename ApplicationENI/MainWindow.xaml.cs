@@ -7,6 +7,7 @@ using System.Windows.Media.Effects;
 using System;
 using System.DirectoryServices;
 using ApplicationENI.Controleur;
+using System.Windows.Media;
 
 namespace ApplicationENI
 {
@@ -49,35 +50,7 @@ namespace ApplicationENI
             tvPersonParam.IsEnabled = false;
         }
 
-        #region XAML events
-
-        private void expandStagiaire_Collapsed(object sender, RoutedEventArgs e)
-        {
-            this.expandStagiaire.Height = 20;
-        }
-
-        private void expandStagiaire_Expanded(object sender, RoutedEventArgs e)
-        {
-            this.expandStagiaire.Height = 94;
-        }
-
-        private void expandMenu_Expanded(object sender, RoutedEventArgs e)
-        {
-            this.expandMenu.Width = 240;
-        }
-
-        private void expandMenu_Collapsed(object sender, RoutedEventArgs e)
-        {
-            this.expandMenu.Width = 25;
-        }
-
-        private void btAccueil_Click(object sender, RoutedEventArgs e)
-        {
-            this.expandStagiaire.IsExpanded = true;
-            this.tviGestionECF.IsSelected = false;
-            this.MainGrid.Children.RemoveAt(0);
-            this.MainGrid.Children.Add(new Vue.AccueilGeneral());
-        }
+        #region Events bandeau menu général
 
         private void tviGestionECF_Selected(object sender, RoutedEventArgs e)
         {
@@ -172,24 +145,16 @@ namespace ApplicationENI
             this.MainGrid.Children.Add(new Vue.GestionPassageTitre());
         }
 
-        //private void tviPlanning_Selected(object sender, RoutedEventArgs e) {
-        //    this.expandStagiaire.IsExpanded = true;
-        //    this.MainGrid.Children.RemoveAt(0);
-        //    this.MainGrid.Children.Add(new Vue.Planning());
-
-        //}
-
         private void tviAbsencesRapides_Selected(object sender, RoutedEventArgs e)
         {
             this.expandStagiaire.IsExpanded = false;
             this.MainGrid.Children.RemoveAt(0);
             this.MainGrid.Children.Add(new Vue.AjoutAbsenceRapide());
-
         }
 
         #endregion
 
-        #region Bandeau Stagiaire
+        #region Events bandeau stagiaire
 
         private void InitBandeStagiaire()
         {
@@ -222,11 +187,25 @@ namespace ApplicationENI
             else MessageBox.Show("Veuillez choisir un stagiaire!");
         }
 
-        private void rbFormation_Checked(object sender, RoutedEventArgs e)
+        //Formation Continue
+        private void rbFC_Checked(object sender, RoutedEventArgs e)
+        {
+            labFiltre.Content = "Promotion :";
+            string filtre = ", Formation f, Promotion p where s.CodeStagiaire=i.CodeStagiaire "+
+                "and i.CodeFormation=f.CodeFormation and i.CodePromotion=p.CodePromotion";
+
+            acbNomPrenom.ItemsSource = null;
+            acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires(filtre);
+            cbFiltre.ItemsSource = Controleur.GetListePromotions();
+            cbFiltre.IsEnabled = true;
+        }
+
+        //Contrat Pro.
+        private void rbCP_Checked(object sender, RoutedEventArgs e)
         {
             labFiltre.Content = "Formation :";
-            string filtre = ", Formation f, PlanningIndividuelFormation p where s.CodeStagiaire=p.CodeStagiaire "+
-                "and p.CodeFormation=f.CodeFormation";
+            string filtre = ", Formation f where s.CodeStagiaire=i.CodeStagiaire " +
+                "and i.CodeFormation=f.CodeFormation and i.CodePromotion is null";
 
             acbNomPrenom.ItemsSource = null;
             acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires(filtre);
@@ -234,16 +213,18 @@ namespace ApplicationENI
             cbFiltre.IsEnabled = true;
         }
 
-        private void rbPromotion_Checked(object sender, RoutedEventArgs e)
+        //Module
+        private void rbMO_Checked(object sender, RoutedEventArgs e)
         {
-            labFiltre.Content = "Promotion :";
-            string filtre = ", Promotion f, PlanningIndividuelFormation p where s.CodeStagiaire=p.CodeStagiaire " +
-    "and p.CodePromotion=f.CodePromotion";
+            cbFiltre.ItemsSource = null;
+            cbFiltre.Items.Clear();
+            cbFiltre.IsEnabled = false;
+            labFiltre.Content = string.Empty;
+
+            string filtre = " where s.CodeStagiaire=i.CodeStagiaire and i.CodeFormation is null and i.CodePromotion is null";
 
             acbNomPrenom.ItemsSource = null;
             acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires(filtre);
-            cbFiltre.ItemsSource = Controleur.GetListePromotions();
-            cbFiltre.IsEnabled = true;
         }
 
         private void cbFiltre_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -252,15 +233,15 @@ namespace ApplicationENI
             {
                 string filtre;
 
-                if(rbFormation.IsChecked.HasValue && rbFormation.IsChecked.Value)
+                if(rbFC.IsChecked.HasValue && rbFC.IsChecked.Value)
                 {
-                    filtre = ", Formation f, PlanningIndividuelFormation p where s.CodeStagiaire=p.CodeStagiaire and " +
-                        "p.CodeFormation=f.CodeFormation and f.CodeFormation='"+(string)cbFiltre.SelectedValue+"'";
+                    filtre = ", Promotion p where s.CodeStagiaire=i.CodeStagiaire and " +
+                        "i.CodePromotion=p.CodePromotion and p.CodePromotion='" + (string)cbFiltre.SelectedValue + "'";
                 }
                 else
                 {
-                    filtre = ", Promotion f, PlanningIndividuelFormation p where s.CodeStagiaire=p.CodeStagiaire and " +
-    "p.CodePromotion=f.CodePromotion and f.CodePromotion='" + (string)cbFiltre.SelectedValue + "'";
+                    filtre = ", Formation f where s.CodeStagiaire=i.CodeStagiaire and " +
+                       "i.CodePromotion=f.CodeFormation and f.CodeFormation='" + (string)cbFiltre.SelectedValue + "'";
                 }
 
                 acbNomPrenom.ItemsSource = null;
@@ -273,11 +254,13 @@ namespace ApplicationENI
             acbNomPrenom.Text = string.Empty;
             acbNomPrenom.ItemsSource = null;
             acbNomPrenom.ItemsSource = Controleur.GetListeStagiaires();
-            rbFormation.IsChecked = false;
-            rbPromotion.IsChecked = false;
+            rbFC.IsChecked = false;
+            rbCP.IsChecked = false;
+            rbMO.IsChecked = false;
             cbFiltre.ItemsSource = null;
             cbFiltre.Items.Clear();
             cbFiltre.IsEnabled = false;
+            labFiltre.Content = string.Empty;
 
             Parametres.Instance.stagiaire = null;
             tvPersonParam.IsEnabled = false;
@@ -285,5 +268,49 @@ namespace ApplicationENI
         }
 
         #endregion
+
+        #region Events fenêtre principale
+
+        private void btAccueil_Click(object sender, RoutedEventArgs e)
+        {
+            this.btAccueil.Background = Brushes.Gray;
+            this.expandStagiaire.IsExpanded = true;
+            this.tviGestionECF.IsSelected = false;
+            this.MainGrid.Children.RemoveAt(0);
+            this.MainGrid.Children.Add(new Vue.AccueilGeneral());
+        }
+
+        private void expandStagiaire_Collapsed(object sender, RoutedEventArgs e)
+        {
+            this.expandStagiaire.Height = 20;
+        }
+
+        private void expandStagiaire_Expanded(object sender, RoutedEventArgs e)
+        {
+            this.expandStagiaire.Height = 94;
+        }
+
+        private void expandMenu_Expanded(object sender, RoutedEventArgs e)
+        {
+            this.expandMenu.Width = 240;
+        }
+
+        private void expandMenu_Collapsed(object sender, RoutedEventArgs e)
+        {
+            this.expandMenu.Width = 25;
+        }
+
+        private void btAccueil_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.btAccueil.Background = Brushes.Silver;
+        }
+
+        private void btAccueil_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            this.btAccueil.Background = Brushes.LightGray;
+        }
+
+        #endregion
+
     }
 }

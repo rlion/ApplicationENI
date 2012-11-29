@@ -4,11 +4,36 @@
         xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" 
         Title="Application Pédagogique ENI" xmlns:my="clr-namespace:ApplicationENI" MinWidth="900" MinHeight="600" 
         WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style x:Key="sampleStyleButton" TargetType="Button">
+            <Setter Property="Background" Value="Silver"/>
+                <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border CornerRadius="15" Background="{TemplateBinding Background}" 
+                                    BorderBrush="AliceBlue" BorderThickness="1">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center">
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>           
+    </Window.Resources>
+
     <Grid>
         <DockPanel Name="dockPanel1">
-            <Expander DockPanel.Dock="Left"  Name="expandMenu" Width="240" ExpandDirection="Right" IsExpanded="True" Expanded="expandMenu_Expanded" Collapsed="expandMenu_Collapsed" BorderBrush="Black">
+            <Expander DockPanel.Dock="Left"  Name="expandMenu" Width="240" ExpandDirection="Right" IsExpanded="True" Expanded="expandMenu_Expanded" Collapsed="expandMenu_Collapsed" BorderBrush="Black" BorderThickness="2">
+                <Expander.Background>
+                    <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                        <GradientStop Color="AliceBlue" Offset="1" />
+                        <GradientStop Color="White" Offset="0" />
+                    </LinearGradientBrush>
+                </Expander.Background>
                 <Expander.Header>
-                    <TextBlock Text="Menu général" RenderTransformOrigin="0.5,0.5" Margin="0,0,0,0" Width="Auto">
+                    <TextBlock Text="Menu général" FontWeight="ExtraBlack" Width="Auto" UseLayoutRounding="True">
                         <TextBlock.LayoutTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -29,10 +54,13 @@
                 </Expander.Header>
                 <Grid>
                     <TreeView Margin="0,99,0,0" Name="treeView1" BorderThickness="0">
+                        <TreeView.Background>
+                            <SolidColorBrush />
+                        </TreeView.Background>
                         <TreeViewItem Header="Paramètres globaux" Name="tvGlobalParam" IsExpanded="True">
                             <TreeViewItem Header="ECF" IsExpanded="True">
-                                <TreeViewItem Header="Gestion des ECF" Name="tviGestionECF" Selected="tviGestionECF_Selected" Foreground="Blue" />
-                                <TreeViewItem Header="Saisie des résultats" Name="tviSaisieResultat" Selected="tviSaisieResultat_Selected" Foreground="Blue" />
+                                <TreeViewItem Header="Gestion des ECF" Name="tviGestionECF" Selected="tviGestionECF_Selected" />
+                                <TreeViewItem Header="Saisie des résultats" Name="tviSaisieResultat" Selected="tviSaisieResultat_Selected" />
                             </TreeViewItem>
                             <TreeViewItem Header="Sessions Examens" IsExpanded="True">
                                 <TreeViewItem Header="Gestion des passages" Name="tviGestionPassages" Selected="tviGestionPassages_Selected" />
@@ -44,7 +72,7 @@
                             <TreeViewItem Header="Profil &amp; alertes" Name="tviProfil" Selected="tviProfil_Selected" />
                             <!--TreeViewItem Header="Planning" Name="tviPlanning" Selected="tviPlanning_Selected" Foreground="Red" /-->
                             <TreeViewItem Header="ECF" IsExpanded="True">
-                                <TreeViewItem Header="Synthèse" Name="tviGestionResultat" Selected="tviGestionResultat_Selected" Foreground="Blue" />
+                                <TreeViewItem Header="Synthèse" Name="tviGestionResultat" Selected="tviGestionResultat_Selected" />
                                 <!--TreeViewItem Header="Modification dates (CP)" Name="tviModifDate" Selected="tviModifDate_Selected" Foreground="Blue" /-->
                             </TreeViewItem>
                             <TreeViewItem Header="Suivi pédagogique" IsExpanded="True">
@@ -58,27 +86,34 @@
                             <TreeViewItem Header="Exporter..." Name="tviExporter" Selected="tviExporter_Selected" />
                         </TreeViewItem>
                     </TreeView>
-                    <Button Height="70" HorizontalAlignment="Left" Margin="53,14,0,0" Name="btAccueil" VerticalAlignment="Top" Width="75" Click="btAccueil_Click">
+                    <Button Style="{StaticResource sampleStyleButton}" Height="70" HorizontalAlignment="Left" Margin="53,14,0,0" Name="btAccueil" VerticalAlignment="Top" Width="75" Click="btAccueil_Click" Background="LightGray" MouseEnter="btAccueil_MouseEnter" MouseLeave="btAccueil_MouseLeave">
                         <Image Name="image1" Stretch="UniformToFill" Source="/ApplicationENI;component/Images/home.png" />
                     </Button>
                 </Grid>
             </Expander>
-            <Expander Header="Stagiaire" Height="94" DockPanel.Dock="Top" Name="expandStagiaire" Collapsed="expandStagiaire_Collapsed" Expanded="expandStagiaire_Expanded" IsExpanded="True">
+            <Expander Height="94" DockPanel.Dock="Top" Name="expandStagiaire" Collapsed="expandStagiaire_Collapsed" Expanded="expandStagiaire_Expanded" IsExpanded="True" BorderBrush="Black" BorderThickness="2">
+                <Expander.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="AliceBlue" Offset="1" />
+                        <GradientStop Color="White" Offset="0" />
+                    </LinearGradientBrush>
+                </Expander.Background>
+                <Expander.Header>
+                    <TextBlock Text="Stagiaire" FontWeight="ExtraBlack" Width="Auto">
+                    </TextBlock>
+                </Expander.Header>
                 <Grid>
-                    <!-- combobox nom prénom stagiaire -->
-<!--<ComboBox Height="23" HorizontalAlignment="Left" Margin="21,12,0,0" Name="cbNomPrenom" 
-          VerticalAlignment="Top" Width="173" Text="Prénom &amp; Nom du stagiaire" IsEditable="True" 
-          IsReadOnly="True" />-->
-                    <toolkit:AutoCompleteBox Height="23" HorizontalAlignment="Left" Margin="315,22,0,0" 
-                                             Name="acbNomPrenom" VerticalAlignment="Top" Width="158" Text="Nom &amp; prénom du stagiaire" GotFocus="acbNomPrenom_GotFocus" FilterMode="Contains" />
-                    <Button Content="Rechercher" Height="23" HorizontalAlignment="Left" Margin="479,21,0,0" Name="btRechercher" VerticalAlignment="Top" Width="75" Click="btRechercher_Click" />
-                    <Button Content="Réinitialiser" Height="23" HorizontalAlignment="Left" Margin="557,21,0,0" Name="btAnnuler" VerticalAlignment="Top" Width="75" Click="btAnnuler_Click" />
-                    <GroupBox Header="Filtres" Height="60" HorizontalAlignment="Left" Margin="6,3,0,0" Name="groupBox1" VerticalAlignment="Top" Width="302">
+                    <toolkit:AutoCompleteBox Height="23" HorizontalAlignment="Left" Margin="332,22,0,0" 
+                                             Name="acbNomPrenom" VerticalAlignment="Top" Width="162" Text="Nom &amp; prénom du stagiaire" GotFocus="acbNomPrenom_GotFocus" FilterMode="Contains" />
+                    <Button Content="Valider" Height="23" HorizontalAlignment="Left" Margin="499,21,0,0" Name="btRechercher" VerticalAlignment="Top" Width="65" Click="btRechercher_Click" />
+                    <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="566,21,0,0" Name="btAnnuler" VerticalAlignment="Top" Width="65" Click="btAnnuler_Click" />
+                    <GroupBox Header="Filtres" Height="58" HorizontalAlignment="Left" Margin="6,2,0,0" Name="groupBox1" VerticalAlignment="Top" Width="321">
                         <Grid>
-                            <RadioButton Content="Form. Continue" Height="16" HorizontalAlignment="Left" Margin="7,4,0,0" Name="rbFormation" VerticalAlignment="Top" GroupName="grbFiltre" Checked="rbFormation_Checked" />
-                            <RadioButton Content="Contrat Pro." Height="16" HorizontalAlignment="Left" Margin="7,23,0,0" Name="rbPromotion" VerticalAlignment="Top" GroupName="grbFiltre" Checked="rbPromotion_Checked" />
-                            <ComboBox Height="23" HorizontalAlignment="Left" Margin="187,8,0,0" Name="cbFiltre" VerticalAlignment="Top" Width="102" IsEnabled="False" SelectionChanged="cbFiltre_SelectionChanged" />
-                            <Label Content="" Height="28" HorizontalAlignment="Left" Margin="105,6,0,0" Name="labFiltre" VerticalAlignment="Top" Width="83" HorizontalContentAlignment="Right" />
+                            <RadioButton Content="FC" Height="16" HorizontalAlignment="Left" Margin="2,13,0,0" Name="rbFC" VerticalAlignment="Top" GroupName="grbFiltre" Checked="rbFC_Checked" />
+                            <RadioButton Content="CP" Height="16" HorizontalAlignment="Left" Margin="40,13,0,0" Name="rbCP" VerticalAlignment="Top" GroupName="grbFiltre" Checked="rbCP_Checked" />
+                            <ComboBox Height="23" HorizontalAlignment="Left" Margin="198,8,0,0" Name="cbFiltre" VerticalAlignment="Top" Width="110" IsEnabled="False" SelectionChanged="cbFiltre_SelectionChanged" />
+                            <Label Height="28" HorizontalAlignment="Left" Margin="114,7,0,0" Name="labFiltre" VerticalAlignment="Top" Width="89" HorizontalContentAlignment="Right" />
+                            <RadioButton Content="MO" GroupName="grbFiltre" Height="16" HorizontalAlignment="Left" Margin="78,13,0,0" Name="rbMO" VerticalAlignment="Top" Checked="rbMO_Checked" />
                         </Grid>
                     </GroupBox>
                 </Grid>
