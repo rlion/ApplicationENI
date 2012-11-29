@@ -74,7 +74,6 @@ namespace ApplicationENI.Controleur
             return DAL.TitresDAL.GetListeSalles();
         }
 
-        //THIS IS IT boubou!
         public void AjouterTitre(Titre titre)
         {
             if(!string.IsNullOrEmpty(titre.CodeTitre) && !string.IsNullOrEmpty(titre.LibelleCourt)) 
@@ -94,7 +93,6 @@ namespace ApplicationENI.Controleur
             }
         }
 
-        //THIS IS IT boubou!
         public void ModifierTitre(Titre titre)
         {
             if(!string.IsNullOrEmpty(titre.LibelleCourt)) 
@@ -116,7 +114,6 @@ namespace ApplicationENI.Controleur
             }
         }
 
-        //THIS IS IT boubou!
         public void SupprimerTitre(string codeTitre)
         {
             if(DAL.TitresDAL.SupprimerTitre(codeTitre) != -1) 
@@ -127,7 +124,6 @@ namespace ApplicationENI.Controleur
             }
         }
 
-        //THIS IS IT boubou!
         public void AjouterEpreuveTitre(int positionTitre, EpreuveTitre epreuveTitre)
         {
             if (DAL.TitresDAL.AjouterEpreuveTitre(epreuveTitre) >= 0)
@@ -138,7 +134,6 @@ namespace ApplicationENI.Controleur
             }
         }
 
-        //THIS IS IT boubou!
         public void SupprimerEpreuveTitre(int positionTitre, EpreuveTitre HistoEpreuveTitre, EpreuveTitre EpreuveTitre)
         {
             if(EpreuveTitre != null)

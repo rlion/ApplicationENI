@@ -72,6 +72,7 @@
     <Compile Include="Controleur\CtrlGestionAbsences.cs" />
     <Compile Include="Controleur\CtrlGestionObservations.cs" />
     <Compile Include="Controleur\CtrlGestionPassageTitre.cs" />
+    <Compile Include="Controleur\CtrlInscriptionTitre.cs" />
     <Compile Include="Controleur\CtrlProfilAlertesStagiaire..cs" />
     <Compile Include="Controleur\CtrlTrombinoscope.cs" />
     <Compile Include="Controleur\CtrlGestionECF.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Modele\ItemAlerte.cs" />
     <Compile Include="Modele\Jury.cs" />
     <Compile Include="Modele\Observation.cs" />
+    <Compile Include="Modele\PassageTitre.cs" />
     <Compile Include="Modele\Promotion.cs" />
     <Compile Include="Modele\Salle.cs" />
     <Compile Include="Modele\SessionECF.cs" />
@@ -346,7 +348,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

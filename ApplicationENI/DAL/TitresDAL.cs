@@ -10,6 +10,8 @@ namespace ApplicationENI.DAL
     public class TitresDAL
     {
 
+        #region GestionPassageTitre
+
         public static List<Titre> GetListeTitres()
         {
             List<Titre> listTitres = new List<Titre>();
@@ -401,5 +403,217 @@ namespace ApplicationENI.DAL
                 return -1;
             }
         }
+
+        #endregion
+
+        #region InscriptionTitre
+
+        public static PassageTitre GetPassageTitre(int codeStagiaire, string codeTitre)
+        {
+            try
+            {
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+                
+                if (connexion != null)
+                {
+                    string reqPassTitre = "select datePassage, estObtenu, estValide " +
+                    "from PASSAGETITRE where CodeStagiaire = @codeStagiaire and CodeTitre = @codeTitre";
+
+                    SqlCommand commande = connexion.CreateCommand();
+                    commande.CommandText = reqPassTitre;
+                    commande.Parameters.AddWithValue("@codeStagiaire", codeStagiaire);
+                    commande.Parameters.AddWithValue("@codeTitre", codeTitre);
+                    SqlDataReader reader = commande.ExecuteReader();
+
+                    PassageTitre pt = new PassageTitre();
+
+                    while (reader.Read())
+                    {
+                        DateTime date = reader.GetDateTime(0);
+                        bool obtenu = !reader.IsDBNull(1) ? reader.GetBoolean(1) : false;
+                        bool valide = !reader.IsDBNull(2) ? reader.GetBoolean(2) : false;
+
+                        pt = new PassageTitre(codeTitre, codeStagiaire, date, obtenu, valide);
+                    }
+
+                    return pt;
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible de récupérer les informations sur son passage au titre : " + e.Message,
+                    "Inscription Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Cette méthode récupère le code et le libellé du Titre.
+        /// </summary>
+        /// <param name="code">Attend le codeStagiaire (int) ou le codeTitre (string)</param>
+        /// <returns>le champ CodeTitre (key), et le champ libelleCourt (value) de la table Titre</returns>
+        public static KeyValuePair<string, string>? GetInfosTitre(object code)
+        {
+            try
+            {
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+
+                if (connexion != null && (code.GetType() == typeof(string) || code.GetType() == typeof(int)))
+                {
+                    SqlCommand commande = connexion.CreateCommand();
+
+                    //type string -> on a le codeStagiaire
+                    if (code.GetType() == typeof(int))
+                    {
+                        string reqInfoT = "select t.CodeTitre, t.LibelleCourt from Titre t, Formation f, PlanningIndividuelFormation p " +
+                            "where p.CodeStagiaire = @codeStagiaire and p.CodeFormation = f.CodeFormation " +
+                            "and f.CodeTitre = t.CodeTitre";
+                        
+                        commande.CommandText = reqInfoT;
+                        commande.Parameters.AddWithValue("@codeStagiaire", (int)code);
+
+                        SqlDataReader reader = commande.ExecuteReader();
+
+                        while (reader.Read())
+                            return new KeyValuePair<string, string>(reader.GetString(0), reader.GetString(1));
+                    }
+                    //type int -> on a le codeTitre
+                    else
+                    {
+                        string reqInfoT = "select LibelleCourt from Titre where CodeTitre=@codeTitre";
+
+                        commande.CommandText = reqInfoT;
+                        commande.Parameters.AddWithValue("@codeTitre", (string)code);
+
+                        string value = (string)commande.ExecuteScalar();
+                        return new KeyValuePair<string, string>((string)code, value);
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible de récupérer le titre correspondant à cette formation : " + e.Message,
+                    "Inscription Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return null;
+            }
+        }
+
+        public static int AjouterPassageTitre(PassageTitre passageT)
+        {
+            try
+            {
+                string req = "insert into PassageTitre (CodeTitre,CodeStagiaire,datePassage,estObtenu,estValide) " +
+                             "select @codeT, @codeS, @dateP, @isO, @isV where not exists " +
+                             "(select 0 from EpreuveTitre where CodeSalle=@codeS and CodeTitre=@codeT)";
+
+                SqlConnection conn = ConnexionSQL.CreationConnexion();
+                SqlCommand commande = conn.CreateCommand();
+                commande.CommandText = req;
+                commande.Parameters.AddWithValue("@codeT", passageT.CodeTitre);
+                commande.Parameters.AddWithValue("@codeS", passageT.CodeStagiaire);
+                commande.Parameters.AddWithValue("@dateP", passageT.DatePassage);
+                commande.Parameters.AddWithValue("@isO", passageT.EstObtenu);
+                commande.Parameters.AddWithValue("@isV", passageT.EstValide);
+
+                return commande.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible d'inscrire le stagiaire au titre : " + e.Message,
+                    "Inscription Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return -2;
+            }
+        }
+
+        public static int UpdatePassageTitre(PassageTitre passageT)
+        {
+            try
+            {
+                string req = "update PassageTitre set datePassage=@dateP, estObtenu=@isO, estValide=@isV"+
+                    "where codeTitre=@codeT and codeStagiaire=@codeS";
+
+                SqlConnection conn = ConnexionSQL.CreationConnexion();
+                SqlCommand commande = conn.CreateCommand();
+                commande.CommandText = req;
+                commande.Parameters.AddWithValue("@codeT", passageT.CodeTitre);
+                commande.Parameters.AddWithValue("@codeS", passageT.CodeStagiaire);
+                commande.Parameters.AddWithValue("@dateP", passageT.DatePassage);
+                commande.Parameters.AddWithValue("@isO", passageT.EstObtenu);
+                commande.Parameters.AddWithValue("@isV", passageT.EstValide);
+
+                return commande.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible de mettre à jour l'inscription du stagiaire au titre : " + e.Message,
+                    "Inscription Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return -2;
+            }
+        }
+
+        //Méthode qui permet de savoir si le stagiaire est inscrit à un titre non validé ou non
+        public static bool ControlerSiInscrit(int codeStagiaire)
+        {
+            try
+            {
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+
+                if (connexion != null)
+                {
+                    string reqInscrit = "select count(*) from PASSAGETITRE where CodeStagiaire = @codeS and estObtenu = 0";
+
+                    SqlCommand commande = connexion.CreateCommand();
+                    commande.CommandText = reqInscrit;
+                    commande.Parameters.AddWithValue("@codeS", codeStagiaire);
+
+                    int i = (int)commande.ExecuteScalar();
+
+                    return i > 0 ? true : false;
+                }
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible de vérifier si le stagiaire est inscrit au titre : " + e.Message,
+                    "Inscription Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return false;
+            }
+        }
+
+        public static string GetFormationStagiaire(int codeStagiaire)
+        {
+            try
+            {
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+
+                if (connexion != null)
+                {
+                    SqlCommand commande = connexion.CreateCommand();
+
+                    string reqInfoF = "select f.LibelleLong from Formation f, PlanningIndividuelFormation p " +
+                        "where p.CodeStagiaire = @codeStagiaire and p.CodeFormation = f.CodeFormation ";
+
+                    commande.CommandText = reqInfoF;
+                    commande.Parameters.AddWithValue("@codeStagiaire", codeStagiaire);
+
+                    return (string)commande.ExecuteScalar();
+                }
+
+                return string.Empty;
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible de récupérer la formation de ce stagiaire : " + e.Message,
+                    "Inscription Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return string.Empty;
+            }
+        }
+
+        #endregion
     }
 }
