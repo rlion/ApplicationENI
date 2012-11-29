@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ApplicationENI.Vue.PopUp.ListeECF_Formations"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ListeECF_Formations" Height="318" Width="555">
+        Title="ListeECF_Formations" Height="318" Width="555" WindowStartupLocation="CenterScreen">
     <Grid>
         <GroupBox Header="Liste des formations" Height="220" HorizontalAlignment="Left" Margin="10,10,0,0" Name="gbFormations" VerticalAlignment="Top" Width="391">
             <Grid>

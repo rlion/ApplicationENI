@@ -96,7 +96,7 @@ namespace ApplicationENI.Vue.PopUp
                     message = CtrlGestionECF.ajouterCompetence(_competence);
                 }
 
-                //Gestion erreur TODO à revoir??
+                //Gestion erreur
                 if (message.Trim() != "")
                 {
                     MessageBox.Show(message);

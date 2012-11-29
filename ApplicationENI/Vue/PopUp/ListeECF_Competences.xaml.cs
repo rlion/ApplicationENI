@@ -132,7 +132,7 @@ namespace ApplicationENI.Vue.PopUp
                 }
             }
 
-            //gestion erreur TODO revoir??
+            //gestion erreur
             if (message.Trim() != "")
             {
                 MessageBox.Show(message);

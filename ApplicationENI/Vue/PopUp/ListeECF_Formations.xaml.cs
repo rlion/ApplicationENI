@@ -110,6 +110,7 @@ namespace ApplicationENI.Vue.PopUp
         {
             Close();
         }
+        //TODO?
         //private void btAjouter_Click(object sender, RoutedEventArgs e)
         //{
         //    AjoutECF_Competence ajoutCompetence = new AjoutECF_Competence();
@@ -130,7 +131,6 @@ namespace ApplicationENI.Vue.PopUp
         //        }
         //    }
 
-        //    //gestion erreur TODO revoir??
         //    if (message.Trim() != "")
         //    {
         //        MessageBox.Show(message);
