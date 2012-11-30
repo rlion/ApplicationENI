@@ -54,7 +54,7 @@ namespace ApplicationENI.Vue
 
             tvSynthese.Items.Clear();
 
-            if (_lesSessionsECFsStag!=null)
+            if (_lesSessionsECFsStag != null)
             {
                 foreach (SessionECF sess in _lesSessionsECFsStag)
                 {
@@ -81,7 +81,12 @@ namespace ApplicationENI.Vue
                 //}
                 btModDate.IsEnabled = false;
                 btModNote.IsEnabled = false;
-            }            
+                btExporter.IsEnabled = true;
+            }
+            else
+            {
+                btExporter.IsEnabled = false;
+            }
         }
 
         private void tvSynthese_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
