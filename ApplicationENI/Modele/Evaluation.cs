@@ -19,6 +19,7 @@ namespace ApplicationENI.Modele
         #endregion
 
         #region Proprietes
+        
         public int Id
         {
             get { return _id; }
@@ -54,6 +55,21 @@ namespace ApplicationENI.Modele
             get { return _date; }
             set { _date = value; }
         }
+
+        //Propriété pour le rapport
+        public string Competence_r
+        {
+            get { return _competence.Libelle; }
+        }
+        public string Note_r
+        {
+            get { return GetLibelleNote(); }
+        }
+        public int EcfId_r
+        {
+            get { return _ecf.Id; }
+        }
+
         #endregion
 
         #region Constructeurs
@@ -134,7 +150,27 @@ namespace ApplicationENI.Modele
             competence += " - " + this.Competence.Libelle + " (" + this.Competence.Code + ")";
             
             return competence;
+        }
 
+        private string GetLibelleNote()
+        {
+            string note = string.Empty;
+
+            if (this.Note != -1)
+            {
+                if (this.Ecf.NotationNumerique) note = this.Note + "/20";
+                else
+                {
+                    if (this.Note == Ressources.CONSTANTES.NOTE_ACQUIS) note = "ACQUIS";
+                    else if (this.Note == Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION)
+                        note = "EN COURS D'ACQUISITION";
+                    else if (this.Note == Ressources.CONSTANTES.NOTE_NON_ACQUIS)
+                        note = "NON ACQUIS";
+                }
+            }
+            else note = "NON NOTE";
+
+            return note;
         }
 
     }

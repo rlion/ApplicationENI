@@ -40,6 +40,15 @@ namespace ApplicationENI.Modele
             set { _version = value; }
         }
 
+        //Propriétés pour le rapport
+        public string Ecf_r
+        {
+            get { return _ecf.Libelle; }
+        }
+        public int EcfId_r
+        {
+            get { return _ecf.Id; }
+        }
 
         public SessionECF()
         {

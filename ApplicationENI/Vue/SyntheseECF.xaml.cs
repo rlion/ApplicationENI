@@ -135,6 +135,31 @@ namespace ApplicationENI.Vue
             affichage();
         }
 
+        private void btExporter_Click(object sender, RoutedEventArgs e)
+        {
+            _stagiaireEncours = Parametres.Instance.stagiaire;
+
+            List<SessionECF> listeSessions = CtrlGestionECF.getListSessionsECFStagiaire(_stagiaireEncours);
+            List<Evaluation> listeEvaluations = new List<Evaluation>();
+
+            if (listeSessions != null)
+            {
+                foreach (SessionECF sess in listeSessions)
+                {
+                    foreach (Competence comp in sess.Ecf.Competences)
+                    {
+                        Evaluation eval = CtrlGestionECF.donneNote(sess, _stagiaireEncours, comp);
+                        if (eval != null) listeEvaluations.Add(eval);
+                    }
+                }
+            }
+
+            string stagName = _stagiaireEncours._civilité + " " + _stagiaireEncours._nom + " " + _stagiaireEncours._prenom;
+
+            Rapports.SyntheseECF rapport = new Rapports.SyntheseECF(listeSessions, listeEvaluations, stagName);
+            rapport.Show();
+        }
+
 
     }
 }

@@ -13,5 +13,6 @@
                 <TreeView Height="373" HorizontalAlignment="Left" Margin="6,5,0,0" Name="tvSynthese" VerticalAlignment="Top" Width="582" SelectedItemChanged="tvSynthese_SelectedItemChanged" />
             </Grid>
         </GroupBox>
+        <Button Content="Exporter..." Height="23" HorizontalAlignment="Left" Margin="12,425,0,0" Name="btExporter" VerticalAlignment="Top" Width="75" Click="btExporter_Click" />
     </Grid>
 </UserControl>
