@@ -83,7 +83,6 @@
                                 <TreeViewItem Header="Historique" Name="tviHistorique" Selected="tviHistorique_Selected" />
                             </TreeViewItem>
                             <TreeViewItem Header="Gestion du titre" Name="tviGestionTitre" IsExpanded="True" Selected="tviGestionTitre_Selected" />
-                            <TreeViewItem Header="Exporter..." Name="tviExporter" Selected="tviExporter_Selected" />
                         </TreeViewItem>
                     </TreeView>
                     <Button Style="{StaticResource sampleStyleButton}" Height="70" HorizontalAlignment="Left" Margin="53,14,0,0" Name="btAccueil" VerticalAlignment="Top" Width="75" Click="btAccueil_Click" Background="LightGray" MouseEnter="btAccueil_MouseEnter" MouseLeave="btAccueil_MouseLeave">

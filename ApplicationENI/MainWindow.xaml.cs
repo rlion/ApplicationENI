@@ -8,6 +8,7 @@ using System;
 using System.DirectoryServices;
 using ApplicationENI.Controleur;
 using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace ApplicationENI
 {
@@ -66,13 +67,6 @@ namespace ApplicationENI
             this.expandStagiaire.IsExpanded = true;
             this.expandStagiaire.IsExpanded = true; this.MainGrid.Children.RemoveAt(0);
             this.MainGrid.Children.Add(new Vue.InscriptionTitre());
-        }
-
-        private void tviExporter_Selected(object sender, RoutedEventArgs e)
-        {
-            this.expandStagiaire.IsExpanded = true; 
-            this.MainGrid.Children.RemoveAt(0);
-            this.MainGrid.Children.Add(new Vue.ExportDocuments());
         }
 
         private void tviHistorique_Selected(object sender, RoutedEventArgs e)
@@ -188,6 +182,10 @@ namespace ApplicationENI
 
                 this.MainGrid.Children.RemoveAt(0);
                 this.MainGrid.Children.Add(new Vue.AccueilGeneral());
+
+                Deselect_TreeviewItems(tvGlobalParam);
+                Deselect_TreeviewItems(tvPersonParam);
+
             }
             else MessageBox.Show("Veuillez choisir un stagiaire!");
         }
@@ -270,6 +268,9 @@ namespace ApplicationENI
             Parametres.Instance.stagiaire = null;
             tvPersonParam.IsEnabled = false;
             tvPersonParam.IsExpanded = false;
+
+            Deselect_TreeviewItems(tvGlobalParam);
+            Deselect_TreeviewItems(tvPersonParam);
         }
 
         #endregion
@@ -313,6 +314,25 @@ namespace ApplicationENI
         private void btAccueil_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             this.btAccueil.Background = Brushes.LightGray;
+        }
+
+        //Dé-sélectionner tous les items d'un treeviewItem de niveau 1 (tvGlobalParam ou tvPersonParam)
+        private void Deselect_TreeviewItems(TreeViewItem tvi1)
+        {
+            for (int i = 0; i < tvi1.Items.Count; i++)
+            {
+                TreeViewItem tvi2 = (TreeViewItem)tvi1.Items[i];
+                tvi2.IsSelected = false;
+
+                if (tvi2.Items.Count > 0)
+                {
+                    for (int j = 0; j < tvi2.Items.Count; j++)
+                    {
+                        TreeViewItem tvi3 = (TreeViewItem)tvi2.Items[j];
+                        tvi3.IsSelected = false;
+                    }
+                }
+            }
         }
 
         #endregion

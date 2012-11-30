@@ -97,7 +97,7 @@ namespace ApplicationENI.Vue
 
         private void btModifierP_Click(object sender, RoutedEventArgs e)
         {
-            if (this.btModifierP.Content == "Modifier")
+            if ((string)this.btModifierP.Content == "Modifier")
             {
                 this.dpNewPass.IsEnabled = true;
                 this.btModifierP.Content = "Consulter";

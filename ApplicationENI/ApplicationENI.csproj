@@ -152,9 +152,6 @@
     <Compile Include="Vue\AjoutAbsenceRapide.xaml.cs">
       <DependentUpon>AjoutAbsenceRapide.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Vue\ExportDocuments.xaml.cs">
-      <DependentUpon>ExportDocuments.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Vue\GestionECF.xaml.cs">
       <DependentUpon>GestionECF.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -253,10 +250,6 @@
     <Page Include="Vue\AjoutAbsenceRapide.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Vue\ExportDocuments.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Vue\GestionECF.xaml">
       <SubType>Designer</SubType>
