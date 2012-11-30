@@ -181,7 +181,7 @@ namespace ApplicationENI
                 tvPersonParam.IsExpanded = true;
 
                 this.MainGrid.Children.RemoveAt(0);
-                this.MainGrid.Children.Add(new Vue.AccueilGeneral());
+                this.MainGrid.Children.Add(new Vue.ProfilAlertesStagiaire());
 
                 Deselect_TreeviewItems(tvGlobalParam);
                 Deselect_TreeviewItems(tvPersonParam);
@@ -284,6 +284,9 @@ namespace ApplicationENI
             this.tviGestionECF.IsSelected = false;
             this.MainGrid.Children.RemoveAt(0);
             this.MainGrid.Children.Add(new Vue.AccueilGeneral());
+
+            Deselect_TreeviewItems(tvGlobalParam);
+            Deselect_TreeviewItems(tvPersonParam);
         }
 
         private void expandStagiaire_Collapsed(object sender, RoutedEventArgs e)
