@@ -23,7 +23,7 @@ namespace ApplicationENI.Vue
     public partial class ProfilAlertesStagiaire : UserControl
     {
         CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
-        Stagiaire stg = new Stagiaire() ;//Parametres.Instance.stagiaire;
+        Stagiaire stg = Parametres.Instance.stagiaire;
         public ProfilAlertesStagiaire()
         {
             InitializeComponent();
