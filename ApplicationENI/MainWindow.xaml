@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" 
         Title="Application Pédagogique ENI" xmlns:my="clr-namespace:ApplicationENI" MinWidth="900" MinHeight="600" 
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" Icon="/ApplicationENI;component/Images/imagesCAX47OVB.jpg">
 
     <Window.Resources>
         <Style x:Key="sampleStyleButton" TargetType="Button">

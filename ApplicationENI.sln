@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationENI", "ApplicationENI\ApplicationENI.csproj", "{2371BF70-FE6A-41D5-A1EE-DCB310090829}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetupApplicationENI", "SetupApplicationENI\SetupApplicationENI.vdproj", "{B42DD6D2-3F83-465D-ABA9-D4FE129DF760}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,12 @@ Global
 		{2371BF70-FE6A-41D5-A1EE-DCB310090829}.Release|Mixed Platforms.Build.0 = Release|x86
 		{2371BF70-FE6A-41D5-A1EE-DCB310090829}.Release|x86.ActiveCfg = Release|x86
 		{2371BF70-FE6A-41D5-A1EE-DCB310090829}.Release|x86.Build.0 = Release|x86
+		{B42DD6D2-3F83-465D-ABA9-D4FE129DF760}.Debug|Any CPU.ActiveCfg = Debug
+		{B42DD6D2-3F83-465D-ABA9-D4FE129DF760}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{B42DD6D2-3F83-465D-ABA9-D4FE129DF760}.Debug|x86.ActiveCfg = Debug
+		{B42DD6D2-3F83-465D-ABA9-D4FE129DF760}.Release|Any CPU.ActiveCfg = Release
+		{B42DD6D2-3F83-465D-ABA9-D4FE129DF760}.Release|Mixed Platforms.ActiveCfg = Release
+		{B42DD6D2-3F83-465D-ABA9-D4FE129DF760}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
