@@ -185,6 +185,9 @@ namespace ApplicationENI
                 Parametres.Instance.stagiaire = (Stagiaire)acbNomPrenom.SelectedItem;
                 tvPersonParam.IsEnabled = true;
                 tvPersonParam.IsExpanded = true;
+
+                this.MainGrid.Children.RemoveAt(0);
+                this.MainGrid.Children.Add(new Vue.AccueilGeneral());
             }
             else MessageBox.Show("Veuillez choisir un stagiaire!");
         }
