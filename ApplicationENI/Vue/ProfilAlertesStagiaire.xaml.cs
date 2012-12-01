@@ -55,6 +55,8 @@ namespace ApplicationENI.Vue
 
             //informations sur le tuteur du stagiaire
             dataGridListContacts.ItemsSource = stg.getListeContacts();
+
+            // récupération des alertes en cours pour le stagiaire.
             this.listViewAlerte.ItemsSource = ctrlStagiaires.listeAlertes();
             if (listViewAlerte.Items.Count == 0)
             {
@@ -85,8 +87,8 @@ namespace ApplicationENI.Vue
                 DockPanel testDP = (DockPanel)test.Parent;
                 Grid testG = (Grid)testDP.Parent;
                 ((MainWindow)testG.Parent).MainGrid.Children.RemoveAt(0);
-                ((MainWindow)testG.Parent).MainGrid.Children.Add(new Vue.GestionECF());
-                ((MainWindow)testG.Parent).tviHistorique.IsSelected = true;
+                ((MainWindow)testG.Parent).MainGrid.Children.Add(new Vue.SaisieResultats());
+                ((MainWindow)testG.Parent).tviSaisieResultat.IsSelected = true;
             }
         }
 

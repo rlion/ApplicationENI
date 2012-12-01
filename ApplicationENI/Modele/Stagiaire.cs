@@ -78,8 +78,8 @@ namespace ApplicationENI.Modele
 	    }
         
         public List<ECF> listeECFNonCorriges() {
-            //return DAL.EvaluationsDAL.getListeECFsNonCorriges(this);
-            return new List<ECF>();
+            return DAL.EvaluationsDAL.getListeECFsNonCorriges(this);
+            //return new List<ECF>();
         }
 
         public List<Observation> getListeObservations() {

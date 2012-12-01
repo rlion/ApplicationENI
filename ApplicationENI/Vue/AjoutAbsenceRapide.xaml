@@ -8,12 +8,12 @@
              mc:Ignorable="d">
     <Grid>
         <GroupBox Header="Saisie d'une absence rapide" HorizontalAlignment="Left" Name="groupBox1" VerticalAlignment="Top" Width="582" Margin="6,0,0,0" Height="80">
-            <toolkit:AutoCompleteBox Height="23" HorizontalAlignment="Left" Margin="10,12,0,0" 
+            <toolkit:AutoCompleteBox Height="25" HorizontalAlignment="Left" Margin="10,12,0,0" 
                                              Name="acbNomPrenom" VerticalAlignment="Top" Width="173" Text="Nom &amp; prénom du stagiaire" GotFocus="acbNomPrenom_GotFocus" FilterMode="Contains" KeyUp="acbNomPrenom_KeyUp" />
 
         </GroupBox>
-        <Button Content="Soumettre absence temporaire" Height="23" HorizontalAlignment="Left" Margin="201,29,0,0" Name="btValiderAbsenceTemporaire" VerticalAlignment="Top" Width="175" ClickMode="Release" Click="btValiderAbsenceTemporaire_Click" />
-        <Label Content="" Height="23" HorizontalAlignment="Left" Margin="384,29,0,0" Name="labelResult" VerticalAlignment="Top" Width="177" />
+        <Button Content="Soumettre absence temporaire" Height="25" HorizontalAlignment="Left" Margin="201,29,0,0" Name="btValiderAbsenceTemporaire" VerticalAlignment="Top" Width="175" ClickMode="Release" Click="btValiderAbsenceTemporaire_Click" />
+        <Label Content="" Height="25" HorizontalAlignment="Left" Margin="384,29,0,0" Name="labelResult" VerticalAlignment="Top" Width="177" />
         <Label Content="Après avoir saisi une absence temporaire, vous devrez la détailler dans la rubrique Historique." Height="26" HorizontalAlignment="Left" Margin="22,54,0,0" Name="label1" VerticalAlignment="Top" Width="539" />
     </Grid>
 </UserControl>
