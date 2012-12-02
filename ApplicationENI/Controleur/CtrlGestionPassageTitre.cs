@@ -65,7 +65,7 @@ namespace ApplicationENI.Controleur
             //Il faut créer un nouvel objet titre pour que l'historique fonctionne bien.
             //Sinon, avec le binding, la liste du contrôleur est automatiquement modifiée.
             histoTitre = new Titre(t.CodeTitre,t.LibelleCourt,t.LibelleLong,t.Niveau,
-                t.CodeRome,t.CodeNSF,t.DateCreation,t.DateModif,t.TitreENI,t.Archiver);
+                t.CodeRome,t.CodeNSF,t.DateCreation,t.DateModif,t.TitreENI,t.Archiver,t.ListeEpreuves);
             return t;
         }
 

@@ -16,9 +16,9 @@ namespace ApplicationENI.Controleur
             return DAL.TitresDAL.GetPassageTitre(codeStagiaire, codeTitre);
         }
 
-        public bool CheckIfInscrit(int codeStagiaire)
+        public int CheckIfInscrit(int codeStagiaire, string codeTitre)
         {
-            return DAL.TitresDAL.ControlerSiInscrit(codeStagiaire);
+            return DAL.TitresDAL.ControlerSiInscrit(codeStagiaire, codeTitre);
         }
 
         public KeyValuePair<string, string> GetInfosTitre(int codeStagiaire)
@@ -39,6 +39,11 @@ namespace ApplicationENI.Controleur
         public string GetFormationStagiaire(int codeStagiaire)
         {
             return DAL.TitresDAL.GetFormationStagiaire(codeStagiaire);
+        }
+
+        public List<DateTime> GetListeDatesEpreuvesTitre(string codeTitre)
+        {
+            return DAL.TitresDAL.GetListeDateEpreuveTiTre(codeTitre);
         }
     }
 }

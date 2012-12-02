@@ -508,7 +508,7 @@ namespace ApplicationENI.DAL
             {
                 string req = "insert into PassageTitre (CodeTitre,CodeStagiaire,datePassage,estObtenu,estValide) " +
                              "select @codeT, @codeS, @dateP, @isO, @isV where not exists " +
-                             "(select 0 from EpreuveTitre where CodeSalle=@codeS and CodeTitre=@codeT)";
+                             "(select 0 from PassageTitre where CodeStagiaire=@codeS and CodeTitre=@codeT)";
 
                 SqlConnection conn = ConnexionSQL.CreationConnexion();
                 SqlCommand commande = conn.CreateCommand();
@@ -534,7 +534,7 @@ namespace ApplicationENI.DAL
             try
             {
                 string req = "update PassageTitre set datePassage=@dateP, estObtenu=@isO, estValide=@isV"+
-                    "where codeTitre=@codeT and codeStagiaire=@codeS";
+                    " where codeTitre=@codeT and codeStagiaire=@codeS";
 
                 SqlConnection conn = ConnexionSQL.CreationConnexion();
                 SqlCommand commande = conn.CreateCommand();
@@ -555,8 +555,9 @@ namespace ApplicationENI.DAL
             }
         }
 
-        //Méthode qui permet de savoir si le stagiaire est inscrit à un titre non validé ou non
-        public static bool ControlerSiInscrit(int codeStagiaire)
+        //Méthode qui permet de savoir si le stagiaire est inscrit à un titre ou non
+        //return : 0 -> non inscrit, 1 -> inscrit mais pas obtenu pour ce titre, 2 -> inscrit et obtenu pour ce titre
+        public static int ControlerSiInscrit(int codeStagiaire, string codeTitre)
         {
             try
             {
@@ -564,24 +565,30 @@ namespace ApplicationENI.DAL
 
                 if (connexion != null)
                 {
-                    string reqInscrit = "select count(*) from PASSAGETITRE where CodeStagiaire = @codeS and estObtenu = 0";
+                    string reqInscrit = "select estObtenu from PASSAGETITRE where CodeStagiaire=@codeS and CodeTitre=@codeT";
 
                     SqlCommand commande = connexion.CreateCommand();
                     commande.CommandText = reqInscrit;
                     commande.Parameters.AddWithValue("@codeS", codeStagiaire);
+                    commande.Parameters.AddWithValue("@codeT", codeTitre);
 
-                    int i = (int)commande.ExecuteScalar();
+                    bool? b = (bool?)commande.ExecuteScalar();
 
-                    return i > 0 ? true : false;
+                    if (b.HasValue)
+                    {
+                        if (b.Value) return 2;
+                        else return 1;
+                    }
+                    else return 0;
                 }
 
-                return false;
+                return -1;
             }
             catch (Exception e)
             {
                 System.Windows.MessageBox.Show("Impossible de vérifier si le stagiaire est inscrit au titre : " + e.Message,
                     "Inscription Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
-                return false;
+                return -2;
             }
         }
 
@@ -611,6 +618,32 @@ namespace ApplicationENI.DAL
                 System.Windows.MessageBox.Show("Impossible de récupérer la formation de ce stagiaire : " + e.Message,
                     "Inscription Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
                 return string.Empty;
+            }
+        }
+
+        public static List<DateTime> GetListeDateEpreuveTiTre(string codeTitre)
+        {
+            try
+            {
+                List<DateTime> ld = new List<DateTime>();
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+
+                if (connexion != null)
+                {
+                    SqlCommand commande = connexion.CreateCommand();
+                    string req = "select distinct(dateEpreuve) from EPREUVETITRE where CodeTitre=@code and dateEpreuve>=GETDATE()";
+                    commande.CommandText = req;
+                    commande.Parameters.AddWithValue("@code", codeTitre);
+                    SqlDataReader reader = commande.ExecuteReader();
+                    while (reader.Read()) ld.Add(reader.GetDateTime(0));
+                }
+                return ld;
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible de récupérer les dates planifiées : " + e.Message,
+                    "Inscription Titre", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return null;
             }
         }
 

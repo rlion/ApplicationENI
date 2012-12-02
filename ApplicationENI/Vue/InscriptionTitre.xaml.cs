@@ -56,11 +56,21 @@ namespace ApplicationENI.Vue
             KeyValuePair<string,string> kvp = Controleur.GetInfosTitre(codeStagiaire);
             codeTitre = kvp.Key;
             this.txtLibTitre.Text = kvp.Value;
+            this.dgDates.ItemsSource = Controleur.GetListeDatesEpreuvesTitre(codeTitre);
 
-            if (Controleur.CheckIfInscrit(codeStagiaire))
+            int etatInscription = Controleur.CheckIfInscrit(codeStagiaire, codeTitre);
+
+            if (etatInscription > 0)
+            {
                 histoPassageT = Controleur.GetPassageTitre(codeStagiaire, codeTitre);
+                groupBox1.IsEnabled = false;
+                if (etatInscription == 2) groupBox2.IsEnabled = false;
+            }
             else
+            {
                 histoPassageT = new PassageTitre(codeTitre, codeStagiaire);
+                groupBox2.IsEnabled = false;
+            }
 
             ReInitPassageTitre();
         }
@@ -84,6 +94,7 @@ namespace ApplicationENI.Vue
                 {
                     histoPassageT.DatePassage = passageTitre.DatePassage;
                     histoPassageT.EstValide = passageTitre.EstValide;
+                    groupBox1.IsEnabled = false;
                 }
                 else
                 {
@@ -139,6 +150,17 @@ namespace ApplicationENI.Vue
                 this.dpNewPass.IsEnabled = false;
                 this.btModifierP.Content = "Modifier";
             }
+        }
+
+        private void dgDates_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgDates.HasItems && dgDates.SelectedIndex != -1)
+                dpPassage.SelectedDate = (DateTime)dgDates.SelectedItem;
+        }
+
+        private void dpPassage_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dpNewPass.SelectedDate = dpPassage.SelectedDate;
         }
     }
 }
