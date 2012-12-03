@@ -38,6 +38,8 @@ namespace ApplicationENI.DAL
                     obsTemp._stagiaire = pStg;
                     listeDesObservations.Add(obsTemp);
                 }
+
+                connexion.Close();
                 return listeDesObservations;
             }
             catch (Exception e)

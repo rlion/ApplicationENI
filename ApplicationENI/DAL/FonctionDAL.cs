@@ -22,6 +22,7 @@ namespace ApplicationENI.DAL
                 Fonction fonc = new Fonction(code, nom);
                 listeFonctions.Add(fonc);
             }
+            connexion.Close();
             return listeFonctions;
         }
     }

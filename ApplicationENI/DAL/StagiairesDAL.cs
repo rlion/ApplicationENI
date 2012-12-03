@@ -15,50 +15,60 @@ namespace ApplicationENI.DAL
         static String SELECT_STAGIAIRE = "SELECT * FROM Stagiaire WHERE CodeStagiaire=@id";
         public static Stagiaire getStagiaire(int pCodeStagiaire)
         {
-
-            SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(SELECT_STAGIAIRE, connexion);
-            cmd.Parameters.AddWithValue("@id", pCodeStagiaire);
-
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            Stagiaire stgRetour = new Stagiaire();
-
-            if (reader.Read())
+            try
             {
-                //stgRetour._nom = reader.GetSqlString(2).IsNull ? String.Empty : reader.GetString(2);
-                //stgRetour._prenom = reader.GetSqlString(3).IsNull ? String.Empty : reader.GetString(3);
-                stgRetour._id = reader.GetInt32(reader.GetOrdinal("CodeStagiaire"));
-                stgRetour._civilité = reader.GetSqlString(1).IsNull ? string.Empty : reader.GetString(1);
-                stgRetour._nom = reader.GetSqlString(2).IsNull ? string.Empty : reader.GetString(2);
-                stgRetour._prenom = reader.GetSqlString(3).IsNull ? string.Empty : reader.GetString(3);
-                stgRetour._adresse1 = reader.GetSqlString(4).IsNull ? string.Empty : reader.GetString(4);
-                stgRetour._adresse2 = reader.GetSqlString(5).IsNull ? string.Empty : reader.GetString(5);
-                stgRetour._adresse3 = reader.GetSqlString(6).IsNull ? string.Empty : reader.GetString(6);
-                stgRetour._cp = reader.GetSqlString(7).IsNull ? string.Empty : reader.GetString(7);
-                stgRetour._ville = reader.GetSqlString(8).IsNull ? string.Empty : reader.GetString(8);
-                stgRetour._telephoneFixe = reader.GetSqlString(9).IsNull ? string.Empty : reader.GetString(9);
-                stgRetour._telephonePortable = reader.GetSqlString(10).IsNull ? string.Empty : reader.GetString(10);
-                stgRetour._email = reader.GetSqlString(11).IsNull ? string.Empty : reader.GetString(11);
-                if (!reader.GetSqlDateTime(12).IsNull) { stgRetour._dateNaissance = reader.GetDateTime(12); }
-                stgRetour._codeRegion = reader.GetSqlString(13).IsNull ? string.Empty : reader.GetString(13);
-                stgRetour._codeNationalité = reader.GetSqlString(14).IsNull ? string.Empty : reader.GetString(14);
-                stgRetour._codeOrigineMedia = reader.GetSqlString(15).IsNull ? string.Empty : reader.GetString(15);
-                if (!reader.GetSqlDateTime(16).IsNull) { stgRetour._datePremierEnvoiDoc = reader.GetDateTime(16); }
-                if (!reader.GetSqlDateTime(17).IsNull) { stgRetour._dateCreation = reader.GetDateTime(17); }
-                stgRetour._repertoire = reader.GetSqlString(18).IsNull ? string.Empty : reader.GetString(18);
-                if (reader.GetBoolean(19)) { stgRetour._permis = reader.GetBoolean(19); }
-                stgRetour._photo = reader.GetSqlString(20).IsNull ? string.Empty : reader.GetString(20);
-                if (reader.GetBoolean(21)) { stgRetour._envoiDocEnCours = reader.GetBoolean(21); }
-                stgRetour._historique = reader.GetSqlString(22).IsNull ? string.Empty : reader.GetString(22);
+
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+                SqlCommand cmd = new SqlCommand(SELECT_STAGIAIRE, connexion);
+                cmd.Parameters.AddWithValue("@id", pCodeStagiaire);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                Stagiaire stgRetour = new Stagiaire();
+
+                if (reader.Read())
+                {
+                    //stgRetour._nom = reader.GetSqlString(2).IsNull ? String.Empty : reader.GetString(2);
+                    //stgRetour._prenom = reader.GetSqlString(3).IsNull ? String.Empty : reader.GetString(3);
+                    stgRetour._id = reader.GetInt32(reader.GetOrdinal("CodeStagiaire"));
+                    stgRetour._civilité = reader.GetSqlString(1).IsNull ? string.Empty : reader.GetString(1);
+                    stgRetour._nom = reader.GetSqlString(2).IsNull ? string.Empty : reader.GetString(2);
+                    stgRetour._prenom = reader.GetSqlString(3).IsNull ? string.Empty : reader.GetString(3);
+                    stgRetour._adresse1 = reader.GetSqlString(4).IsNull ? string.Empty : reader.GetString(4);
+                    stgRetour._adresse2 = reader.GetSqlString(5).IsNull ? string.Empty : reader.GetString(5);
+                    stgRetour._adresse3 = reader.GetSqlString(6).IsNull ? string.Empty : reader.GetString(6);
+                    stgRetour._cp = reader.GetSqlString(7).IsNull ? string.Empty : reader.GetString(7);
+                    stgRetour._ville = reader.GetSqlString(8).IsNull ? string.Empty : reader.GetString(8);
+                    stgRetour._telephoneFixe = reader.GetSqlString(9).IsNull ? string.Empty : reader.GetString(9);
+                    stgRetour._telephonePortable = reader.GetSqlString(10).IsNull ? string.Empty : reader.GetString(10);
+                    stgRetour._email = reader.GetSqlString(11).IsNull ? string.Empty : reader.GetString(11);
+                    if (!reader.GetSqlDateTime(12).IsNull) { stgRetour._dateNaissance = reader.GetDateTime(12); }
+                    stgRetour._codeRegion = reader.GetSqlString(13).IsNull ? string.Empty : reader.GetString(13);
+                    stgRetour._codeNationalité = reader.GetSqlString(14).IsNull ? string.Empty : reader.GetString(14);
+                    stgRetour._codeOrigineMedia = reader.GetSqlString(15).IsNull ? string.Empty : reader.GetString(15);
+                    if (!reader.GetSqlDateTime(16).IsNull) { stgRetour._datePremierEnvoiDoc = reader.GetDateTime(16); }
+                    if (!reader.GetSqlDateTime(17).IsNull) { stgRetour._dateCreation = reader.GetDateTime(17); }
+                    stgRetour._repertoire = reader.GetSqlString(18).IsNull ? string.Empty : reader.GetString(18);
+                    if (reader.GetBoolean(19)) { stgRetour._permis = reader.GetBoolean(19); }
+                    stgRetour._photo = reader.GetSqlString(20).IsNull ? string.Empty : reader.GetString(20);
+                    if (reader.GetBoolean(21)) { stgRetour._envoiDocEnCours = reader.GetBoolean(21); }
+                    stgRetour._historique = reader.GetSqlString(22).IsNull ? string.Empty : reader.GetString(22);
+                }
+                connexion.Close();
+                return stgRetour;
             }
-            connexion.Close();
-            return stgRetour;
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible d'éxécuter la requête : " + e.Message, "Echec de la requête",
+                      System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return null;
+            }
         }
 
         public static List<Stagiaire> getListeStagiaires()
         {
-
+            try
+            {
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_LISTE_STAGIAIRES, connexion);
 
@@ -93,7 +103,16 @@ namespace ApplicationENI.DAL
                 s._historique = reader.GetSqlString(22).IsNull ? string.Empty : reader.GetString(22);
                 listeStagiaires.Add(s);
             }
-            return listeStagiaires;
+                connexion.Close();
+                return listeStagiaires;
+            }
+            catch (Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible d'éxécuter la requête : " + e.Message, "Echec de la requête",
+                      System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return null;
+            }
+            
         }
 
         public static List<Stagiaire> getListeStagiaires(Formation pFormation, int pTypeFormation, String pFiltreNomPrenom)

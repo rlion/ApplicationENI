@@ -52,7 +52,7 @@ namespace ApplicationENI.DAL
                       System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
                 return null;
             }
-            
+            connexion.Close();
             return listeAbsences;
         }
 

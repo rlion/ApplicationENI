@@ -27,6 +27,7 @@ namespace ApplicationENI.DAL
                 c.LibelleCours = reader.GetString(reader.GetOrdinal("LibelleCours"));
                 listeCours.Add(c);
             }
+            connexion.Close();
             return listeCours;
         }
     }

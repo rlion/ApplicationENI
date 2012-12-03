@@ -41,6 +41,7 @@ namespace ApplicationENI.DAL
                 contact._Entreprise = ent;
                 listeContacts.Add(contact);
             }
+            connexion.Close();
             return listeContacts;
         }
 
@@ -51,6 +52,7 @@ namespace ApplicationENI.DAL
                 SqlCommand cmd = new SqlCommand(DELETE_CONTACT, connexion);
                 cmd.Parameters.AddWithValue("@codeContact", pCodeContact);
                 cmd.ExecuteReader();
+                connexion.Close();
                 return true;
 
             }
@@ -90,8 +92,8 @@ namespace ApplicationENI.DAL
 
         public static void ajouterContact(Contact pC)
         {
-           // try
-           // {
+           try
+            {
                 // ajout du contact en lui même
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd = new SqlCommand(INSERT_CONTACT, connexion);
@@ -109,7 +111,6 @@ namespace ApplicationENI.DAL
                 int idDernierContact = Convert.ToInt32(cmd2.ExecuteScalar());
                 pC._codeContact = idDernierContact;
 
-                //   TODO: mettre un insert select pour pas pourrir la table stagiaireparentreprise.
                 // maintenant, on fait la liason entre la nouvelle entreprise et le stagiaire courant, si ce n'est pas déjà fait.
                 SqlCommand cmd3 = new SqlCommand(INSERT_STAGIAIREPARENTREPRISE, connexion);
                 cmd3.Parameters.AddWithValue("@codeStagiaire", Parametres.Instance.stagiaire._id);
@@ -118,12 +119,12 @@ namespace ApplicationENI.DAL
                 cmd3.ExecuteNonQuery();
 
                 connexion.Close();
-           /*}
+           }
             catch (Exception)
             {
                 System.Windows.MessageBox.Show("Ce contact ne peut être ajouté.",
                     "Ajout Contact impossible", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
-            }*/
+            }
 
         }
 
