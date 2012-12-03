@@ -18,9 +18,9 @@ namespace ApplicationENI.Controleur
         {
             return ECFDAL.ajouterECF(pECF);
         }
-        public static void modifierECF(ECF pECF)
+        public static String modifierECF(ECF pECF)
         {
-            ECFDAL.modifierECF(pECF);
+            return ECFDAL.modifierECF(pECF);
         }
         public static void supprimerECF(ECF pECF)
         {
@@ -101,13 +101,17 @@ namespace ApplicationENI.Controleur
         {
             return SessionECFDAL.getListSessionsECF(pECF);
         }
-        public static void ajouterSessionECF(SessionECF pSessionECF)
+        public static List<Stagiaire> ajouterSessionECF(SessionECF pSessionECF)
         {
-            SessionECFDAL.ajouterSessionECF(pSessionECF);
+            return SessionECFDAL.ajouterSessionECF(pSessionECF);
         }
-        public static void modifierDateSessionECF(SessionECF pSessionECF, DateTime pDate)
+        //public static void modifierDateSessionECF(SessionECF pSessionECF, DateTime pDate)
+        //{
+        //    SessionECFDAL.modifierDateSessionECF(pSessionECF,pDate);
+        //}
+        public static void modifierDateSessionECF_Stagiaire(Stagiaire pStagiaire, SessionECF pSessionECF, DateTime pDate)
         {
-            SessionECFDAL.modifierDateSessionECF(pSessionECF,pDate);
+            SessionECFDAL.modifierDateSessionECF_Stagiaire(pStagiaire, pSessionECF, pDate);
         }
         public static int donneIdSessionECF(ECF pECF, DateTime pDate, int pVersion)
         {
@@ -137,9 +141,9 @@ namespace ApplicationENI.Controleur
             return SessionECFDAL.getListParticipants(pSessionECF);
         }
 
-        public static void ajouterParticipants(SessionECF pSessionECF)
+        public static List<Stagiaire> ajouterParticipants(SessionECF pSessionECF)
         {
-            SessionECFDAL.ajouterParticipants(pSessionECF);
+            return SessionECFDAL.ajouterParticipants(pSessionECF);
         }
 
         //evaluations
