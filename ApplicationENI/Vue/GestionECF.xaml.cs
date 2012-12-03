@@ -250,7 +250,12 @@ namespace ApplicationENI.Vue
             _ecfCourant.Commentaire = tbCommECF.Text.Trim();
 
             //Modification de l'ECF
-            CtrlGestionECF.modifierECF(_ecfCourant);
+            String reponse = CtrlGestionECF.modifierECF(_ecfCourant);
+
+            if(reponse!="")
+            {
+                MessageBox.Show(reponse, "Attention!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
 
             //Actualisation de l'affichage
             RAZ();

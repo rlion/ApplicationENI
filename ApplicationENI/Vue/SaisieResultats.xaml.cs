@@ -205,51 +205,52 @@ namespace ApplicationENI.Vue
         //5 Enregistrer
         private void btnEnregistrer_Click(object sender, RoutedEventArgs e)
         {
-            float note = -1;
-
-            if (!_sessionECFcourant.Ecf.NotationNumerique)
+            if(_sessionECFcourant.Date>DateTime.Now)
             {
-                if (rbAcquis.IsChecked == true)
+                if(MessageBox.Show("L'ECF est planifié dans le futur, souhaitez vous néanmoins saisir une note?", "Attention!", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
                 {
-                    note = Ressources.CONSTANTES.NOTE_ACQUIS;
-                }
-                else if (rbEnCours.IsChecked == true)
-                {
-                    note = Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION;
-                }
-                else if (rbNonAcquis.IsChecked == true)
-                {
-                    note = Ressources.CONSTANTES.NOTE_NON_ACQUIS;
-                }
-            }
-            else
-            {
-                float noteSaisie;
+                    float note = -1;
 
-                tbNote.Text = tbNote.Text.Replace('.', ',');
-                bool estNumerique = float.TryParse(tbNote.Text, out noteSaisie);
+                    if(!_sessionECFcourant.Ecf.NotationNumerique)
+                    {
+                        if(rbAcquis.IsChecked == true)
+                        {
+                            note = Ressources.CONSTANTES.NOTE_ACQUIS;
+                        }
+                        else if(rbEnCours.IsChecked == true)
+                        {
+                            note = Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION;
+                        }
+                        else if(rbNonAcquis.IsChecked == true)
+                        {
+                            note = Ressources.CONSTANTES.NOTE_NON_ACQUIS;
+                        }
+                    }
+                    else
+                    {
+                        float noteSaisie;
 
-                if (noteSaisie >= 0 && noteSaisie <= 20 && estNumerique)
-                {
-                    note = noteSaisie;
-                    tbNote.Background = Brushes.White;
+                        tbNote.Text = tbNote.Text.Replace('.', ',');
+                        bool estNumerique = float.TryParse(tbNote.Text, out noteSaisie);
+
+                        if(noteSaisie >= 0 && noteSaisie <= 20 && estNumerique)
+                        {
+                            note = noteSaisie;
+                            tbNote.Background = Brushes.White;
+                        }
+                        else
+                        {
+                            tbNote.Background = Brushes.Red;
+                            tbNote.Focus();
+                        }
+                    }
+                    if(note != -1)
+                    {
+                        _evaluationEnCours.Note = note;
+                        CtrlGestionECF.modifierNoteEvaluation(_evaluationEnCours, _evaluationEnCours.Note);
+                        btnAnnu.IsEnabled = false;
+                    }            
                 }
-                else
-                {
-                    tbNote.Background = Brushes.Red;
-                    tbNote.Focus();
-                }
-            }
-            if (note!=-1)
-            {
-                _evaluationEnCours.Note = note;
-                CtrlGestionECF.modifierNoteEvaluation(_evaluationEnCours,_evaluationEnCours.Note);
-                btnAnnu.IsEnabled = false;
-                //_evaluationEnCours = null;
-                //_listeSessionECFs = null;
-                //_planif = null;
-                //_sessionECFcourant = null;
-                //affichage();
             }            
         }
         private void btnAjouter_Click(object sender, RoutedEventArgs e)
