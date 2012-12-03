@@ -66,13 +66,30 @@ namespace ApplicationENI.Modele
             _version = 0;
             _participants= new List<Stagiaire>();
         }
-        public SessionECF(ECF ecf, DateTime date)
+        public SessionECF(ECF ecf, DateTime date, int version)
         {
             _id = 0;
             _ecf = ecf;
             _date = date;
-            _version = 0;
+            _version = version;
             _participants = new List<Stagiaire>();
+        }
+        public SessionECF(ECF ecf, DateTime date, int version,Stagiaire stagiaire)
+        {
+            _id = 0;
+            _ecf = ecf;
+            _date = date;
+            _version = version;
+            _participants = new List<Stagiaire>();
+            _participants.Add(stagiaire);
+        }
+        public SessionECF(ECF ecf, DateTime date, int version,List<Stagiaire> lesParticipants)
+        {
+            _id = 0;
+            _ecf = ecf;
+            _date = date;
+            _version = version;
+            _participants = lesParticipants;
         }
 
         public override string ToString()
