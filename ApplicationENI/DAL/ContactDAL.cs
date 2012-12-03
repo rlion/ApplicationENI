@@ -20,11 +20,11 @@ namespace ApplicationENI.DAL
 
         static String GET_NUM_CONTACT = "SELECT @@IDENTITY AS IDENT";
 
-        public static List<Contact> rechercherContacts(int pNumStagiaire){
+        public static List<Contact> rechercherContacts(Stagiaire pStagiaire){
 
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_CONTACT_PAR_STAGIAIRE, connexion);
-            cmd.Parameters.AddWithValue("@num_stagiaire", pNumStagiaire);
+            cmd.Parameters.AddWithValue("@num_stagiaire", pStagiaire._id);
             List<Contact> listeContacts = new List<Contact>();
             SqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read()) {
@@ -45,12 +45,12 @@ namespace ApplicationENI.DAL
             return listeContacts;
         }
 
-        public static bool supprimerContact(int pCodeContact) {
+        public static bool supprimerContact(Contact pC) {
             try
             {
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd = new SqlCommand(DELETE_CONTACT, connexion);
-                cmd.Parameters.AddWithValue("@codeContact", pCodeContact);
+                cmd.Parameters.AddWithValue("@codeContact", pC._codeContact);
                 cmd.ExecuteReader();
                 connexion.Close();
                 return true;

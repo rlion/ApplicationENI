@@ -88,7 +88,7 @@ namespace ApplicationENI.DAL
             cmd.ExecuteReader();
             connexion.Close();
         }
-        public static void ajouterAbsence(Absence pA)
+        public static bool ajouterAbsence(Absence pA)
         {
 
             try
@@ -110,11 +110,13 @@ namespace ApplicationENI.DAL
                 int idDernierAbsence = Convert.ToInt32(cmd2.ExecuteScalar());
                 pA._id = Convert.ToInt32(idDernierAbsence);
                 connexion.Close();
+                return true;
             }
             catch (Exception)
             {
                 System.Windows.MessageBox.Show("Cette absence a déjà été ajoutée. Pour la modifier, veuillez consulter l'historique des absences.",
                     "Ajout Absence impossible", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Stop);
+                return false;
             }
             
         }

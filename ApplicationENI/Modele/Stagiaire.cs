@@ -8,7 +8,6 @@ namespace ApplicationENI.Modele
     public class Stagiaire
     {
         // utilisation des propriétés simplifiées 
-        //POURQUOI EN PUBLIC??? (ou sont les GET/SET??)
         public int _id { get; set; }
         public String _civilité { get; set; }
         public String _nom { get; set; }
@@ -33,7 +32,6 @@ namespace ApplicationENI.Modele
         public bool _envoiDocEnCours { get; set; }
         public String _historique { get; set; }
         public List<Contact> _contacts { get; set; }
-        // TODO: revoir le chargement des listes lors de la création du stagiaire qui est conceptuellement étrange.
         
         public Stagiaire(int pId, String pCivilité, String pNom, String pPrenom, String pAdresse1, String pAdresse2, String pAdresse3,
             String pCp, String pVille, String pTelephonePortable, String pTelephoneFixe, String pEmail, DateTime pDateNaissance,
@@ -76,23 +74,6 @@ namespace ApplicationENI.Modele
             this._nom = pNom;
             this._prenom = pPrenom;
 	    }
-        
-        public List<ECF> listeECFNonCorriges() {
-            return DAL.EvaluationsDAL.getListeECFsNonCorriges(this);
-            //return new List<ECF>();
-        }
-
-        public List<Observation> getListeObservations() {
-            return DAL.ObservationsDAL.getListObservations(this);
-        }
-
-        public List<Absence> getListeAbsences() {
-            return DAL.AbsencesDAL.getListeAbsences(this);
-        }
-
-        public List<Contact> getListeContacts() {
-            return DAL.ContactDAL.rechercherContacts(this._id);
-        }
 
         public override string ToString()
         {

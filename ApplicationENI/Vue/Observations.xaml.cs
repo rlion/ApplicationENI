@@ -26,14 +26,13 @@ namespace ApplicationENI.Vue
         // 1 : ajout
         static int flag_mode_saisie;
         private CtrlGestionObservations ctrl = new CtrlGestionObservations();
-        private Stagiaire stgEnCours = Parametres.Instance.stagiaire;
 
         public Observations()
         {
             InitializeComponent();
             flag_mode_saisie = 1;
-            
-            dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
+
+            dataGridListAbsences.ItemsSource = ctrl.listeObservation(Parametres.Instance.stagiaire);
             dataGridListAbsences.IsReadOnly = true;
             comboBox1.Items.Add("Pédagogique");
             comboBox1.Items.Add("Entreprise");
@@ -59,10 +58,6 @@ namespace ApplicationENI.Vue
                 comboBox1.Text = obsSelectionne._type;
                 comboBox1.SelectedValue = obsSelectionne._type;
             }
-            
-            
-            
-            
 
         }
 
@@ -100,7 +95,7 @@ namespace ApplicationENI.Vue
                             Observation obsSelectionne = (Observation)this.dataGridListAbsences.SelectedItem;
                             ctrl.modifierOperation(obsSelectionne, typeObs, titre, texte);
 
-                            dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
+                            dataGridListAbsences.ItemsSource = ctrl.listeObservation(Parametres.Instance.stagiaire);
                             dataGridListAbsences.SelectedItem = dataGridListAbsences.Items[dataGridListAbsences.Items.Count - 1];
                         }            
                     }
@@ -121,9 +116,9 @@ namespace ApplicationENI.Vue
                     }
                     else
                     {
-                        ctrl.ajouterObservation(typeObs, titre, texte, stgEnCours);
-                        
-                        dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
+                        ctrl.ajouterObservation(typeObs, titre, texte, Parametres.Instance.stagiaire);
+
+                        dataGridListAbsences.ItemsSource = ctrl.listeObservation(Parametres.Instance.stagiaire);
                         dataGridListAbsences.SelectedItem = dataGridListAbsences.Items[dataGridListAbsences.Items.Count - 1];
                     }
                 }
@@ -131,7 +126,7 @@ namespace ApplicationENI.Vue
                 
             }
             dataGridListAbsences.Items.Refresh();
-            // on peut réinitialiser le  saisie à 0
+            // on peut réinitialiser la  saisie à 0
             flag_mode_saisie = 0;
         }
 
@@ -151,7 +146,7 @@ namespace ApplicationENI.Vue
                  comboBox1.Items.Add("Entreprise");
                  comboBox1.Text = "Pédagogique";
                  comboBox1.SelectedValue = "Pédagogique";
-                 dataGridListAbsences.ItemsSource = ctrl.listeObservation(stgEnCours);
+                 dataGridListAbsences.ItemsSource = ctrl.listeObservation(Parametres.Instance.stagiaire);
                  dataGridListAbsences.Items.Refresh();
                 }
                 
@@ -200,7 +195,8 @@ namespace ApplicationENI.Vue
         private bool OperationExiste (String pTexte, String pTitre, String pType)
         { 
             bool retour = false;
-            foreach(Observation o in stgEnCours.getListeObservations()){
+            foreach (Observation o in ctrl.listeObservation(Parametres.Instance.stagiaire))
+            {
                     if (o._texte == pTexte &&
                         o._titre == pTitre &&
                         o._type == pType &&

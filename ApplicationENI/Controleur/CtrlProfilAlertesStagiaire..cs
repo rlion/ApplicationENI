@@ -12,14 +12,14 @@ namespace ApplicationENI.Controleur
         public List<ItemAlerte> listeAlertes() {
             listeDesAlertes = new List<ItemAlerte>();
             
-            List<Absence> listeAbsences = Parametres.Instance.stagiaire.getListeAbsences();
+            List<Absence> listeAbsences = DAL.AbsencesDAL.getListeAbsences(Parametres.Instance.stagiaire);
 
             GererItemAlerteAbsenceRetard("Absence", listeAbsences.Count(x => x._isAbsence==true));
             GererItemAlerteAbsenceRetard("Retard", listeAbsences.Count(x => x._isAbsence == false));
 
             GererItemAlarmesTemporairesNonCompletees(listeAbsences.Count(x => x._raison == ""));
 
-            GererItemAlarmesECFNonCorrigé(Parametres.Instance.stagiaire.listeECFNonCorriges().Count);
+            GererItemAlarmesECFNonCorrigé(DAL.EvaluationsDAL.getListeECFsNonCorriges(Parametres.Instance.stagiaire).Count);
 
             return listeDesAlertes;
         }
@@ -66,8 +66,8 @@ namespace ApplicationENI.Controleur
             DAL.ContactDAL.ajouterContact(pC);
         }
 
-        public bool supprimerContact(int pCodeContact) {
-            return DAL.ContactDAL.supprimerContact(pCodeContact);
+        public bool supprimerContact(Contact pC) {
+            return DAL.ContactDAL.supprimerContact(pC);
         }
 
         public void modifierContact(Contact pC) {

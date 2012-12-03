@@ -54,7 +54,7 @@ namespace ApplicationENI.Vue
 
 
             //informations sur le tuteur du stagiaire
-            dataGridListContacts.ItemsSource = stg.getListeContacts();
+            dataGridListContacts.ItemsSource = DAL.ContactDAL.rechercherContacts(stg);
 
             // récupération des alertes en cours pour le stagiaire.
             this.listViewAlerte.ItemsSource = ctrlStagiaires.listeAlertes();
@@ -98,7 +98,6 @@ namespace ApplicationENI.Vue
             if (e.EditAction == DataGridEditAction.Commit && dataGridListContacts.SelectedItem != null) {
                 if (((Contact)dataGridListContacts.SelectedItem)._telFixe != "" && ((Contact)dataGridListContacts.SelectedItem)._telMobile != "")
                 {
-                    CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
                     ctrlStagiaires.modifierContact((Contact)dataGridListContacts.SelectedItem);
                 }
                 else {
@@ -114,14 +113,11 @@ namespace ApplicationENI.Vue
             {
                 if (MessageBox.Show("Etes-vous CERTAIN de vouloir supprimer ce contact ?", "Confirmation avant suppression", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    bool retour = DAL.ContactDAL.supprimerContact(    
-                                                    ((Contact) dataGridListContacts.SelectedItem)._codeContact
-                                                    );
+                    bool retour = DAL.ContactDAL.supprimerContact((Contact) dataGridListContacts.SelectedItem);
                     if (retour == true)
                     {
                         MessageBox.Show("Suppression effectuée", "Suppression effectuée", MessageBoxButton.OK, MessageBoxImage.Information);
-                        CtrlProfilAlertesStagiaire ctrlStagiaires = new CtrlProfilAlertesStagiaire();
-                        dataGridListContacts.ItemsSource = Parametres.Instance.stagiaire.getListeContacts();
+                        dataGridListContacts.ItemsSource = DAL.ContactDAL.rechercherContacts(stg);
                         dataGridListContacts.Items.Refresh();
                     } 
                     
@@ -134,7 +130,7 @@ namespace ApplicationENI.Vue
         {
             AjoutContact formAjoutContact = new AjoutContact();
             formAjoutContact.ShowDialog();
-            dataGridListContacts.ItemsSource = stg.getListeContacts();
+            dataGridListContacts.ItemsSource = DAL.ContactDAL.rechercherContacts(stg);
         }
 
 

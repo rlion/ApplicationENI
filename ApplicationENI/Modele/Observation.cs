@@ -31,20 +31,5 @@ namespace ApplicationENI.Modele
             this._date = DateTime.Now;
         }
 
-       
-
-        public void AjouterObservation() {
-            DAL.ObservationsDAL.ajouterObservation(this);
-        }
-
-        public void ModifierObservation()
-        {
-            DAL.ObservationsDAL.modifierObservation(this);
-        }
-
-        public void SupprimerObservation()
-        {
-            DAL.ObservationsDAL.supprimerObservation(this);
-        }
     }
 }

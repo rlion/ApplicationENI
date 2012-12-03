@@ -162,15 +162,6 @@ namespace ApplicationENI.Vue
                 }
                 pD.PrintVisual(gridTrombi, "Trombinoscope - " + nom);
             }
-            //TODO: améliorer le rendu.
-            /*ReportViewer rv = new ReportViewer();
-            rv.ProcessingMode = ProcessingMode.Local;
-            ReportDataSource rds = new ReportDataSource(
-            rv.LocalReport.DataSources.Add();*/
-           
-            /*pD.PrintVisual(this, "Impression Trombinoscope");
-            var fixedDocument = new FixedDocument();
-            pD.PrintDocument(fixedDocument.DocumentPaginator, "Impression");*/
         }
 
         private void buttonEnvoiParMail_Click(object sender, RoutedEventArgs e)

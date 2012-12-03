@@ -105,8 +105,10 @@ namespace ApplicationENI.Vue
                     heureFin = int.Parse(txtHeureFin.Text);
                     minuteDeb = int.Parse(txtMinuteDeb.Text);
                     minuteFin = int.Parse(txtMinuteFin.Text);
-                    ctrl.AjouterAbsence(dateDebut, dateFin, heureDeb, minuteDeb, heureFin, minuteFin, raison, commentaire, valide, absence, retard);
-                    MessageBox.Show("Absence / retard ajouté(e)", "Ajout effectué", MessageBoxButton.OK, MessageBoxImage.Information);               
+                    if (ctrl.AjouterAbsence(dateDebut, dateFin, heureDeb, minuteDeb, heureFin, minuteFin, raison, commentaire, valide, absence, retard))
+                    {
+                        MessageBox.Show("Absence / retard ajouté(e)", "Ajout effectué", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
             }
         }
 

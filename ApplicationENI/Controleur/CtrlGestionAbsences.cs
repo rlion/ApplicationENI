@@ -6,7 +6,7 @@ using ApplicationENI.Modele;
 
 namespace ApplicationENI.Controleur {
     class CtrlGestionAbsences {
-        public void AjouterAbsence(String pDateDebut, String pDateFin, int pHeureDeb, int pMinuteDeb, int pHeureFin, int pMinuteFin, String pRaison, String pCommentaire, bool pValide, bool pAbsence, bool pRetard)
+        public bool AjouterAbsence(String pDateDebut, String pDateFin, int pHeureDeb, int pMinuteDeb, int pHeureFin, int pMinuteFin, String pRaison, String pCommentaire, bool pValide, bool pAbsence, bool pRetard)
         {
             DateTime dateDebut = conversionStringEnDate(pDateDebut, pHeureDeb, pMinuteDeb);
             DateTime dateFin = conversionStringEnDate(pDateFin, pHeureFin, pMinuteFin);
@@ -23,7 +23,7 @@ namespace ApplicationENI.Controleur {
             }
 
             Absence a = new Absence(pRaison, pCommentaire, dateDebut, dateFin, duree, pValide, Parametres.Instance.stagiaire, isAbsence);
-            a.ajouterAbsence();
+            return DAL.AbsencesDAL.ajouterAbsence(a);
         }
 
         // Cette méthode permet d'ajouter des absences à la volée afin de répondre au besoin de rapidité le matin. Les absences sont ensuite retouchées et les champs manquants sont précisés.
@@ -31,7 +31,7 @@ namespace ApplicationENI.Controleur {
         {
             DateTime dateDebut = DateTime.Now;
             Absence a = new Absence(dateDebut, pStagiaire);
-            return a.ajouterAbsenceTemporaire(pStagiaire);
+            return DAL.AbsencesDAL.ajouterAbsenceTemporaire(a, pStagiaire);
         }
 
         public DateTime conversionStringEnDate(String pDate, int pHeure, int pMinute)
@@ -41,16 +41,15 @@ namespace ApplicationENI.Controleur {
             mois = int.Parse(pDate.Substring(3, 2));
             an = int.Parse(pDate.Substring(6, 4));
             DateTime date = new DateTime(an, mois, jour, pHeure, pMinute, 0, DateTimeKind.Utc);
-            
             return date;
         }
 
         public List<Absence> getListAbsences(Stagiaire pStg) {
-            return pStg.getListeAbsences();
+            return DAL.AbsencesDAL.getListeAbsences(pStg);
         }
 
         public void supprimerAbsence(Absence a) {
-            a.supprimerAbsence();
+            DAL.AbsencesDAL.supprimerAbsence(a);
         }
 
         public void modifierAbsence(Absence pA, String pDateDebut, String pDateFin, int pHeureDeb, int pMinuteDeb, int pHeureFin, int pMinuteFin, String pRaison, String pCommentaire, bool pValide, bool pAbsence) {
@@ -75,7 +74,7 @@ namespace ApplicationENI.Controleur {
             pA._isAbsence = isAbsence;
             pA._raison = pRaison;
             pA._valide = pValide;
-            pA.modifierAbsence();
+            DAL.AbsencesDAL.modifierAbsence(pA);
         }
 
         public List<Stagiaire> GetListeStagiaires()
