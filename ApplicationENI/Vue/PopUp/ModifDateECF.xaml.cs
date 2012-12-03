@@ -40,7 +40,7 @@ namespace ApplicationENI.Vue.PopUp
         {
             if (dateSel.SelectedDate != null && _sessionECF.Date != (DateTime)dateSel.SelectedDate)
             {
-                CtrlGestionECF.modifierDateSessionECF(_sessionECF,(DateTime)dateSel.SelectedDate);
+                CtrlGestionECF.modifierDateSessionECF_Stagiaire(_stagaire,_sessionECF,(DateTime)dateSel.SelectedDate);
                 Close();
             }            
         }

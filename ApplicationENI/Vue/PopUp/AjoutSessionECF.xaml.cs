@@ -191,6 +191,7 @@ namespace ApplicationENI.Vue.PopUp
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
             List<Stagiaire> listeParticipants = null;
+            List<Stagiaire> lesParticipantsNonAjoutes = null;
             
             //Nouvelle sessionECF
             if (_sessionECF.Id == 0)
@@ -204,7 +205,7 @@ namespace ApplicationENI.Vue.PopUp
                     }
                     _sessionECF.Participants = listeParticipants;
                 }
-                CtrlGestionECF.ajouterSessionECF(_sessionECF);
+                lesParticipantsNonAjoutes = CtrlGestionECF.ajouterSessionECF(_sessionECF);
             }
             else
             //Modification sessionECF
@@ -218,8 +219,26 @@ namespace ApplicationENI.Vue.PopUp
                     }
                     _sessionECF.Participants = listeParticipants;
                 }
-                CtrlGestionECF.ajouterParticipants(_sessionECF);
+                lesParticipantsNonAjoutes = CtrlGestionECF.ajouterParticipants(_sessionECF);
             }
+
+            if(lesParticipantsNonAjoutes!=null)
+            {
+                String reponse="Les stagiaires suivants n'ont pas pu être ajoutés car ils ont déjà effectué cette ECF dans la même version :";
+                foreach(Stagiaire stagiaireNonAjoute in lesParticipantsNonAjoutes)
+                {
+                    foreach(Stagiaire stag in listeParticipants)
+                    {
+                        if(stag==stagiaireNonAjoute)
+                        {
+                            listeParticipants.Remove(stag);
+                        }
+                        reponse += "\n" + stagiaireNonAjoute.ToString();
+                    }
+                }
+                MessageBox.Show(reponse,"Attention", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+
             Close();
         }
 
