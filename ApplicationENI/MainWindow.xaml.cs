@@ -24,10 +24,6 @@ namespace ApplicationENI
         {
             InitializeComponent();
 
-            Parametres.Instance.listAlertes = new List<ItemAlerte>();
-            Parametres.Instance.listAlertes.Add(new ItemAlerte(0, "Examen le 23 juin.", 5));
-            Parametres.Instance.listAlertes.Add(new ItemAlerte(3, "ECF n° 3 non corrigé.", 1));
-
 
             BlurEffect myBlurEffect = new BlurEffect();
             myBlurEffect.Radius = 8;
