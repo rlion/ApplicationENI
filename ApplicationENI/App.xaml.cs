@@ -12,6 +12,5 @@ namespace ApplicationENI
     /// </summary>
     public partial class App : Application
     {
-        //TODO : mettre une joli icone pour l'appli dans la barre des taches.
     }
 }

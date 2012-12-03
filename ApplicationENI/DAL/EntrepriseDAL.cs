@@ -12,7 +12,6 @@ namespace ApplicationENI.DAL
         static String SELECT_LISTE_ENTREPRISES = "SELECT * FROM ENTREPRISE ORDER BY RAISONSOCIALE";
         static String INSERT_ENTREPRISE = "INSERT INTO ENTREPRISE (RAISONSOCIALE, CODEPOSTAL, VILLE, TELEPHONE, EMAIL) VALUES(@raisonSociale, @cp, @ville, @tel, @mail)";
         static String GET_NUM_ENTREPRISE = "SELECT @@IDENTITY AS IDENT";
-        //TODO: du coup revoir comment est gérée l'entreprise propre au contact...
         public static List<Entreprise> getListeEntreprises()
         {
 
