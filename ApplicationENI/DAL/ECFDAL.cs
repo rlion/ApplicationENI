@@ -207,11 +207,50 @@ namespace ApplicationENI.DAL
             return "";
         }
 
-        public static void modifierECF(ECF ecf)
+        public static String modifierECF(ECF ecf)
         {
+            String reponse="";
+            String requete="";
+            SqlConnection connexion;
+            SqlCommand cmd;
+            SqlDataReader reader;
+
+            ECF AncienECF=getECF(ecf.Id);
+
+            //Si on souhaite changer le type de notation mais qu'il y a deja des notes
+            if(AncienECF.NotationNumerique!=ecf.NotationNumerique)
+            {
+                requete="SELECT idECF FROM EVALUATION WHERE idECF=@idECF";
+                connexion = ConnexionSQL.CreationConnexion();
+                cmd = new SqlCommand(requete, connexion);
+                cmd.Parameters.AddWithValue("@idECF", ecf.Id);
+                reader = cmd.ExecuteReader();
+                if(reader.Read())
+                {
+                    reponse = "Modification du type de notation impossible, certains stagiaires ont déjà été évalués selon l'ancien type de notation";
+                    return reponse;
+                }
+            }
+
+            //Si on souhaite reduire le nombre de versions mais qu'il y a deja des notes
+            if(AncienECF.NbreVersion>ecf.NbreVersion)
+            {
+                requete="SELECT idECF FROM EVALUATION WHERE idECF=@idECF and version>@version";
+                connexion = ConnexionSQL.CreationConnexion();
+                cmd = new SqlCommand(requete, connexion);
+                cmd.Parameters.AddWithValue("@idECF", ecf.Id);
+                cmd.Parameters.AddWithValue("@version", ecf.NbreVersion);
+                reader = cmd.ExecuteReader();
+                if(reader.Read())
+                {
+                    reponse = "Modification du nombre de versions impossible, certains stagiaires ont déjà été évalués selon des versions d'ECF supplémentaires";
+                    return reponse;
+                }
+            }
+
             //MAJ de l'ECF
-            SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(UPDATE_ECF, connexion);
+            connexion = ConnexionSQL.CreationConnexion();
+            cmd = new SqlCommand(UPDATE_ECF, connexion);
 
             cmd.Parameters.AddWithValue("@idECF", ecf.Id);  
             cmd.Parameters.AddWithValue("@libelleECF", ecf.Libelle);
@@ -242,6 +281,8 @@ namespace ApplicationENI.DAL
             {
                 ajouterLienFormation(ecf, formTemp);
             }
+
+            return "";
         }
 
         public static void ajouterLienCompetence(ECF ecf, Competence comp)

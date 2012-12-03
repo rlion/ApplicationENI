@@ -184,8 +184,10 @@ namespace ApplicationENI.DAL
             return lesECFsPlanifiesStagiaire;
         }
 
-        public static void ajouterSessionECF(SessionECF sessionEcf)
-        {                                     
+        public static List<Stagiaire> ajouterSessionECF(SessionECF sessionEcf)
+        {
+            List<Stagiaire> lesParticipantsNonAjoutes=null;
+
             //Récup de l'id max dans la table SESSIONSECF
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_MAX_SESSIONECF, connexion);
@@ -208,50 +210,158 @@ namespace ApplicationENI.DAL
             cmd.Parameters.AddWithValue("@idSessionECF", sessionEcf.Id);
             cmd.Parameters.AddWithValue("@idECF", sessionEcf.Ecf.Id);
             cmd.Parameters.AddWithValue("@date", sessionEcf.Date);
-            cmd.Parameters.AddWithValue("@version", sessionEcf.Version);
+            cmd.Parameters.AddWithValue("@version", sessionEcf.Version);        
 
-            cmd.ExecuteReader();
-            connexion.Close();
-
-            //participants            
-            if (sessionEcf.Participants!=null)
+            //participants
+            if(sessionEcf.Participants != null)
             {
-                ajouterParticipants(sessionEcf);
+                foreach(Stagiaire stagiaireAInscrire in sessionEcf.Participants)
+                {
+                    Stagiaire stagiaireNonAjoute=ajouterParticipant(sessionEcf,stagiaireAInscrire);
+                    if(stagiaireNonAjoute != null)
+                    {
+                        if(lesParticipantsNonAjoutes == null)
+                        {
+                            lesParticipantsNonAjoutes = new List<Stagiaire>();
+                        }
+                        lesParticipantsNonAjoutes.Add(stagiaireNonAjoute);
+                    }
+                }
+                if(sessionEcf.Participants.Count-lesParticipantsNonAjoutes.Count>0)
+                {
+                    cmd.ExecuteReader();
+                }
             }
-            
-        }
-
-        public static void modifierDateSessionECF(SessionECF sessionEcf,DateTime pDate)
-        {
-            //Modif de la date de la sessionECF dans la table SESSIONSECF
-            SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(UPDATE_DATE_SESSIONECF, connexion);            
-            cmd.Parameters.AddWithValue("@idSessionECF", sessionEcf.Id);
-            cmd.Parameters.AddWithValue("@date", pDate);
-            SqlDataReader reader = cmd.ExecuteReader();
+            else
+            {
+                cmd.ExecuteReader();
+            }
 
             connexion.Close();
+            return lesParticipantsNonAjoutes;
         }
 
-        public static void ajouterParticipants(SessionECF pSessionECF)
+        //public static void modifierDateSessionECF(SessionECF sessionEcf,DateTime pDate)
+        //{
+        //    //TODO Verif qu'il n'y a pas d evaluation
+        //    //Modif de la date de la sessionECF dans la table SESSIONSECF
+        //    SqlConnection connexion = ConnexionSQL.CreationConnexion();
+        //    SqlCommand cmd = new SqlCommand(UPDATE_DATE_SESSIONECF, connexion);            
+        //    cmd.Parameters.AddWithValue("@idSessionECF", sessionEcf.Id);
+        //    cmd.Parameters.AddWithValue("@date", pDate);
+        //    SqlDataReader reader = cmd.ExecuteReader();
+
+        //    connexion.Close();
+        //}
+
+        public static void modifierDateSessionECF_Stagiaire(Stagiaire pStagiaire, SessionECF pSessionECF, DateTime pDate) 
         {
+            //TODO Verif qu'il n'y a pas d evaluation (pas logique en théorie car date future)
+            
+            //Supprimer lien SessionECF-stagiaire de la table ParticipantsSessionECF
+            String requete = "DELETE FROM PARTICIPANTSSESSIONECF where idSessionECF=@idSessionECF AND idStagiaire=@idStagiaire";
+            SqlConnection connexion = ConnexionSQL.CreationConnexion();
+            SqlCommand cmd = new SqlCommand(requete, connexion);
+            cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id);
+            cmd.Parameters.AddWithValue("@idStagiaire", pStagiaire._id);
+            SqlDataReader reader = cmd.ExecuteReader();
+            connexion.Close();
+
+            //SI la date existe pour cet ECF dans la même version            
+            requete = "SELECT idSessionECF FROM SESSIONSECF WHERE idECF=@idECF AND date=@date AND version=@version";
+            connexion = ConnexionSQL.CreationConnexion();
+            cmd = new SqlCommand(requete, connexion);
+            cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id);
+            cmd.Parameters.AddWithValue("@date", pSessionECF.Date);
+            cmd.Parameters.AddWithValue("@version", pSessionECF.Version);
+            reader = cmd.ExecuteReader();
+            
+            int idNEWSession;
+
+            if(reader.Read())
+            {
+                //on recupere l'id de cette session 
+                idNEWSession=reader.GetInt32(reader.GetOrdinal("idSessionECF"));
+                connexion.Close();
+                //puis on cree ce lien
+                connexion = ConnexionSQL.CreationConnexion();
+                cmd = new SqlCommand(INSERT_PARTICIPANT, connexion);
+
+                cmd.Parameters.AddWithValue("@idSessionECF", idNEWSession);
+                cmd.Parameters.AddWithValue("@idStagiaire", pStagiaire._id);
+
+                cmd.ExecuteReader();
+                connexion.Close();
+            }else{
+                connexion.Close();
+                //SINON
+                //On cree une nouvelle session
+                SessionECF NEWSessionECF=new SessionECF(pSessionECF.Ecf, pDate,pSessionECF.Version,pStagiaire);
+
+                ajouterSessionECF(NEWSessionECF);
+            }
+        }
+
+        public static List<Stagiaire> ajouterParticipants(SessionECF pSessionECF)
+        {
+            List<Stagiaire> lesParticipantsNonAjoutes=null;
+            
             //TODO verifier que le stagiaire n'a pas déjà effectué cette version d'ECF
             //TODO verifier que le stagiaire n'a pas deja un ECF à cette date (si oui proposer le choix de créer le lien)
 
             //Suppr des participants
             supprimerParticipants(pSessionECF);
 
-            foreach (Stagiaire stag in pSessionECF.Participants)
+            foreach(Stagiaire stagiaireAInscrire in pSessionECF.Participants)
+            {          
+                Stagiaire stagiaireNonAjoute=ajouterParticipant(pSessionECF,stagiaireAInscrire);
+                if(stagiaireNonAjoute != null)
+                {
+                    if(lesParticipantsNonAjoutes == null)
+                    {
+                        lesParticipantsNonAjoutes = new List<Stagiaire>();
+                    }
+                    lesParticipantsNonAjoutes.Add(stagiaireNonAjoute);
+                }
+            }
+            return lesParticipantsNonAjoutes;
+        }
+
+        public static Stagiaire ajouterParticipant(SessionECF pSessionECF, Stagiaire pStagiaire)
+        {
+            //verifier que le stagiaire n a pas deja de date planifiee pour cet ECF dans cette version
+            String requete="SELECT idStagiaire from PARTICIPANTSSESSIONECF, SESSIONSECF " +
+                " WHERE PARTICIPANTSSESSIONECF.idSessionECF=SESSIONSECF.idSessionECF " +
+                " AND idECF=@idECF " +
+                " AND PARTICIPANTSSESSIONECF.idStagiaire=@idStagiaire " +
+                " AND version=@version ";
+            SqlConnection connexion=ConnexionSQL.CreationConnexion();
+            SqlCommand cmd =new SqlCommand(requete, connexion);
+            cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id);
+            cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf);
+            cmd.Parameters.AddWithValue("@version", pSessionECF.Version);
+            SqlDataReader reader=cmd.ExecuteReader();
+
+            if(reader.Read())
             {
-                SqlConnection connexion = ConnexionSQL.CreationConnexion();
-                SqlCommand cmd = new SqlCommand(INSERT_PARTICIPANT, connexion);
+                connexion.Close();
+                return pStagiaire;
+            }
+            else
+            {
+                connexion.Close();
+
+                connexion = ConnexionSQL.CreationConnexion();
+                cmd = new SqlCommand(INSERT_PARTICIPANT, connexion);
 
                 cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id);
-                cmd.Parameters.AddWithValue("@idStagiaire", stag._id);
+                cmd.Parameters.AddWithValue("@idStagiaire", pStagiaire._id);
 
                 cmd.ExecuteReader();
                 connexion.Close();
-            }
+
+                return null;
+            }            
         }
 
         public static void supprimerSessionECF(SessionECF pSessionECF)
