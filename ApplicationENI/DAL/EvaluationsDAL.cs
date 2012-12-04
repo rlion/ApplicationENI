@@ -212,24 +212,34 @@ namespace ApplicationENI.DAL
 
                     //dans cette liste on récupère les ECFs déjà passés (date de passage<aujourd'hui)
                     List<SessionECF> lesSessionsECFPassees = null;
-                    foreach (SessionECF sess in lesSessionsECFStag)
+                    if (lesSessionsECFStag!=null)
                     {
-                        if (sess.Date<DateTime.Now)  
+                        foreach (SessionECF sess in lesSessionsECFStag)
                         {
-                            if (lesSessionsECFPassees == null) lesSessionsECFPassees = new List<SessionECF>();
-                            lesSessionsECFPassees.Add(sess);
+                            if (sess.Date < DateTime.Now)
+                            {
+                                if (lesSessionsECFPassees == null) lesSessionsECFPassees = new List<SessionECF>();
+                                lesSessionsECFPassees.Add(sess);
+                            }
                         }
                     }
+                    
             
                     //pour ceux dont la date est passée il faut vérifier si toutes les compétences ont été évaluées
-                    foreach(SessionECF sessionEcfPassee in lesSessionsECFPassees)
+                    if (lesSessionsECFPassees!=null)
                     {
-                        if(!SessionECFDAL.SessionECFCorrigee(sessionEcfPassee, stag))
+                        foreach (SessionECF sessionEcfPassee in lesSessionsECFPassees)
                         {
-                            if(lesSessionsECFNonCorrigees == null) lesSessionsECFNonCorrigees = new List<SessionECF>();
-                            lesSessionsECFNonCorrigees.Add(sessionEcfPassee);
+                            if (!SessionECFDAL.SessionECFCorrigee(sessionEcfPassee, stag))
+                            {
+                                if (lesSessionsECFNonCorrigees == null) lesSessionsECFNonCorrigees = new List<SessionECF>();
+                                if (!lesSessionsECFNonCorrigees.Contains(sessionEcfPassee))
+                                {
+                                    lesSessionsECFNonCorrigees.Add(sessionEcfPassee);
+                                }
+                            }
                         }
-                    }
+                    }                    
                 }                
             }
             return lesSessionsECFNonCorrigees;
