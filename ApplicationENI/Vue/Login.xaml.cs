@@ -67,14 +67,26 @@ namespace ApplicationENI.Vue
                     //TODO : pour les tests, on utilise le domaine STAGIAIRES, mais les utilisteurs de l'appli utiliseront un autre domaine.
                     DirectoryEntry Ldap = new DirectoryEntry("LDAP://STAGIAIRES.local", login, password, AuthenticationTypes.Secure);
                     guid = Ldap.Guid;
+                     if (guid == null) return false;
 
-                    if (guid == null) return false;
-                    else return true;
+
+                     DirectorySearcher searcher = new DirectorySearcher(Ldap);
+                     searcher.Filter = "(SAMAccountName=" + login + ")";
+                     SearchResult result = searcher.FindOne();
+                     DirectoryEntry DirEntry = result.GetDirectoryEntry();
+                    String nom = DirEntry.Properties["sn"].Value == null ? "" : DirEntry.Properties["sn"].Value.ToString();
+                    String prenom= DirEntry.Properties["givenName"].Value == null ? "" : DirEntry.Properties["givenName"].Value.ToString();
+                    
+                 
+                   
+                    return true;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                System.Windows.MessageBox.Show(e.Message, "Echec de la requête",
+                      System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return false;
             }
             
         }
