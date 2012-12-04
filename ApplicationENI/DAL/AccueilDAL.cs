@@ -60,6 +60,8 @@ namespace ApplicationENI.DAL
                         listeStagiaires.Add(new Stagiaire(codS, civ, nom, pre, adr1, adr2, adr3, cp, ville, telP, telF, 
                             mail, dateN, codR, codN, codOM, datePEC, dateC, rep, permis, photo, envoiDEC, histo));
                     }
+
+                    connexion.Close();
                 }
 
                 return listeStagiaires;
@@ -92,6 +94,8 @@ namespace ApplicationENI.DAL
                         string lib = !reader.IsDBNull(1) ? reader.GetString(1) : string.Empty;
                         dictFormation.Add(code, lib);
                     }
+
+                    connexion.Close();
                 }
 
                 return dictFormation;
@@ -124,6 +128,8 @@ namespace ApplicationENI.DAL
                         string lib = !reader.IsDBNull(1) ? reader.GetString(1) : string.Empty;
                         dictPromotion.Add(code, lib);
                     }
+
+                    connexion.Close();
                 }
 
                 return dictPromotion;
@@ -176,7 +182,6 @@ namespace ApplicationENI.DAL
                             listeAlertes.Add(new ItemAlerte(1, "L'ECF " + s.Ecf.Libelle + " du " + s.Date.ToShortDateString() + " n'a pas encore été corrigé", 2));
                         }
                     }
-
                     connexion.Close();
                 }
 

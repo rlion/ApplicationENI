@@ -36,15 +36,18 @@ namespace ApplicationENI
             login.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             login.ShowDialog();
 
-            this.MainGrid.Children.Add(new Vue.AccueilGeneral());
-            Controleur = new CtrlAccueilGeneral();
-            InitBandeStagiaire();
+            if(Parametres.Instance.utilisateur != null)
+            {
+                this.MainGrid.Children.Add(new Vue.AccueilGeneral());
+                Controleur = new CtrlAccueilGeneral();
+                InitBandeStagiaire();
 
-            this.Effect = null;
+                this.Effect = null;
 
-            //Modif mat on masque ici sinon on ne voit pas dans l'éditeur graphique...
-            tvPersonParam.IsExpanded=false;
-            tvPersonParam.IsEnabled = false;
+                //Modif mat on masque ici sinon on ne voit pas dans l'éditeur graphique...
+                tvPersonParam.IsExpanded = false;
+                tvPersonParam.IsEnabled = false;
+            }
         }
 
         #region Events bandeau menu général

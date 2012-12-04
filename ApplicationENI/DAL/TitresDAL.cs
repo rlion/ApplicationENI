@@ -42,6 +42,8 @@ namespace ApplicationENI.DAL
 
                     listTitres.Add(new Titre(codT, libC, libL, niv, codR, codN, dateC, dateM, titreENI, archiver, GetEpreuvesTitre(codT)));
                 }
+
+                connexion.Close();
             }
 
             //Récupération jeu de données pour test
@@ -56,7 +58,8 @@ namespace ApplicationENI.DAL
 
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
 
-            if(connexion != null) {
+            if(connexion != null) 
+            {
                 string reqSalle = "select CodeSalle, libelle from Salle";
 
                 SqlCommand commande = connexion.CreateCommand();
@@ -69,6 +72,8 @@ namespace ApplicationENI.DAL
 
                     listeSalles.Add(new Salle(codS, lib));
                 }
+
+                connexion.Close();
             }
             return listeSalles;
         }
@@ -78,22 +83,28 @@ namespace ApplicationENI.DAL
             string req = "select CodeSalle, dateEpreuve, CodeTitre from EPREUVETITRE where CodeTitre=@code";
 
             SqlConnection conn = ConnexionSQL.CreationConnexion();
-            SqlCommand commande = conn.CreateCommand();
-            commande.CommandText = req;
-            commande.Parameters.AddWithValue("@code", codeTitre);
-
-            List<EpreuveTitre> let = new List<EpreuveTitre>();
-
-            SqlDataReader reader = commande.ExecuteReader();
-            while (reader.Read())
+            if(conn != null)
             {
-                EpreuveTitre et = new EpreuveTitre((DateTime)reader[1], (string)reader[0], (string)reader[2]);
-                et.ListeJury = GetListeJuryParEpreuve(et.DateEpreuve, et.Salle, et.Titre);
-                let.Add(et);
-                
-            }
 
-            return let;
+                SqlCommand commande = conn.CreateCommand();
+                commande.CommandText = req;
+                commande.Parameters.AddWithValue("@code", codeTitre);
+
+                List<EpreuveTitre> let = new List<EpreuveTitre>();
+
+                SqlDataReader reader = commande.ExecuteReader();
+                while(reader.Read())
+                {
+                    EpreuveTitre et = new EpreuveTitre((DateTime)reader[1], (string)reader[0], (string)reader[2]);
+                    et.ListeJury = GetListeJuryParEpreuve(et.DateEpreuve, et.Salle, et.Titre);
+                    let.Add(et);
+
+                }
+                conn.Close();
+
+                return let;
+            }
+            else return null;
         }
 
         private static List<Jury> GetListeJuryParEpreuve(DateTime datePassage, string CodeSalle, string CodeTitre)
@@ -102,21 +113,27 @@ namespace ApplicationENI.DAL
                 "(select idJury from EPTITREJURY where dateEpreuve=@date and CodeSalle=@salle and CodeTitre=@titre)";
 
             SqlConnection conn = ConnexionSQL.CreationConnexion();
-            SqlCommand commande = conn.CreateCommand();
-            commande.CommandText = req;
-            commande.Parameters.AddWithValue("@date", datePassage);
-            commande.Parameters.AddWithValue("@salle", CodeSalle);
-            commande.Parameters.AddWithValue("@titre", CodeTitre);
-
-            List<Jury> lj = new List<Jury>();
-
-            SqlDataReader reader = commande.ExecuteReader();
-            while (reader.Read())
+            if(conn != null)
             {
-                lj.Add(new Jury(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
-            }
 
-            return lj;
+                SqlCommand commande = conn.CreateCommand();
+                commande.CommandText = req;
+                commande.Parameters.AddWithValue("@date", datePassage);
+                commande.Parameters.AddWithValue("@salle", CodeSalle);
+                commande.Parameters.AddWithValue("@titre", CodeTitre);
+
+                List<Jury> lj = new List<Jury>();
+
+                SqlDataReader reader = commande.ExecuteReader();
+                while(reader.Read())
+                {
+                    lj.Add(new Jury(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
+                }
+                conn.Close();
+
+                return lj;
+            }
+            else return null;
         }
 
         public static List<Jury> GetListeJury()
@@ -124,18 +141,23 @@ namespace ApplicationENI.DAL
             string req = "select idJury, civilite, nom, prenom from JURY";
 
             SqlConnection conn = ConnexionSQL.CreationConnexion();
-            SqlCommand commande = conn.CreateCommand();
-            commande.CommandText = req;
-
-            List<Jury> lj = new List<Jury>();
-
-            SqlDataReader reader = commande.ExecuteReader();
-            while (reader.Read())
+            if(conn != null)
             {
-                lj.Add(new Jury(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
-            }
+                SqlCommand commande = conn.CreateCommand();
+                commande.CommandText = req;
 
-            return lj;
+                List<Jury> lj = new List<Jury>();
+
+                SqlDataReader reader = commande.ExecuteReader();
+                while(reader.Read())
+                {
+                    lj.Add(new Jury(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3)));
+                }
+                conn.Close();
+
+                return lj;
+            }
+            else return null;
         }
 
         private static int GetJuryId(string civilite, string nom, string prenom)
@@ -151,6 +173,8 @@ namespace ApplicationENI.DAL
             commande.Parameters.AddWithValue("@prenom", prenom);
 
             int? i = (int)commande.ExecuteScalar();
+            conn.Close();
+
             return i ?? -1;
         }
 
@@ -175,7 +199,10 @@ namespace ApplicationENI.DAL
                 commande.Parameters.AddWithValue("@codeR", titre.CodeRome ?? string.Empty);
                 commande.Parameters.AddWithValue("@codeN", titre.CodeNSF ?? string.Empty);
 
-                return commande.ExecuteNonQuery();
+                int retour = commande.ExecuteNonQuery();
+                conn.Close();
+
+                return retour;
             } 
             catch(Exception e) 
             {
@@ -204,7 +231,9 @@ namespace ApplicationENI.DAL
                 commande.Parameters.AddWithValue("@codeR", titre.CodeRome ?? string.Empty);
                 commande.Parameters.AddWithValue("@codeN", titre.CodeNSF ?? string.Empty);
 
-                return commande.ExecuteNonQuery();
+                int retour = commande.ExecuteNonQuery();
+                conn.Close();
+                return retour;
             } 
             catch(Exception e) 
             {
@@ -224,7 +253,10 @@ namespace ApplicationENI.DAL
                 string req = "delete from Titre where CodeTitre=@codeTitre";
                 commande.CommandText = req;
                 commande.Parameters.AddWithValue("@codeTitre", codeTitre);
-                return commande.ExecuteNonQuery();
+
+                int retour = commande.ExecuteNonQuery();
+                conn.Close();
+                return retour;
             } 
             catch(Exception) 
             {
@@ -248,7 +280,9 @@ namespace ApplicationENI.DAL
                 commande.Parameters.AddWithValue("@codeT", epTitre.Titre);
                 commande.Parameters.AddWithValue("@dateE", epTitre.DateEpreuve);
 
-                return commande.ExecuteNonQuery();
+                int retour = commande.ExecuteNonQuery();
+                conn.Close();
+                return retour;
             }
             catch (Exception e)
             {
@@ -282,6 +316,7 @@ namespace ApplicationENI.DAL
                         commande.Parameters.AddWithValue("@idJury", j.IdPersonneJury);
 
                         i = commande.ExecuteNonQuery();
+                        conn.Close();
                     }
                 }
                 return i;
@@ -309,7 +344,9 @@ namespace ApplicationENI.DAL
                 commande.Parameters.AddWithValue("@nom", jury.Nom);
                 commande.Parameters.AddWithValue("@prenom", jury.Prenom);
 
-                return commande.ExecuteNonQuery();
+                int retour = commande.ExecuteNonQuery();
+                conn.Close();
+                return retour;
             }
             catch (Exception e)
             {
@@ -330,7 +367,9 @@ namespace ApplicationENI.DAL
                 commande.Parameters.AddWithValue("@codeT", epTitre.Titre);
                 commande.Parameters.AddWithValue("@codeS", epTitre.Salle);
                 commande.Parameters.AddWithValue("@date", epTitre.DateEpreuve);
+                
                 int retour = commande.ExecuteNonQuery();
+                conn.Close();
                 return retour;
             }
             catch (Exception e)
@@ -352,7 +391,9 @@ namespace ApplicationENI.DAL
                 commande.Parameters.AddWithValue("@codeT", epTitre.Titre);
                 commande.Parameters.AddWithValue("@codeS", epTitre.Salle);
                 commande.Parameters.AddWithValue("@date", epTitre.DateEpreuve);
+                
                 int retour = commande.ExecuteNonQuery();
+                conn.Close();
                 return retour;
             }
             catch (Exception e)
@@ -372,7 +413,9 @@ namespace ApplicationENI.DAL
                 string req = "delete from EpTitreJury where idJury=@id";
                 commande.CommandText = req;
                 commande.Parameters.AddWithValue("@id", idJury);
+                
                 int retour = commande.ExecuteNonQuery();
+                conn.Close();
             }
             catch(Exception ex)
             {
@@ -393,7 +436,9 @@ namespace ApplicationENI.DAL
                 string req = "delete from Jury where idJury=@jury";
                 commande.CommandText = req;
                 commande.Parameters.AddWithValue("@jury", idJury);
+                
                 int retour = commande.ExecuteNonQuery();
+                conn.Close();
                 return retour;
             }
             catch (Exception e)
@@ -435,6 +480,7 @@ namespace ApplicationENI.DAL
 
                         pt = new PassageTitre(codeTitre, codeStagiaire, date, obtenu, valide);
                     }
+                    connexion.Close();
 
                     return pt;
                 }
@@ -566,7 +612,9 @@ namespace ApplicationENI.DAL
                 commande.Parameters.AddWithValue("@isO", passageT.EstObtenu);
                 commande.Parameters.AddWithValue("@isV", passageT.EstValide);
 
-                return commande.ExecuteNonQuery();
+                int retour = commande.ExecuteNonQuery();
+                conn.Close();
+                return retour;
             }
             catch (Exception e)
             {
@@ -584,6 +632,7 @@ namespace ApplicationENI.DAL
             try
             {
                 SqlConnection connexion = ConnexionSQL.CreationConnexion();
+                int retour = -1;
 
                 if (connexion != null)
                 {
@@ -598,21 +647,23 @@ namespace ApplicationENI.DAL
 
                     if (b.HasValue)
                     {
-                        if(b.Value) return 3;
+                        if(b.Value) retour = 3;
                         else
                         {
                             b = false;
                             string reqValide = "select estValide from PASSAGETITRE where CodeStagiaire=@codeS and CodeTitre=@codeT";
                             commande.CommandText = reqValide;
                             b = (bool?)commande.ExecuteScalar();
-                            if(b.HasValue && b.Value) return 2;
-                            else return 1;
+                            if(b.HasValue && b.Value) retour = 2;
+                            else retour = 1;
                         } 
                     }
-                    else return 0;
+                    else retour = 0;
+
+                    connexion.Close();
                 }
 
-                return -1;
+                return retour;
             }
             catch (Exception e)
             {
@@ -638,7 +689,9 @@ namespace ApplicationENI.DAL
                     commande.CommandText = reqInfoF;
                     commande.Parameters.AddWithValue("@codeStagiaire", codeStagiaire);
 
-                    return (string)commande.ExecuteScalar();
+                    string s = (string)commande.ExecuteScalar();
+                    connexion.Close();
+                    return s;
                 }
 
                 return string.Empty;
@@ -666,6 +719,8 @@ namespace ApplicationENI.DAL
                     commande.Parameters.AddWithValue("@code", codeTitre);
                     SqlDataReader reader = commande.ExecuteReader();
                     while (reader.Read()) ld.Add(reader.GetDateTime(0));
+
+                    connexion.Close();
                 }
                 return ld;
             }
