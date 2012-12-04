@@ -270,6 +270,9 @@ namespace ApplicationENI
 
             Deselect_TreeviewItems(tvGlobalParam);
             Deselect_TreeviewItems(tvPersonParam);
+
+            this.MainGrid.Children.RemoveAt(0);
+            this.MainGrid.Children.Add(new Vue.AccueilGeneral());
         }
 
         #endregion
