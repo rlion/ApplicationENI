@@ -177,6 +177,7 @@ namespace ApplicationENI.Vue
             string stagName = _ctrlSyntheseECF.StagiaireEncours._civilité + " " + _ctrlSyntheseECF.StagiaireEncours._nom + " " + _ctrlSyntheseECF.StagiaireEncours._prenom;
 
             Rapports.SyntheseECF rapport = new Rapports.SyntheseECF(listeSessions, listeEvaluations, stagName);
+            rapport.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             rapport.Show();
         }
 
