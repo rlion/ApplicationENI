@@ -20,7 +20,7 @@ namespace ApplicationENI.Vue.PopUp
     /// </summary>
     public partial class ListeECF_Competences : Window
     {
-        //exemple : http://merill.net/2009/10/wpf-checked-listbox/
+        
 
         #region propriété + get/set
         //private List<SelectionCompetence> _listeCompetences;
@@ -31,16 +31,22 @@ namespace ApplicationENI.Vue.PopUp
         //}
         //private bool isInitAutoCompBox;
         private CtrlListeECF_Competences _ctrlListeECF_Competences = null;
+        private List<Competence> _lesCompetencesSelectionnees = null;
+        private ECF _EcfCourant = null;
+        private bool _EcfAdd = false;
         #endregion
 
         
 
         #region constructeur
-        public ListeECF_Competences()
+        public ListeECF_Competences(List<Competence> pLesCompetences, ECF pECfCourant, bool pEcfAdd)
         {
             InitializeComponent();
 
             _ctrlListeECF_Competences = new CtrlListeECF_Competences();
+            _lesCompetencesSelectionnees = pLesCompetences;
+            _EcfCourant = pECfCourant;
+            _EcfAdd = pEcfAdd;
 
             ActualiseAffichage(null);
 
@@ -66,7 +72,8 @@ namespace ApplicationENI.Vue.PopUp
                         CtrlListeECF_Competences.SelectionCompetence uneComp = new CtrlListeECF_Competences.SelectionCompetence();
                         uneComp.Competence = comp;
                         uneComp.IsChecked = false;
-                        if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).lbCompetences.Items.Contains(comp))
+                        //if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).lbCompetences.Items.Contains(comp))
+                        if (_lesCompetencesSelectionnees.Contains(comp))
                         {
                             uneComp.IsChecked = true;
                         }
@@ -99,7 +106,7 @@ namespace ApplicationENI.Vue.PopUp
         }
         private void btAjouter_Click(object sender, RoutedEventArgs e)
         {
-            AjoutECF_Competence ajoutCompetence = new AjoutECF_Competence();
+            AjoutECF_Competence ajoutCompetence = new AjoutECF_Competence(_EcfAdd);
             ajoutCompetence.ShowDialog();
 
             ActualiseAffichage(null);
@@ -133,21 +140,26 @@ namespace ApplicationENI.Vue.PopUp
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
             //On supprime tous les liens avec l'ECF courant
-            _ctrlListeECF_Competences.supprimerLiensCompetences(((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfCourant);
-            
-            //On recréé tous les liens avec les compétences sélectionnées
-            if (_ctrlListeECF_Competences.ListeCompetences!=null)
+            //_ctrlListeECF_Competences.supprimerLiensCompetences(((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfCourant);
+            String reponse = _ctrlListeECF_Competences.supprimerLiensCompetences(_EcfCourant);
+            if (reponse!="")
             {
-                foreach (CtrlListeECF_Competences.SelectionCompetence selComp in _ctrlListeECF_Competences.ListeCompetences)
+                MessageBox.Show(reponse, "Attention!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }else{
+                //On recréé tous les liens avec les compétences sélectionnées
+                if (_ctrlListeECF_Competences.ListeCompetences!=null)
                 {
-                    if (selComp.IsChecked)
+                    foreach (CtrlListeECF_Competences.SelectionCompetence selComp in _ctrlListeECF_Competences.ListeCompetences)
                     {
-                        _ctrlListeECF_Competences.ajouterLienCompetence(((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfCourant, selComp.Competence);
+                        if (selComp.IsChecked)
+                        {
+                            //_ctrlListeECF_Competences.ajouterLienCompetence(((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfCourant, selComp.Competence);
+                            _ctrlListeECF_Competences.ajouterLienCompetence(_EcfCourant, selComp.Competence);
+                        }
                     }
-                }
+                }            
+                Close();
             }
-            
-            Close();
         }
         private void btSelect_Click(object sender, RoutedEventArgs e)
         {

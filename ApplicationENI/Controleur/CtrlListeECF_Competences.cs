@@ -32,6 +32,7 @@ namespace ApplicationENI.Controleur
 
         #region classe spéciale SelectionCompetence
         //classe listant l'ensemble des compétences (avec coche si elle est liée à l'ECF courant)
+        //exemple : http://merill.net/2009/10/wpf-checked-listbox/
         public class SelectionCompetence
         {
             private Competence _competence;

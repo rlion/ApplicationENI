@@ -24,6 +24,7 @@ namespace ApplicationENI.Controleur
 
         #region classe spéciale SelectionFormation
         //classe listant l'ensemble des formations (avec coche si elle est liée à l'ECF courant)
+        //exemple : http://merill.net/2009/10/wpf-checked-listbox/
         public class SelectionFormation
         {
             private Formation _formation;

@@ -19,7 +19,11 @@ namespace ApplicationENI.Controleur
 
             GererItemAlarmesTemporairesNonCompletees(listeAbsences.Count(x => x._raison == ""));
 
-            GererItemAlarmesECFNonCorrigé(DAL.EvaluationsDAL.getListeECFsNonCorriges(Parametres.Instance.stagiaire).Count);
+            List<ECF> lesECFsNonCorriges=DAL.EvaluationsDAL.getListeECFsNonCorriges(Parametres.Instance.stagiaire);
+            if (lesECFsNonCorriges!=null)
+            {
+                GererItemAlarmesECFNonCorrigé(lesECFsNonCorriges.Count);
+            }            
 
             return listeDesAlertes;
         }

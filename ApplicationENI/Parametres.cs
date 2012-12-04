@@ -13,9 +13,10 @@ namespace ApplicationENI {
         public String password { get; set; }
         public Stagiaire stagiaire { get; set; }
         public InfosUtilisateur utilisateur { get; set; }
-
-        public Parametres() {
-        }
+        //public static Object _instanceFenetreEnCours { get; set; }
+        
+        //public Parametres() {
+        //}
 
         public static Parametres Instance {
             get {
@@ -27,6 +28,12 @@ namespace ApplicationENI {
                 }
             }
         }
+
+        //public static Object InstanceFenetreEnCours
+        //{
+        //    get { return instanceFenetre._instanceFenetreEnCours; }
+        //    set { instanceFenetre._instanceFenetreEnCours = value; }
+        //}
     }
 }
 

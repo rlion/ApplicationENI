@@ -145,7 +145,7 @@ namespace ApplicationENI.Vue
         {
             _ctrlGestionECF.EcfAdd = false;// on ne va pas ajouter un ECF (ie on ajoute une Competence)
             //Affichage de l'écran d'ajout
-            ListeECF_Competences ajoutCompetence = new ListeECF_Competences();
+            ListeECF_Competences ajoutCompetence = new ListeECF_Competences(((List<Competence>)lbCompetences.ItemsSource),_ctrlGestionECF.EcfCourant, _ctrlGestionECF.EcfAdd);
             ajoutCompetence.ShowDialog();
 
             //MAJ de l'affichage sur l'ECF courant
@@ -158,12 +158,15 @@ namespace ApplicationENI.Vue
             if (lbCompetences.SelectedItems!=null)
             {
                 foreach (Competence comp in lbCompetences.SelectedItems)
-                {
-                    _ctrlGestionECF.EcfCourant.Competences.Remove(comp);
+                {                    
                     String reponse = _ctrlGestionECF.supprimerLienCompetence(_ctrlGestionECF.EcfCourant, comp);
                     if (reponse != "")
                     {
                         MessageBox.Show(reponse, "Attention!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                    else
+                    {
+                        _ctrlGestionECF.EcfCourant.Competences.Remove(comp);
                     }
                 }
             }            
@@ -189,7 +192,7 @@ namespace ApplicationENI.Vue
         {
             //_ecfAdd = false;// on ne va pas ajouter un ECF (ie on ajoute une Competence)
             //Affichage de l'écran d'ajout
-            ListeECF_Formations ajoutFormation = new ListeECF_Formations();
+            ListeECF_Formations ajoutFormation = new ListeECF_Formations(((List<Formation>)lbFormations.ItemsSource),_ctrlGestionECF.EcfCourant);
             ajoutFormation.ShowDialog();
 
             //MAJ de l'affichage sur l'ECF courant
@@ -229,7 +232,7 @@ namespace ApplicationENI.Vue
         {
             _ctrlGestionECF.EcfAdd = true;// on va ajouter un ECF
             //Affichage de l'écran d'ajout
-            AjoutECF_Competence ajoutECF = new AjoutECF_Competence();
+            AjoutECF_Competence ajoutECF = new AjoutECF_Competence(_ctrlGestionECF.EcfAdd);
             ajoutECF.ShowDialog();
 
             //MAJ de l'affichage sur l'ECF créé

@@ -264,24 +264,27 @@ namespace ApplicationENI.DAL
             cmd.ExecuteReader();
             connexion.Close();
 
-            //Suppr des liens ECF-Competences si pas deja d'evaluation sur l'ECF
-            reponse = supprimerLiensCompetences(ecf);
+            if (AncienECF.Competences!=ecf.Competences)
+            {
+                //Suppr des liens ECF-Competences si pas deja d'evaluation sur l'ECF
+                reponse = supprimerLiensCompetences(ecf);
 
-            if (reponse != "")
-            {
-                return reponse;
-            }
-            else
-            {
-                //Création des liens ECF-Competences
-                if (ecf.Competences!=null)
+                if (reponse != "")
                 {
-                    foreach (Competence compTemp in ecf.Competences)
+                    return reponse;
+                }
+                else
+                {
+                    //Création des liens ECF-Competences
+                    if (ecf.Competences != null)
                     {
-                        ajouterLienCompetence(ecf, compTemp);
-                    }  
-                }                           
-            }            
+                        foreach (Competence compTemp in ecf.Competences)
+                        {
+                            ajouterLienCompetence(ecf, compTemp);
+                        }
+                    }
+                }
+            }                        
 
             //Suppr des liens ECF-Formations
             supprimerLiensFormations(ecf);

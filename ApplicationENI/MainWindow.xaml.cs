@@ -57,7 +57,6 @@ namespace ApplicationENI
             this.expandStagiaire.IsExpanded = false;
             this.MainGrid.Children.RemoveAt(0);
             Vue.GestionECF gestionECF = new Vue.GestionECF();
-            instanceFenetre.InstanceFenetreEnCours = gestionECF; 
             this.MainGrid.Children.Add(gestionECF);
         }
 
@@ -101,7 +100,6 @@ namespace ApplicationENI
             this.expandStagiaire.IsExpanded = true; 
             this.MainGrid.Children.RemoveAt(0);
             Vue.SyntheseECF syntheseECF = new Vue.SyntheseECF();
-            instanceFenetre.InstanceFenetreEnCours = syntheseECF;
             this.MainGrid.Children.Add(syntheseECF);
         }
 

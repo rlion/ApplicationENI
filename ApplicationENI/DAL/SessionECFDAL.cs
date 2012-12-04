@@ -210,7 +210,9 @@ namespace ApplicationENI.DAL
             cmd.Parameters.AddWithValue("@idSessionECF", sessionEcf.Id);
             cmd.Parameters.AddWithValue("@idECF", sessionEcf.Ecf.Id);
             cmd.Parameters.AddWithValue("@date", sessionEcf.Date);
-            cmd.Parameters.AddWithValue("@version", sessionEcf.Version);        
+            cmd.Parameters.AddWithValue("@version", sessionEcf.Version);
+
+            cmd.ExecuteReader();
 
             //participants
             if(sessionEcf.Participants != null)
@@ -227,14 +229,6 @@ namespace ApplicationENI.DAL
                         lesParticipantsNonAjoutes.Add(stagiaireNonAjoute);
                     }
                 }
-                if(sessionEcf.Participants.Count-lesParticipantsNonAjoutes.Count>0)
-                {
-                    cmd.ExecuteReader();
-                }
-            }
-            else
-            {
-                cmd.ExecuteReader();
             }
 
             connexion.Close();
@@ -272,7 +266,7 @@ namespace ApplicationENI.DAL
             connexion = ConnexionSQL.CreationConnexion();
             cmd = new SqlCommand(requete, connexion);
             cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id);
-            cmd.Parameters.AddWithValue("@date", pSessionECF.Date);
+            cmd.Parameters.AddWithValue("@date", pDate);
             cmd.Parameters.AddWithValue("@version", pSessionECF.Version);
             reader = cmd.ExecuteReader();
             
@@ -336,13 +330,13 @@ namespace ApplicationENI.DAL
             //verifier que le stagiaire n a pas deja de date planifiee pour cet ECF dans cette version
             String requete="SELECT idStagiaire from PARTICIPANTSSESSIONECF, SESSIONSECF " +
                 " WHERE PARTICIPANTSSESSIONECF.idSessionECF=SESSIONSECF.idSessionECF " +
-                " AND idECF=@idECF " +
+                " AND SESSIONSECF.idECF=@idECF " +
                 " AND PARTICIPANTSSESSIONECF.idStagiaire=@idStagiaire " +
-                " AND version=@version ";
+                " AND SESSIONSECF.version=@version ";
             SqlConnection connexion=ConnexionSQL.CreationConnexion();
             SqlCommand cmd =new SqlCommand(requete, connexion);
-            cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id);
-            cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf);
+            cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id);
+            cmd.Parameters.AddWithValue("@idStagiaire", pStagiaire._id);
             cmd.Parameters.AddWithValue("@version", pSessionECF.Version);
             SqlDataReader reader=cmd.ExecuteReader();
 

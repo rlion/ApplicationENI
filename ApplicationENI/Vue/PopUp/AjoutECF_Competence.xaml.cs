@@ -30,6 +30,7 @@ namespace ApplicationENI.Vue.PopUp
             get { return _ctrlAjoutECF_Competence; }
             set { _ctrlAjoutECF_Competence = value; }
         }
+        private bool _ecfAdd = false;
         #endregion
 
         #region get/set
@@ -51,14 +52,16 @@ namespace ApplicationENI.Vue.PopUp
         #endregion
 
         #region constructeur
-        public AjoutECF_Competence()
+        public AjoutECF_Competence(bool pEcfAdd)
         {
             InitializeComponent();
+
+            _ecfAdd = pEcfAdd;
 
             _ctrlAjoutECF_Competence = new CtrlAjoutECF_Competence();
             
             //ECF ou compétence?
-            if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfAdd)
+            if (_ecfAdd)
             {
                 _ctrlAjoutECF_Competence.ECFAdd = true;
                 Title = "Ajout d'un ECF";

@@ -137,7 +137,7 @@ namespace ApplicationENI.Vue
         private void btModDate_Click(object sender, RoutedEventArgs e)
         {
             _ctrlSyntheseECF.SessionSelectionnee = (SessionECF)((TreeViewItem)tvSynthese.SelectedItem).Header;
-            PopUp.ModifDateECF popUp = new PopUp.ModifDateECF();
+            PopUp.ModifDateECF popUp = new PopUp.ModifDateECF(_ctrlSyntheseECF.SessionSelectionnee);
             popUp.ShowDialog();
             _ctrlSyntheseECF.SessionSelectionnee = null;
             affichage();
@@ -146,7 +146,7 @@ namespace ApplicationENI.Vue
         private void btModNote_Click(object sender, RoutedEventArgs e)
         {
             _ctrlSyntheseECF.EvaluationSelectionnee = (Evaluation)((TreeViewItem)tvSynthese.SelectedItem).Header;
-            PopUp.ModifNoteECF popUp = new PopUp.ModifNoteECF();
+            PopUp.ModifNoteECF popUp = new PopUp.ModifNoteECF(_ctrlSyntheseECF.EvaluationSelectionnee);
             popUp.ShowDialog();
             _ctrlSyntheseECF.EvaluationSelectionnee = null;
             affichage();

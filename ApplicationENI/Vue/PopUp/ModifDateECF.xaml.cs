@@ -22,15 +22,17 @@ namespace ApplicationENI.Vue.PopUp
     {
         //SessionECF _sessionECF = null;
         //Stagiaire _stagaire = null;
-        CtrlModifDateECF _ctrlModifDateECF = null;
+        private CtrlModifDateECF _ctrlModifDateECF = null;
+        private SessionECF _sessionCourante = null;
 
-        public ModifDateECF()
+        public ModifDateECF(SessionECF pSessionCourante)
         {
             InitializeComponent();
 
             _ctrlModifDateECF = new CtrlModifDateECF();
+            _sessionCourante = pSessionCourante;
 
-            _ctrlModifDateECF.SessionECF = ((SyntheseECF)instanceFenetre.InstanceFenetreEnCours).CtrlSyntheseECF.SessionSelectionnee;
+            _ctrlModifDateECF.SessionECF = _sessionCourante;
             _ctrlModifDateECF.Stagaire = Parametres.Instance.stagiaire;
             
             dateSel.DisplayDateStart = DateTime.Now;
@@ -43,8 +45,12 @@ namespace ApplicationENI.Vue.PopUp
         {
             if (dateSel.SelectedDate != null && _ctrlModifDateECF.SessionECF.Date != (DateTime)dateSel.SelectedDate)
             {
-                _ctrlModifDateECF.modifierDateSessionECF_Stagiaire(_ctrlModifDateECF.Stagaire, _ctrlModifDateECF.SessionECF, (DateTime)dateSel.SelectedDate);
-                Close();
+                if ((DateTime)dateSel.SelectedDate!=_ctrlModifDateECF.SessionECF.Date)
+                {
+                    //TODO si il existe une note demande la suppression de cette note avec modification de la date
+                    _ctrlModifDateECF.modifierDateSessionECF_Stagiaire(_ctrlModifDateECF.Stagaire, _ctrlModifDateECF.SessionECF, (DateTime)dateSel.SelectedDate);
+                    Close();
+                }                
             }            
         }
 

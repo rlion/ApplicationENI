@@ -28,17 +28,21 @@ namespace ApplicationENI.Vue.PopUp
         //    get { return _listeFormations; }
         //    set { _listeFormations = value; }
         //}
-        CtrlListeECF_Formations _ctrlListeECF_Formations = null;
+        private CtrlListeECF_Formations _ctrlListeECF_Formations = null;
+        private List<Formation> _lesFormationsSelectionnees = null;
+        private ECF _ECFCourant = null;
         #endregion
 
         
 
         #region constructeur
-        public ListeECF_Formations()
+        public ListeECF_Formations(List<Formation> pLesFormationsSelectionnees, ECF pEcfCourant)
         {
             InitializeComponent();
 
             _ctrlListeECF_Formations = new CtrlListeECF_Formations();
+            _lesFormationsSelectionnees = pLesFormationsSelectionnees;
+            _ECFCourant = pEcfCourant;
             ActualiseAffichage(null);
 
             //autocbCompetence.ItemsSource = _listeCompetences;
@@ -63,7 +67,8 @@ namespace ApplicationENI.Vue.PopUp
                         CtrlListeECF_Formations.SelectionFormation uneForm = new CtrlListeECF_Formations.SelectionFormation();
                         uneForm.Formation = form;
                         uneForm.IsChecked = false;
-                        if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).lbFormations.Items.Contains(form))
+                        //if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).lbFormations.Items.Contains(form))
+                        if (_lesFormationsSelectionnees.Contains(form))
                         {
                             uneForm.IsChecked = true;
                         }
@@ -127,7 +132,7 @@ namespace ApplicationENI.Vue.PopUp
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
             //On supprime tous les liens avec l'ECF courant
-            _ctrlListeECF_Formations.supprimerLiensFormations(((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfCourant);
+            _ctrlListeECF_Formations.supprimerLiensFormations(_ECFCourant);
             
             //On recréé tous les liens avec les compétences sélectionnées
             //TODO eviter double appel
@@ -137,7 +142,7 @@ namespace ApplicationENI.Vue.PopUp
                 {
                     if (selForm.IsChecked)
                     {
-                        _ctrlListeECF_Formations.ajouterLienFormation(((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfCourant, selForm.Formation);
+                        _ctrlListeECF_Formations.ajouterLienFormation(_ECFCourant, selForm.Formation);
                     }
                 }
             }

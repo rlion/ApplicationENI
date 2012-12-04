@@ -425,32 +425,36 @@ namespace ApplicationENI.Vue
         private void btnAnnu_Click(object sender, RoutedEventArgs e)
         {
             tbNote.Background = Brushes.White;
-            Evaluation eval = _ctrlSaisieResultats.donneNote(_ctrlSaisieResultats.SessionECFcourant, (Stagiaire)lbStagiaires.SelectedItem, (Competence)lbCompetences.SelectedItem);
-            float noteSaisie; 
-            bool b = float.TryParse(tbNote.Text,out noteSaisie);
-            if (eval.Note!=noteSaisie)
+            if (_ctrlSaisieResultats.SessionECFcourant.Ecf!=null && _ctrlSaisieResultats.SessionECFcourant.Date!=DateTime.MinValue && _ctrlSaisieResultats.SessionECFcourant.Version!=0 && (Stagiaire)lbStagiaires.SelectedItem!=null && (Competence)lbCompetences.SelectedItem!=null)
             {
-                if (!_ctrlSaisieResultats.SessionECFcourant.Ecf.NotationNumerique)
+                Evaluation eval = _ctrlSaisieResultats.donneNote(_ctrlSaisieResultats.SessionECFcourant, (Stagiaire)lbStagiaires.SelectedItem, (Competence)lbCompetences.SelectedItem);
+                float noteSaisie;
+                bool b = float.TryParse(tbNote.Text, out noteSaisie);
+                if (eval.Note != noteSaisie)
                 {
-                    if (eval.Note == Ressources.CONSTANTES.NOTE_ACQUIS)
+                    if (!_ctrlSaisieResultats.SessionECFcourant.Ecf.NotationNumerique)
                     {
-                        rbAcquis.IsChecked = true;
+                        if (eval.Note == Ressources.CONSTANTES.NOTE_ACQUIS)
+                        {
+                            rbAcquis.IsChecked = true;
+                        }
+                        else if (eval.Note == Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION)
+                        {
+                            rbEnCours.IsChecked = true;
+                        }
+                        else if (eval.Note == Ressources.CONSTANTES.NOTE_NON_ACQUIS)
+                        {
+                            rbNonAcquis.IsChecked = true;
+                        }
                     }
-                    else if (eval.Note == Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION)
+                    else
                     {
-                        rbEnCours.IsChecked = true;
+                        tbNote.Text = eval.Note.ToString();
+                        tbNote.Focus();
                     }
-                    else if (eval.Note == Ressources.CONSTANTES.NOTE_NON_ACQUIS)
-                    {
-                        rbNonAcquis.IsChecked = true;
-                    }
-                }
-                else
-                {
-                    tbNote.Text = eval.Note.ToString();
-                    tbNote.Focus();
                 }
             }
+            
             //else
             //{
             //    _evaluationEnCours = null;

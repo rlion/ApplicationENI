@@ -23,15 +23,17 @@ namespace ApplicationENI.Vue.PopUp
         //Evaluation _evaluation = null;
         //Stagiaire _stagaire = null;
         //TODO regions
-        CtrlModifNoteECF _ctrlModifNoteECF = null;
+        private CtrlModifNoteECF _ctrlModifNoteECF = null;
+        private Evaluation _evaluationCourante = null;
 
-        public ModifNoteECF()
+        public ModifNoteECF(Evaluation pEvaluationCourante)
         {
             InitializeComponent();
 
             _ctrlModifNoteECF = new CtrlModifNoteECF();
+            _evaluationCourante = pEvaluationCourante;
 
-            _ctrlModifNoteECF.Evaluation = ((SyntheseECF)instanceFenetre.InstanceFenetreEnCours).CtrlSyntheseECF.EvaluationSelectionnee;
+            _ctrlModifNoteECF.Evaluation = _evaluationCourante;
             _ctrlModifNoteECF.Stagaire = Parametres.Instance.stagiaire;
 
             tbInfo.Text = "Modification note ECF : " + _ctrlModifNoteECF.Evaluation.Ecf.ToString() + "\n" + "Compétence : " + _ctrlModifNoteECF.Evaluation.Competence.ToString() + "\n" + "Stagiaire : " + _ctrlModifNoteECF.Stagaire.ToString();
