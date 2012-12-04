@@ -134,5 +134,60 @@ namespace ApplicationENI.DAL
                 return null;
             }
         }
+
+        //CodeAlerte -> 0:information, 1:avertissement, 2:erreur, 3:interdiction
+        public static List<ItemAlerte> GetListeAlertes()
+        {
+            try
+            {
+                List<ItemAlerte> listeAlertes = new List<ItemAlerte>();
+
+                SqlConnection connexion = ConnexionSQL.CreationConnexion();
+                if(connexion != null)
+                {
+                    SqlCommand commande = connexion.CreateCommand();
+
+                    //Nombre d'absences
+                    string reqAbsence = "SELECT count(*) from ABSENCE where CONVERT(date,dateDebut) = " +
+                        "CONVERT(date,GETDATE()) and (CONVERT(date,dateFin) > CONVERT(date,GETDATE())"+
+                        " or dateFin is null)";
+                    
+                    commande.CommandText = reqAbsence;
+                    int nbAbsences = (int)commande.ExecuteScalar();
+                    if(nbAbsences>0)
+                        listeAlertes.Add(new ItemAlerte(0,"Il y a "+nbAbsences+" nouveaux absents aujourd'hui",0));
+
+                    //Nombre de retards
+                    string reqRetard = "SELECT count(*) from ABSENCE where CONVERT(date,dateFin) = "+
+                                       "CONVERT(date,GETDATE()) and isAbsence=0";
+
+                    commande.CommandText = reqRetard;
+                    int nbRetards = (int)commande.ExecuteScalar();
+                    if(nbRetards > 0)
+                        listeAlertes.Add(new ItemAlerte(0, "Il y a " + nbRetards + " retards enregistrés aujourd'hui", 1));
+
+                    //Liste des ECFS
+                    List<SessionECF> listeECF = new List<SessionECF>();
+                    listeECF = EvaluationsDAL.getListeSessionsECFNONCorriges();
+                    if(listeECF != null)
+                    {
+                        foreach(SessionECF s in listeECF)
+                        {
+                            listeAlertes.Add(new ItemAlerte(1, "L'ECF " + s.Ecf.Libelle + " du " + s.Date.ToShortDateString() + " n'a pas encore été corrigé", 2));
+                        }
+                    }
+
+                    connexion.Close();
+                }
+
+                return listeAlertes;
+            }
+            catch(Exception e)
+            {
+                System.Windows.MessageBox.Show("Impossible de récupérer la liste des alertes : " + e.Message, 
+                    "Accueil général", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                return null;
+            }
+        }
     }
 }

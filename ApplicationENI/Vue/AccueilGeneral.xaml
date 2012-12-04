@@ -31,9 +31,15 @@
         <Label Content="Administrateur" Height="28" HorizontalAlignment="Left" Margin="136,81,0,0" Name="label7" VerticalAlignment="Top" Width="153" />
         <Label Content="05/06/2012" Height="28" HorizontalAlignment="Left" Margin="136,115,0,0" Name="label8" VerticalAlignment="Top" Width="119" />
         <GroupBox Header="Informations &amp; alertes" Margin="10,165,10,10" Name="groupBox1">
-            <ListView Margin="0,10,0,0" Name="listViewAlerte" Initialized="listViewAlerte_Initialized" 
-                  ItemTemplate="{StaticResource listAlertes}" SelectionChanged="listViewAlerte_SelectionChanged" Background="{x:Null}" SelectionMode="Single" UseLayoutRounding="True" BorderThickness="0">
-            </ListView>
+            <Grid>
+                <ListView Margin="0,10,0,20" Name="listViewAlerte" Initialized="listViewAlerte_Initialized" 
+                  ItemTemplate="{StaticResource listAlertes}" Background="{x:Null}" 
+                  SelectionMode="Single" UseLayoutRounding="True" BorderThickness="0">
+                </ListView>
+                <TextBlock Margin="0,0,10,3" HorizontalAlignment="Right" VerticalAlignment="Bottom" >
+                    <Hyperlink Name="hlinkRefresh" Click="hlinkRefresh_Click">Actualiser</Hyperlink>
+                </TextBlock>
+            </Grid>
         </GroupBox>
     </Grid>
 </UserControl>
