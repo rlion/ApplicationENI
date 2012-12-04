@@ -264,37 +264,71 @@ namespace ApplicationENI.DAL
             cmd.ExecuteReader();
             connexion.Close();
 
-            //Suppr des liens ECF-Competences
-            supprimerLiensCompetences(ecf);
+            //Suppr des liens ECF-Competences si pas deja d'evaluation sur l'ECF
+            reponse = supprimerLiensCompetences(ecf);
 
-            //Création des liens ECF-Competences
-            foreach (Competence compTemp in ecf.Competences)
+            if (reponse != "")
             {
-                ajouterLienCompetence(ecf, compTemp);
+                return reponse;
             }
+            else
+            {
+                //Création des liens ECF-Competences
+                if (ecf.Competences!=null)
+                {
+                    foreach (Competence compTemp in ecf.Competences)
+                    {
+                        ajouterLienCompetence(ecf, compTemp);
+                    }  
+                }                           
+            }            
 
             //Suppr des liens ECF-Formations
             supprimerLiensFormations(ecf);
 
             //Création des liens ECF-Competences
-            foreach (Formation formTemp in ecf.Formations)
+            if (ecf.Formations!=null)
             {
-                ajouterLienFormation(ecf, formTemp);
-            }
+                foreach (Formation formTemp in ecf.Formations)
+                {
+                    ajouterLienFormation(ecf, formTemp);
+                }
+            }            
 
             return "";
         }
 
-        public static void ajouterLienCompetence(ECF ecf, Competence comp)
+        public static String ajouterLienCompetence(ECF ecf, Competence comp)
         {
+            //Verifier que l'ECF n'a pas deja ete evalue
+            // Si c'est le cas, on ne peut plus en modifier les competences rattachees
+            String requete = "SELECT idECF FROM EVALUATION WHERE idECF=@idECF";
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(INSERT_LIEN_COMPETENCE, connexion);
-
+            SqlCommand cmd = new SqlCommand(requete, connexion);
             cmd.Parameters.AddWithValue("@idECF", ecf.Id);
-            cmd.Parameters.AddWithValue("@idCompetence", comp.Id);
+            SqlDataReader reader = cmd.ExecuteReader();
 
-            cmd.ExecuteReader();
-            connexion.Close();
+            if (reader.Read())
+            {
+                connexion.Close();
+
+                return "Vous ne pouvez plus modifier les compétences de cet ECF car il a déjà été évalué";
+            }
+            else
+            {
+                connexion.Close(); 
+                
+                connexion = ConnexionSQL.CreationConnexion();
+                cmd = new SqlCommand(INSERT_LIEN_COMPETENCE, connexion);
+
+                cmd.Parameters.AddWithValue("@idECF", ecf.Id);
+                cmd.Parameters.AddWithValue("@idCompetence", comp.Id);
+
+                cmd.ExecuteReader();
+                connexion.Close();
+
+                return "";
+            }
         }
 
         public static void ajouterLienFormation(ECF ecf, Formation form)
@@ -309,16 +343,37 @@ namespace ApplicationENI.DAL
             connexion.Close();
         }
 
-        public static void supprimerLienCompetence(ECF ecf, Competence comp)
+        public static String supprimerLienCompetence(ECF ecf, Competence comp)
         {
+            //Verifier que l'ECF n'a pas deja ete evalue
+            // Si c'est le cas, on ne peut plus en modifier les competences rattachees
+            String requete = "SELECT idECF FROM EVALUATION WHERE idECF=@idECF";
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(DELETE_LIEN_COMPETENCE, connexion);
-
+            SqlCommand cmd = new SqlCommand(requete, connexion);
             cmd.Parameters.AddWithValue("@idECF", ecf.Id);
-            cmd.Parameters.AddWithValue("@idCompetence", comp.Id);
+            SqlDataReader reader = cmd.ExecuteReader();
 
-            cmd.ExecuteReader();
-            connexion.Close();
+            if (reader.Read())
+            {
+                connexion.Close();
+
+                return "Vous ne pouvez plus modifier les compétences de cet ECF car il a déjà été évalué";
+            }
+            else
+            {
+                connexion.Close();
+                
+                connexion = ConnexionSQL.CreationConnexion();
+                cmd = new SqlCommand(DELETE_LIEN_COMPETENCE, connexion);
+
+                cmd.Parameters.AddWithValue("@idECF", ecf.Id);
+                cmd.Parameters.AddWithValue("@idCompetence", comp.Id);
+
+                cmd.ExecuteReader();
+                connexion.Close();
+
+                return "";
+            }
         }
         public static void supprimerLienFormation(ECF ecf, Formation form)
         {
@@ -332,15 +387,34 @@ namespace ApplicationENI.DAL
             connexion.Close();
         }
 
-        public static void supprimerLiensCompetences(ECF ecf)
+        public static String supprimerLiensCompetences(ECF ecf)
         {
+            //Verifier que l'ECF n'a pas deja ete evalue
+            // Si c'est le cas, on ne peut plus en modifier les competences rattachees
+            String requete = "SELECT idECF FROM EVALUATION WHERE idECF=@idECF";
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(DELETE_LIENS_COMPETENCES, connexion);
-
+            SqlCommand cmd = new SqlCommand(requete, connexion);
             cmd.Parameters.AddWithValue("@idECF", ecf.Id);
+            SqlDataReader reader = cmd.ExecuteReader();
 
-            cmd.ExecuteReader();
-            connexion.Close();
+            if (reader.Read())
+            {
+                connexion.Close();
+
+                return "Vous ne pouvez plus modifier les compétences de cet ECF car il a déjà été évalué";
+            }
+            else
+            {
+                connexion = ConnexionSQL.CreationConnexion();
+                cmd = new SqlCommand(DELETE_LIENS_COMPETENCES, connexion);
+
+                cmd.Parameters.AddWithValue("@idECF", ecf.Id);
+
+                cmd.ExecuteReader();
+                connexion.Close();
+
+                return "";
+            }
         }
 
         public static void supprimerLiensFormations(ECF ecf)

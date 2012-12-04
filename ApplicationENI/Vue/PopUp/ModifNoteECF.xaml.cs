@@ -20,18 +20,22 @@ namespace ApplicationENI.Vue.PopUp
     /// </summary>
     public partial class ModifNoteECF : Window
     {
-        Evaluation _evaluation = null;
-        Stagiaire _stagaire = null;
+        //Evaluation _evaluation = null;
+        //Stagiaire _stagaire = null;
+        //TODO regions
+        CtrlModifNoteECF _ctrlModifNoteECF = null;
 
         public ModifNoteECF()
         {
             InitializeComponent();
 
-            _evaluation = ((SyntheseECF)instanceFenetre.InstanceFenetreEnCours).EvaluationSelectionnee;
-            _stagaire=Parametres.Instance.stagiaire;
-            
-            tbInfo.Text= "Modification note ECF : " + _evaluation.Ecf.ToString() + "\n" + "Compétence : " + _evaluation.Competence.ToString() + "\n" + "Stagiaire : " + _stagaire.ToString();
-            if (_evaluation.Ecf.NotationNumerique)
+            _ctrlModifNoteECF = new CtrlModifNoteECF();
+
+            _ctrlModifNoteECF.Evaluation = ((SyntheseECF)instanceFenetre.InstanceFenetreEnCours).CtrlSyntheseECF.EvaluationSelectionnee;
+            _ctrlModifNoteECF.Stagaire = Parametres.Instance.stagiaire;
+
+            tbInfo.Text = "Modification note ECF : " + _ctrlModifNoteECF.Evaluation.Ecf.ToString() + "\n" + "Compétence : " + _ctrlModifNoteECF.Evaluation.Competence.ToString() + "\n" + "Stagiaire : " + _ctrlModifNoteECF.Stagaire.ToString();
+            if (_ctrlModifNoteECF.Evaluation.Ecf.NotationNumerique)
             {
                 rbAcquis.Visibility = Visibility.Hidden;
                 rbEnCours.Visibility = Visibility.Hidden;
@@ -39,9 +43,9 @@ namespace ApplicationENI.Vue.PopUp
                 tbNote.Visibility = Visibility.Visible;
                 lbSurVingt.Visibility = Visibility.Visible;
 
-                if (_evaluation.Note != -1)
+                if (_ctrlModifNoteECF.Evaluation.Note != -1)
                 {
-                    tbNote.Text = _evaluation.Note.ToString();
+                    tbNote.Text = _ctrlModifNoteECF.Evaluation.Note.ToString();
                 }
                 tbNote.Focus();
             }
@@ -53,17 +57,17 @@ namespace ApplicationENI.Vue.PopUp
                 tbNote.Visibility = Visibility.Hidden;
                 lbSurVingt.Visibility = Visibility.Hidden;
 
-                if (_evaluation.Note != -1)
+                if (_ctrlModifNoteECF.Evaluation.Note != -1)
                 {
-                    if (_evaluation.Note == Ressources.CONSTANTES.NOTE_ACQUIS)
+                    if (_ctrlModifNoteECF.Evaluation.Note == Ressources.CONSTANTES.NOTE_ACQUIS)
                     {
                         rbAcquis.IsChecked = true;
                     }
-                    else if (_evaluation.Note == Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION)
+                    else if (_ctrlModifNoteECF.Evaluation.Note == Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION)
                     {
                         rbEnCours.IsChecked = true;
                     }
-                    else if (_evaluation.Note == Ressources.CONSTANTES.NOTE_NON_ACQUIS)
+                    else if (_ctrlModifNoteECF.Evaluation.Note == Ressources.CONSTANTES.NOTE_NON_ACQUIS)
                     {
                         rbNonAcquis.IsChecked = true;
                     }
@@ -74,8 +78,8 @@ namespace ApplicationENI.Vue.PopUp
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
             float note=-1;
-            
-            if (_evaluation.Ecf.NotationNumerique)
+
+            if (_ctrlModifNoteECF.Evaluation.Ecf.NotationNumerique)
 	        {
                 float noteSaisie;
                 
@@ -109,7 +113,7 @@ namespace ApplicationENI.Vue.PopUp
 
             if (note != -1)
             {
-                CtrlGestionECF.modifierNoteEvaluation(_evaluation, note);
+                _ctrlModifNoteECF.modifierNoteEvaluation(_ctrlModifNoteECF.Evaluation, note);
                 Close();
             }    
         }

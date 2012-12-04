@@ -22,44 +22,23 @@ namespace ApplicationENI.Vue.PopUp
     {
 
         #region propriété + get/set
-        private List<SelectionFormation> _listeFormations;
-        private List<SelectionFormation> ListeFormations
-        {
-            get { return _listeFormations; }
-            set { _listeFormations = value; }
-        }
+        //private List<SelectionFormation> _listeFormations;
+        //private List<SelectionFormation> ListeFormations
+        //{
+        //    get { return _listeFormations; }
+        //    set { _listeFormations = value; }
+        //}
+        CtrlListeECF_Formations _ctrlListeECF_Formations = null;
         #endregion
 
-        #region classe spéciale SelectionFormation
-        //classe listant l'ensemble des formations (avec coche si elle est liée à l'ECF courant)
-        private class SelectionFormation
-        {
-            private Formation _formation;
-            private bool _isChecked;
-
-            public Formation Formation
-            {
-                get { return _formation; }
-                set { _formation = value; }
-            }
-            public bool IsChecked
-            {
-                get { return _isChecked; }
-                set { _isChecked = value; }
-            }
-
-            public override string ToString()
-            {
-                return _formation.Libelle;// +" - " + _competence.Libelle;
-            }
-        }
-        #endregion
+        
 
         #region constructeur
         public ListeECF_Formations()
         {
             InitializeComponent();
 
+            _ctrlListeECF_Formations = new CtrlListeECF_Formations();
             ActualiseAffichage(null);
 
             //autocbCompetence.ItemsSource = _listeCompetences;
@@ -68,32 +47,37 @@ namespace ApplicationENI.Vue.PopUp
         #endregion
 
         #region affichage
-        private void ActualiseAffichage(SelectionFormation pSf)
+        private void ActualiseAffichage(CtrlListeECF_Formations.SelectionFormation pSf)
         {
             //RAZ
             lbListeFormations.ItemsSource = null;//lbListeCompetences.Items.Clear();
-            _listeFormations = new List<SelectionFormation>();
+            _ctrlListeECF_Formations.ListeFormations = new List<CtrlListeECF_Formations.SelectionFormation>();
             if (pSf == null)
             {
-                //MAJ                
-                foreach (Formation form in CtrlGestionECF.getListFormations())
+                //MAJ        
+                //TODO eviter double appel getListForm
+                if (_ctrlListeECF_Formations.getListFormations()!=null)
                 {
-                    SelectionFormation uneForm = new SelectionFormation();
-                    uneForm.Formation = form;
-                    uneForm.IsChecked = false;
-                    if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).lbFormations.Items.Contains(form))
+                    foreach (Formation form in _ctrlListeECF_Formations.getListFormations())
                     {
-                        uneForm.IsChecked = true;
-                    }
+                        CtrlListeECF_Formations.SelectionFormation uneForm = new CtrlListeECF_Formations.SelectionFormation();
+                        uneForm.Formation = form;
+                        uneForm.IsChecked = false;
+                        if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).lbFormations.Items.Contains(form))
+                        {
+                            uneForm.IsChecked = true;
+                        }
 
-                    _listeFormations.Add(uneForm);
+                        _ctrlListeECF_Formations.ListeFormations.Add(uneForm);
+                    }
                 }
-                lbListeFormations.ItemsSource = _listeFormations;
+                
+                lbListeFormations.ItemsSource = _ctrlListeECF_Formations.ListeFormations;
             }
             else
             {
-                _listeFormations.Add(pSf);
-                lbListeFormations.ItemsSource = _listeFormations;
+                _ctrlListeECF_Formations.ListeFormations.Add(pSf);
+                lbListeFormations.ItemsSource = _ctrlListeECF_Formations.ListeFormations;
             }
             
         }
@@ -101,7 +85,7 @@ namespace ApplicationENI.Vue.PopUp
         {
             lbListeFormations.ItemsSource = null;
             lbListeFormations.Items.Clear();
-            lbListeFormations.ItemsSource = _listeFormations;
+            lbListeFormations.ItemsSource = _ctrlListeECF_Formations.ListeFormations;
         }
         #endregion
 
@@ -143,32 +127,45 @@ namespace ApplicationENI.Vue.PopUp
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
             //On supprime tous les liens avec l'ECF courant
-            CtrlGestionECF.supprimerLiensFormations(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant);
+            _ctrlListeECF_Formations.supprimerLiensFormations(((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfCourant);
             
             //On recréé tous les liens avec les compétences sélectionnées
-            foreach (SelectionFormation selForm in _listeFormations)
+            //TODO eviter double appel
+            if (_ctrlListeECF_Formations.ListeFormations!=null)
             {
-                if (selForm.IsChecked)
+                foreach (CtrlListeECF_Formations.SelectionFormation selForm in _ctrlListeECF_Formations.ListeFormations)
                 {
-                    CtrlGestionECF.ajouterLienFormation(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant, selForm.Formation);
+                    if (selForm.IsChecked)
+                    {
+                        _ctrlListeECF_Formations.ajouterLienFormation(((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfCourant, selForm.Formation);
+                    }
                 }
             }
+            
             Close();
         }
         private void btSelect_Click(object sender, RoutedEventArgs e)
         {
-            foreach (SelectionFormation selForm in _listeFormations)
+            if (_ctrlListeECF_Formations.ListeFormations!=null)
             {
-                selForm.IsChecked = true;
+                foreach (CtrlListeECF_Formations.SelectionFormation selForm in _ctrlListeECF_Formations.ListeFormations)
+                {
+                    selForm.IsChecked = true;
+                }
             }
+            
             refresh();
         }
         private void btDeselect_Click(object sender, RoutedEventArgs e)
         {
-            foreach (SelectionFormation selForm in _listeFormations)
+            if (_ctrlListeECF_Formations.ListeFormations!=null)
             {
-                selForm.IsChecked = false;
+                foreach (CtrlListeECF_Formations.SelectionFormation selForm in _ctrlListeECF_Formations.ListeFormations)
+                {
+                    selForm.IsChecked = false;
+                }
             }
+            
             refresh();
         }
 

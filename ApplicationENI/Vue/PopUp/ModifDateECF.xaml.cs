@@ -20,27 +20,30 @@ namespace ApplicationENI.Vue.PopUp
     /// </summary>
     public partial class ModifDateECF : Window
     {
-        SessionECF _sessionECF = null;
-        Stagiaire _stagaire = null;
+        //SessionECF _sessionECF = null;
+        //Stagiaire _stagaire = null;
+        CtrlModifDateECF _ctrlModifDateECF = null;
 
         public ModifDateECF()
         {
             InitializeComponent();
 
-            _sessionECF = ((SyntheseECF)instanceFenetre.InstanceFenetreEnCours).SessionSelectionnee;
-            _stagaire=Parametres.Instance.stagiaire;
+            _ctrlModifDateECF = new CtrlModifDateECF();
+
+            _ctrlModifDateECF.SessionECF = ((SyntheseECF)instanceFenetre.InstanceFenetreEnCours).CtrlSyntheseECF.SessionSelectionnee;
+            _ctrlModifDateECF.Stagaire = Parametres.Instance.stagiaire;
             
             dateSel.DisplayDateStart = DateTime.Now;
-            dateSel.SelectedDate = _sessionECF.Date;
-            
-            tbInfo.Text= "Modification session ECF : " + _sessionECF.ToString() + "\n" + "Stagiaire : " + _stagaire.ToString();
+            dateSel.SelectedDate = _ctrlModifDateECF.SessionECF.Date;
+
+            tbInfo.Text = "Modification session ECF : " + _ctrlModifDateECF.SessionECF.ToString() + "\n" + "Stagiaire : " + _ctrlModifDateECF.Stagaire.ToString();
         }
 
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
-            if (dateSel.SelectedDate != null && _sessionECF.Date != (DateTime)dateSel.SelectedDate)
+            if (dateSel.SelectedDate != null && _ctrlModifDateECF.SessionECF.Date != (DateTime)dateSel.SelectedDate)
             {
-                CtrlGestionECF.modifierDateSessionECF_Stagiaire(_stagaire,_sessionECF,(DateTime)dateSel.SelectedDate);
+                _ctrlModifDateECF.modifierDateSessionECF_Stagiaire(_ctrlModifDateECF.Stagaire, _ctrlModifDateECF.SessionECF, (DateTime)dateSel.SelectedDate);
                 Close();
             }            
         }

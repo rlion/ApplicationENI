@@ -20,44 +20,52 @@ namespace ApplicationENI.Vue.PopUp
     /// </summary>
     public partial class AjoutECF_Competence : Window
     {
-        #region propriétés
-        private bool _ecfAdd; //si true on est en train d'ajouter un ECF sinon une Competence
-        private ECF _ECF = null;
-        private Competence _competence = null;
+        #region Attribut
+        //private bool _ecfAdd; //si true on est en train d'ajouter un ECF sinon une Competence
+        //private ECF _ECF = null;
+        //private Competence _competence = null;
+        private CtrlAjoutECF_Competence _ctrlAjoutECF_Competence;
+        internal CtrlAjoutECF_Competence CtrlAjoutECF_Competence
+        {
+            get { return _ctrlAjoutECF_Competence; }
+            set { _ctrlAjoutECF_Competence = value; }
+        }
         #endregion
 
         #region get/set
-        public bool ECFAdd1
-        {
-            get { return _ecfAdd; }
-            set { _ecfAdd = value; }
-        }       
-        public ECF ECF
-        {
-            get { return _ECF; }
-            set { _ECF = value; }
-        }
-        public Competence Competence
-        {
-            get { return _competence; }
-            set { _competence = value; }
-        }
+        //public bool ECFAdd1
+        //{
+        //    get { return _ecfAdd; }
+        //    set { _ecfAdd = value; }
+        //}       
+        //public ECF ECF
+        //{
+        //    get { return _ECF; }
+        //    set { _ECF = value; }
+        //}
+        //public Competence Competence
+        //{
+        //    get { return _competence; }
+        //    set { _competence = value; }
+        //}
         #endregion
 
         #region constructeur
         public AjoutECF_Competence()
         {
             InitializeComponent();
+
+            _ctrlAjoutECF_Competence = new CtrlAjoutECF_Competence();
             
             //ECF ou compétence?
-            if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfAdd)
+            if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfAdd)
             {
-                _ecfAdd = true;
+                _ctrlAjoutECF_Competence.ECFAdd = true;
                 Title = "Ajout d'un ECF";
             }
             else
             {
-                _ecfAdd = false;
+                _ctrlAjoutECF_Competence.ECFAdd = false;
                 Title = "Ajout d'une compétence";
             }
             tbCode.Focus();
@@ -83,17 +91,17 @@ namespace ApplicationENI.Vue.PopUp
             if (tbCode.Text.Trim() != "" && tbLibelle.Text.Trim() != "")
             {
                 //ajout d'un ECF
-                if (_ecfAdd==true)
+                if (_ctrlAjoutECF_Competence.ECFAdd == true)
                 {
-                    _competence = null;
-                    _ECF = new ECF((tbCode.Text.Trim()).ToUpper(), tbLibelle.Text.Trim());
-                    message = CtrlGestionECF.ajouterECF(_ECF);                    
+                    _ctrlAjoutECF_Competence.Competence = null;
+                    _ctrlAjoutECF_Competence.ECF = new ECF((tbCode.Text.Trim()).ToUpper(), tbLibelle.Text.Trim());
+                    message = _ctrlAjoutECF_Competence.ajouterECF(_ctrlAjoutECF_Competence.ECF);                    
                 }
                 else //ajout d'une compétence
                 {
-                    _ECF = null;
-                    _competence = new Competence((tbCode.Text.Trim()).ToUpper(), tbLibelle.Text.Trim());
-                    message = CtrlGestionECF.ajouterCompetence(_competence);
+                    _ctrlAjoutECF_Competence.ECF = null;
+                    _ctrlAjoutECF_Competence.Competence = new Competence((tbCode.Text.Trim()).ToUpper(), tbLibelle.Text.Trim());
+                    message = _ctrlAjoutECF_Competence.ajouterCompetence(_ctrlAjoutECF_Competence.Competence);
                 }
 
                 //Gestion erreur

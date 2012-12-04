@@ -23,57 +23,69 @@ namespace ApplicationENI.Vue
     /// </summary>
     public partial class SyntheseECF : UserControl
     {
-        private Stagiaire _stagiaireEncours=null;
-        private List<SessionECF> _lesSessionsECFsStag=null;
-        private SessionECF _sessionSelectionnee = null;
+        //private Stagiaire _stagiaireEncours=null;
+        //private List<SessionECF> _lesSessionsECFsStag=null;
+        //private SessionECF _sessionSelectionnee = null;
 
-        public SessionECF SessionSelectionnee
-        {
-            get { return _sessionSelectionnee; }
-            set { _sessionSelectionnee = value; }
-        }
-        private Evaluation _evaluationSelectionnee = null;
+        //public SessionECF SessionSelectionnee
+        //{
+        //    get { return _sessionSelectionnee; }
+        //    set { _sessionSelectionnee = value; }
+        //}
+        //private Evaluation _evaluationSelectionnee = null;
 
-        public Evaluation EvaluationSelectionnee
+        //public Evaluation EvaluationSelectionnee
+        //{
+        //    get { return _evaluationSelectionnee; }
+        //    set { _evaluationSelectionnee = value; }
+        //}
+        CtrlSyntheseECF _ctrlSyntheseECF = null;
+
+        internal CtrlSyntheseECF CtrlSyntheseECF
         {
-            get { return _evaluationSelectionnee; }
-            set { _evaluationSelectionnee = value; }
+            get { return _ctrlSyntheseECF; }
+            set { _ctrlSyntheseECF = value; }
         }
         
         public SyntheseECF()
         {
             InitializeComponent();
 
+            _ctrlSyntheseECF = new CtrlSyntheseECF();
+
             affichage();
         }
 
         private void affichage()
         {
-            _stagiaireEncours = Parametres.Instance.stagiaire;
-            _lesSessionsECFsStag = CtrlGestionECF.getListSessionsECFStagiaire(_stagiaireEncours);
+            _ctrlSyntheseECF.StagiaireEncours = Parametres.Instance.stagiaire;
+            _ctrlSyntheseECF.LesSessionsECFsStag = _ctrlSyntheseECF.getListSessionsECFStagiaire(_ctrlSyntheseECF.StagiaireEncours);
 
             tvSynthese.Items.Clear();
 
-            if (_lesSessionsECFsStag != null)
+            if (_ctrlSyntheseECF.LesSessionsECFsStag != null)
             {
-                foreach (SessionECF sess in _lesSessionsECFsStag)
+                foreach (SessionECF sess in _ctrlSyntheseECF.LesSessionsECFsStag)
                 {
                     TreeViewItem tviSessionECF = new TreeViewItem();
                     tviSessionECF.Header = sess;
                     tvSynthese.Items.Add(tviSessionECF);
-                    foreach (Competence comp in sess.Ecf.Competences)
+                    if (sess.Ecf.Competences!=null)
                     {
-                        TreeViewItem tviCompetenceNote = new TreeViewItem();
-                        Evaluation eval = CtrlGestionECF.donneNote(sess, _stagiaireEncours, comp);
-
-                        tviCompetenceNote.Header = eval;
-                        tviSessionECF.Items.Add(tviCompetenceNote);
-                        if (eval.Note != -1)
+                        foreach (Competence comp in sess.Ecf.Competences)
                         {
-                            tviSessionECF.IsExpanded = true;
+                            TreeViewItem tviCompetenceNote = new TreeViewItem();
+                            Evaluation eval = _ctrlSyntheseECF.donneNote(sess, _ctrlSyntheseECF.StagiaireEncours, comp);
+
+                            tviCompetenceNote.Header = eval;
+                            tviSessionECF.Items.Add(tviCompetenceNote);
+                            if (eval.Note != -1)
+                            {
+                                tviSessionECF.IsExpanded = true;
+                            }
                         }
-                    }
-                    tvSynthese.Items.Add(null);//espacer les ECFs
+                        tvSynthese.Items.Add(null);//espacer les ECFs
+                    }                    
                 }
                 //foreach (TreeViewItem item in tvSynthese.Items)
                 //{
@@ -124,42 +136,45 @@ namespace ApplicationENI.Vue
 
         private void btModDate_Click(object sender, RoutedEventArgs e)
         {
-            _sessionSelectionnee = (SessionECF)((TreeViewItem)tvSynthese.SelectedItem).Header;
+            _ctrlSyntheseECF.SessionSelectionnee = (SessionECF)((TreeViewItem)tvSynthese.SelectedItem).Header;
             PopUp.ModifDateECF popUp = new PopUp.ModifDateECF();
             popUp.ShowDialog();
-            _sessionSelectionnee = null;
+            _ctrlSyntheseECF.SessionSelectionnee = null;
             affichage();
         }
 
         private void btModNote_Click(object sender, RoutedEventArgs e)
         {
-            _evaluationSelectionnee = (Evaluation)((TreeViewItem)tvSynthese.SelectedItem).Header;
+            _ctrlSyntheseECF.EvaluationSelectionnee = (Evaluation)((TreeViewItem)tvSynthese.SelectedItem).Header;
             PopUp.ModifNoteECF popUp = new PopUp.ModifNoteECF();
             popUp.ShowDialog();
-            _evaluationSelectionnee = null;
+            _ctrlSyntheseECF.EvaluationSelectionnee = null;
             affichage();
         }
 
         private void btExporter_Click(object sender, RoutedEventArgs e)
         {
-            _stagiaireEncours = Parametres.Instance.stagiaire;
+            _ctrlSyntheseECF.StagiaireEncours = Parametres.Instance.stagiaire;
 
-            List<SessionECF> listeSessions = CtrlGestionECF.getListSessionsECFStagiaire(_stagiaireEncours);
+            List<SessionECF> listeSessions = _ctrlSyntheseECF.getListSessionsECFStagiaire(_ctrlSyntheseECF.StagiaireEncours);
             List<Evaluation> listeEvaluations = new List<Evaluation>();
 
             if (listeSessions != null)
             {
                 foreach (SessionECF sess in listeSessions)
                 {
-                    foreach (Competence comp in sess.Ecf.Competences)
+                    if (sess.Ecf.Competences!=null)
                     {
-                        Evaluation eval = CtrlGestionECF.donneNote(sess, _stagiaireEncours, comp);
-                        if (eval != null) listeEvaluations.Add(eval);
-                    }
+                        foreach (Competence comp in sess.Ecf.Competences)
+                        {
+                            Evaluation eval = _ctrlSyntheseECF.donneNote(sess, _ctrlSyntheseECF.StagiaireEncours, comp);
+                            if (eval != null) listeEvaluations.Add(eval);
+                        }
+                    }                    
                 }
             }
 
-            string stagName = _stagiaireEncours._civilité + " " + _stagiaireEncours._nom + " " + _stagiaireEncours._prenom;
+            string stagName = _ctrlSyntheseECF.StagiaireEncours._civilité + " " + _ctrlSyntheseECF.StagiaireEncours._nom + " " + _ctrlSyntheseECF.StagiaireEncours._prenom;
 
             Rapports.SyntheseECF rapport = new Rapports.SyntheseECF(listeSessions, listeEvaluations, stagName);
             rapport.Show();

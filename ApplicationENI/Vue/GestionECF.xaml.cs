@@ -24,22 +24,27 @@ namespace ApplicationENI.Vue
     public partial class GestionECF : UserControl
     {
         #region Propriétés
-        private List<ECF> _listeECF = null;
-        private ECF _ecfCourant = null;        
-        //TODO? private bool _modif = false;
-        private bool _ecfAdd; //si true on est en train d'ajouter un ECF sinon une Competence
+        //private List<ECF> _listeECF = null; //liste de tous les ECFs
+        //private ECF _ecfCourant = null; //ecf selectionne         
+        //private bool _ecfAdd; //si true on est en train d'ajouter un ECF sinon une Competence
+        private CtrlGestionECF _ctrlGestionECF = null;        
         #endregion
 
         #region getter/setter
-        public bool EcfAdd
+        //public bool EcfAdd
+        //{
+        //    get { return _ecfAdd; }
+        //    set { _ecfAdd = value; }
+        //}
+        //public ECF EcfCourant
+        //{
+        //    get { return _ecfCourant; }
+        //    set { _ecfCourant = value; }
+        //}
+        public CtrlGestionECF CtrlGestionECF
         {
-            get { return _ecfAdd; }
-            set { _ecfAdd = value; }
-        }
-        public ECF EcfCourant
-        {
-            get { return _ecfCourant; }
-            set { _ecfCourant = value; }
+            get { return _ctrlGestionECF; }
+            set { _ctrlGestionECF = value; }
         }
         #endregion
 
@@ -47,6 +52,9 @@ namespace ApplicationENI.Vue
         public GestionECF()
         {
             InitializeComponent();
+
+            _ctrlGestionECF=new CtrlGestionECF();
+
             ActualiseAffichage(null);
         }
         #endregion
@@ -56,17 +64,21 @@ namespace ApplicationENI.Vue
             //RAZ de la combo
             cbECF.ItemsSource = null;//cbECF.Items.Clear();
             //recup de la liste d'ECF
-            _listeECF = CtrlGestionECF.getListECFs();
+            _ctrlGestionECF.ListeECF = _ctrlGestionECF.getListECFs();
             //peuplement de la combobox
-            cbECF.ItemsSource = _listeECF;
+            cbECF.ItemsSource = _ctrlGestionECF.ListeECF;
 
             //ECF courant (selectionné)
             if (pECFCourant != null)
             {
-                foreach (ECF ecf in _listeECF)
+                if (_ctrlGestionECF.ListeECF!=null)
                 {
-                    if (ecf.Id == pECFCourant.Id) pECFCourant = ecf;
+                    foreach (ECF ecf in _ctrlGestionECF.ListeECF)
+                    {
+                        if (ecf.Id == pECFCourant.Id) pECFCourant = ecf;
+                    }
                 }
+                
                 cbECF.SelectedItem = pECFCourant;
             }
         }
@@ -131,26 +143,33 @@ namespace ApplicationENI.Vue
         #region competences
         private void btAjoutCompetence_Click(object sender, RoutedEventArgs e)
         {
-            _ecfAdd = false;// on ne va pas ajouter un ECF (ie on ajoute une Competence)
+            _ctrlGestionECF.EcfAdd = false;// on ne va pas ajouter un ECF (ie on ajoute une Competence)
             //Affichage de l'écran d'ajout
             ListeECF_Competences ajoutCompetence = new ListeECF_Competences();
             ajoutCompetence.ShowDialog();
 
             //MAJ de l'affichage sur l'ECF courant
-            ActualiseAffichage(_ecfCourant);
-            afficheECF(_ecfCourant);//cbECF.SelectedItem = _ecfCourant;
+            ActualiseAffichage(_ctrlGestionECF.EcfCourant);
+            afficheECF(_ctrlGestionECF.EcfCourant);//cbECF.SelectedItem = _ecfCourant;
         }
         private void btSupprCompetence_Click(object sender, RoutedEventArgs e)
         {
             //Suppression des liens avec les compétences sélectionnées
-            foreach (Competence comp in lbCompetences.SelectedItems)
+            if (lbCompetences.SelectedItems!=null)
             {
-                _ecfCourant.Competences.Remove(comp);
-                CtrlGestionECF.supprimerLienCompetence(_ecfCourant, comp);
-            }
+                foreach (Competence comp in lbCompetences.SelectedItems)
+                {
+                    _ctrlGestionECF.EcfCourant.Competences.Remove(comp);
+                    String reponse = _ctrlGestionECF.supprimerLienCompetence(_ctrlGestionECF.EcfCourant, comp);
+                    if (reponse != "")
+                    {
+                        MessageBox.Show(reponse, "Attention!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
+                }
+            }            
 
             //MAJ de l'affichage de l'ECF courant
-            afficheECF(_ecfCourant);
+            afficheECF(_ctrlGestionECF.EcfCourant);
         }
         private void lbCompetences_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -174,20 +193,23 @@ namespace ApplicationENI.Vue
             ajoutFormation.ShowDialog();
 
             //MAJ de l'affichage sur l'ECF courant
-            ActualiseAffichage(_ecfCourant);
-            afficheECF(_ecfCourant);//cbECF.SelectedItem = _ecfCourant;
+            ActualiseAffichage(_ctrlGestionECF.EcfCourant);
+            afficheECF(_ctrlGestionECF.EcfCourant);//cbECF.SelectedItem = _ecfCourant;
         }
         private void btSupprFormation_Click(object sender, RoutedEventArgs e)
         {
             //Suppression des liens avec les formations sélectionnées
-            foreach (Formation form in lbFormations.SelectedItems)
+            if (lbFormations.SelectedItems!=null)
             {
-                _ecfCourant.Formations.Remove(form);
-                CtrlGestionECF.supprimerLienFormation(_ecfCourant, form);
-            }
+                foreach (Formation form in lbFormations.SelectedItems)
+                {
+                    _ctrlGestionECF.EcfCourant.Formations.Remove(form);
+                    _ctrlGestionECF.supprimerLienFormation(_ctrlGestionECF.EcfCourant, form);
+                }
+            }            
 
             //MAJ de l'affichage de l'ECF courant
-            afficheECF(_ecfCourant);
+            afficheECF(_ctrlGestionECF.EcfCourant);
         }
         private void lbFormations_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -205,27 +227,27 @@ namespace ApplicationENI.Vue
         #region ecf
         private void btAjoutECF_Click(object sender, RoutedEventArgs e)
         {
-            _ecfAdd = true;// on va ajouter un ECF
+            _ctrlGestionECF.EcfAdd = true;// on va ajouter un ECF
             //Affichage de l'écran d'ajout
             AjoutECF_Competence ajoutECF = new AjoutECF_Competence();
             ajoutECF.ShowDialog();
 
             //MAJ de l'affichage sur l'ECF créé
-            if (ajoutECF.ECF != null)
+            if (ajoutECF.CtrlAjoutECF_Competence.ECF != null)
             {
-                _ecfCourant = ajoutECF.ECF;
-                ActualiseAffichage(_ecfCourant);
-                afficheECF(_ecfCourant);
+                _ctrlGestionECF.EcfCourant = ajoutECF.CtrlAjoutECF_Competence.ECF;
+                ActualiseAffichage(_ctrlGestionECF.EcfCourant);
+                afficheECF(_ctrlGestionECF.EcfCourant);
             }
         }
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //MAJ de l'ECF courant
-            _ecfCourant = (ECF)cbECF.SelectedItem;
+            _ctrlGestionECF.EcfCourant = (ECF)cbECF.SelectedItem;
 
-            if (_ecfCourant != null)
+            if (_ctrlGestionECF.EcfCourant != null)
             {
-                afficheECF(_ecfCourant);
+                afficheECF(_ctrlGestionECF.EcfCourant);
                 btSupprECF.IsEnabled = true;
                 btSave.IsEnabled = true;
                 btCancel.IsEnabled = true;
@@ -240,17 +262,17 @@ namespace ApplicationENI.Vue
         private void btSave_Click(object sender, RoutedEventArgs e)
         {
             //Récup des propriétés saisies
-            _ecfCourant.Libelle = tbLibECF.Text.Trim();
-            _ecfCourant.NbreVersion = (int)slVersion.Value;
-            _ecfCourant.NotationNumerique = true;
+            _ctrlGestionECF.EcfCourant.Libelle = tbLibECF.Text.Trim();
+            _ctrlGestionECF.EcfCourant.NbreVersion = (int)slVersion.Value;
+            _ctrlGestionECF.EcfCourant.NotationNumerique = true;
             if (rbAcquisition.IsChecked == true)
             {
-                _ecfCourant.NotationNumerique = false;
+                _ctrlGestionECF.EcfCourant.NotationNumerique = false;
             }
-            _ecfCourant.Commentaire = tbCommECF.Text.Trim();
+            _ctrlGestionECF.EcfCourant.Commentaire = tbCommECF.Text.Trim();
 
             //Modification de l'ECF
-            String reponse = CtrlGestionECF.modifierECF(_ecfCourant);
+            String reponse = _ctrlGestionECF.modifierECF(_ctrlGestionECF.EcfCourant);
 
             if(reponse!="")
             {
@@ -265,7 +287,7 @@ namespace ApplicationENI.Vue
         {
             //TODO confirmer la suppression
             //Suppression de l'ECF courant
-            CtrlGestionECF.supprimerECF(_ecfCourant);
+            _ctrlGestionECF.supprimerECF(_ctrlGestionECF.EcfCourant);
 
             //MAJ de l'affichage
             RAZ();
@@ -285,10 +307,10 @@ namespace ApplicationENI.Vue
         {
             //_ecfCourant = ECFDAL.getECF(_ecfCourant);
             //MAJ de l'affichage
-            if (_ecfCourant != null)
+            if (_ctrlGestionECF.EcfCourant != null)
             {
                 RAZ();
-                ActualiseAffichage(_ecfCourant);
+                ActualiseAffichage(_ctrlGestionECF.EcfCourant);
             }
         }
 

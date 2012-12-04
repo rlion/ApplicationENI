@@ -74,11 +74,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controleur\CtrlAccueilGeneral.cs" />
+    <Compile Include="Controleur\CtrlAjoutECF_Competence.cs" />
+    <Compile Include="Controleur\CtrlAjoutSessionECF.cs" />
     <Compile Include="Controleur\CtrlGestionAbsences.cs" />
     <Compile Include="Controleur\CtrlGestionObservations.cs" />
     <Compile Include="Controleur\CtrlGestionPassageTitre.cs" />
     <Compile Include="Controleur\CtrlInscriptionTitre.cs" />
+    <Compile Include="Controleur\CtrlListeECF_Competences.cs" />
+    <Compile Include="Controleur\CtrlListeECF_Formations.cs" />
+    <Compile Include="Controleur\CtrlModifDateECF.cs" />
+    <Compile Include="Controleur\CtrlModifNoteECF.cs" />
     <Compile Include="Controleur\CtrlProfilAlertesStagiaire..cs" />
+    <Compile Include="Controleur\CtrlSaisieResultats.cs" />
+    <Compile Include="Controleur\CtrlSyntheseECF.cs" />
     <Compile Include="Controleur\CtrlTrombinoscope.cs" />
     <Compile Include="Controleur\CtrlGestionECF.cs" />
     <Compile Include="DAL\AbsencesDAL.cs">

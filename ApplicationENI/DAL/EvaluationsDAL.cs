@@ -175,25 +175,31 @@ namespace ApplicationENI.DAL
 
             //dans cette liste on récupère les ECFs déjà passés (date de passage<aujourd'hui)
             List<SessionECF> lesSessionsECFPassees = null;
-            foreach (SessionECF sess in lesSessionsECFStag)
+            if (lesSessionsECFStag!=null)
             {
-                if (sess.Date<DateTime.Now)  
+                foreach (SessionECF sess in lesSessionsECFStag)
                 {
-                    if (lesSessionsECFPassees == null) lesSessionsECFPassees = new List<SessionECF>();
-                    lesSessionsECFPassees.Add(sess);
+                    if (sess.Date < DateTime.Now)
+                    {
+                        if (lesSessionsECFPassees == null) lesSessionsECFPassees = new List<SessionECF>();
+                        lesSessionsECFPassees.Add(sess);
+                    }
                 }
-            }
+            }            
             
             //pour ceux dont la date est passée il faut vérifier si toutes les compétences ont été évaluées
             List<ECF> lesECFsNonCorriges = null;
-            foreach (SessionECF sessionEcfPassee in lesSessionsECFPassees)
+            if (lesSessionsECFPassees!=null)
             {
-                if (!SessionECFDAL.SessionECFCorrigee(sessionEcfPassee,pStag))
+                foreach (SessionECF sessionEcfPassee in lesSessionsECFPassees)
                 {
-                    if (lesECFsNonCorriges == null) lesECFsNonCorriges = new List<ECF>();
-                    lesECFsNonCorriges.Add(sessionEcfPassee.Ecf);
+                    if (!SessionECFDAL.SessionECFCorrigee(sessionEcfPassee, pStag))
+                    {
+                        if (lesECFsNonCorriges == null) lesECFsNonCorriges = new List<ECF>();
+                        lesECFsNonCorriges.Add(sessionEcfPassee.Ecf);
+                    }
                 }
-            }
+            }            
 
             return lesECFsNonCorriges;
         }

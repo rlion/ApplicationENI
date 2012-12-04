@@ -222,20 +222,26 @@ namespace ApplicationENI.Modele
                 this.Competences.Count() == ((ECF)obj).Competences.Count) b = true;
 
             if (b) {
-                foreach (Competence comp in ((ECF)obj).Competences)
+                if (((ECF)obj).Competences!=null)
                 {
-                    if (!comp.Equals(this.Competences[i])) b=false;
-                    i++;
-                }
+                    foreach (Competence comp in ((ECF)obj).Competences)
+                    {
+                        if (!comp.Equals(this.Competences[i])) b=false;
+                        i++;
+                    }
+                }                
             }
 
             if (b)
             {
-                foreach (Formation form in ((ECF)obj).Formations)
+                if (((ECF)obj).Formations!=null)
                 {
-                    if (!form.Equals(this.Formations[j])) b = false;
-                    j++;
-                }
+                    foreach (Formation form in ((ECF)obj).Formations)
+                    {
+                        if (!form.Equals(this.Formations[j])) b = false;
+                        j++;
+                    }
+                }                
             }
 
             return b;

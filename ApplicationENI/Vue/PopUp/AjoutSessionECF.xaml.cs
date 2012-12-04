@@ -20,15 +20,17 @@ namespace ApplicationENI.Vue.PopUp
     /// </summary>
     public partial class AjoutSessionECF : Window
     {
-        private SessionECF _sessionECF = null;
-        private List<SessionECF> _listeECFPlanif = null;
-        private List<DateTime> _planif = null;
+        //private SessionECF _sessionECF = null;
+        //private List<SessionECF> _listeECFPlanif = null;
+        //private List<DateTime> _planif = null;
+        private CtrlAjoutSessionECF _ctrlAjoutSessionECF = null;
         
         public AjoutSessionECF()
         {
             InitializeComponent();
+            _ctrlAjoutSessionECF = new CtrlAjoutSessionECF();
 
-            cbECF.ItemsSource = CtrlGestionECF.getListECFs();
+            cbECF.ItemsSource = _ctrlAjoutSessionECF.getListECFs();
         }
 
         
@@ -36,17 +38,17 @@ namespace ApplicationENI.Vue.PopUp
         //1 Selection de l'ECF
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _sessionECF = new SessionECF();
-            _sessionECF.Ecf = (ECF)cbECF.SelectedItem;
+            _ctrlAjoutSessionECF.SessionECF= new SessionECF();
+            _ctrlAjoutSessionECF.SessionECF.Ecf = (ECF)cbECF.SelectedItem;
 
             affichage();
         }
         //2 Selection de la version
         private void cbVersions_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _sessionECF.Date = DateTime.MinValue;
-            _sessionECF.Version = (int)cbVersions.SelectedItem;
-            _listeECFPlanif = CtrlGestionECF.getListSessionsECFVersion(_sessionECF.Ecf, _sessionECF.Version);
+            _ctrlAjoutSessionECF.SessionECF.Date = DateTime.MinValue;
+            _ctrlAjoutSessionECF.SessionECF.Version = (int)cbVersions.SelectedItem;
+            _ctrlAjoutSessionECF.ListeECFPlanif = _ctrlAjoutSessionECF.getListSessionsECFVersion(_ctrlAjoutSessionECF.SessionECF.Ecf, _ctrlAjoutSessionECF.SessionECF.Version);
             affichage();
         }
 
@@ -55,29 +57,29 @@ namespace ApplicationENI.Vue.PopUp
             btValider.IsEnabled = false;
             
             //La date et la version sont choisies
-            if (_sessionECF.Version != 0 && _sessionECF.Date != DateTime.MinValue)
+            if (_ctrlAjoutSessionECF.SessionECF.Version != 0 && _ctrlAjoutSessionECF.SessionECF.Date != DateTime.MinValue)
             {
                 chargerStagiaires();
 
-                if (_sessionECF.Id == 0)
+                if (_ctrlAjoutSessionECF.SessionECF.Id == 0)
                 {
-                    lbDateSession.Content = "Création épreuve du " + _sessionECF.Date.ToShortDateString();
+                    lbDateSession.Content = "Création épreuve du " + _ctrlAjoutSessionECF.SessionECF.Date.ToShortDateString();
                     lbParticipants.ItemsSource = null;
                 }
                 else
                 {
-                    lbDateSession.Content = "Modification épreuve du " + _sessionECF.Date.ToShortDateString();
+                    lbDateSession.Content = "Modification épreuve du " + _ctrlAjoutSessionECF.SessionECF.Date.ToShortDateString();
                     chargerParticipants();
                 }
                 btValider.IsEnabled = true;
                     
             }
             //La version est choisie (mais pas la date)
-            else if (_sessionECF.Version != 0 && _sessionECF.Date == DateTime.MinValue)
+            else if (_ctrlAjoutSessionECF.SessionECF.Version != 0 && _ctrlAjoutSessionECF.SessionECF.Date == DateTime.MinValue)
             {
                 affichageCalendrier(DateTime.MinValue);
 
-                _sessionECF.Date = DateTime.MinValue;
+                _ctrlAjoutSessionECF.SessionECF.Date = DateTime.MinValue;
 
                 lbDateSession.Content = "";
                 lbStagiaires.ItemsSource = null;
@@ -94,11 +96,11 @@ namespace ApplicationENI.Vue.PopUp
             else
             {
                 chargerVersions();
-                
-                _sessionECF.Date = DateTime.MinValue;
-                _sessionECF.Version = 0;
-                _planif = null;
-                _listeECFPlanif = null;
+
+                _ctrlAjoutSessionECF.SessionECF.Date = DateTime.MinValue;
+                _ctrlAjoutSessionECF.SessionECF.Version = 0;
+                _ctrlAjoutSessionECF.Planif = null;
+                _ctrlAjoutSessionECF.ListeECFPlanif = null;
                 calendrier.IsEnabled = false;
                 calendrier.SelectedDates.Clear();
 
@@ -121,28 +123,39 @@ namespace ApplicationENI.Vue.PopUp
             chkFC.IsChecked = true;
             cbFormation.Items.Clear();
             cbFormation.Items.Add(new Formation("0", "Toutes"));
-            foreach (Formation form in _sessionECF.Ecf.Formations)
+            if (_ctrlAjoutSessionECF.SessionECF.Ecf.Formations!=null)
             {
-                cbFormation.Items.Add(form);
+                foreach (Formation form in _ctrlAjoutSessionECF.SessionECF.Ecf.Formations)
+                {
+                    cbFormation.Items.Add(form);
+                }
             }
-            lbStagiaires.ItemsSource = CtrlGestionECF.getListeStagiaires();
+            
+            lbStagiaires.ItemsSource = _ctrlAjoutSessionECF.getListeStagiaires();
         }
         private void affichageCalendrier(DateTime dateSelectionnee)
         {
             calendrier.IsEnabled = true;
-            _planif = new List<DateTime>();
-            foreach (SessionECF sess in _listeECFPlanif)
+            _ctrlAjoutSessionECF.Planif = new List<DateTime>();
+            if (_ctrlAjoutSessionECF.ListeECFPlanif!=null)
             {
-                _planif.Add(sess.Date);
+                foreach (SessionECF sess in _ctrlAjoutSessionECF.ListeECFPlanif)
+                {
+                    _ctrlAjoutSessionECF.Planif.Add(sess.Date);
+                }
             }
+            
             //calendrier
             //Pour éviter les boucles infinies, on se désabonne momentanément à l'event
             calendrier.SelectedDatesChanged -= calendrier_SelectedDatesChanged;
             calendrier.SelectedDates.Clear();
-            foreach (DateTime date in _planif)
+            if (_ctrlAjoutSessionECF.Planif!=null)
             {
-                calendrier.SelectedDates.Add(date);
-            }
+                foreach (DateTime date in _ctrlAjoutSessionECF.Planif)
+                {
+                    calendrier.SelectedDates.Add(date);
+                }
+            }            
             calendrier.SelectedDates.Add(dateSelectionnee);
 
             //Pour éviter les boucles infinies, on se désabonne momentanément à l'event
@@ -153,7 +166,7 @@ namespace ApplicationENI.Vue.PopUp
             cbVersions.IsEnabled = true;
             cbVersions.SelectionChanged -= cbVersions_SelectionChanged;
             cbVersions.Items.Clear();
-            for (int i = 1; i <= _sessionECF.Ecf.NbreVersion; i++)
+            for (int i = 1; i <= _ctrlAjoutSessionECF.SessionECF.Ecf.NbreVersion; i++)
             {
                 cbVersions.Items.Add(i);
             }
@@ -169,23 +182,23 @@ namespace ApplicationENI.Vue.PopUp
             //On remet les dates planifiées
             affichageCalendrier(dateSel);
 
-            if (!_planif.Contains(dateSel))
+            if (!_ctrlAjoutSessionECF.Planif.Contains(dateSel))
             {
                 //création d'une planif
-                _sessionECF.Id = 0;
-                _sessionECF.Date = dateSel;
+                _ctrlAjoutSessionECF.SessionECF.Id = 0;
+                _ctrlAjoutSessionECF.SessionECF.Date = dateSel;
             }
             else
             {
-                _sessionECF.Date = dateSel;
-                _sessionECF.Id = CtrlGestionECF.donneIdSessionECF(_sessionECF.Ecf, _sessionECF.Date, _sessionECF.Version);
+                _ctrlAjoutSessionECF.SessionECF.Date = dateSel;
+                _ctrlAjoutSessionECF.SessionECF.Id = _ctrlAjoutSessionECF.donneIdSessionECF(_ctrlAjoutSessionECF.SessionECF.Ecf, _ctrlAjoutSessionECF.SessionECF.Date, _ctrlAjoutSessionECF.SessionECF.Version);
             }
             affichage();
         }
 
         private void chargerParticipants()
         {
-            lbParticipants.ItemsSource = CtrlGestionECF.getListParticipants(_sessionECF);
+            lbParticipants.ItemsSource = _ctrlAjoutSessionECF.getListParticipants(_ctrlAjoutSessionECF.SessionECF);
         }
 
         private void btValider_Click(object sender, RoutedEventArgs e)
@@ -194,18 +207,22 @@ namespace ApplicationENI.Vue.PopUp
             List<Stagiaire> lesParticipantsNonAjoutes = null;
             
             //Nouvelle sessionECF
-            if (_sessionECF.Id == 0)
+            if (_ctrlAjoutSessionECF.SessionECF.Id == 0)
             {
                 if (lbParticipants.HasItems)
                 {
                     listeParticipants = new List<Stagiaire>();
-                    foreach (Stagiaire stag in lbParticipants.Items)
+                    if (lbParticipants.Items!=null)
                     {
-                        listeParticipants.Add(stag);
+                        foreach (Stagiaire stag in lbParticipants.Items)
+                        {
+                            listeParticipants.Add(stag);
+                        }
                     }
-                    _sessionECF.Participants = listeParticipants;
+                    
+                    _ctrlAjoutSessionECF.SessionECF.Participants = listeParticipants;
                 }
-                lesParticipantsNonAjoutes = CtrlGestionECF.ajouterSessionECF(_sessionECF);
+                lesParticipantsNonAjoutes = _ctrlAjoutSessionECF.ajouterSessionECF(_ctrlAjoutSessionECF.SessionECF);
             }
             else
             //Modification sessionECF
@@ -213,29 +230,40 @@ namespace ApplicationENI.Vue.PopUp
                 if (lbParticipants.HasItems)
                 {
                     listeParticipants = new List<Stagiaire>();
-                    foreach (Stagiaire stag in lbParticipants.Items)
+                    if (lbParticipants.Items!=null)
                     {
-                        listeParticipants.Add(stag);
+                        foreach (Stagiaire stag in lbParticipants.Items)
+                        {
+                            listeParticipants.Add(stag);
+                        }
                     }
-                    _sessionECF.Participants = listeParticipants;
+                    
+                    _ctrlAjoutSessionECF.SessionECF.Participants = listeParticipants;
                 }
-                lesParticipantsNonAjoutes = CtrlGestionECF.ajouterParticipants(_sessionECF);
+                lesParticipantsNonAjoutes = _ctrlAjoutSessionECF.ajouterParticipants(_ctrlAjoutSessionECF.SessionECF);
             }
 
             if(lesParticipantsNonAjoutes!=null)
             {
                 String reponse="Les stagiaires suivants n'ont pas pu être ajoutés car ils ont déjà effectué cette ECF dans la même version :";
-                foreach(Stagiaire stagiaireNonAjoute in lesParticipantsNonAjoutes)
+                if (lesParticipantsNonAjoutes!=null)
                 {
-                    foreach(Stagiaire stag in listeParticipants)
+                    foreach (Stagiaire stagiaireNonAjoute in lesParticipantsNonAjoutes)
                     {
-                        if(stag==stagiaireNonAjoute)
+                        if (listeParticipants!=null)
                         {
-                            listeParticipants.Remove(stag);
-                        }
-                        reponse += "\n" + stagiaireNonAjoute.ToString();
+                            foreach (Stagiaire stag in listeParticipants)
+                            {
+                                if (stag == stagiaireNonAjoute)
+                                {
+                                    listeParticipants.Remove(stag);
+                                }
+                                reponse += "\n" + stagiaireNonAjoute.ToString();
+                            }
+                        }                        
                     }
                 }
+                
                 MessageBox.Show(reponse,"Attention", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
 
@@ -265,30 +293,34 @@ namespace ApplicationENI.Vue.PopUp
             lbStagiaires.ItemsSource = null;
             if (chkCP.IsChecked == true && chkFC.IsChecked == true)
             {
-                lbStagiaires.ItemsSource = CtrlGestionECF.getListeStagiaires((Formation)cbFormation.SelectedItem, Ressources.CONSTANTES.TYPE_FORMATION_TOUS, tbNomPrenom.Text);
+                lbStagiaires.ItemsSource = _ctrlAjoutSessionECF.getListeStagiaires((Formation)cbFormation.SelectedItem, Ressources.CONSTANTES.TYPE_FORMATION_TOUS, tbNomPrenom.Text);
             }
             else if (chkCP.IsChecked == true && chkFC.IsChecked == false)
             {
-                lbStagiaires.ItemsSource = CtrlGestionECF.getListeStagiaires((Formation)cbFormation.SelectedItem, Ressources.CONSTANTES.TYPE_FORMATION_CP, tbNomPrenom.Text);
+                lbStagiaires.ItemsSource = _ctrlAjoutSessionECF.getListeStagiaires((Formation)cbFormation.SelectedItem, Ressources.CONSTANTES.TYPE_FORMATION_CP, tbNomPrenom.Text);
             }
             else if (chkCP.IsChecked == false && chkFC.IsChecked == true)
             {
-                lbStagiaires.ItemsSource = CtrlGestionECF.getListeStagiaires((Formation)cbFormation.SelectedItem, Ressources.CONSTANTES.TYPE_FORMATION_FC, tbNomPrenom.Text);
+                lbStagiaires.ItemsSource = _ctrlAjoutSessionECF.getListeStagiaires((Formation)cbFormation.SelectedItem, Ressources.CONSTANTES.TYPE_FORMATION_FC, tbNomPrenom.Text);
             }
         }
 
         private void btAjouter_Click(object sender, RoutedEventArgs e)
         {
             List<Stagiaire> listeParticipants =(List<Stagiaire>)lbParticipants.ItemsSource;
-            
-            foreach (Stagiaire stag in lbStagiaires.SelectedItems)
-            {
-                if (listeParticipants == null) listeParticipants = new List<Stagiaire>();
 
-                if(!listeParticipants.Contains(stag)){
-                    listeParticipants.Add(stag);
+            if (lbStagiaires.SelectedItems!=null)
+            {
+                foreach (Stagiaire stag in lbStagiaires.SelectedItems)
+                {
+                    if (listeParticipants == null) listeParticipants = new List<Stagiaire>();
+
+                    if (!listeParticipants.Contains(stag))
+                    {
+                        listeParticipants.Add(stag);
+                    }
                 }
-            }
+            }            
 
             //a tester si mm nom mais prenom different
             //http://www.developerfusion.com/code/5513/sorting-and-searching-using-c-lists/
@@ -306,12 +338,16 @@ namespace ApplicationENI.Vue.PopUp
 
         private void btEnlever_Click(object sender, RoutedEventArgs e)
         {
-            List<Stagiaire> listeParticipants = (List<Stagiaire>)lbParticipants.ItemsSource; 
-            
-            foreach (Stagiaire stag in lbParticipants.SelectedItems)
+            List<Stagiaire> listeParticipants = (List<Stagiaire>)lbParticipants.ItemsSource;
+
+            if (lbParticipants.SelectedItems!=null)
             {
-                listeParticipants.Remove(stag);
+                foreach (Stagiaire stag in lbParticipants.SelectedItems)
+                {
+                    listeParticipants.Remove(stag);
+                }
             }
+            
             lbParticipants.ItemsSource = null;
             lbParticipants.ItemsSource = listeParticipants;
         }

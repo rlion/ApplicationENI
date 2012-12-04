@@ -23,79 +23,64 @@ namespace ApplicationENI.Vue.PopUp
         //exemple : http://merill.net/2009/10/wpf-checked-listbox/
 
         #region propriété + get/set
-        private List<SelectionCompetence> _listeCompetences;
-        private List<SelectionCompetence> ListeCompetences
-        {
-            get { return _listeCompetences; }
-            set { _listeCompetences = value; }
-        }
-        private bool isInitAutoCompBox;
+        //private List<SelectionCompetence> _listeCompetences;
+        //private List<SelectionCompetence> ListeCompetences
+        //{
+        //    get { return _listeCompetences; }
+        //    set { _listeCompetences = value; }
+        //}
+        //private bool isInitAutoCompBox;
+        private CtrlListeECF_Competences _ctrlListeECF_Competences = null;
         #endregion
 
-        #region classe spéciale SelectionCompetence
-        //classe listant l'ensemble des compétences (avec coche si elle est liée à l'ECF courant)
-        private class SelectionCompetence 
-        {
-            private Competence _competence;           
-            private bool _isChecked;
-
-            public Competence Competence
-            {
-                get { return _competence; }
-                set { _competence = value; }
-            }
-            public bool IsChecked
-            {
-                get { return _isChecked; }
-                set { _isChecked = value; }
-            }
-
-            public override string ToString()
-            {
-                return _competence.Code + " - " + _competence.Libelle;
-            }
-        }
-        #endregion
+        
 
         #region constructeur
         public ListeECF_Competences()
         {
             InitializeComponent();
 
+            _ctrlListeECF_Competences = new CtrlListeECF_Competences();
+
             ActualiseAffichage(null);
 
-            acbCompetence.ItemsSource = _listeCompetences;
-            isInitAutoCompBox = true;
+            acbCompetence.ItemsSource = _ctrlListeECF_Competences.ListeCompetences;
+            _ctrlListeECF_Competences.IsInitAutoCompBox = true;
         }
         #endregion
 
         #region affichage
-        private void ActualiseAffichage(SelectionCompetence pSc)
+        private void ActualiseAffichage(CtrlListeECF_Competences.SelectionCompetence pSc)
         {
             //RAZ
             lbListeCompetences.ItemsSource = null;//lbListeCompetences.Items.Clear();
-            _listeCompetences = new List<SelectionCompetence>();
+            _ctrlListeECF_Competences.ListeCompetences = new List<CtrlListeECF_Competences.SelectionCompetence>();
             if (pSc == null)
             {
                 //MAJ                
-                foreach (Competence comp in CtrlGestionECF.getListCompetences())
+                //TODO double appel
+                if (_ctrlListeECF_Competences.getListCompetences()!=null)
                 {
-                    SelectionCompetence uneComp = new SelectionCompetence();
-                    uneComp.Competence = comp;
-                    uneComp.IsChecked = false;
-                    if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).lbCompetences.Items.Contains(comp))
+                    foreach (Competence comp in _ctrlListeECF_Competences.getListCompetences())
                     {
-                        uneComp.IsChecked = true;
-                    }
+                        CtrlListeECF_Competences.SelectionCompetence uneComp = new CtrlListeECF_Competences.SelectionCompetence();
+                        uneComp.Competence = comp;
+                        uneComp.IsChecked = false;
+                        if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).lbCompetences.Items.Contains(comp))
+                        {
+                            uneComp.IsChecked = true;
+                        }
 
-                    _listeCompetences.Add(uneComp);
+                        _ctrlListeECF_Competences.ListeCompetences.Add(uneComp);
+                    }
                 }
-                lbListeCompetences.ItemsSource = _listeCompetences;
+                
+                lbListeCompetences.ItemsSource = _ctrlListeECF_Competences.ListeCompetences;
             }
             else
             {
-                _listeCompetences.Add(pSc);
-                lbListeCompetences.ItemsSource = _listeCompetences;
+                _ctrlListeECF_Competences.ListeCompetences.Add(pSc);
+                lbListeCompetences.ItemsSource = _ctrlListeECF_Competences.ListeCompetences;
             }
             
         }
@@ -103,7 +88,7 @@ namespace ApplicationENI.Vue.PopUp
         {
             lbListeCompetences.ItemsSource = null;
             lbListeCompetences.Items.Clear();
-            lbListeCompetences.ItemsSource = _listeCompetences;
+            lbListeCompetences.ItemsSource = _ctrlListeECF_Competences.ListeCompetences;
         }
         #endregion
 
@@ -124,13 +109,16 @@ namespace ApplicationENI.Vue.PopUp
             String message = "";
 
             //TODO confirmer la suppression
-            foreach (SelectionCompetence selComp in _listeCompetences)
+            if (_ctrlListeECF_Competences.ListeCompetences!=null)
             {
-                if (selComp.IsChecked)
+                foreach (CtrlListeECF_Competences.SelectionCompetence selComp in _ctrlListeECF_Competences.ListeCompetences)
                 {
-                    message = CtrlGestionECF.supprimerCompetence(selComp.Competence);
+                    if (selComp.IsChecked)
+                    {
+                        message = _ctrlListeECF_Competences.supprimerCompetence(selComp.Competence);
+                    }
                 }
-            }
+            }            
 
             //gestion erreur
             if (message.Trim() != "")
@@ -145,53 +133,69 @@ namespace ApplicationENI.Vue.PopUp
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
             //On supprime tous les liens avec l'ECF courant
-            CtrlGestionECF.supprimerLiensCompetences(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant);
+            _ctrlListeECF_Competences.supprimerLiensCompetences(((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfCourant);
             
             //On recréé tous les liens avec les compétences sélectionnées
-            foreach (SelectionCompetence selComp in _listeCompetences)
+            if (_ctrlListeECF_Competences.ListeCompetences!=null)
             {
-                if (selComp.IsChecked)
+                foreach (CtrlListeECF_Competences.SelectionCompetence selComp in _ctrlListeECF_Competences.ListeCompetences)
                 {
-                    CtrlGestionECF.ajouterLienCompetence(((GestionECF)instanceFenetre.InstanceFenetreEnCours).EcfCourant, selComp.Competence);
+                    if (selComp.IsChecked)
+                    {
+                        _ctrlListeECF_Competences.ajouterLienCompetence(((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfCourant, selComp.Competence);
+                    }
                 }
             }
+            
             Close();
         }
         private void btSelect_Click(object sender, RoutedEventArgs e)
         {
-            foreach (SelectionCompetence selComp in _listeCompetences)
+            if (_ctrlListeECF_Competences.ListeCompetences!=null)
             {
-                selComp.IsChecked = true;
+                foreach (CtrlListeECF_Competences.SelectionCompetence selComp in _ctrlListeECF_Competences.ListeCompetences)
+                {
+                    selComp.IsChecked = true;
+                }
             }
+            
             refresh();
         }
         private void btDeselect_Click(object sender, RoutedEventArgs e)
         {
-            foreach (SelectionCompetence selComp in _listeCompetences)
+            if (_ctrlListeECF_Competences.ListeCompetences!=null)
             {
-                selComp.IsChecked = false;
+                foreach (CtrlListeECF_Competences.SelectionCompetence selComp in _ctrlListeECF_Competences.ListeCompetences)
+                {
+                    selComp.IsChecked = false;
+                }
             }
+            
             refresh();
         }
         private void autocbCompetence_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (isInitAutoCompBox)
+            if (_ctrlListeECF_Competences.IsInitAutoCompBox)
             {
                 acbCompetence.Text = string.Empty;
-                isInitAutoCompBox = false;
+                _ctrlListeECF_Competences.IsInitAutoCompBox = false;
             }
         }
         private void autocbCompetence_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            foreach (SelectionCompetence sc in _listeCompetences)
+            if (_ctrlListeECF_Competences.ListeCompetences!=null)
             {
-                if (sc.Competence.Code == acbCompetence.Text.Substring(0, acbCompetence.Text.IndexOf(" - "))
-                    && (sc.Competence.Libelle == acbCompetence.Text.Substring(acbCompetence.Text.IndexOf(" - ") + 3)))
+                foreach (CtrlListeECF_Competences.SelectionCompetence sc in _ctrlListeECF_Competences.ListeCompetences)
                 {
-                    ActualiseAffichage(sc);
-                    refresh();
+                    if (sc.Competence.Code == acbCompetence.Text.Substring(0, acbCompetence.Text.IndexOf(" - "))
+                        && (sc.Competence.Libelle == acbCompetence.Text.Substring(acbCompetence.Text.IndexOf(" - ") + 3)))
+                    {
+                        ActualiseAffichage(sc);
+                        refresh();
+                    }
                 }
             }
+            
             acbCompetence.Text = "";
             btFiltre.IsEnabled = true;
             acbCompetence.IsEnabled = false;

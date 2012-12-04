@@ -15,7 +15,7 @@ namespace ApplicationENI.DAL
         static String INSERT_SESSIONECF = "INSERT INTO SESSIONSECF (idSessionECF, idECF, date, version) VALUES (@idSessionECF, @idECF,@date, @version)";
         static String DELETE_SESSIONECF = "DELETE FROM SESSIONSECF WHERE idECF=@idECF";
         static String SELECT_MAX_SESSIONECF = "SELECT MAX(idSessionECF) FROM SESSIONSECF";
-        static String UPDATE_DATE_SESSIONECF = "UPDATE SESSIONSECF SET date=@date WHERE idSessionECF=@idSessionECF";
+        //static String UPDATE_DATE_SESSIONECF = "UPDATE SESSIONSECF SET date=@date WHERE idSessionECF=@idSessionECF";
 
         static String SELECT_PARTICIPANTS = "SELECT * FROM PARTICIPANTSSESSIONECF WHERE idSessionECF=@idSessionECF";
         static String INSERT_PARTICIPANT = "INSERT INTO PARTICIPANTSSESSIONECF (idSessionECF, idStagiaire) VALUES (@idSessionECF, @idStagiaire)";
@@ -312,18 +312,22 @@ namespace ApplicationENI.DAL
             //Suppr des participants
             supprimerParticipants(pSessionECF);
 
-            foreach(Stagiaire stagiaireAInscrire in pSessionECF.Participants)
-            {          
-                Stagiaire stagiaireNonAjoute=ajouterParticipant(pSessionECF,stagiaireAInscrire);
-                if(stagiaireNonAjoute != null)
+            if (pSessionECF.Participants!=null)
+            {
+                foreach (Stagiaire stagiaireAInscrire in pSessionECF.Participants)
                 {
-                    if(lesParticipantsNonAjoutes == null)
+                    Stagiaire stagiaireNonAjoute = ajouterParticipant(pSessionECF, stagiaireAInscrire);
+                    if (stagiaireNonAjoute != null)
                     {
-                        lesParticipantsNonAjoutes = new List<Stagiaire>();
+                        if (lesParticipantsNonAjoutes == null)
+                        {
+                            lesParticipantsNonAjoutes = new List<Stagiaire>();
+                        }
+                        lesParticipantsNonAjoutes.Add(stagiaireNonAjoute);
                     }
-                    lesParticipantsNonAjoutes.Add(stagiaireNonAjoute);
                 }
             }
+            
             return lesParticipantsNonAjoutes;
         }
 
@@ -381,6 +385,8 @@ namespace ApplicationENI.DAL
 
         public static void supprimerParticipants(SessionECF pSessionECF)
         {
+            //TODO NON appelé
+            
             //TODO Si c'est le dernier proposer de supprimer la session??
 
             //TODO verifier qu'il na pas été déjà noté
@@ -490,26 +496,30 @@ namespace ApplicationENI.DAL
         {
             bool b = true;
 
-            foreach (Competence comp in pSessionECF.Ecf.Competences)
-	        {
-                String requete = "SELECT * FROM EVALUATION " + 
-                    "WHERE idECF=@idECF " +
-                    "AND idStagiaire=@idStagiaire " +
-                    "AND idCompetence=@idCompetence " +
-                    "AND date=@date";
-                SqlConnection connexion = ConnexionSQL.CreationConnexion();
-                SqlCommand cmd = new SqlCommand(requete, connexion);
-                cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id);
-                cmd.Parameters.AddWithValue("@idStagiaire", pStag._id);
-                cmd.Parameters.AddWithValue("@idCompetence", comp.Id);
-                cmd.Parameters.AddWithValue("@date", pSessionECF.Date);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                if (!reader.Read())
+            if (pSessionECF.Ecf.Competences!=null)
+            {
+                foreach (Competence comp in pSessionECF.Ecf.Competences)
                 {
-                    b = false;
-                }
-	        } 
+                    String requete = "SELECT * FROM EVALUATION " +
+                        "WHERE idECF=@idECF " +
+                        "AND idStagiaire=@idStagiaire " +
+                        "AND idCompetence=@idCompetence " +
+                        "AND date=@date";
+                    SqlConnection connexion = ConnexionSQL.CreationConnexion();
+                    SqlCommand cmd = new SqlCommand(requete, connexion);
+                    cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id);
+                    cmd.Parameters.AddWithValue("@idStagiaire", pStag._id);
+                    cmd.Parameters.AddWithValue("@idCompetence", comp.Id);
+                    cmd.Parameters.AddWithValue("@date", pSessionECF.Date);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (!reader.Read())
+                    {
+                        b = false;
+                    }
+                } 
+            }
+            
 
             return b;
         }
