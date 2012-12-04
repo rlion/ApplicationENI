@@ -21,7 +21,7 @@ namespace ApplicationENI.DAL
 
                 if(connexion != null)
                 {
-                    string reqStag = "SELECT s.CodeStagiaire, Civilite, Nom, Prenom, Adresse1, Adresse2, Adresse3, " +
+                    string reqStag = "SELECT distinct s.CodeStagiaire, Civilite, Nom, Prenom, Adresse1, Adresse2, Adresse3, " +
                                       "Codepostal, Ville, TelephoneFixe, TelephonePortable, Email, DateNaissance, " +
                                       "CodeRegion, CodeNationalite, CodeOrigineMedia, DateDernierEnvoiDoc, s.DateCreation, " +
                                       "Repertoire, Permis, Photo, EnvoiDocEnCours, Historique FROM Stagiaire s, PlanningIndividuelFormation i" + filtre;
