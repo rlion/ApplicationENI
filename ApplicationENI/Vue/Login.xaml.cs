@@ -58,8 +58,12 @@ namespace ApplicationENI.Vue
             Guid guid;
             try
             {
+                Parametres.Instance.utilisateur = new Modele.InfosUtilisateur();
+
                 if (login == "admin")
                 {
+                    Parametres.Instance.utilisateur.nom = "local";
+                    Parametres.Instance.utilisateur.prenom = "compte";
                     return GetHashSha256(password) == MDPHACHE ? true : false;
                 }
                 else
@@ -67,18 +71,17 @@ namespace ApplicationENI.Vue
                     //TODO : pour les tests, on utilise le domaine STAGIAIRES, mais les utilisteurs de l'appli utiliseront un autre domaine.
                     DirectoryEntry Ldap = new DirectoryEntry("LDAP://STAGIAIRES.local", login, password, AuthenticationTypes.Secure);
                     guid = Ldap.Guid;
-                     if (guid == null) return false;
+                    if (guid == null) return false;
+
+                    //Récupération d'informations depuis Active Directory si user authentifié
+                    DirectorySearcher searcher = new DirectorySearcher(Ldap);
+                    searcher.Filter = "(SAMAccountName=" + login + ")";
+                    SearchResult result = searcher.FindOne();
+                    DirectoryEntry DirEntry = result.GetDirectoryEntry();                  
+                    Parametres.Instance.utilisateur.nom = DirEntry.Properties["sn"].Value == null ? "" : DirEntry.Properties["sn"].Value.ToString();
+                    Parametres.Instance.utilisateur.prenom = DirEntry.Properties["givenName"].Value == null ? "" : DirEntry.Properties["givenName"].Value.ToString();
 
 
-                     DirectorySearcher searcher = new DirectorySearcher(Ldap);
-                     searcher.Filter = "(SAMAccountName=" + login + ")";
-                     SearchResult result = searcher.FindOne();
-                     DirectoryEntry DirEntry = result.GetDirectoryEntry();
-                    String nom = DirEntry.Properties["sn"].Value == null ? "" : DirEntry.Properties["sn"].Value.ToString();
-                    String prenom= DirEntry.Properties["givenName"].Value == null ? "" : DirEntry.Properties["givenName"].Value.ToString();
-                    
-                 
-                   
                     return true;
                 }
             }

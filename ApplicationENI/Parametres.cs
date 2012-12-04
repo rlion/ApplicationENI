@@ -12,10 +12,7 @@ namespace ApplicationENI {
         public String login { get; set; }
         public String password { get; set; }
         public Stagiaire stagiaire { get; set; }
-        public List<ItemAlerte> listAlertes { get; set; }
-
-
-
+        public InfosUtilisateur utilisateur { get; set; }
 
         public Parametres() {
         }

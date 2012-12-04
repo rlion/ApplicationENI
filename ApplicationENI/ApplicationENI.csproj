@@ -134,6 +134,7 @@
     <Compile Include="Modele\Evaluation.cs" />
     <Compile Include="Modele\Fonction.cs" />
     <Compile Include="Modele\Formation.cs" />
+    <Compile Include="Modele\InfosUtilisateur.cs" />
     <Compile Include="Modele\ItemAlerte.cs" />
     <Compile Include="Modele\Jury.cs" />
     <Compile Include="Modele\Observation.cs" />

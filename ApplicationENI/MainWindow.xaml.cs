@@ -29,7 +29,6 @@ namespace ApplicationENI
             myBlurEffect.Radius = 8;
             this.Effect = myBlurEffect;
 
-            this.MainGrid.Children.Add(new Vue.AccueilGeneral());
             this.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             this.Show();
 
@@ -37,6 +36,7 @@ namespace ApplicationENI
             login.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             login.ShowDialog();
 
+            this.MainGrid.Children.Add(new Vue.AccueilGeneral());
             Controleur = new CtrlAccueilGeneral();
             InitBandeStagiaire();
 
