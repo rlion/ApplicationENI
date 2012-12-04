@@ -11,7 +11,6 @@ namespace ApplicationENI.DAL
     {
 
         static String SELECT_COURS = "SELECT * FROM COURS";
-        //static String SELECT_COURS = "SELECT * FROM COURS WHERE BLABLA";
 
         public static List<Cours> listeCours(Formation pF)
         {

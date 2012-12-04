@@ -103,6 +103,7 @@ namespace ApplicationENI.Vue
             }
         }
 
+        // Un clic sur ce bouton dévérouille les composants pour autoriser la saisie / modification.
         private void btnModifier_Click(object sender, RoutedEventArgs e)
         {
             datePickerDateDebut.IsEnabled = true;

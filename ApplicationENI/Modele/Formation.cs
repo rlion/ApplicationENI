@@ -7,14 +7,6 @@ namespace ApplicationENI.Modele
 {
     public class Formation
     {
-        /*Commenté par Mathias, je ne vois pas l'interet d un Guid si il y a déjà un champ codeFormation dans la BDD
-         * private Guid _id;
-
-        public Guid Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }*/
         private String _code;
         public String Code
         {
@@ -33,7 +25,6 @@ namespace ApplicationENI.Modele
 
         public Formation()
         {
-            //_id=new Guid();
             _code = "";
             _libelle = "";
             _epreuves = null;
@@ -41,7 +32,6 @@ namespace ApplicationENI.Modele
 
         public Formation(String pCode, String pLibelle)
         {
-            //_id = new Guid();
             _code = pCode;
             _libelle = pLibelle;
             _epreuves = null;
@@ -49,7 +39,6 @@ namespace ApplicationENI.Modele
 
         public Formation(String pCode, String pLibelle, List<ECF> pEpreuves)
         {
-            //_id = new Guid();
             _code = pCode;
             _libelle = pLibelle;
             _epreuves = pEpreuves;

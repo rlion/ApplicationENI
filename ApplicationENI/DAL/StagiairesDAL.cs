@@ -28,8 +28,6 @@ namespace ApplicationENI.DAL
 
                 if (reader.Read())
                 {
-                    //stgRetour._nom = reader.GetSqlString(2).IsNull ? String.Empty : reader.GetString(2);
-                    //stgRetour._prenom = reader.GetSqlString(3).IsNull ? String.Empty : reader.GetString(3);
                     stgRetour._id = reader.GetInt32(reader.GetOrdinal("CodeStagiaire"));
                     stgRetour._civilité = reader.GetSqlString(1).IsNull ? string.Empty : reader.GetString(1);
                     stgRetour._nom = reader.GetSqlString(2).IsNull ? string.Empty : reader.GetString(2);
@@ -138,9 +136,7 @@ namespace ApplicationENI.DAL
             }
             //filtre nom/prenom
             if (pFiltreNomPrenom != "") 
-            {
-                //comment faire avec un parametre??
-                //requete += " AND (Stagiaire.Nom like (@filtreNP) OR Stagiaire.Prenom like (@filtreNP)) ";      
+            {    
                 requete += " AND (Stagiaire.Nom like ('%" + pFiltreNomPrenom.Trim() + "%') OR Stagiaire.Prenom like ('%" + pFiltreNomPrenom.Trim() + "%')) ";  
             }
             requete += " ORDER BY Stagiaire.Nom, Stagiaire.Prenom";
@@ -148,7 +144,6 @@ namespace ApplicationENI.DAL
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(requete, connexion);
             if (pFormation != null) cmd.Parameters.AddWithValue("@CodeFormation", pFormation.Code.Trim());
-            //if (pFiltreNomPrenom != "") cmd.Parameters.AddWithValue("@filtreNP", pFiltreNomPrenom.Trim());
             SqlDataReader reader = cmd.ExecuteReader();
 
             List<Stagiaire> listeStagiaires = new List<Stagiaire>();

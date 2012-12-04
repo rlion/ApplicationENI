@@ -26,9 +26,9 @@ namespace ApplicationENI.Controleur
 
         public void GererItemAlerteAbsenceRetard(String type, int nb)
         {
-            // manipulation permettant de contourner le fait qu'un Switch ne prend pas d'interval
+            // manipulation permettant de contourner le fait qu'un Switch ne prend pas d'intervales
             int indice = (int)Math.Floor((decimal)nb / 10);
-            if (indice>3) {indice=3;}  // pour éviter de mettre en place un grand nombre de cas dans le switch (à partir de 30 abs/ret, il n'y a plus d'augmentation du niveau de criticité).
+            if (indice>3) {indice=3;}  // pour éviter de mettre en place un grand nombre de cas dans le switch (à partir de 30 absences/retards, il n'y a plus d'augmentation du niveau de criticité).
 
             
             switch (indice)

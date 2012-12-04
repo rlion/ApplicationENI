@@ -62,9 +62,10 @@ namespace ApplicationENI.Vue
         }
 
         private void btnAjouter_Click(object sender, RoutedEventArgs e) {
+            //désactiver la sélection sur le datagrid.
             dataGridListAbsences.UnselectAll();
             flag_mode_saisie = 1;
-            //désactiver la sélection sur le datagrid.
+            
             txtBoxTitre.Text = "";
             //l'auteur est pas défini à la main, on récupère le nom en session (profil connexion)
             txtBoxAuteur.Text = Parametres.Instance.login;
