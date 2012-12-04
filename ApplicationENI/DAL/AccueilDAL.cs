@@ -160,8 +160,10 @@ namespace ApplicationENI.DAL
                     
                     commande.CommandText = reqAbsence;
                     int nbAbsences = (int)commande.ExecuteScalar();
-                    if(nbAbsences>0)
-                        listeAlertes.Add(new ItemAlerte(0,"Il y a "+nbAbsences+" nouveaux absents aujourd'hui",0));
+                    if(nbAbsences==1)
+                        listeAlertes.Add(new ItemAlerte(0,"Il y a "+nbAbsences+" nouvel absent aujourd'hui",0));
+                    else if(nbAbsences>1)
+                        listeAlertes.Add(new ItemAlerte(0, "Il y a " + nbAbsences + " nouveaux absents aujourd'hui", 0));
 
                     //Nombre de retards
                     string reqRetard = "SELECT count(*) from ABSENCE where CONVERT(date,dateFin) = "+
@@ -170,7 +172,7 @@ namespace ApplicationENI.DAL
                     commande.CommandText = reqRetard;
                     int nbRetards = (int)commande.ExecuteScalar();
                     if(nbRetards > 0)
-                        listeAlertes.Add(new ItemAlerte(0, "Il y a " + nbRetards + " retards enregistrés aujourd'hui", 1));
+                        listeAlertes.Add(new ItemAlerte(0, "Il y a " + nbRetards + " retard(s) enregistré(s) aujourd'hui", 1));
 
                     //Liste des ECFS
                     List<SessionECF> listeECF = new List<SessionECF>();
