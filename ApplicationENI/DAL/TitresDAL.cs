@@ -506,20 +506,41 @@ namespace ApplicationENI.DAL
         {
             try
             {
-                string req = "insert into PassageTitre (CodeTitre,CodeStagiaire,datePassage,estObtenu,estValide) " +
-                             "select @codeT, @codeS, @dateP, @isO, @isV where not exists " +
-                             "(select 0 from PassageTitre where CodeStagiaire=@codeS and CodeTitre=@codeT)";
+                int checkEtat = ControlerSiInscrit(passageT.CodeStagiaire, passageT.CodeTitre);
+                int retour = -1;
 
-                SqlConnection conn = ConnexionSQL.CreationConnexion();
-                SqlCommand commande = conn.CreateCommand();
-                commande.CommandText = req;
-                commande.Parameters.AddWithValue("@codeT", passageT.CodeTitre);
-                commande.Parameters.AddWithValue("@codeS", passageT.CodeStagiaire);
-                commande.Parameters.AddWithValue("@dateP", passageT.DatePassage);
-                commande.Parameters.AddWithValue("@isO", passageT.EstObtenu);
-                commande.Parameters.AddWithValue("@isV", passageT.EstValide);
+                if(checkEtat == 0)
+                {
+                    string req = "insert into PassageTitre (CodeTitre,CodeStagiaire,datePassage,estObtenu,estValide) " +
+                                 "select @codeT, @codeS, @dateP, @isO, @isV where not exists " +
+                                 "(select 0 from PassageTitre where CodeStagiaire=@codeS and CodeTitre=@codeT)";
 
-                return commande.ExecuteNonQuery();
+                    SqlConnection conn = ConnexionSQL.CreationConnexion();
+                    SqlCommand commande = conn.CreateCommand();
+                    commande.CommandText = req;
+                    commande.Parameters.AddWithValue("@codeT", passageT.CodeTitre);
+                    commande.Parameters.AddWithValue("@codeS", passageT.CodeStagiaire);
+                    commande.Parameters.AddWithValue("@dateP", passageT.DatePassage);
+                    commande.Parameters.AddWithValue("@isO", passageT.EstObtenu);
+                    commande.Parameters.AddWithValue("@isV", passageT.EstValide);
+
+                    retour = commande.ExecuteNonQuery();
+                    conn.Close();
+                }
+                else if(checkEtat == 1)
+                {
+                    string req = "update PassageTitre set estValide=@isV where CodeStagiaire=@codeS and CodeTitre=@codeT";
+                    SqlConnection conn = ConnexionSQL.CreationConnexion();
+                    SqlCommand commande = conn.CreateCommand();
+                    commande.CommandText = req;
+                    commande.Parameters.AddWithValue("@codeT", passageT.CodeTitre);
+                    commande.Parameters.AddWithValue("@codeS", passageT.CodeStagiaire);
+                    commande.Parameters.AddWithValue("@isV", passageT.EstValide);
+
+                    retour = commande.ExecuteNonQuery();
+                    conn.Close();
+                }
+                return retour;
             }
             catch (Exception e)
             {
@@ -556,7 +577,8 @@ namespace ApplicationENI.DAL
         }
 
         //Méthode qui permet de savoir si le stagiaire est inscrit à un titre ou non
-        //return : 0 -> non inscrit, 1 -> inscrit mais pas obtenu pour ce titre, 2 -> inscrit et obtenu pour ce titre
+        //return : 0 -> non inscrit, 1 -> inscrit mais pas valide, 2 -> inscrit et valide mais pas obtenu, 
+        // 3 -> inscrit, valide et obtenu
         public static int ControlerSiInscrit(int codeStagiaire, string codeTitre)
         {
             try
@@ -576,8 +598,16 @@ namespace ApplicationENI.DAL
 
                     if (b.HasValue)
                     {
-                        if (b.Value) return 2;
-                        else return 1;
+                        if(b.Value) return 3;
+                        else
+                        {
+                            b = false;
+                            string reqValide = "select estValide from PASSAGETITRE where CodeStagiaire=@codeS and CodeTitre=@codeT";
+                            commande.CommandText = reqValide;
+                            b = (bool?)commande.ExecuteScalar();
+                            if(b.HasValue && b.Value) return 2;
+                            else return 1;
+                        } 
                     }
                     else return 0;
                 }

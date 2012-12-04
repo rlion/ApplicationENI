@@ -58,19 +58,37 @@ namespace ApplicationENI.Vue
             this.txtLibTitre.Text = kvp.Value;
             this.dgDates.ItemsSource = Controleur.GetListeDatesEpreuvesTitre(codeTitre);
 
+            #region EtatAvancement
+            //0 -> non inscrit
+            //1 -> inscrit mais pas valide
+            //2 -> inscrit et valide mais pas obtenu, 
+            //3 -> inscrit, valide et obtenu
             int etatInscription = Controleur.CheckIfInscrit(codeStagiaire, codeTitre);
-
-            if (etatInscription > 0)
+            switch(etatInscription)
             {
-                histoPassageT = Controleur.GetPassageTitre(codeStagiaire, codeTitre);
-                groupBox1.IsEnabled = false;
-                if (etatInscription == 2) groupBox2.IsEnabled = false;
+                case 0:
+                    histoPassageT = new PassageTitre(codeTitre, codeStagiaire);
+                    groupBox2.IsEnabled = false;
+                    break;
+                case 1:
+                    histoPassageT = Controleur.GetPassageTitre(codeStagiaire, codeTitre);
+                    groupBox2.IsEnabled = false;
+                    break;
+                case 2:
+                    histoPassageT = Controleur.GetPassageTitre(codeStagiaire, codeTitre);
+                    groupBox1.IsEnabled = false;
+                    break;
+                case 3:
+                    histoPassageT = Controleur.GetPassageTitre(codeStagiaire, codeTitre);
+                    groupBox1.IsEnabled = false;
+                    groupBox2.IsEnabled = false;
+                    break;
+                default:
+                    groupBox1.IsEnabled = false;
+                    groupBox2.IsEnabled = false;
+                    break;
             }
-            else
-            {
-                histoPassageT = new PassageTitre(codeTitre, codeStagiaire);
-                groupBox2.IsEnabled = false;
-            }
+            #endregion
 
             ReInitPassageTitre();
         }
@@ -94,7 +112,7 @@ namespace ApplicationENI.Vue
                 {
                     histoPassageT.DatePassage = passageTitre.DatePassage;
                     histoPassageT.EstValide = passageTitre.EstValide;
-                    groupBox1.IsEnabled = false;
+                    if(Controleur.CheckIfInscrit(codeStagiaire, codeTitre) == 2) groupBox1.IsEnabled = false;
                 }
                 else
                 {
@@ -144,6 +162,8 @@ namespace ApplicationENI.Vue
                 {
                     histoPassageT.DatePassage = passageTitre.DatePassage;
                     histoPassageT.EstObtenu = passageTitre.EstObtenu;
+
+                    if(Controleur.CheckIfInscrit(codeStagiaire, codeTitre) == 3) groupBox2.IsEnabled = false;
                 }
 
                 ReInitPassageTitre();
