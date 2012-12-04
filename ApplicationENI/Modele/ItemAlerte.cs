@@ -56,16 +56,6 @@ namespace ApplicationENI.Modele
                 default:
                     return "Divers";
             }
-
-
-        }
-
-        public void Enregistrer() {
-            DAL.AlerteDAL.AjouterAlerte(this);
-        }
-
-        public void Supprimer() { 
-        
         }
     }
 }
