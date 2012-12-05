@@ -264,7 +264,34 @@ namespace ApplicationENI.DAL
             cmd.ExecuteReader();
             connexion.Close();
 
-            if (AncienECF.Competences!=ecf.Competences)
+            bool memesCompetences = false;
+            if (ecf.Competences!=null && AncienECF.Competences!=null && ecf.Competences.Count==AncienECF.Competences.Count)
+            {
+                foreach (Competence comp in ecf.Competences)
+                {
+                    int indexAncienneComp = AncienECF.Competences.IndexOf(comp);
+                    if (indexAncienneComp == -1)
+                    {
+                        memesCompetences = false;
+                        break;
+                    }
+                    else
+                    {
+                        if (comp.Equals(AncienECF.Competences[indexAncienneComp]))
+                        {
+                            memesCompetences = true;
+                        }
+                        else
+                        {
+                            memesCompetences = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            
+
+            if (!memesCompetences)
             {
                 //Suppr des liens ECF-Competences si pas deja d'evaluation sur l'ECF
                 reponse = supprimerLiensCompetences(ecf);

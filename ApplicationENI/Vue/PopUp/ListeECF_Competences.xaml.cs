@@ -123,16 +123,16 @@ namespace ApplicationENI.Vue.PopUp
                     if (selComp.IsChecked)
                     {
                         message = _ctrlListeECF_Competences.supprimerCompetence(selComp.Competence);
+                        if (message!="")
+                        {
+                            MessageBox.Show(message, "Attention!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        }
                     }
                 }
             }            
 
             //gestion erreur
-            if (message.Trim() != "")
-            {
-                MessageBox.Show(message);
-            }
-            else
+            if (message.Trim() == "")
             {
                 ActualiseAffichage(null);
             }

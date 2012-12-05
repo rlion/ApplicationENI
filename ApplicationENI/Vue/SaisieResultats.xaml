@@ -11,8 +11,8 @@
         <Label Content="ECF :" Height="28" HorizontalAlignment="Left" Margin="35,11,0,0" Name="lbECF" VerticalAlignment="Top" Width="86" HorizontalContentAlignment="Right" Visibility="Visible" />
         <Button Content="Enregistrer" Height="23" HorizontalAlignment="Left" Margin="407,471,0,0" Name="btnEnregistrer" VerticalAlignment="Top" Width="90" Visibility="Visible" IsEnabled="False" Click="btnEnregistrer_Click" />
         <Button Content="Annuler" Height="23" HorizontalAlignment="Left" Margin="503,471,0,0" Name="btnAnnu" VerticalAlignment="Top" Width="90" Visibility="Visible" IsEnabled="False" Click="btnAnnu_Click" />
-        <Button Content="Planifier/Modifier session" Height="23" HorizontalAlignment="Left" Margin="35,471,0,0" Name="btnAjouter" VerticalAlignment="Top" Width="128" Click="btnAjouter_Click" Visibility="Visible" />
-        <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Left" Margin="169,471,0,0" Name="btnSupprimer" VerticalAlignment="Top" Width="90" Visibility="Visible" IsEnabled="False" />
+        <Button Content="Planifier/Modifier session" Height="23" HorizontalAlignment="Left" Margin="35,471,0,0" Name="btnAjouter" VerticalAlignment="Top" Width="153" Click="btnAjouter_Click" Visibility="Visible" />
+        <Button Content="Supprimer ECF" Height="23" HorizontalAlignment="Right" Margin="0,471,341,0" Name="btnSupprimer" VerticalAlignment="Top" Width="90" Visibility="Visible" IsEnabled="False" />
         <Calendar Height="170" HorizontalAlignment="Left" Margin="418,12,0,0" Name="calendrier" VerticalAlignment="Top" Width="184" IsEnabled="False" MaxWidth="Infinity" SelectionMode="MultipleRange" IsTodayHighlighted="False" SelectedDatesChanged="calendrier_SelectedDatesChanged" Visibility="Visible" />
         <GroupBox Header="Propriétés :" Height="157" HorizontalAlignment="Left" Margin="35,40,0,0" Name="gbProprietes" VerticalAlignment="Top" Width="280" IsEnabled="False">
             <Grid>

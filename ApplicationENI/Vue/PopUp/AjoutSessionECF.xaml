@@ -9,7 +9,7 @@
         <Button Content="Annuler" Height="23" HorizontalAlignment="Left" IsCancel="True" Margin="493,643,0,0" Name="btAnnuler" VerticalAlignment="Top" Width="75" Click="btAnnuler_Click" />
         <GroupBox Header="Stagiaires :" Height="456" HorizontalAlignment="Left" Margin="17,181,0,0" Name="gbStagiaires" VerticalAlignment="Top" Width="551" IsEnabled="False">
             <Grid>
-                <ListBox Height="234" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="6,174,0,0" Name="lbStagiaires" SelectionMode="Single" VerticalAlignment="Top" Visibility="Visible" Width="240" />
+                <ListBox Height="234" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="6,174,0,0" Name="lbStagiaires" SelectionMode="Multiple" VerticalAlignment="Top" Visibility="Visible" Width="240" />
                 <ListBox Height="234" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="293,174,0,0" Name="lbParticipants" SelectionMode="Single" VerticalAlignment="Top" Visibility="Visible" Width="240" />
                 <GroupBox Header="Filtres" Height="128" HorizontalAlignment="Left" Margin="6,8,0,0" Name="groupBox1" VerticalAlignment="Top" Width="526">
                     <Grid>
