@@ -239,7 +239,7 @@ namespace ApplicationENI.DAL
                             if (!SessionECFDAL.SessionECFCorrigee(sessionEcfPassee, stag))
                             {
                                 if (lesSessionsECFNonCorrigees == null) lesSessionsECFNonCorrigees = new List<SessionECF>();
-                                if (!lesSessionsECFNonCorrigees.Contains(sessionEcfPassee))
+                                if (!lesSessionsECFNonCorrigees.Select(x=>x.Id).Contains(sessionEcfPassee.Id))
                                 {
                                     lesSessionsECFNonCorrigees.Add(sessionEcfPassee);
                                 }

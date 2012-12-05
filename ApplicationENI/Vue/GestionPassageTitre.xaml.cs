@@ -109,11 +109,14 @@ namespace ApplicationENI.Vue
         //On vérifie qu'une épreuve existante n'est pas en train d'être recréée
         private bool IsUniqueEpreuve()
         {
-            foreach(EpreuveTitre epTitre in (List<EpreuveTitre>)dgDatesPassage.ItemsSource)
+            if(dgDatesPassage.ItemsSource != null)
             {
-                if(epreuveTitre.DateEpreuve == epTitre.DateEpreuve && epreuveTitre.Salle == epTitre.Salle && epreuveTitre.Titre == epTitre.Titre)
+                foreach(EpreuveTitre epTitre in (List<EpreuveTitre>)dgDatesPassage.ItemsSource)
                 {
-                    return false;
+                    if(epreuveTitre.DateEpreuve == epTitre.DateEpreuve && epreuveTitre.Salle == epTitre.Salle && epreuveTitre.Titre == epTitre.Titre)
+                    {
+                        return false;
+                    }
                 }
             }
             return true;
@@ -180,11 +183,14 @@ namespace ApplicationENI.Vue
                     this.dgDatesPassage.ItemsSource = titre.ListeEpreuves;
                 }
                 else this.dgDatesPassage.ItemsSource = null;
+
+                this.btSupprTitre.IsEnabled = true;
             }
             else
             {
                 titre = new Titre();
                 this.dgDatesPassage.ItemsSource = null;
+                btSupprTitre.IsEnabled = false;
             }
 
             this.groupBoxTitre.DataContext = titre;
