@@ -213,21 +213,21 @@ namespace ApplicationENI.Vue
         {
             if (_ctrlSaisieResultats.SessionECFcourant.Date > DateTime.Now)
             {
-                if(MessageBox.Show("L'ECF est planifié dans le futur, souhaitez vous néanmoins saisir une note?", "Attention!", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
+                if (MessageBox.Show("L'ECF est planifié dans le futur, souhaitez vous néanmoins saisir une note?", "Attention!", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
                 {
                     float note = -1;
 
                     if (!_ctrlSaisieResultats.SessionECFcourant.Ecf.NotationNumerique)
                     {
-                        if(rbAcquis.IsChecked == true)
+                        if (rbAcquis.IsChecked == true)
                         {
                             note = Ressources.CONSTANTES.NOTE_ACQUIS;
                         }
-                        else if(rbEnCours.IsChecked == true)
+                        else if (rbEnCours.IsChecked == true)
                         {
                             note = Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION;
                         }
-                        else if(rbNonAcquis.IsChecked == true)
+                        else if (rbNonAcquis.IsChecked == true)
                         {
                             note = Ressources.CONSTANTES.NOTE_NON_ACQUIS;
                         }
@@ -239,7 +239,7 @@ namespace ApplicationENI.Vue
                         tbNote.Text = tbNote.Text.Replace('.', ',');
                         bool estNumerique = float.TryParse(tbNote.Text, out noteSaisie);
 
-                        if(noteSaisie >= 0 && noteSaisie <= 20 && estNumerique)
+                        if (noteSaisie >= 0 && noteSaisie <= 20 && estNumerique)
                         {
                             note = noteSaisie;
                             tbNote.Background = Brushes.White;
@@ -250,14 +250,58 @@ namespace ApplicationENI.Vue
                             tbNote.Focus();
                         }
                     }
-                    if(note != -1)
+                    if (note != -1)
                     {
                         _ctrlSaisieResultats.EvaluationEnCours.Note = note;
                         _ctrlSaisieResultats.modifierNoteEvaluation(_ctrlSaisieResultats.EvaluationEnCours, _ctrlSaisieResultats.EvaluationEnCours.Note);
                         btnAnnu.IsEnabled = false;
-                    }            
+                    }
                 }
-            }            
+            }
+            else
+            {
+                float note = -1;
+
+                if (!_ctrlSaisieResultats.SessionECFcourant.Ecf.NotationNumerique)
+                {
+                    if (rbAcquis.IsChecked == true)
+                    {
+                        note = Ressources.CONSTANTES.NOTE_ACQUIS;
+                    }
+                    else if (rbEnCours.IsChecked == true)
+                    {
+                        note = Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION;
+                    }
+                    else if (rbNonAcquis.IsChecked == true)
+                    {
+                        note = Ressources.CONSTANTES.NOTE_NON_ACQUIS;
+                    }
+                }
+                else
+                {
+                    float noteSaisie;
+
+                    tbNote.Text = tbNote.Text.Replace('.', ',');
+                    bool estNumerique = float.TryParse(tbNote.Text, out noteSaisie);
+
+                    if (noteSaisie >= 0 && noteSaisie <= 20 && estNumerique)
+                    {
+                        note = noteSaisie;
+                        tbNote.Background = Brushes.White;
+                    }
+                    else
+                    {
+                        tbNote.Background = Brushes.Red;
+                        tbNote.Focus();
+                    }
+                }
+                if (note != -1)
+                {
+                    _ctrlSaisieResultats.EvaluationEnCours.Note = note;
+                    _ctrlSaisieResultats.modifierNoteEvaluation(_ctrlSaisieResultats.EvaluationEnCours, _ctrlSaisieResultats.EvaluationEnCours.Note);
+                    btnAnnu.IsEnabled = false;
+                }
+            }
         }
         private void btnAjouter_Click(object sender, RoutedEventArgs e)
         {

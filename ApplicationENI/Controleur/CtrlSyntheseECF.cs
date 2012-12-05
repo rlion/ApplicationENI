@@ -9,7 +9,7 @@ namespace ApplicationENI.Controleur
 {
     class CtrlSyntheseECF
     {
-        //TODO regions
+        #region
 
         private Stagiaire _stagiaireEncours = null;
         private List<SessionECF> _lesSessionsECFsStag = null;        
