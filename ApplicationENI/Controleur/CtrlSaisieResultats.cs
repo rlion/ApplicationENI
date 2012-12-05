@@ -13,7 +13,7 @@ namespace ApplicationENI.Controleur
         private List<SessionECF> _listeSessionECFs = null;
         private List<DateTime> _planif = null;
         private SessionECF _sessionECFcourant = null;
-        private Evaluation _evaluationEnCours = null
+        private Evaluation _evaluationEnCours = null;
         public List<SessionECF> ListeSessionECFs
         {
             get { return _listeSessionECFs; }
