@@ -250,16 +250,18 @@ namespace ApplicationENI.Vue.PopUp
                 {
                     foreach (Stagiaire stagiaireNonAjoute in lesParticipantsNonAjoutes)
                     {
-                        if (listeParticipants!=null)
+                        if (lbParticipants.Items!=null)
                         {
-                            foreach (Stagiaire stag in listeParticipants)
+                            foreach(Stagiaire stag in lbParticipants.Items)
                             {
-                                if (stag == stagiaireNonAjoute)
+                                if(stag == stagiaireNonAjoute)
                                 {
                                     listeParticipants.Remove(stag);
-                                }
-                                reponse += "\n" + stagiaireNonAjoute.ToString();
+                                    reponse += "\n" + stagiaireNonAjoute.ToString();
+                                }                                
                             }
+                            //lbParticipants.Items.Remove(stagiaireNonAjoute);
+                            //reponse += "\n" + stagiaireNonAjoute.ToString();
                         }                        
                     }
                 }
