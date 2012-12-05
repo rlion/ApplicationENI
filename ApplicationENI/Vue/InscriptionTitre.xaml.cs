@@ -112,7 +112,11 @@ namespace ApplicationENI.Vue
                 {
                     histoPassageT.DatePassage = passageTitre.DatePassage;
                     histoPassageT.EstValide = passageTitre.EstValide;
-                    if(Controleur.CheckIfInscrit(codeStagiaire, codeTitre) == 2) groupBox1.IsEnabled = false;
+                    if(Controleur.CheckIfInscrit(codeStagiaire, codeTitre) == 2)
+                    {
+                        groupBox1.IsEnabled = false;
+                        groupBox2.IsEnabled = true;
+                    }
                 }
                 else
                 {

@@ -45,7 +45,7 @@ namespace ApplicationENI.Vue.PopUp {
         {
             listeJuryItem = new List<JuryItem>();
 
-            foreach(Jury j in listeJury) listeJuryItem.Add(new JuryItem(j));
+            if(listeJury != null) foreach(Jury j in listeJury) listeJuryItem.Add(new JuryItem(j));
             this.lbListeJures.ItemsSource = listeJuryItem;
 
             acbNomPrenom.ItemsSource = DAL.TitresDAL.GetListeJury();
