@@ -9,17 +9,14 @@ namespace ApplicationENI.Controleur
 {
     class CtrlModifNoteECF
     {
-        //TODO regions
-
+        #region Attributs, proprietes et constructeur
         Evaluation _evaluation = null;
-
+        Stagiaire _stagaire = null;
         public Evaluation Evaluation
         {
             get { return _evaluation; }
             set { _evaluation = value; }
         }
-        Stagiaire _stagaire = null;
-
         public Stagiaire Stagaire
         {
             get { return _stagaire; }
@@ -31,10 +28,13 @@ namespace ApplicationENI.Controleur
             _evaluation = null;
             _stagaire = null;
         }
+        #endregion
 
+        #region Evaluation
         public void modifierNoteEvaluation(Evaluation pEvaluation, float pNote)
         {
             EvaluationsDAL.modifierNoteEvaluation(pEvaluation, pNote);
         }
+        #endregion
     }
 }

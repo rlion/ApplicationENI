@@ -47,8 +47,12 @@ namespace ApplicationENI.Vue.PopUp
             {
                 if ((DateTime)dateSel.SelectedDate!=_ctrlModifDateECF.SessionECF.Date)
                 {
-                    //TODO si il existe une note demande la suppression de cette note avec modification de la date
-                    _ctrlModifDateECF.modifierDateSessionECF_Stagiaire(_ctrlModifDateECF.Stagaire, _ctrlModifDateECF.SessionECF, (DateTime)dateSel.SelectedDate);
+                    //si il existe une note on empeche la modification de la date
+                    String reponse = _ctrlModifDateECF.modifierDateSessionECF_Stagiaire(_ctrlModifDateECF.Stagaire, _ctrlModifDateECF.SessionECF, (DateTime)dateSel.SelectedDate);
+                    if (reponse!="")
+                    {
+                        MessageBox.Show(reponse, "Attention!", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
                     Close();
                 }                
             }            

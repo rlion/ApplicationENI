@@ -9,31 +9,26 @@ namespace ApplicationENI.Controleur
 {
     class CtrlSaisieResultats
     {
-        //TODO regions 
+        #region Attributs, proprietes et constructeur
         private List<SessionECF> _listeSessionECFs = null;
-
+        private List<DateTime> _planif = null;
+        private SessionECF _sessionECFcourant = null;
+        private Evaluation _evaluationEnCours = null
         public List<SessionECF> ListeSessionECFs
         {
             get { return _listeSessionECFs; }
             set { _listeSessionECFs = value; }
         }
-        //private ECF _ecfCourant = null;
-        private List<DateTime> _planif = null;
-
         public List<DateTime> Planif
         {
             get { return _planif; }
             set { _planif = value; }
         }
-        private SessionECF _sessionECFcourant = null;
-
         public SessionECF SessionECFcourant
         {
             get { return _sessionECFcourant; }
             set { _sessionECFcourant = value; }
         }
-        private Evaluation _evaluationEnCours = null;
-
         public Evaluation EvaluationEnCours
         {
             get { return _evaluationEnCours; }
@@ -47,6 +42,7 @@ namespace ApplicationENI.Controleur
             _planif = null;
             _sessionECFcourant = null;
         }
+        #endregion 
 
         #region sessionECF
         public List<SessionECF> getListSessionsECFs()
@@ -71,6 +67,7 @@ namespace ApplicationENI.Controleur
         }
         #endregion
 
+        #region Evaluation
         public Evaluation donneNote(SessionECF pSession, Stagiaire pStag, Competence pComp)
         {
             return EvaluationsDAL.donneNote(pSession, pStag, pComp);
@@ -83,12 +80,14 @@ namespace ApplicationENI.Controleur
         {
             EvaluationsDAL.modifierNoteEvaluation(pEvaluation, pNote);
         }
+        #endregion
 
+        #region Stagiaire
         public List<Stagiaire> getListParticipants(SessionECF pSessionECF)
         {
             return SessionECFDAL.getListParticipants(pSessionECF);
         }
-
+        #endregion
 
     }
 }

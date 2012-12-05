@@ -9,31 +9,32 @@ namespace ApplicationENI.Controleur
 {
     class CtrlModifDateECF
     {
-        //TODO regions
+        #region Attributs, proprietes et constructeur
         SessionECF _sessionECF = null;
-
+        Stagiaire _stagaire = null;
         public SessionECF SessionECF
         {
             get { return _sessionECF; }
             set { _sessionECF = value; }
         }
-        Stagiaire _stagaire = null;
-
         public Stagiaire Stagaire
         {
             get { return _stagaire; }
             set { _stagaire = value; }
         }
+
         public CtrlModifDateECF()
         {
             _sessionECF = null;
             _stagaire = null;
         }
+        #endregion
 
-        public void modifierDateSessionECF_Stagiaire(Stagiaire pStagiaire, SessionECF pSessionECF, DateTime pDate)
+        #region SessionECF
+        public String modifierDateSessionECF_Stagiaire(Stagiaire pStagiaire, SessionECF pSessionECF, DateTime pDate)
         {
-            SessionECFDAL.modifierDateSessionECF_Stagiaire(pStagiaire, pSessionECF, pDate);
+            return SessionECFDAL.modifierDateSessionECF_Stagiaire(pStagiaire, pSessionECF, pDate);
         }
-
+        #endregion
     }
 }

@@ -16,6 +16,7 @@ namespace ApplicationENI.Controleur
             get { return _listeFormations; }
             set { _listeFormations = value; }
         }
+
         public CtrlListeECF_Formations()
         {
             _listeFormations = null;
@@ -43,7 +44,7 @@ namespace ApplicationENI.Controleur
 
             public override string ToString()
             {
-                return _formation.Libelle;// +" - " + _competence.Libelle;
+                return _formation.Libelle;
             }
         }
         #endregion

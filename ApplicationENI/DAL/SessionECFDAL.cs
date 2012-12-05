@@ -248,17 +248,30 @@ namespace ApplicationENI.DAL
         //    connexion.Close();
         //}
 
-        public static void modifierDateSessionECF_Stagiaire(Stagiaire pStagiaire, SessionECF pSessionECF, DateTime pDate) 
+        public static String modifierDateSessionECF_Stagiaire(Stagiaire pStagiaire, SessionECF pSessionECF, DateTime pDate) 
         {
             //TODO Verif qu'il n'y a pas d evaluation (pas logique en théorie car date future)
-            
-            //Supprimer lien SessionECF-stagiaire de la table ParticipantsSessionECF
-            String requete = "DELETE FROM PARTICIPANTSSESSIONECF where idSessionECF=@idSessionECF AND idStagiaire=@idStagiaire";
+            String requete = "SELECT * FROM EVALUATION WHERE idECF=@idECF AND idStagiaire=@idStagiaire AND version=@version";
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(requete, connexion);
+            cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id);
+            cmd.Parameters.AddWithValue("@idStagiaire", pStagiaire._id);
+            cmd.Parameters.AddWithValue("@version", pSessionECF.Version);
+            SqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                connexion.Close();
+                return "Vous ne pouvez plus modifier la date, le stagiaire a déjà été noté sur cette version d'ECF";
+            }
+            connexion.Close();
+
+            //Supprimer lien SessionECF-stagiaire de la table ParticipantsSessionECF
+            requete = "DELETE FROM PARTICIPANTSSESSIONECF where idSessionECF=@idSessionECF AND idStagiaire=@idStagiaire";
+            connexion = ConnexionSQL.CreationConnexion();
+            cmd = new SqlCommand(requete, connexion);
             cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id);
             cmd.Parameters.AddWithValue("@idStagiaire", pStagiaire._id);
-            SqlDataReader reader = cmd.ExecuteReader();
+            reader = cmd.ExecuteReader();
             connexion.Close();
 
             //SI la date existe pour cet ECF dans la même version            
@@ -294,6 +307,8 @@ namespace ApplicationENI.DAL
 
                 ajouterSessionECF(NEWSessionECF);
             }
+
+            return "";
         }
 
         public static List<Stagiaire> ajouterParticipants(SessionECF pSessionECF)

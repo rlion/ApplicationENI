@@ -61,10 +61,6 @@ namespace ApplicationENI.Controleur
         {
             return CompetencesDAL.getListCompetences();
         }
-        //public String ajouterCompetence(Competence pComp)
-        //{
-        //    return CompetencesDAL.ajouterCompetence(pComp);
-        //}
         public String supprimerCompetence(Competence pComp)
         {
             return CompetencesDAL.supprimerCompetence(pComp);
@@ -76,10 +72,6 @@ namespace ApplicationENI.Controleur
         {
             return ECFDAL.ajouterLienCompetence(pECF, pComp);
         }
-        //public String supprimerLienCompetence(ECF pECF, Competence pComp)
-        //{
-        //    return ECFDAL.supprimerLienCompetence(pECF, pComp);
-        //}
         public String supprimerLiensCompetences(ECF pECF)
         {
             return ECFDAL.supprimerLiensCompetences(pECF);

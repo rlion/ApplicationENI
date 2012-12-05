@@ -17,8 +17,7 @@ namespace ApplicationENI.Controleur
         {
             get { return _sessionECF; }
             set { _sessionECF = value; }
-        }
-        
+        }        
         public List<SessionECF> ListeECFPlanif
         {
             get { return _listeECFPlanif; }
@@ -29,6 +28,7 @@ namespace ApplicationENI.Controleur
             get { return _planif; }
             set { _planif = value; }
         }
+
         public CtrlAjoutSessionECF()
         {
             _sessionECF = null;
@@ -59,7 +59,7 @@ namespace ApplicationENI.Controleur
         }
         #endregion
 
-        #region Stagiaires/Participants
+        #region Stagiaire
         public List<Stagiaire> getListeStagiaires()
         {
             return StagiairesDAL.getListeStagiaires();

@@ -9,13 +9,11 @@ namespace ApplicationENI.Controleur
 {
     class CtrlSyntheseECF
     {
-        #region test
-        #endregion
-
+        #region Attributs, proprietes et constructeur
         private Stagiaire _stagiaireEncours = null;
-        private List<SessionECF> _lesSessionsECFsStag = null;        
-        private SessionECF _sessionSelectionnee = null;        
-        private Evaluation _evaluationSelectionnee = null;        
+        private List<SessionECF> _lesSessionsECFsStag = null;
+        private SessionECF _sessionSelectionnee = null;
+        private Evaluation _evaluationSelectionnee = null;
 
         public Stagiaire StagiaireEncours
         {
@@ -45,20 +43,27 @@ namespace ApplicationENI.Controleur
             _sessionSelectionnee = null;
             _stagiaireEncours = null;
         }
+        #endregion
 
+        #region SessionECF
         public List<SessionECF> getListSessionsECFStagiaire(Stagiaire pStag)
         {
             return SessionECFDAL.getListSessionsECFStagiaire(pStag);
         }
+        #endregion
 
+        #region Evaluation
         public Evaluation donneNote(SessionECF pSession, Stagiaire pStag, Competence pComp)
         {
             return EvaluationsDAL.donneNote(pSession, pStag, pComp);
         }
+        #endregion
 
+        #region Lien ECF-Formation
         public void supprimerLienFormation(ECF pECF, Formation pForm)
         {
             ECFDAL.supprimerLienFormation(pECF, pForm);
         }
+        #endregion
     }
 }

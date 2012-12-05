@@ -28,6 +28,7 @@ namespace ApplicationENI.Controleur
             get { return _competence; }
             set { _competence = value; }
         }
+
         public CtrlAjoutECF_Competence()
         {
             _ecfAdd = false;
@@ -36,14 +37,19 @@ namespace ApplicationENI.Controleur
         }
         #endregion
 
+        #region ECF
         public String ajouterECF(ECF pECF)
         {
             return ECFDAL.ajouterECF(pECF);
         }
+        #endregion
+
+        #region Competence
         public String ajouterCompetence(Competence pComp)
         {
             return CompetencesDAL.ajouterCompetence(pComp);
         }
+        #endregion
 
     }
 }
