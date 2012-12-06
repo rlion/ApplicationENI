@@ -25,11 +25,6 @@ namespace ApplicationENI.Controleur {
             return DAL.AccueilDAL.GetListePromotions();
         }
 
-        public List<Cours> listeCours(Formation pF)
-        {
-            return pF.listeCours();
-        }
-
         public List<Promotion> listePromotion() {
             return DAL.PromotionDAL.listePromotions();
         }

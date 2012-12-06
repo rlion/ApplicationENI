@@ -23,24 +23,11 @@ namespace ApplicationENI.Vue
     /// </summary>
     public partial class GestionECF : UserControl
     {
-        #region Propriétés
-        //private List<ECF> _listeECF = null; //liste de tous les ECFs
-        //private ECF _ecfCourant = null; //ecf selectionne         
-        //private bool _ecfAdd; //si true on est en train d'ajouter un ECF sinon une Competence
+        #region Attribut
         private CtrlGestionECF _ctrlGestionECF = null;        
         #endregion
 
-        #region getter/setter
-        //public bool EcfAdd
-        //{
-        //    get { return _ecfAdd; }
-        //    set { _ecfAdd = value; }
-        //}
-        //public ECF EcfCourant
-        //{
-        //    get { return _ecfCourant; }
-        //    set { _ecfCourant = value; }
-        //}
+        #region Propriete
         public CtrlGestionECF CtrlGestionECF
         {
             get { return _ctrlGestionECF; }
@@ -54,7 +41,6 @@ namespace ApplicationENI.Vue
             InitializeComponent();
 
             _ctrlGestionECF=new CtrlGestionECF();
-
             ActualiseAffichage(null);
         }
         #endregion
@@ -62,7 +48,7 @@ namespace ApplicationENI.Vue
         #region affichage
         private void ActualiseAffichage(ECF pECFCourant){
             //RAZ de la combo
-            cbECF.ItemsSource = null;//cbECF.Items.Clear();
+            cbECF.ItemsSource = null;
             //recup de la liste d'ECF
             _ctrlGestionECF.ListeECF = _ctrlGestionECF.getListECFs();
             //peuplement de la combobox
@@ -77,8 +63,7 @@ namespace ApplicationENI.Vue
                     {
                         if (ecf.Id == pECFCourant.Id) pECFCourant = ecf;
                     }
-                }
-                
+                }                
                 cbECF.SelectedItem = pECFCourant;
             }
         }
@@ -87,7 +72,7 @@ namespace ApplicationENI.Vue
             RAZ();
 
             //si pas d'ECF selectionné on ne peut pas ajouter de competence
-            if (pECF == null) //pECF.Equals(null))
+            if (pECF == null)
             {
                 btAjoutFormation.IsEnabled = false;
                 btAjoutCompetence.IsEnabled = false;
@@ -103,7 +88,6 @@ namespace ApplicationENI.Vue
             //AFFICHAGE
             //libelle
             tbLibECF.Text = pECF.Libelle;
-            //TODO? MAT coeff
             //type de notation
             if (pECF.NotationNumerique)
             {
@@ -150,7 +134,7 @@ namespace ApplicationENI.Vue
 
             //MAJ de l'affichage sur l'ECF courant
             ActualiseAffichage(_ctrlGestionECF.EcfCourant);
-            afficheECF(_ctrlGestionECF.EcfCourant);//cbECF.SelectedItem = _ecfCourant;
+            afficheECF(_ctrlGestionECF.EcfCourant);
         }
         private void btSupprCompetence_Click(object sender, RoutedEventArgs e)
         {
@@ -190,14 +174,13 @@ namespace ApplicationENI.Vue
         #region formations
         private void btAjoutFormation_Click(object sender, RoutedEventArgs e)
         {
-            //_ecfAdd = false;// on ne va pas ajouter un ECF (ie on ajoute une Competence)
             //Affichage de l'écran d'ajout
             ListeECF_Formations ajoutFormation = new ListeECF_Formations(((List<Formation>)lbFormations.ItemsSource),_ctrlGestionECF.EcfCourant);
             ajoutFormation.ShowDialog();
 
             //MAJ de l'affichage sur l'ECF courant
             ActualiseAffichage(_ctrlGestionECF.EcfCourant);
-            afficheECF(_ctrlGestionECF.EcfCourant);//cbECF.SelectedItem = _ecfCourant;
+            afficheECF(_ctrlGestionECF.EcfCourant);
         }
         private void btSupprFormation_Click(object sender, RoutedEventArgs e)
         {
@@ -288,7 +271,6 @@ namespace ApplicationENI.Vue
         }        
         private void btSupprECF_Click(object sender, RoutedEventArgs e)
         {
-            //TODO confirmer la suppression
             //Suppression de l'ECF courant
             _ctrlGestionECF.supprimerECF(_ctrlGestionECF.EcfCourant);
 
@@ -308,7 +290,6 @@ namespace ApplicationENI.Vue
         }        
         private void btCancel_Click(object sender, RoutedEventArgs e)
         {
-            //_ecfCourant = ECFDAL.getECF(_ecfCourant);
             //MAJ de l'affichage
             if (_ctrlGestionECF.EcfCourant != null)
             {

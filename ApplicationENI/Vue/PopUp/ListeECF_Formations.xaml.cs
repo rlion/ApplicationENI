@@ -21,20 +21,12 @@ namespace ApplicationENI.Vue.PopUp
     public partial class ListeECF_Formations : Window
     {
 
-        #region propriété + get/set
-        //private List<SelectionFormation> _listeFormations;
-        //private List<SelectionFormation> ListeFormations
-        //{
-        //    get { return _listeFormations; }
-        //    set { _listeFormations = value; }
-        //}
+        #region Attributs, proprietes
         private CtrlListeECF_Formations _ctrlListeECF_Formations = null;
         private List<Formation> _lesFormationsSelectionnees = null;
         private ECF _ECFCourant = null;
         #endregion
-
         
-
         #region constructeur
         public ListeECF_Formations(List<Formation> pLesFormationsSelectionnees, ECF pEcfCourant)
         {
@@ -43,10 +35,8 @@ namespace ApplicationENI.Vue.PopUp
             _ctrlListeECF_Formations = new CtrlListeECF_Formations();
             _lesFormationsSelectionnees = pLesFormationsSelectionnees;
             _ECFCourant = pEcfCourant;
-            ActualiseAffichage(null);
 
-            //autocbCompetence.ItemsSource = _listeCompetences;
-            //isInitAutoCompBox = true;
+            ActualiseAffichage(null);
         }
         #endregion
 
@@ -54,12 +44,11 @@ namespace ApplicationENI.Vue.PopUp
         private void ActualiseAffichage(CtrlListeECF_Formations.SelectionFormation pSf)
         {
             //RAZ
-            lbListeFormations.ItemsSource = null;//lbListeCompetences.Items.Clear();
+            lbListeFormations.ItemsSource = null;
             _ctrlListeECF_Formations.ListeFormations = new List<CtrlListeECF_Formations.SelectionFormation>();
             if (pSf == null)
             {
                 //MAJ        
-                //TODO eviter double appel getListForm
                 if (_ctrlListeECF_Formations.getListFormations()!=null)
                 {
                     foreach (Formation form in _ctrlListeECF_Formations.getListFormations())
@@ -67,7 +56,6 @@ namespace ApplicationENI.Vue.PopUp
                         CtrlListeECF_Formations.SelectionFormation uneForm = new CtrlListeECF_Formations.SelectionFormation();
                         uneForm.Formation = form;
                         uneForm.IsChecked = false;
-                        //if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).lbFormations.Items.Contains(form))
                         if (_lesFormationsSelectionnees.Contains(form))
                         {
                             uneForm.IsChecked = true;
@@ -99,43 +87,12 @@ namespace ApplicationENI.Vue.PopUp
         {
             Close();
         }
-        //TODO?
-        //private void btAjouter_Click(object sender, RoutedEventArgs e)
-        //{
-        //    AjoutECF_Competence ajoutCompetence = new AjoutECF_Competence();
-        //    ajoutCompetence.ShowDialog();
-
-        //    ActualiseAffichage(null);
-        //}
-        //private void btSupprimer_Click(object sender, RoutedEventArgs e)
-        //{
-        //    String message = "";
-
-        //    //TODO confirmer la suppression
-        //    foreach (SelectionCompetence selComp in _listeCompetences)
-        //    {
-        //        if (selComp.IsChecked)
-        //        {
-        //            message = CtrlGestionECF.supprimerCompetence(selComp.Competence);
-        //        }
-        //    }
-
-        //    if (message.Trim() != "")
-        //    {
-        //        MessageBox.Show(message);
-        //    }
-        //    else
-        //    {
-        //        ActualiseAffichage(null);
-        //    }
-        //}
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
             //On supprime tous les liens avec l'ECF courant
             _ctrlListeECF_Formations.supprimerLiensFormations(_ECFCourant);
             
             //On recréé tous les liens avec les compétences sélectionnées
-            //TODO eviter double appel
             if (_ctrlListeECF_Formations.ListeFormations!=null)
             {
                 foreach (CtrlListeECF_Formations.SelectionFormation selForm in _ctrlListeECF_Formations.ListeFormations)
@@ -173,27 +130,6 @@ namespace ApplicationENI.Vue.PopUp
             
             refresh();
         }
-
-        //private void autocbCompetence_GotFocus(object sender, RoutedEventArgs e)
-        //{
-        //    if (isInitAutoCompBox)
-        //    {
-        //        autocbCompetence.Text = string.Empty;
-        //        isInitAutoCompBox = false;
-        //    }
-        //}
-        //private void autocbCompetence_MouseUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    foreach (SelectionCompetence sc in _listeCompetences)
-        //    {
-        //        if (sc.Competence.Code == autocbCompetence.Text.Substring(0, autocbCompetence.Text.IndexOf(" - "))
-        //            && (sc.Competence.Libelle == autocbCompetence.Text.Substring(autocbCompetence.Text.IndexOf(" - ") + 3)))
-        //        {
-        //            ActualiseAffichage(sc);
-        //            refresh();
-        //        }
-        //    }
-        //}
         #endregion
     }
 }

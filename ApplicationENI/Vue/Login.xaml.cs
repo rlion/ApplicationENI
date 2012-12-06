@@ -25,10 +25,6 @@ namespace ApplicationENI.Vue
         public Login()
         {
             InitializeComponent();
-
-            //TODO: supprimer ces deux lignes avant d'envoyer les livrables
-            this.textBox1.Text = "admin";
-            this.passwordBox1.Password = "P@$$w0rd";
         }
 
         //Bouton "Valider"
@@ -68,7 +64,7 @@ namespace ApplicationENI.Vue
                 }
                 else
                 {
-                    //TODO : pour les tests, on utilise le domaine STAGIAIRES, mais les utilisteurs de l'appli utiliseront un autre domaine.
+                    //Pour les tests, on utilise le domaine STAGIAIRES, mais les utilisteurs de l'appli utiliseront un autre domaine.
                     DirectoryEntry Ldap = new DirectoryEntry("LDAP://STAGIAIRES.local", login, password, AuthenticationTypes.Secure);
                     guid = Ldap.Guid;
                     if (guid == null) return false;

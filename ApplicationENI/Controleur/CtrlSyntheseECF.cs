@@ -7,7 +7,7 @@ using ApplicationENI.Modele;
 
 namespace ApplicationENI.Controleur
 {
-    class CtrlSyntheseECF
+    public class CtrlSyntheseECF
     {
         #region Attributs, proprietes et constructeur
         private Stagiaire _stagiaireEncours = null;

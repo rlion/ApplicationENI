@@ -10,14 +10,10 @@ namespace ApplicationENI.DAL
     class CompetencesDAL
     {
         static String SELECT_COMPETENCES = "SELECT * FROM COMPETENCE order by code, libelle";
-        //static String SELECT_COMPETENCES_FILTRE = "SELECT * FROM COMPETENCE WHERE (code like (@filtre) or libelle like (@filtre)) order by code, libelle";
-        static String SELECT_CODE = "SELECT * FROM COMPETENCE WHERE code=@code";
-        
+        static String SELECT_CODE = "SELECT * FROM COMPETENCE WHERE code=@code";        
         static String DELETE_COMPETENCE = "DELETE FROM COMPETENCE WHERE idCompetence=@id";
         static String SELECT_MAX = "SELECT MAX(idCompetence) FROM COMPETENCE";
         static String SELECT_LIENS = "SELECT * FROM COMPETENCESECF where idCompetence=@idCompetence";
-        //static String UPDATE_COMPETENCE = "UPDATE SET WHERE ";
-
         static String INSERT_COMP = "INSERT INTO COMPETENCE (idCompetence, code, libelle) VALUES (@id, @code, @libelle)";
 
         public static List<Competence> getListCompetences()
@@ -25,16 +21,7 @@ namespace ApplicationENI.DAL
             List<Competence> lesCompetences = new List<Competence>();
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = null;
-
-            //if (pTexte == "")
-            //{
-                cmd = new SqlCommand(SELECT_COMPETENCES, connexion);
-            //}
-            //else
-            //{
-            //    cmd = new SqlCommand(SELECT_COMPETENCES_FILTRE, connexion);
-            //    cmd.Parameters.AddWithValue("@filtre", "%" + pTexte.Trim() + "%");
-            //}
+            cmd = new SqlCommand(SELECT_COMPETENCES, connexion);
             SqlDataReader reader =cmd.ExecuteReader();
 
             while (reader.Read())
@@ -49,7 +36,6 @@ namespace ApplicationENI.DAL
             connexion.Close();
 
             return lesCompetences;
-            //return DAL.JeuDonnees.GetListCompetence();
         }
 
         public static String ajouterCompetence(Competence comp)
@@ -95,15 +81,8 @@ namespace ApplicationENI.DAL
             return "";
         }
 
-        public static void modifierCompetence(Competence comp)
-        {
-            //TODO?
-        }
-
         public static String supprimerCompetence(Competence comp)
-        {
-            //TODO verif s'il ya des liens competence-evaluations si oui suppr pas possible
-            
+        {          
             //Vérif s'il y a des liens ECF-Competence
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(SELECT_LIENS, connexion);

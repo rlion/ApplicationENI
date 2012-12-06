@@ -9,24 +9,23 @@ namespace ApplicationENI.DAL
 {
     class ECFDAL
     {
-        static String SELECT_ECF = "SELECT * FROM ECF WHERE idECF=@id";//, Competences, CompetenceECFS as lien WHERE lien.idECF=ECFs=idECF and lien.idCompetence=Competences.idCompetence order by ECFs.idECF";
-        static String SELECT_ECFS = "SELECT * FROM ECF order by code, libelle";//, Competences, CompetenceECFS as lien WHERE lien.idECF=ECFs=idECF and lien.idCompetence=Competences.idCompetence order by ECFs.idECF";
+        static String SELECT_ECF = "SELECT * FROM ECF WHERE idECF=@id";
+        static String SELECT_ECFS = "SELECT * FROM ECF order by code, libelle";
         static String SELECT_COMPS = "SELECT COMPETENCE.idCompetence, COMPETENCE.code, COMPETENCE.libelle FROM COMPETENCE, COMPETENCESECF WHERE COMPETENCE.idCompetence=COMPETENCESECF.idCompetence and COMPETENCESECF.idECF=@lienECFComp order by COMPETENCE.code, COMPETENCE.libelle";
         static String SELECT_FORMS = "SELECT FORMATION.CodeFormation, FORMATION.LibelleCourt FROM FORMATION, FORMATIONSECF WHERE FORMATION.CodeFormation=FORMATIONSECF.idFormation and FORMATIONSECF.idECF=@lienECFForm order by FORMATION.LibelleCourt, FORMATION.CodeFormation";
         static String SELECT_MAX = "SELECT MAX(idECF) FROM ECF";
         static String SELECT_CODE = "SELECT * FROM ECF where code=@code";
-
         static String INSERT_ECF= "INSERT INTO ECF (idECF, code, libelle,coefficient,typeNotation,nbreVersions) VALUES (@idECF, @code, @libelle,@coefficient,@typeNotation,@nbreVersions)";
         static String INSERT_LIEN_COMPETENCE = "INSERT INTO COMPETENCESECF (idECF, idCompetence) VALUES (@idECF, @idCompetence)";
         static String INSERT_LIEN_FORMATION = "INSERT INTO FORMATIONSECF (idECF, idFormation) VALUES (@idECF, @codeFormation)";
-        
         static String UPDATE_ECF = "UPDATE ECF SET libelle=@libelleECF,coefficient=@coefficient,typeNotation=@typeNotation,nbreVersions=@nbreVersions,commentaire=@commentaire WHERE idECF=@idECF";
-        
         static String DELETE_LIENS_COMPETENCES = "DELETE FROM COMPETENCESECF WHERE idECF=@idECF";
         static String DELETE_LIEN_COMPETENCE = "DELETE FROM COMPETENCESECF WHERE idECF=@idECF AND idCompetence=@idCompetence";
         static String DELETE_LIENS_FORMATIONS = "DELETE FROM FORMATIONSECF WHERE idECF=@idECF";
         static String DELETE_LIEN_FORMATION = "DELETE FROM FORMATIONSECF WHERE idECF=@idECF AND idFormation=@codeFormation";
         static String DELETE_ECF = "DELETE FROM ECF WHERE idECF=@id";
+        static String SELECT_EVAL_ECF ="SELECT idECF FROM EVALUATION WHERE idECF=@idECF";
+        static String SELECT_EVAL_VERSIONECF ="SELECT idECF FROM EVALUATION WHERE idECF=@idECF and version>@version";
 
         public static ECF getECF(int idECF)
         {
@@ -57,7 +56,6 @@ namespace ApplicationENI.DAL
                 //Competences
                 SqlConnection c2 = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd2 = new SqlCommand(SELECT_COMPS, c2);
-                //cmd2.Parameters.AddWithValue("@lienECFComp", ecfTemp.Id.Trim());
                 cmd2.Parameters.Add(new SqlParameter("@lienECFComp", ecfTemp.Id));
                 SqlDataReader reader2 = cmd2.ExecuteReader();
                 List<Competence> lesComp = new List<Competence>();
@@ -75,7 +73,6 @@ namespace ApplicationENI.DAL
                 //Formations
                 SqlConnection c3 = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd3 = new SqlCommand(SELECT_FORMS, c3);
-                //cmd2.Parameters.AddWithValue("@lienECFComp", ecfTemp.Id.Trim());
                 cmd3.Parameters.Add(new SqlParameter("@lienECFForm", ecfTemp.Id));
                 SqlDataReader reader3 = cmd3.ExecuteReader();
                 List<Formation> lesFormations = new List<Formation>();
@@ -91,8 +88,7 @@ namespace ApplicationENI.DAL
             }
             connexion.Close();
 
-            return ecfTemp;
-                    
+            return ecfTemp;                    
         }
 
         public static List<ECF> getListECFs()
@@ -122,7 +118,6 @@ namespace ApplicationENI.DAL
                 //Competences
                 SqlConnection c2 = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd2 = new SqlCommand(SELECT_COMPS, c2);
-                //cmd2.Parameters.AddWithValue("@lienECFComp", ecfTemp.Id.Trim());
                 cmd2.Parameters.Add(new SqlParameter("@lienECFComp",ecfTemp.Id));
                 SqlDataReader reader2 = cmd2.ExecuteReader();
                 List<Competence> lesComp = new List<Competence>();      
@@ -140,7 +135,6 @@ namespace ApplicationENI.DAL
                 //Formations
                 SqlConnection c3 = ConnexionSQL.CreationConnexion();
                 SqlCommand cmd3 = new SqlCommand(SELECT_FORMS, c3);
-                //cmd2.Parameters.AddWithValue("@lienECFComp", ecfTemp.Id.Trim());
                 cmd3.Parameters.Add(new SqlParameter("@lienECFForm", ecfTemp.Id));
                 SqlDataReader reader3 = cmd3.ExecuteReader();
                 List<Formation> lesFormations = new List<Formation>();
@@ -159,7 +153,6 @@ namespace ApplicationENI.DAL
             connexion.Close();
 
             return lesECFs;
-            //return DAL.JeuDonnees.GetListECF();
         }
 
         public static String ajouterECF(ECF ecf)
@@ -210,7 +203,6 @@ namespace ApplicationENI.DAL
         public static String modifierECF(ECF ecf)
         {
             String reponse="";
-            String requete="";
             SqlConnection connexion;
             SqlCommand cmd;
             SqlDataReader reader;
@@ -220,9 +212,8 @@ namespace ApplicationENI.DAL
             //Si on souhaite changer le type de notation mais qu'il y a deja des notes
             if(AncienECF.NotationNumerique!=ecf.NotationNumerique)
             {
-                requete="SELECT idECF FROM EVALUATION WHERE idECF=@idECF";
                 connexion = ConnexionSQL.CreationConnexion();
-                cmd = new SqlCommand(requete, connexion);
+                cmd = new SqlCommand(SELECT_EVAL_ECF, connexion);
                 cmd.Parameters.AddWithValue("@idECF", ecf.Id);
                 reader = cmd.ExecuteReader();
                 if(reader.Read())
@@ -231,13 +222,12 @@ namespace ApplicationENI.DAL
                     return reponse;
                 }
             }
-
+            
             //Si on souhaite reduire le nombre de versions mais qu'il y a deja des notes
             if(AncienECF.NbreVersion>ecf.NbreVersion)
-            {
-                requete="SELECT idECF FROM EVALUATION WHERE idECF=@idECF and version>@version";
+            {                
                 connexion = ConnexionSQL.CreationConnexion();
-                cmd = new SqlCommand(requete, connexion);
+                cmd = new SqlCommand(SELECT_EVAL_VERSIONECF, connexion);
                 cmd.Parameters.AddWithValue("@idECF", ecf.Id);
                 cmd.Parameters.AddWithValue("@version", ecf.NbreVersion);
                 reader = cmd.ExecuteReader();
@@ -332,9 +322,8 @@ namespace ApplicationENI.DAL
         {
             //Verifier que l'ECF n'a pas deja ete evalue
             // Si c'est le cas, on ne peut plus en modifier les competences rattachees
-            String requete = "SELECT idECF FROM EVALUATION WHERE idECF=@idECF";
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(requete, connexion);
+            SqlCommand cmd = new SqlCommand(SELECT_EVAL_ECF, connexion);
             cmd.Parameters.AddWithValue("@idECF", ecf.Id);
             SqlDataReader reader = cmd.ExecuteReader();
 
@@ -377,16 +366,14 @@ namespace ApplicationENI.DAL
         {
             //Verifier que l'ECF n'a pas deja ete evalue
             // Si c'est le cas, on ne peut plus en modifier les competences rattachees
-            String requete = "SELECT idECF FROM EVALUATION WHERE idECF=@idECF";
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(requete, connexion);
+            SqlCommand cmd = new SqlCommand(SELECT_EVAL_ECF, connexion);
             cmd.Parameters.AddWithValue("@idECF", ecf.Id);
             SqlDataReader reader = cmd.ExecuteReader();
 
             if (reader.Read())
             {
                 connexion.Close();
-
                 return "Vous ne pouvez plus modifier les compétences de cet ECF car il a déjà été évalué";
             }
             else
@@ -405,6 +392,7 @@ namespace ApplicationENI.DAL
                 return "";
             }
         }
+        
         public static void supprimerLienFormation(ECF ecf, Formation form)
         {
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
@@ -421,16 +409,14 @@ namespace ApplicationENI.DAL
         {
             //Verifier que l'ECF n'a pas deja ete evalue
             // Si c'est le cas, on ne peut plus en modifier les competences rattachees
-            String requete = "SELECT idECF FROM EVALUATION WHERE idECF=@idECF";
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(requete, connexion);
+            SqlCommand cmd = new SqlCommand(SELECT_EVAL_ECF, connexion);
             cmd.Parameters.AddWithValue("@idECF", ecf.Id);
             SqlDataReader reader = cmd.ExecuteReader();
 
             if (reader.Read())
             {
                 connexion.Close();
-
                 return "Vous ne pouvez plus modifier les compétences de cet ECF car il a déjà été évalué";
             }
             else
@@ -460,7 +446,6 @@ namespace ApplicationENI.DAL
 
         public static void supprimerECF(ECF ecf)
         {
-            //TODO verif liens ECF-SessionECF ECF-evaluation si oui pas possible de supprimer
             //Suppr des liens ECF-Competences
             supprimerLiensCompetences(ecf);
             //Suppr des liens ECF-Formations

@@ -7,7 +7,7 @@ using ApplicationENI.DAL;
 
 namespace ApplicationENI.Controleur
 {
-    class CtrlAjoutECF_Competence
+    public class CtrlAjoutECF_Competence
     {
         #region Attributs, proprietes et constructeur
         private bool _ecfAdd; //si true on est en train d'ajouter un ECF sinon une Competence

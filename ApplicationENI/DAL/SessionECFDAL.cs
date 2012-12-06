@@ -9,19 +9,34 @@ namespace ApplicationENI.DAL
 {
     class SessionECFDAL
     {
-        static String SELECT_SESSIONSECFS = "SELECT * FROM SESSIONSECF order by date";//, Competences, CompetenceECFS as lien WHERE lien.idECF=ECFs=idECF and lien.idCompetence=Competences.idCompetence order by ECFs.idECF";
+        static String SELECT_SESSIONSECFS = "SELECT * FROM SESSIONSECF order by date";
         static String SELECT_SESSIONSECF = "SELECT * FROM SESSIONSECF WHERE idECF=@idECF order by date";
         static String SELECT_SESSIONSECFVERSION = "SELECT * FROM SESSIONSECF WHERE idECF=@idECF and version=@version order by date";
+        static String SELECT_ID_SESSIONECF = "SELECT idSessionECF from SESSIONSECF where idECF=@idECF and date=@date and version=@version";
         static String INSERT_SESSIONECF = "INSERT INTO SESSIONSECF (idSessionECF, idECF, date, version) VALUES (@idSessionECF, @idECF,@date, @version)";
         static String DELETE_SESSIONECF = "DELETE FROM SESSIONSECF WHERE idECF=@idECF";
         static String SELECT_MAX_SESSIONECF = "SELECT MAX(idSessionECF) FROM SESSIONSECF";
-        //static String UPDATE_DATE_SESSIONECF = "UPDATE SESSIONSECF SET date=@date WHERE idSessionECF=@idSessionECF";
-
         static String SELECT_PARTICIPANTS = "SELECT * FROM PARTICIPANTSSESSIONECF WHERE idSessionECF=@idSessionECF";
         static String INSERT_PARTICIPANT = "INSERT INTO PARTICIPANTSSESSIONECF (idSessionECF, idStagiaire) VALUES (@idSessionECF, @idStagiaire)";
         static String DELETE_PARTICIPANTS = "DELETE FROM PARTICIPANTSSESSIONECF WHERE idSessionECF=@idSessionECF";
-        //static String SELECT_MAX = "SELECT MAX(id) FROM PARTICIPANTSSESSIONECF";
+        static String SELECT_SESSIONSECF_STAG = "SELECT * FROM PARTICIPANTSSESSIONECF,SESSIONSECF " +
+                " WHERE SESSIONSECF.idSessionECF=PARTICIPANTSSESSIONECF.idSessionECF " +
+                " AND PARTICIPANTSSESSIONECF.idStagiaire=@idStagiaire order by SESSIONSECF.date";
+        static String SELECT_EVAL_STAG = "SELECT * FROM EVALUATION WHERE idECF=@idECF AND idStagiaire=@idStagiaire AND version=@version";
+        static String DELETE_PARTICIPANT_SESSIONECF = "DELETE FROM PARTICIPANTSSESSIONECF where idSessionECF=@idSessionECF AND idStagiaire=@idStagiaire";
+        static String SELECT_SESSIONECF_DATE_VERSION = "SELECT idSessionECF FROM SESSIONSECF WHERE idECF=@idECF AND date=@date AND version=@version";
+        static String SELECT_EVAL_STAG_PART ="SELECT idStagiaire from PARTICIPANTSSESSIONECF, SESSIONSECF " +
+                " WHERE PARTICIPANTSSESSIONECF.idSessionECF=SESSIONSECF.idSessionECF " +
+                " AND SESSIONSECF.idECF=@idECF " +
+                " AND PARTICIPANTSSESSIONECF.idStagiaire=@idStagiaire " +
+                " AND SESSIONSECF.version=@version ";
+        static String SELECT_SESSIONSECF_JOUR = "SELECT * from SESSIONSECF where idECF=@idECF and date=@date";
+        static String SELECT_PARTICIPANTS_SESSIONECF = " SELECT Stagiaire.CodeStagiaire FROM Stagiaire, PARTICIPANTSSESSIONECF " +
+                " WHERE Stagiaire.CodeStagiaire=PARTICIPANTSSESSIONECF.idStagiaire AND PARTICIPANTSSESSIONECF.idSessionECF=@idSessionECF";
+        static String SELECT_NOTES_SESSIONSECF = "SELECT * FROM EVALUATION WHERE idECF=@idECF AND idStagiaire=@idStagiaire " +
+                "AND idCompetence=@idCompetence AND date=@date";
 
+        //recupere la liste de toutes les sessions ECFs
         public static List<SessionECF> getListSessionsECFs()
         {
             List<SessionECF> lesSessionsECFs = new List<SessionECF>();
@@ -63,6 +78,7 @@ namespace ApplicationENI.DAL
             return lesSessionsECFs;
         }
 
+        //recupere la liste de toutes sessions d'un ECF dans une version precise
         public static List<SessionECF> getListSessionsECFVersion(ECF pECF, int pVersion)
         {
             List<SessionECF> lesSessionsECFs = new List<SessionECF>();
@@ -105,6 +121,8 @@ namespace ApplicationENI.DAL
 
             return lesSessionsECFs;
         }
+
+        //recupere la liste de toutes sessions d'un ECF (toutes versions)
         public static List<SessionECF> getListSessionsECF(ECF pECF)
         {
             List<SessionECF> lesSessionsECFs = new List<SessionECF>();
@@ -147,20 +165,15 @@ namespace ApplicationENI.DAL
             return lesSessionsECFs;
         }
 
+        //recupere la liste de toutes sessions d'un ECF d'un stagiaire
         public static List<SessionECF> getListSessionsECFStagiaire(Stagiaire pStag)
         {
             List<SessionECF> lesECFsPlanifiesStagiaire = null;
-            
-            //recup la liste des ECFs planifies pour un stagiaire
-            String requete = "SELECT * FROM PARTICIPANTSSESSIONECF,SESSIONSECF " +
-                " WHERE SESSIONSECF.idSessionECF=PARTICIPANTSSESSIONECF.idSessionECF " +
-                " AND PARTICIPANTSSESSIONECF.idStagiaire=@idStagiaire order by SESSIONSECF.date";
 
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(requete, connexion);
+            SqlCommand cmd = new SqlCommand(SELECT_SESSIONSECF_STAG, connexion);
             cmd.Parameters.AddWithValue("@idStagiaire", pStag._id);
             SqlDataReader reader = cmd.ExecuteReader();
-
                 
             while (reader.Read())
             {
@@ -179,8 +192,7 @@ namespace ApplicationENI.DAL
             }
 
             connexion.Close();
-
-
+            
             return lesECFsPlanifiesStagiaire;
         }
 
@@ -235,25 +247,11 @@ namespace ApplicationENI.DAL
             return lesParticipantsNonAjoutes;
         }
 
-        //public static void modifierDateSessionECF(SessionECF sessionEcf,DateTime pDate)
-        //{
-        //    //TODO Verif qu'il n'y a pas d evaluation
-        //    //Modif de la date de la sessionECF dans la table SESSIONSECF
-        //    SqlConnection connexion = ConnexionSQL.CreationConnexion();
-        //    SqlCommand cmd = new SqlCommand(UPDATE_DATE_SESSIONECF, connexion);            
-        //    cmd.Parameters.AddWithValue("@idSessionECF", sessionEcf.Id);
-        //    cmd.Parameters.AddWithValue("@date", pDate);
-        //    SqlDataReader reader = cmd.ExecuteReader();
-
-        //    connexion.Close();
-        //}
-
         public static String modifierDateSessionECF_Stagiaire(Stagiaire pStagiaire, SessionECF pSessionECF, DateTime pDate) 
         {
-            //TODO Verif qu'il n'y a pas d evaluation (pas logique en théorie car date future)
-            String requete = "SELECT * FROM EVALUATION WHERE idECF=@idECF AND idStagiaire=@idStagiaire AND version=@version";
+            //Verif que cette version d'ECF n'a pas deja ete evaluee pour le stagiaire
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(requete, connexion);
+            SqlCommand cmd = new SqlCommand(SELECT_EVAL_STAG, connexion);
             cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id);
             cmd.Parameters.AddWithValue("@idStagiaire", pStagiaire._id);
             cmd.Parameters.AddWithValue("@version", pSessionECF.Version);
@@ -266,18 +264,16 @@ namespace ApplicationENI.DAL
             connexion.Close();
 
             //Supprimer lien SessionECF-stagiaire de la table ParticipantsSessionECF
-            requete = "DELETE FROM PARTICIPANTSSESSIONECF where idSessionECF=@idSessionECF AND idStagiaire=@idStagiaire";
             connexion = ConnexionSQL.CreationConnexion();
-            cmd = new SqlCommand(requete, connexion);
+            cmd = new SqlCommand(DELETE_PARTICIPANT_SESSIONECF, connexion);
             cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id);
             cmd.Parameters.AddWithValue("@idStagiaire", pStagiaire._id);
             reader = cmd.ExecuteReader();
             connexion.Close();
 
-            //SI la date existe pour cet ECF dans la même version            
-            requete = "SELECT idSessionECF FROM SESSIONSECF WHERE idECF=@idECF AND date=@date AND version=@version";
+            //SI la date existe pour cet ECF dans la même version           
             connexion = ConnexionSQL.CreationConnexion();
-            cmd = new SqlCommand(requete, connexion);
+            cmd = new SqlCommand(SELECT_SESSIONECF_DATE_VERSION, connexion);
             cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id);
             cmd.Parameters.AddWithValue("@date", pDate);
             cmd.Parameters.AddWithValue("@version", pSessionECF.Version);
@@ -307,16 +303,12 @@ namespace ApplicationENI.DAL
 
                 ajouterSessionECF(NEWSessionECF);
             }
-
             return "";
         }
 
         public static List<Stagiaire> ajouterParticipants(SessionECF pSessionECF)
         {
             List<Stagiaire> lesParticipantsNonAjoutes=null;
-            
-            //TODO verifier que le stagiaire n'a pas déjà effectué cette version d'ECF
-            //TODO verifier que le stagiaire n'a pas deja un ECF à cette date (si oui proposer le choix de créer le lien)
 
             //Suppr des participants
             supprimerParticipants(pSessionECF);
@@ -335,31 +327,27 @@ namespace ApplicationENI.DAL
                         lesParticipantsNonAjoutes.Add(stagiaireNonAjoute);
                     }
                 }
-            }
-            
+            }            
             return lesParticipantsNonAjoutes;
         }
 
         public static Stagiaire ajouterParticipant(SessionECF pSessionECF, Stagiaire pStagiaire)
         {
             //verifier que le stagiaire n a pas deja de date planifiee pour cet ECF dans cette version
-            String requete="SELECT idStagiaire from PARTICIPANTSSESSIONECF, SESSIONSECF " +
-                " WHERE PARTICIPANTSSESSIONECF.idSessionECF=SESSIONSECF.idSessionECF " +
-                " AND SESSIONSECF.idECF=@idECF " +
-                " AND PARTICIPANTSSESSIONECF.idStagiaire=@idStagiaire " +
-                " AND SESSIONSECF.version=@version ";
             SqlConnection connexion=ConnexionSQL.CreationConnexion();
-            SqlCommand cmd =new SqlCommand(requete, connexion);
+            SqlCommand cmd = new SqlCommand(SELECT_EVAL_STAG_PART, connexion);
             cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id);
             cmd.Parameters.AddWithValue("@idStagiaire", pStagiaire._id);
             cmd.Parameters.AddWithValue("@version", pSessionECF.Version);
             SqlDataReader reader=cmd.ExecuteReader();
 
+            //SI oui
             if(reader.Read())
             {
                 connexion.Close();
                 return pStagiaire;
             }
+            //SINON
             else
             {
                 connexion.Close();
@@ -394,11 +382,6 @@ namespace ApplicationENI.DAL
 
         public static void supprimerParticipants(SessionECF pSessionECF)
         {
-            //TODO NON appelé
-            
-            //TODO Si c'est le dernier proposer de supprimer la session??
-
-            //TODO verifier qu'il na pas été déjà noté
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
             SqlCommand cmd = new SqlCommand(DELETE_PARTICIPANTS, connexion);
 
@@ -410,10 +393,8 @@ namespace ApplicationENI.DAL
 
         public static int donneIdSessionECF(ECF pEcf, DateTime pDate, int pVersion)
         {
-            String requete = "SELECT idSessionECF from SESSIONSECF where idECF=@idECF and date=@date and version=@version";
-
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(requete, connexion);
+            SqlCommand cmd = new SqlCommand(SELECT_ID_SESSIONECF, connexion);
             cmd.Parameters.AddWithValue("@idECF", pEcf.Id);
             cmd.Parameters.AddWithValue("@date", pDate);
             cmd.Parameters.AddWithValue("@version", pVersion);
@@ -431,12 +412,11 @@ namespace ApplicationENI.DAL
 
             return idSessionECF;
         }
+        
         public static List<SessionECF> donneSessionsECFJour(ECF pECF, DateTime pDate)
-        {
-            String requete = "SELECT * from SESSIONSECF where idECF=@idECF and date=@date";
-
+        {            
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(requete, connexion);
+            SqlCommand cmd = new SqlCommand(SELECT_SESSIONSECF_JOUR, connexion);
             cmd.Parameters.AddWithValue("@idECF", pECF.Id);
             cmd.Parameters.AddWithValue("@date", pDate);
             SqlDataReader reader = cmd.ExecuteReader();
@@ -479,13 +459,9 @@ namespace ApplicationENI.DAL
 
         public static List<Stagiaire> getListParticipants(SessionECF pSessionECF)
         {
-            String requete = " SELECT Stagiaire.CodeStagiaire FROM Stagiaire, PARTICIPANTSSESSIONECF " +
-                " WHERE Stagiaire.CodeStagiaire=PARTICIPANTSSESSIONECF.idStagiaire AND PARTICIPANTSSESSIONECF.idSessionECF=@idSessionECF";
-
             SqlConnection connexion = ConnexionSQL.CreationConnexion();
-            SqlCommand cmd = new SqlCommand(requete, connexion);
+            SqlCommand cmd = new SqlCommand(SELECT_PARTICIPANTS_SESSIONECF, connexion);
             cmd.Parameters.AddWithValue("@idSessionECF", pSessionECF.Id);
-            //if (pFiltreNomPrenom != "") cmd.Parameters.AddWithValue("@filtreNP", pFiltreNomPrenom.Trim());
             SqlDataReader reader = cmd.ExecuteReader();
 
             List<Stagiaire> listeStagiaires = new List<Stagiaire>();
@@ -508,14 +484,9 @@ namespace ApplicationENI.DAL
             if (pSessionECF.Ecf.Competences!=null)
             {
                 foreach (Competence comp in pSessionECF.Ecf.Competences)
-                {
-                    String requete = "SELECT * FROM EVALUATION " +
-                        "WHERE idECF=@idECF " +
-                        "AND idStagiaire=@idStagiaire " +
-                        "AND idCompetence=@idCompetence " +
-                        "AND date=@date";
+                {                    
                     SqlConnection connexion = ConnexionSQL.CreationConnexion();
-                    SqlCommand cmd = new SqlCommand(requete, connexion);
+                    SqlCommand cmd = new SqlCommand(SELECT_NOTES_SESSIONSECF, connexion);
                     cmd.Parameters.AddWithValue("@idECF", pSessionECF.Ecf.Id);
                     cmd.Parameters.AddWithValue("@idStagiaire", pStag._id);
                     cmd.Parameters.AddWithValue("@idCompetence", comp.Id);
@@ -527,8 +498,7 @@ namespace ApplicationENI.DAL
                         b = false;
                     }
                 } 
-            }
-            
+            }            
 
             return b;
         }

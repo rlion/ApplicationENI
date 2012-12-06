@@ -20,9 +20,6 @@ namespace ApplicationENI.Vue.PopUp
     /// </summary>
     public partial class AjoutSessionECF : Window
     {
-        //private SessionECF _sessionECF = null;
-        //private List<SessionECF> _listeECFPlanif = null;
-        //private List<DateTime> _planif = null;
         private CtrlAjoutSessionECF _ctrlAjoutSessionECF = null;
         
         public AjoutSessionECF()
@@ -31,9 +28,7 @@ namespace ApplicationENI.Vue.PopUp
             _ctrlAjoutSessionECF = new CtrlAjoutSessionECF();
 
             cbECF.ItemsSource = _ctrlAjoutSessionECF.getListECFs();
-        }
-
-        
+        }       
 
         //1 Selection de l'ECF
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -260,8 +255,6 @@ namespace ApplicationENI.Vue.PopUp
                                     reponse += "\n" + stagiaireNonAjoute.ToString();
                                 }                                
                             }
-                            //lbParticipants.Items.Remove(stagiaireNonAjoute);
-                            //reponse += "\n" + stagiaireNonAjoute.ToString();
                         }                        
                     }
                 }

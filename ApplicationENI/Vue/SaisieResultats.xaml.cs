@@ -22,11 +22,6 @@ namespace ApplicationENI.Vue
     public partial class SaisieResultats : UserControl
     {
         #region Propriétés
-        //private List<SessionECF> _listeSessionECFs = null;
-        ////private ECF _ecfCourant = null;
-        //private List<DateTime> _planif = null;
-        //private SessionECF _sessionECFcourant = null;
-        //private Evaluation _evaluationEnCours = null;
         CtrlSaisieResultats _ctrlSaisieResultats = null;
         #endregion
 
@@ -55,7 +50,6 @@ namespace ApplicationENI.Vue
                     }
                 }
             }            
-            //a tester si mm nom mais prenom different
             //http://www.developerfusion.com/code/5513/sorting-and-searching-using-c-lists/
             //http://blog.rapiddg.com/2009/04/sorting-a-list-of-objects-on-multiple-properties-c/
             lesEpreuves.Sort(delegate(ECF ecf1, ECF ecf2)
@@ -67,18 +61,13 @@ namespace ApplicationENI.Vue
         #endregion
 
         #region Evenements
-
         //1 Selection de l'ECF
         private void cbECF_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             calendrier.IsEnabled = true;
 
-            //ECF courant
-            //_ecfCourant = new ECF();
-            //_ecfCourant = (ECF)cbECF.SelectedItem;
-            //session ECFCourant
             _ctrlSaisieResultats.SessionECFcourant = new SessionECF();
-            _ctrlSaisieResultats.SessionECFcourant.Ecf = (ECF)cbECF.SelectedItem; //_ecfCourant;
+            _ctrlSaisieResultats.SessionECFcourant.Ecf = (ECF)cbECF.SelectedItem;
             _ctrlSaisieResultats.SessionECFcourant.Date = DateTime.MinValue;
             _ctrlSaisieResultats.SessionECFcourant.Version = 0;
             //liste de sessions ECF (correspondant à l'ecf)
@@ -322,6 +311,43 @@ namespace ApplicationENI.Vue
                 Mouse.Capture(null);
             }
         }
+        private void tbNote_GotFocus(object sender, RoutedEventArgs e)
+        {
+            tbNote.SelectAll();
+        }
+        private void btnAnnu_Click(object sender, RoutedEventArgs e)
+        {
+            tbNote.Background = Brushes.White;
+            if (_ctrlSaisieResultats.SessionECFcourant.Ecf != null && _ctrlSaisieResultats.SessionECFcourant.Date != DateTime.MinValue && _ctrlSaisieResultats.SessionECFcourant.Version != 0 && (Stagiaire)lbStagiaires.SelectedItem != null && (Competence)lbCompetences.SelectedItem != null)
+            {
+                Evaluation eval = _ctrlSaisieResultats.donneNote(_ctrlSaisieResultats.SessionECFcourant, (Stagiaire)lbStagiaires.SelectedItem, (Competence)lbCompetences.SelectedItem);
+                float noteSaisie;
+                bool b = float.TryParse(tbNote.Text, out noteSaisie);
+                if (eval.Note != noteSaisie)
+                {
+                    if (!_ctrlSaisieResultats.SessionECFcourant.Ecf.NotationNumerique)
+                    {
+                        if (eval.Note == Ressources.CONSTANTES.NOTE_ACQUIS)
+                        {
+                            rbAcquis.IsChecked = true;
+                        }
+                        else if (eval.Note == Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION)
+                        {
+                            rbEnCours.IsChecked = true;
+                        }
+                        else if (eval.Note == Ressources.CONSTANTES.NOTE_NON_ACQUIS)
+                        {
+                            rbNonAcquis.IsChecked = true;
+                        }
+                    }
+                    else
+                    {
+                        tbNote.Text = eval.Note.ToString();
+                        tbNote.Focus();
+                    }
+                }
+            }
+        }
         #endregion
 
         private void affichageCalendrier(DateTime dateSelectionnee)
@@ -351,7 +377,6 @@ namespace ApplicationENI.Vue
             //Pour éviter les boucles infinies, on se désabonne momentanément à l'event
             calendrier.SelectedDatesChanged += calendrier_SelectedDatesChanged;
         }
-
         private void affichage()
         {
             btnAnnu.IsEnabled = false;
@@ -359,7 +384,6 @@ namespace ApplicationENI.Vue
             {
                 //cbECF
                 cbECF.SelectionChanged -= cbECF_SelectionChanged;
-                //cbECF.Items.Clear();
                 List<ECF> lesEpreuves = null;
                 _ctrlSaisieResultats.ListeSessionECFs = _ctrlSaisieResultats.getListSessionsECFs();
                 if (_ctrlSaisieResultats.ListeSessionECFs!=null)
@@ -377,8 +401,7 @@ namespace ApplicationENI.Vue
                         }
                     }
                 }
-                
-                //a tester si mm nom mais prenom different
+
                 //http://www.developerfusion.com/code/5513/sorting-and-searching-using-c-lists/
                 //http://blog.rapiddg.com/2009/04/sorting-a-list-of-objects-on-multiple-properties-c/
                 lesEpreuves.Sort(delegate(ECF ecf1, ECF ecf2)
@@ -435,9 +458,7 @@ namespace ApplicationENI.Vue
         private void chargerVersions()
         {
             gbProprietes.IsEnabled = true;
-            //_listeSessionECFs = CtrlGestionECF.donneSessionsECFJour(_sessionECFcourant.Ecf, _sessionECFcourant.Date);
             cbVersions.Items.Clear();
-            //TODO eviter le double appel donneSECF
             if (_ctrlSaisieResultats.donneSessionsECFJour(_ctrlSaisieResultats.SessionECFcourant.Ecf, _ctrlSaisieResultats.SessionECFcourant.Date)!=null)
             {
                 foreach (SessionECF session in _ctrlSaisieResultats.donneSessionsECFJour(_ctrlSaisieResultats.SessionECFcourant.Ecf, _ctrlSaisieResultats.SessionECFcourant.Date))
@@ -458,55 +479,6 @@ namespace ApplicationENI.Vue
             _ctrlSaisieResultats.SessionECFcourant.Participants = _ctrlSaisieResultats.getListParticipants(_ctrlSaisieResultats.SessionECFcourant);
             lbStagiaires.ItemsSource = _ctrlSaisieResultats.SessionECFcourant.Participants;
         }
-
-        private void tbNote_GotFocus(object sender, RoutedEventArgs e)
-        {
-            //tbNote.SelectionStart = 0;
-            //tbNote.SelectionLength = tbNote.Text.Length;
-            tbNote.SelectAll();
-        }
-
-        private void btnAnnu_Click(object sender, RoutedEventArgs e)
-        {
-            tbNote.Background = Brushes.White;
-            if (_ctrlSaisieResultats.SessionECFcourant.Ecf!=null && _ctrlSaisieResultats.SessionECFcourant.Date!=DateTime.MinValue && _ctrlSaisieResultats.SessionECFcourant.Version!=0 && (Stagiaire)lbStagiaires.SelectedItem!=null && (Competence)lbCompetences.SelectedItem!=null)
-            {
-                Evaluation eval = _ctrlSaisieResultats.donneNote(_ctrlSaisieResultats.SessionECFcourant, (Stagiaire)lbStagiaires.SelectedItem, (Competence)lbCompetences.SelectedItem);
-                float noteSaisie;
-                bool b = float.TryParse(tbNote.Text, out noteSaisie);
-                if (eval.Note != noteSaisie)
-                {
-                    if (!_ctrlSaisieResultats.SessionECFcourant.Ecf.NotationNumerique)
-                    {
-                        if (eval.Note == Ressources.CONSTANTES.NOTE_ACQUIS)
-                        {
-                            rbAcquis.IsChecked = true;
-                        }
-                        else if (eval.Note == Ressources.CONSTANTES.NOTE_ENCOURS_ACQUISITION)
-                        {
-                            rbEnCours.IsChecked = true;
-                        }
-                        else if (eval.Note == Ressources.CONSTANTES.NOTE_NON_ACQUIS)
-                        {
-                            rbNonAcquis.IsChecked = true;
-                        }
-                    }
-                    else
-                    {
-                        tbNote.Text = eval.Note.ToString();
-                        tbNote.Focus();
-                    }
-                }
-            }
-            
-            //else
-            //{
-            //    _evaluationEnCours = null;
-            //    _listeSessionECFs = null;
-            //    _planif = null;
-            //    _sessionECFcourant = null;
-            //    affichage();
-            //}
-        }
+    
     }
 }

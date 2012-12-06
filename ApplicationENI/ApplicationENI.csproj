@@ -117,9 +117,6 @@
     <Compile Include="DAL\FormationDAL.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DAL\JeuDonnees.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DAL\ObservationsDAL.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -130,7 +127,6 @@
     <Compile Include="DAL\TitresDAL.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="instanceFenetre.cs" />
     <Compile Include="Modele\Absence.cs" />
     <Compile Include="Modele\Competence.cs" />
     <Compile Include="Modele\Contact.cs" />

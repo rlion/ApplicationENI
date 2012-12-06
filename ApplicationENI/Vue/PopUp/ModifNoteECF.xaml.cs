@@ -20,9 +20,6 @@ namespace ApplicationENI.Vue.PopUp
     /// </summary>
     public partial class ModifNoteECF : Window
     {
-        //Evaluation _evaluation = null;
-        //Stagiaire _stagaire = null;
-        //TODO regions
         private CtrlModifNoteECF _ctrlModifNoteECF = null;
         private Evaluation _evaluationCourante = null;
 

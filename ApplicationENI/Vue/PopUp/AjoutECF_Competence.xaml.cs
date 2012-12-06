@@ -20,35 +20,14 @@ namespace ApplicationENI.Vue.PopUp
     /// </summary>
     public partial class AjoutECF_Competence : Window
     {
-        #region Attribut
-        //private bool _ecfAdd; //si true on est en train d'ajouter un ECF sinon une Competence
-        //private ECF _ECF = null;
-        //private Competence _competence = null;
+        #region Attribut, propriete
         private CtrlAjoutECF_Competence _ctrlAjoutECF_Competence;
-        internal CtrlAjoutECF_Competence CtrlAjoutECF_Competence
+        public CtrlAjoutECF_Competence CtrlAjoutECF_Competence
         {
             get { return _ctrlAjoutECF_Competence; }
             set { _ctrlAjoutECF_Competence = value; }
         }
         private bool _ecfAdd = false;
-        #endregion
-
-        #region get/set
-        //public bool ECFAdd1
-        //{
-        //    get { return _ecfAdd; }
-        //    set { _ecfAdd = value; }
-        //}       
-        //public ECF ECF
-        //{
-        //    get { return _ECF; }
-        //    set { _ECF = value; }
-        //}
-        //public Competence Competence
-        //{
-        //    get { return _competence; }
-        //    set { _competence = value; }
-        //}
         #endregion
 
         #region constructeur

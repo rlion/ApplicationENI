@@ -7,15 +7,7 @@ using System.Data.SqlClient;
 namespace ApplicationENI.DAL {
     public static class ConnexionSQL {
         private static String chaineCnx = "Data Source=localhost;Initial Catalog=APPLICATION_ENI;User ID=sa";
-        //private static String chaineCnx = "Data Source=ASDEPIX\\SQLEXPRESS;Initial Catalog=APPLICATION_ENI;User Id=sa;Password=opti;";
-        //private static String chaineCnx = "Data Source=HERMES-PC\\SQLEXPRESS;Initial Catalog=APPLICATION_ENI;Persist Security Info=True;User ID=sa;Password=Pa$$w0rd";
-        //private static String chaineCnx = "Data Source=localhost;Initial Catalog=APPLICATION_ENI;User ID=sa;Password=password";
-        //"Data Source=HERMES-PC\\SQLEXPRESS;Initial Catalog=APPLICATION_ENI;Persist Security Info=True;User ID=sa;Password=Pa$$w0rd";
-
-        //"Data Source=ASDEPIX\\SQLEXPRESS;Initial Catalog=APPLICATION_ENI;User Id=sa;Password=opti;"
-        //pas ma source : "Data Source=RESEAU-93C88A71;Initial Catalog=eni;User ID=sa"
-        //(MAT) ma source : "Data Source=ASDEPIX\\SQLEXPRESS;Initial Catalog=APPLICATION_ENI;User Id=sa;Password=opti;"
-
+        
         public static SqlConnection CreationConnexion()
         {
             try

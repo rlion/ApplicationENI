@@ -9,7 +9,6 @@ namespace ApplicationENI.Modele
     {
         #region Attributs (id, ecf, competence, stagiaire, version, note, date)
         private int _id;
-        //private SessionECF _sessionECF;
         private ECF _ecf;
         private Competence _competence;
         private Stagiaire _stagiaire;
@@ -103,17 +102,6 @@ namespace ApplicationENI.Modele
             _note = pNote;
             _date = pDate;
         }
-
-        //public Evaluation(ECF pEcf, Competence pComp, Stagiaire pStag)
-        //{
-        //    _id = "";
-        //    _ecf = pEcf;
-        //    _competence = pComp;
-        //    _stagiaire = pStag;
-        //    _version = 0;
-        //    _note = -1;
-        //    _date = new DateTime();
-        //}
         #endregion
 
         public override string ToString()

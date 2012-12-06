@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ApplicationENI.Vue.PopUp.NewJure"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Création nouveau juré" Height="200" Width="380">
+        Title="Création nouveau juré" Height="200" Width="380" Icon="/ApplicationENI;component/Images/imagesCAX47OVB.ico">
     <Grid>
         <Label Content="Civilité :" Height="28" HorizontalAlignment="Left" Margin="40,12,0,0" Name="label1" VerticalAlignment="Top" Width="59" HorizontalContentAlignment="Right" />
         <Label Content="Nom :" Height="28" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Margin="40,44,0,0" Name="label2" VerticalAlignment="Top" Width="59" />

@@ -20,8 +20,6 @@ namespace ApplicationENI.Vue.PopUp
     /// </summary>
     public partial class ModifDateECF : Window
     {
-        //SessionECF _sessionECF = null;
-        //Stagiaire _stagaire = null;
         private CtrlModifDateECF _ctrlModifDateECF = null;
         private SessionECF _sessionCourante = null;
 

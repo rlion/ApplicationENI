@@ -8,7 +8,7 @@ namespace ApplicationENI.Modele
     public class ECF
     {
         #region Attributs (id, code, libelle, coefficient, notationNumerique, nbreVersion, commentaire, competences, formations)
-        private int _id;//Guid _id;
+        private int _id;
         private String _code;        
         private String _libelle;       
         private double _coefficient;        
@@ -20,7 +20,7 @@ namespace ApplicationENI.Modele
         #endregion
 
         #region Proprietes
-        public int Id//Guid Id       
+        public int Id      
         {
             get { return _id; }
             set { _id = value; }
@@ -176,11 +176,6 @@ namespace ApplicationENI.Modele
         {
             pECF._formations.Add(pForm);
         }
-        //public void ajouterCompetence(ECF pECF, String pLibelleCompetence)
-        //{
-        //    Competence Cp = new Competence(pLibelleCompetence);
-        //    pECF._competences.Add(Cp);
-        //}
 
         public void changerNbreVersion(ECF pECF, int pNbreVersion)
         {
@@ -246,6 +241,7 @@ namespace ApplicationENI.Modele
 
             return b;
         }
+
         //Pour éviter le warning (lorsque l'on surcharge Equals() il faut surcharger GetHashCode)
         //utile pour les HashTable que nous n'utilisons pas
         public override int GetHashCode()

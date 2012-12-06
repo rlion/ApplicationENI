@@ -23,25 +23,8 @@ namespace ApplicationENI.Vue
     /// </summary>
     public partial class SyntheseECF : UserControl
     {
-        //private Stagiaire _stagiaireEncours=null;
-        //private List<SessionECF> _lesSessionsECFsStag=null;
-        //private SessionECF _sessionSelectionnee = null;
-
-        //public SessionECF SessionSelectionnee
-        //{
-        //    get { return _sessionSelectionnee; }
-        //    set { _sessionSelectionnee = value; }
-        //}
-        //private Evaluation _evaluationSelectionnee = null;
-
-        //public Evaluation EvaluationSelectionnee
-        //{
-        //    get { return _evaluationSelectionnee; }
-        //    set { _evaluationSelectionnee = value; }
-        //}
         CtrlSyntheseECF _ctrlSyntheseECF = null;
-
-        internal CtrlSyntheseECF CtrlSyntheseECF
+        public CtrlSyntheseECF CtrlSyntheseECF
         {
             get { return _ctrlSyntheseECF; }
             set { _ctrlSyntheseECF = value; }
@@ -84,13 +67,9 @@ namespace ApplicationENI.Vue
                                 tviSessionECF.IsExpanded = true;
                             }
                         }
-                        tvSynthese.Items.Add(null);//espacer les ECFs
+                        tvSynthese.Items.Add(null);//espacer les Sessions ECF
                     }                    
                 }
-                //foreach (TreeViewItem item in tvSynthese.Items)
-                //{
-                //    item.IsExpanded = true;
-                //}
                 btModDate.IsEnabled = false;
                 btModNote.IsEnabled = false;
                 btExporter.IsEnabled = true;
@@ -180,7 +159,6 @@ namespace ApplicationENI.Vue
             rapport.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             rapport.Show();
         }
-
 
     }
 }

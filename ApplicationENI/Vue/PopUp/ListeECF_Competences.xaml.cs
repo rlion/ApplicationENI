@@ -19,24 +19,13 @@ namespace ApplicationENI.Vue.PopUp
     /// Logique d'interaction pour ListeECF_Competences.xaml
     /// </summary>
     public partial class ListeECF_Competences : Window
-    {
-        
-
-        #region propriété + get/set
-        //private List<SelectionCompetence> _listeCompetences;
-        //private List<SelectionCompetence> ListeCompetences
-        //{
-        //    get { return _listeCompetences; }
-        //    set { _listeCompetences = value; }
-        //}
-        //private bool isInitAutoCompBox;
+    {      
+        #region Attributs
         private CtrlListeECF_Competences _ctrlListeECF_Competences = null;
         private List<Competence> _lesCompetencesSelectionnees = null;
         private ECF _EcfCourant = null;
         private bool _EcfAdd = false;
-        #endregion
-
-        
+        #endregion           
 
         #region constructeur
         public ListeECF_Competences(List<Competence> pLesCompetences, ECF pECfCourant, bool pEcfAdd)
@@ -59,12 +48,11 @@ namespace ApplicationENI.Vue.PopUp
         private void ActualiseAffichage(CtrlListeECF_Competences.SelectionCompetence pSc)
         {
             //RAZ
-            lbListeCompetences.ItemsSource = null;//lbListeCompetences.Items.Clear();
+            lbListeCompetences.ItemsSource = null;
             _ctrlListeECF_Competences.ListeCompetences = new List<CtrlListeECF_Competences.SelectionCompetence>();
             if (pSc == null)
             {
                 //MAJ                
-                //TODO double appel
                 if (_ctrlListeECF_Competences.getListCompetences()!=null)
                 {
                     foreach (Competence comp in _ctrlListeECF_Competences.getListCompetences())
@@ -72,7 +60,6 @@ namespace ApplicationENI.Vue.PopUp
                         CtrlListeECF_Competences.SelectionCompetence uneComp = new CtrlListeECF_Competences.SelectionCompetence();
                         uneComp.Competence = comp;
                         uneComp.IsChecked = false;
-                        //if (((GestionECF)instanceFenetre.InstanceFenetreEnCours).lbCompetences.Items.Contains(comp))
                         if (_lesCompetencesSelectionnees.Contains(comp))
                         {
                             uneComp.IsChecked = true;
@@ -114,8 +101,6 @@ namespace ApplicationENI.Vue.PopUp
         private void btSupprimer_Click(object sender, RoutedEventArgs e)
         {
             String message = "";
-
-            //TODO confirmer la suppression
             if (_ctrlListeECF_Competences.ListeCompetences!=null)
             {
                 foreach (CtrlListeECF_Competences.SelectionCompetence selComp in _ctrlListeECF_Competences.ListeCompetences)
@@ -140,7 +125,6 @@ namespace ApplicationENI.Vue.PopUp
         private void btValider_Click(object sender, RoutedEventArgs e)
         {
             //On supprime tous les liens avec l'ECF courant
-            //_ctrlListeECF_Competences.supprimerLiensCompetences(((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfCourant);
             String reponse = _ctrlListeECF_Competences.supprimerLiensCompetences(_EcfCourant);
             if (reponse!="")
             {
@@ -153,7 +137,6 @@ namespace ApplicationENI.Vue.PopUp
                     {
                         if (selComp.IsChecked)
                         {
-                            //_ctrlListeECF_Competences.ajouterLienCompetence(((GestionECF)instanceFenetre.InstanceFenetreEnCours).CtrlGestionECF.EcfCourant, selComp.Competence);
                             _ctrlListeECF_Competences.ajouterLienCompetence(_EcfCourant, selComp.Competence);
                         }
                     }
@@ -212,8 +195,6 @@ namespace ApplicationENI.Vue.PopUp
             btFiltre.IsEnabled = true;
             acbCompetence.IsEnabled = false;
         }
-        #endregion
-
         private void btFiltre_Click(object sender, RoutedEventArgs e)
         {
             ActualiseAffichage(null);
@@ -221,5 +202,7 @@ namespace ApplicationENI.Vue.PopUp
             btFiltre.IsEnabled = false;
             acbCompetence.IsEnabled = true;
         }
+        #endregion
+
     }
 }
